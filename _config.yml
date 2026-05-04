@@ -5,7 +5,7 @@ baseurl: ""
 theme: minima
 author:
   name: "푸른영혼의 별"
-  email: ""
+  email: "iamipro@naver.com"
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
