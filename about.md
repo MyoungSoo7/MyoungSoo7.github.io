@@ -19,7 +19,7 @@ permalink: /about/
 
 ---
 
-### 운영 중인 서비스 (15개)
+### 운영 중인 서비스 (16개)
 
 | 서비스 | URL | 설명 | 기술 |
 |--------|-----|------|------|
@@ -38,6 +38,7 @@ permalink: /about/
 | **RealGrid** | [realgrid.lemuel.co.kr](https://realgrid.lemuel.co.kr) | 엔터프라이즈 데이터 그리드 | Spring Boot 4 + React |
 | **AI 비서** | [jabis.lemuel.co.kr](https://jabis.lemuel.co.kr) | 일정/메모/할일 AI 비서 | Spring Boot 4 + OpenAI/Anthropic |
 | **Serverless** | [serveless.lemuel.co.kr](https://serveless.lemuel.co.kr) | 환율/주가 API | Micronaut 4 + GraalVM |
+| **Media Search** | [media.lemuel.co.kr](https://media.lemuel.co.kr) | 무료 이미지/동영상 검색 | Spring Boot 4 + Pexels API |
 
 ---
 
