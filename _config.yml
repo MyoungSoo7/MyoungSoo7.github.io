@@ -1,0 +1,22 @@
+title: "푸른영혼의 별 | Tech Blog"
+description: "Java Backend Engineer의 기술 블로그"
+url: "https://MyoungSoo7.github.io"
+baseurl: ""
+theme: minima
+author:
+  name: "푸른영혼의 별"
+  email: ""
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
+permalink: /:year/:month/:day/:title/
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true
