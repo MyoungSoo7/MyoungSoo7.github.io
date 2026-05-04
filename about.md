@@ -19,7 +19,7 @@ permalink: /about/
 
 ---
 
-### 운영 중인 서비스 (16개)
+### 운영 중인 서비스 (17개)
 
 | 서비스 | URL | 설명 | 기술 |
 |--------|-----|------|------|
@@ -39,6 +39,7 @@ permalink: /about/
 | **AI 비서** | [jabis.lemuel.co.kr](https://jabis.lemuel.co.kr) | 일정/메모/할일 AI 비서 | Spring Boot 4 + OpenAI/Anthropic |
 | **Serverless** | [serveless.lemuel.co.kr](https://serveless.lemuel.co.kr) | 환율/주가 API | Micronaut 4 + GraalVM |
 | **Media Search** | [media.lemuel.co.kr](https://media.lemuel.co.kr) | 무료 이미지/동영상 검색 | Spring Boot 4 + Pexels API |
+| **Auto Trading** | [stock.lemuel.co.kr](https://stock.lemuel.co.kr) | 자동 주식매매 (KIS API) | Spring Boot 4 + PostgreSQL |
 
 ---
 
