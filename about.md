@@ -9,17 +9,35 @@ permalink: /about/
 공공·이커머스 환경에서 운영 중인 시스템의 안정성과 변경 비용을 기준으로 구조를 설계해온 백엔드 엔지니어입니다.
 
 ### 기술 스택
-- **Backend**: Java 25, Spring Boot 4, JPA/Hibernate, Kafka, Elasticsearch
+- **Backend**: Java 25, Kotlin 2.0, Spring Boot 4, JPA/Hibernate, Kafka, Elasticsearch, gRPC
+- **System / 정량**: C++20 (Boost.Beast, simdjson, Arrow/Parquet, ONNX Runtime), Rust (tokio), Go, Julia (JuMP, HiGHS), R (Shiny, rugarch, forecast), Python (pandas, vectorbt)
 - **Architecture**: Hexagonal, MSA, Event-Driven, DDD
-- **Infra**: Docker, K3s, Cloudflare Tunnel, GitHub Actions
-- **Frontend**: Next.js, React, TypeScript
-- **DB**: PostgreSQL, Redis, MySQL
-- **AI**: Spring AI, Gemini, RAG, Function Calling
+- **Infra**: Docker, K3s, Cloudflare Tunnel, Cloudflare R2, GitHub Actions, AWS Lightsail
+- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind, hls.js
+- **DB**: PostgreSQL 17, Redis 7, MySQL 8, Apache Parquet
+- **AI**: Spring AI, Gemini, RAG, Function Calling, KR-FinBERT (ONNX)
 - **Monitoring**: Prometheus, Grafana, Micrometer
 
 ---
 
-### 운영 중인 서비스 (20개)
+<!-- AUTO-UPDATE-START -->
+*Last auto-update: 2026-05-07 (KST)* — public repos: **176**
+
+#### 🔥 최근 푸시한 레포 5
+
+| 레포 | 언어 | 마지막 푸시 | 설명 |
+|------|------|-------------|------|
+| [lemuel-academy](https://github.com/MyoungSoo7/lemuel-academy) | Kotlin | 2026-05-07 | 동영상 강의 플랫폼 — 크리에이터/학생/관리자 MSA. ffmpeg HLS 트랜스코딩 + R2 저장 + Spring Boot Kotlin + Next.js. Class101/탈잉 스타일. |
+| [MyoungSoo7.github.io](https://github.com/MyoungSoo7/MyoungSoo7.github.io) | HTML | 2026-05-07 |  |
+| [lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core) | C++ | 2026-05-07 | 고성능 C++ 시장 데이터 파이프라인 + 채점 엔진. crypto/stock/dart/news/data/codingtest 사이트와 통합되는 lemuel 인프라 코어. |
+| [MyoungSoo7](https://github.com/MyoungSoo7/MyoungSoo7) |  | 2026-05-07 |  |
+| [browser-harness](https://github.com/MyoungSoo7/browser-harness) |  | 2026-05-06 | Browser Harness \| Self-healing harness that enables LLMs to complete any task. |
+
+<!-- AUTO-UPDATE-END -->
+
+### 운영 중인 시스템
+
+#### 🛒 도메인 사이트 (20+)
 
 | 서비스 | URL | 설명 | 기술 |
 |--------|-----|------|------|
@@ -44,22 +62,56 @@ permalink: /about/
 | **K8s Dashboard** | [k8s.lemuel.co.kr](https://k8s.lemuel.co.kr) | Kubernetes 클러스터 관리 | K3s + Dashboard v2.7 |
 | **Grafana** | [grafana.lemuel.co.kr](https://grafana.lemuel.co.kr) | 서비스 모니터링 대시보드 | Grafana + Prometheus |
 
+#### 🏛️ 통합 정량 인프라 — [lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core)
+
+9개 언어 ~5,500 lines. 6개 사이트(crypto/stock/dart/news/data/codingtest)의 데이터 수집·분석·시그널을 통합한 백엔드 코어.
+
+| 모듈 | 언어 | 서버 | 역할 |
+|------|------|------|------|
+| judge-engine | C++20 + gRPC | 르무엘클라우드 | seccomp+cgroup 샌드박스 코드 채점 |
+| market-feed | C++20 + Boost.Beast | 루이스 | Binance WSS → Redis pub/sub |
+| stock-feed | C++20 + KIS API | 루이스 | 한투 OpenAPI WS → Redis |
+| dart-crawler | C++20 + libpqxx | 루이스 | DART 공시 폴러 → PostgreSQL |
+| news-pipeline | C++20 + KR-FinBERT | 르무엘 | RSS + NER + 감성분석 |
+| data-warehouse | C++20 + Apache Arrow | 르무엘 | 5분 rollup → R2 Parquet |
+| orderbook-matcher | Rust + tokio | 루이스 | L2 호가창 + spread bps |
+| lqc-gateway | Go + Prometheus | 루이스 | metrics + SSE bridge + healthz |
+| QuantTools.jl | Julia + JuMP | 르무엘 | Black-Scholes + Markowitz |
+| R 분석 6 | R + Quarto + Shiny | 르무엘 | GARCH/ARIMA/공적분/일간 리포트/대시보드 |
+| backtester / strategy-bot | Python + vectorbt | 르무엘 | 전략 백테스트 + 텔레그램 알림 |
+
+📜 [구축기 블로그 포스트](/2026/05/07/lemuel-quant-core-build/)
+
+#### 🎬 동영상 강의 플랫폼 — [lemuel-academy](https://github.com/MyoungSoo7/lemuel-academy)
+
+Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffmpeg HLS 트랜스코딩.
+
+| 서비스 | 역할 |
+|--------|------|
+| user-service | JWT 인증 + 진도 + 즐겨찾기 |
+| catalog-service | 강의/챕터/레슨/리뷰 + 검수 워크플로 |
+| media-service + ffmpeg-worker | R2 업로드 → HLS 1080p/720p/480p |
+| api-gateway | Spring Cloud Gateway + JwtFilter |
+| learner / creator-studio / admin | Next.js 3개 (Tailwind + hls.js) |
+
 ---
 
 ### 인프라
 
-2대 홈서버 + AWS Lightsail + K3s 클러스터로 운영 중
+3대 서버 (홈 2 + AWS Lightsail) + K3s 클러스터.
 
 | 서버 | 사양 | 역할 |
 |------|------|------|
-| 르무엘 | i7-6500U / 32GB / 400GB | K3s 마스터, ASAT, 약국추천, 최저가쇼핑, RealGrid, Report |
-| 루이스 | i7-8565U / 16GB / 98GB | K3s 워커, Settlement, 굿즈, 패션, 라이브, SNS, AI검색, AI비서, 코딩테스트, DB학습, Serverless |
+| 르무엘 | i7-6500U / 32GB / 400GB | K3s 마스터, ASAT, 약국, 쇼핑, RealGrid, news-pipeline, data-warehouse, Shiny |
+| 루이스 | i7-8565U / 16GB / 98GB | K3s 워커, Settlement, 굿즈, 패션, 라이브, SNS, market-feed, dart-crawler, Rust orderbook-matcher, Go gateway |
+| 르무엘클라우드 | AWS Lightsail 2C/4G | codingtest, media, database, judge-engine gRPC |
 
-- **네트워크**: Cloudflare Tunnel 2개 → 외부 포트 0개로 HTTPS 제공
-- **컨테이너**: Docker 35+ 컨테이너
+- **네트워크**: Cloudflare Tunnel 3개 → 외부 포트 0개로 HTTPS 제공
+- **컨테이너**: Docker 40+ 컨테이너
 - **K3s**: ASAT 이중화 (backend 2 + frontend 2)
-- **모니터링**: Uptime Kuma + 텔레그램 알림 + Playwright 자동 점검
-- **백업**: 매일 04:00 DB 자동 백업 (7일 보관)
+- **모니터링**: Uptime Kuma + Grafana + Prometheus + 텔레그램 알림
+- **백업**: 매일 04:00 DB 자동 백업 → Cloudflare R2 (7일 보관)
+- **시세 백업**: 5분 주기 Parquet rollup → R2 lemuel-backup/snapshots/
 
 ---
 
