@@ -3,6 +3,54 @@ layout: default
 title: Home
 ---
 
+<style>
+  .search-box {
+    margin: 1.5em 0;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+  .search-box input {
+    flex: 1;
+    padding: 0.6em 0.9em;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+  }
+  .search-box input:focus {
+    border-color: #2a7ae2;
+    box-shadow: 0 0 0 3px rgba(42,122,226,0.15);
+  }
+  .search-box button {
+    padding: 0.6em 1em;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .search-results { margin-top: 1em; }
+  .search-results .hit {
+    padding: 0.8em 0;
+    border-bottom: 1px dashed #eee;
+  }
+  .search-results .hit-title { font-weight: 600; font-size: 1.05em; }
+  .search-results .hit-snippet { color: #555; font-size: 0.9em; margin-top: 0.3em; }
+  .search-results mark { background: #ffe66d; padding: 0 2px; border-radius: 2px; }
+  .search-status { color: #666; font-size: 0.9em; }
+  .pagination { margin-top: 2em; text-align: center; }
+  .pagination a, .pagination strong, .pagination span {
+    display: inline-block;
+    padding: 0.4em 0.7em;
+    margin: 0 0.2em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .pagination strong { background: #2a7ae2; color: #fff; border-color: #2a7ae2; }
+  .pagination a:hover { background: #f5f5f5; }
+</style>
+
 <div class="home">
   <h1 class="page-heading">푸른영혼의 별 | Tech Blog</h1>
 
@@ -11,44 +59,58 @@ title: Home
 
   <p><strong>주요 프로젝트</strong>: <a href="https://jen.lemuel.co.kr">Settlement MSA</a> · <a href="https://eln.lemuel.co.kr">ASAT</a> · <a href="https://github.com/MyoungSoo7">GitHub</a></p>
 
-  <hr/>
+  <!-- 검색 박스 -->
+  <div class="search-box">
+    <input type="search"
+           id="search-input"
+           placeholder="제목 / 내용 / 태그 검색..."
+           autocomplete="off"/>
+    <button type="button" id="search-clear">×</button>
+  </div>
+  <div class="search-status" id="search-status"></div>
 
-  <h2 class="post-list-heading">
-    Posts
-    <small style="font-weight:normal; color:#666; font-size:0.7em;">
-      (총 {{ site.posts | size }}편 · {{ paginator.page }} / {{ paginator.total_pages }} 페이지)
-    </small>
-  </h2>
+  <!-- 검색 결과 (검색어 입력 시 표시) -->
+  <div class="search-results" id="search-results" style="display:none;"></div>
 
-  <ul class="post-list">
-    {% for post in paginator.posts %}
-    <li>
-      <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
-      <h3>
-        <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-      </h3>
-      {% if post.excerpt %}
-        <div class="post-excerpt">{{ post.excerpt }}</div>
+  <!-- 일반 포스트 목록 (검색어 없을 때만 표시) -->
+  <div id="default-list">
+    <hr/>
+
+    <h2 class="post-list-heading">
+      Posts
+      <small style="font-weight:normal; color:#666; font-size:0.7em;">
+        (총 {{ site.posts | size }}편 · {{ paginator.page }} / {{ paginator.total_pages }} 페이지)
+      </small>
+    </h2>
+
+    <ul class="post-list">
+      {% for post in paginator.posts %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+        </h3>
+        {% if post.excerpt %}
+          <div class="post-excerpt">{{ post.excerpt }}</div>
+        {% endif %}
+        {% if post.tags.size > 0 %}
+          <div class="post-tags" style="font-size:0.85em; color:#888;">
+            {% for tag in post.tags %}<span>#{{ tag }}</span> {% endfor %}
+          </div>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Pagination -->
+    {% if paginator.total_pages > 1 %}
+    <nav class="pagination">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}">&laquo; 이전</a>
+      {% else %}
+        <span style="color:#ccc;">&laquo; 이전</span>
       {% endif %}
-      {% if post.tags.size > 0 %}
-        <div class="post-tags" style="font-size:0.85em; color:#888;">
-          {% for tag in post.tags %}<span>#{{ tag }}</span> {% endfor %}
-        </div>
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ul>
 
-  <!-- Pagination -->
-  {% if paginator.total_pages > 1 %}
-  <nav class="pagination" style="margin-top:2em; text-align:center;">
-    {% if paginator.previous_page %}
-      <a href="{{ paginator.previous_page_path | relative_url }}">&laquo; 이전</a>
-    {% else %}
-      <span style="color:#ccc;">&laquo; 이전</span>
-    {% endif %}
-
-    <span style="margin:0 1em;">
       {% for page_num in (1..paginator.total_pages) %}
         {% if page_num == paginator.page %}
           <strong>{{ page_num }}</strong>
@@ -58,13 +120,117 @@ title: Home
           <a href="{{ site.paginate_path | replace: ':num', page_num | relative_url }}">{{ page_num }}</a>
         {% endif %}
       {% endfor %}
-    </span>
 
-    {% if paginator.next_page %}
-      <a href="{{ paginator.next_page_path | relative_url }}">다음 &raquo;</a>
-    {% else %}
-      <span style="color:#ccc;">다음 &raquo;</span>
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}">다음 &raquo;</a>
+      {% else %}
+        <span style="color:#ccc;">다음 &raquo;</span>
+      {% endif %}
+    </nav>
     {% endif %}
-  </nav>
-  {% endif %}
+  </div>
 </div>
+
+<script>
+(function() {
+  const input    = document.getElementById('search-input');
+  const clearBtn = document.getElementById('search-clear');
+  const status   = document.getElementById('search-status');
+  const results  = document.getElementById('search-results');
+  const defaultList = document.getElementById('default-list');
+
+  let posts = null;
+  let loading = false;
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function highlight(text, query) {
+    if (!query) return escapeHtml(text);
+    const safe = escapeHtml(text);
+    const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    return safe.replace(re, '<mark>$1</mark>');
+  }
+
+  function snippet(content, query, len) {
+    len = len || 160;
+    const idx = content.toLowerCase().indexOf(query.toLowerCase());
+    if (idx < 0) return content.slice(0, len) + (content.length > len ? '…' : '');
+    const start = Math.max(0, idx - 60);
+    const end   = Math.min(content.length, idx + query.length + 100);
+    return (start > 0 ? '…' : '') + content.slice(start, end) + (end < content.length ? '…' : '');
+  }
+
+  function search(q) {
+    if (!q || !q.trim()) {
+      results.style.display = 'none';
+      defaultList.style.display = '';
+      status.textContent = '';
+      return;
+    }
+    if (!posts) {
+      status.textContent = '인덱스 로딩 중...';
+      return;
+    }
+    const query = q.trim().toLowerCase();
+    const hits = posts.filter(p =>
+      p.title.toLowerCase().includes(query) ||
+      p.content.toLowerCase().includes(query) ||
+      (p.tags || []).some(t => t.toLowerCase().includes(query))
+    );
+
+    defaultList.style.display = 'none';
+    results.style.display = '';
+    status.textContent = `"${q}" 검색 결과: ${hits.length}건`;
+
+    if (hits.length === 0) {
+      results.innerHTML = '<p style="color:#888;">매칭되는 글이 없습니다.</p>';
+      return;
+    }
+
+    results.innerHTML = hits.map(p => `
+      <div class="hit">
+        <span class="post-meta">${p.date}</span>
+        <div class="hit-title">
+          <a href="${p.url}">${highlight(p.title, query)}</a>
+        </div>
+        <div class="hit-snippet">${highlight(snippet(p.content, query), query)}</div>
+        ${(p.tags || []).length ? '<div style="font-size:0.85em; color:#888; margin-top:0.3em;">' +
+          p.tags.map(t => '#' + t).join(' ') + '</div>' : ''}
+      </div>
+    `).join('');
+  }
+
+  async function loadIndex() {
+    if (posts || loading) return;
+    loading = true;
+    try {
+      const res = await fetch('/search.json');
+      posts = await res.json();
+    } catch (e) {
+      status.textContent = '검색 인덱스 로드 실패';
+    }
+    loading = false;
+    if (input.value) search(input.value);
+  }
+
+  input.addEventListener('focus', loadIndex);
+  input.addEventListener('input', e => {
+    loadIndex();
+    search(e.target.value);
+  });
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    input.focus();
+    search('');
+  });
+
+  // URL ?q= 로 deep-link
+  const urlQ = new URLSearchParams(location.search).get('q');
+  if (urlQ) {
+    input.value = urlQ;
+    loadIndex().then(() => search(urlQ));
+  }
+})();
+</script>
