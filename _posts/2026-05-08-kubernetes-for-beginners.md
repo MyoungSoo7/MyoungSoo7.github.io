@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "쿠버네티스가 해결하려는 6가지 문제 — 입문자를 위한 친절한 가이드"
-date: 2026-05-08 10:50:00 +0900
+date: 2026-05-08 09:00:00 +0900
 categories: [infra, kubernetes]
 tags: [kubernetes, k8s, devops, container, orchestration, microservices]
 ---
