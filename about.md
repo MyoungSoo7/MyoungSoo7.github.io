@@ -21,13 +21,13 @@ permalink: /about/
 ---
 
 <!-- AUTO-UPDATE-START -->
-*Last auto-update: 2026-05-07 (KST)* — public repos: **176**
+*Last auto-update: 2026-05-08 (KST)* — public repos: **176**
 
 #### 🔥 최근 푸시한 레포 5
 
 | 레포 | 언어 | 마지막 푸시 | 설명 |
 |------|------|-------------|------|
-| [MyoungSoo7.github.io](https://github.com/MyoungSoo7/MyoungSoo7.github.io) | HTML | 2026-05-07 |  |
+| [MyoungSoo7.github.io](https://github.com/MyoungSoo7/MyoungSoo7.github.io) | Python | 2026-05-07 |  |
 | [lemuel-academy](https://github.com/MyoungSoo7/lemuel-academy) | Kotlin | 2026-05-07 | 동영상 강의 플랫폼 — 크리에이터/학생/관리자 MSA. ffmpeg HLS 트랜스코딩 + R2 저장 + Spring Boot Kotlin + Next.js. Class101/탈잉 스타일. |
 | [lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core) | C++ | 2026-05-07 | 고성능 C++ 시장 데이터 파이프라인 + 채점 엔진. crypto/stock/dart/news/data/codingtest 사이트와 통합되는 lemuel 인프라 코어. |
 | [MyoungSoo7](https://github.com/MyoungSoo7/MyoungSoo7) |  | 2026-05-07 |  |
