@@ -60,13 +60,15 @@ title: Home
   <p><strong>주요 프로젝트</strong>: <a href="https://jen.lemuel.co.kr">Settlement MSA</a> · <a href="https://eln.lemuel.co.kr">ASAT</a> · <a href="https://github.com/MyoungSoo7">GitHub</a></p>
 
   <!-- 검색 박스 -->
-  <div class="search-box">
+  <form class="search-box" id="search-form" role="search">
     <input type="search"
            id="search-input"
-           placeholder="제목 / 내용 / 태그 검색..."
+           name="q"
+           placeholder="제목 / 내용 / 태그 검색 후 Enter"
            autocomplete="off"/>
-    <button type="button" id="search-clear">×</button>
-  </div>
+    <button type="submit" id="search-submit" style="background:#2a7ae2; color:#fff; border-color:#2a7ae2;">🔍 검색</button>
+    <button type="button" id="search-clear" title="초기화">×</button>
+  </form>
   <div class="search-status" id="search-status"></div>
 
   <!-- 검색 결과 (검색어 입력 시 표시) -->
@@ -215,15 +217,32 @@ title: Home
     if (input.value) search(input.value);
   }
 
+  const form = document.getElementById('search-form');
+
   input.addEventListener('focus', loadIndex);
-  input.addEventListener('input', e => {
-    loadIndex();
-    search(e.target.value);
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const q = input.value.trim();
+    // URL 도 동기화 (deep-link / 뒤로가기)
+    const url = new URL(location.href);
+    if (q) url.searchParams.set('q', q);
+    else   url.searchParams.delete('q');
+    history.replaceState(null, '', url.toString());
+    if (!posts) {
+      loadIndex().then(() => search(q));
+    } else {
+      search(q);
+    }
   });
+
   clearBtn.addEventListener('click', () => {
     input.value = '';
     input.focus();
     search('');
+    const url = new URL(location.href);
+    url.searchParams.delete('q');
+    history.replaceState(null, '', url.toString());
   });
 
   // URL ?q= 로 deep-link
