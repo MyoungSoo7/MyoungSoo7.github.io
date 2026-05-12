@@ -12,7 +12,7 @@ permalink: /about/
 - **Backend**: Java 25, Kotlin 2.0, Spring Boot 4, JPA/Hibernate, Kafka, Elasticsearch, gRPC
 - **System / 정량**: C++20 (Boost.Beast, simdjson, Arrow/Parquet, ONNX Runtime), Rust (tokio), Go, Julia (JuMP, HiGHS), R (Shiny, rugarch, forecast), Python (pandas, vectorbt)
 - **Architecture**: Hexagonal, MSA, Event-Driven, DDD
-- **Infra**: Docker, K3s, Cloudflare Tunnel, Cloudflare R2, GitHub Actions, AWS Lightsail
+- **Infra**: K3s 1.35 (3-master HA, embedded etcd), ArgoCD, Velero, Cloudflare Tunnel, Cloudflare R2, GitHub Actions, SOPS+age
 - **Frontend**: Next.js 15, React 19, TypeScript, Tailwind, hls.js
 - **DB**: PostgreSQL 17, Redis 7, MySQL 8, Apache Parquet
 - **AI**: Spring AI, Gemini, RAG, Function Calling, KR-FinBERT (ONNX)
@@ -42,8 +42,7 @@ permalink: /about/
 | 서비스 | URL | 설명 | 기술 |
 |--------|-----|------|------|
 | **Settlement MSA** | [jen.lemuel.co.kr](https://jen.lemuel.co.kr) | 이커머스 정산 플랫폼 (4모듈 MSA) | Spring Boot 4 + Kafka + ES |
-| **ASAT** | [eln.lemuel.co.kr](https://eln.lemuel.co.kr) | 청각 재활 훈련 시스템 | Spring Boot 4 + Web Audio API |
-| **ASAT K3s** | [asat.lemuel.co.kr](https://asat.lemuel.co.kr) | ASAT K3s 이중화 배포 | K3s 2노드 클러스터 |
+| **ASAT** | [eln.lemuel.co.kr](https://eln.lemuel.co.kr) | 청각 재활 훈련 시스템 (K3s 5컴포넌트) | Spring Boot + Next.js + Postgres + Redis + MinIO |
 | **AI 검색** | [chat.lemuel.co.kr](https://chat.lemuel.co.kr) | AI 상품 검색 (RAG + Agent) | Spring AI + Gemini + pgvector |
 | **K-POP 굿즈** | [goods.lemuel.co.kr](https://goods.lemuel.co.kr) | 굿즈 뽑기 (해시 체인 투명성) | Spring Boot 4 + Toss Payments |
 | **패션 매칭** | [fashion.lemuel.co.kr](https://fashion.lemuel.co.kr) | 디자이너-의뢰인 매칭 + AI 프로필 | Spring Boot 4 + Next.js + AI |
@@ -68,7 +67,7 @@ permalink: /about/
 
 | 모듈 | 언어 | 서버 | 역할 |
 |------|------|------|------|
-| judge-engine | C++20 + gRPC | 르무엘클라우드 | seccomp+cgroup 샌드박스 코드 채점 |
+| judge-engine | C++20 + gRPC | 르무엘 (systemd) | seccomp+cgroup 샌드박스 코드 채점 |
 | market-feed | C++20 + Boost.Beast | 루이스 | Binance WSS → Redis pub/sub |
 | stock-feed | C++20 + KIS API | 루이스 | 한투 OpenAPI WS → Redis |
 | dart-crawler | C++20 + libpqxx | 루이스 | DART 공시 폴러 → PostgreSQL |
@@ -96,22 +95,83 @@ Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffm
 
 ---
 
-### 인프라
+### 인프라 — 온프레미스 K3s 클러스터 (5 노드, 100% 자체호스팅)
 
-3대 서버 (홈 2 + AWS Lightsail) + K3s 클러스터.
+> **2026-05-12 업데이트**: AWS Lightsail 2 대 (르무엘클라우드 + 포트폴리오클라우드) 종료, 모든 워크로드를 5 노드 온프레미스 K3s 로 이관 완료. 도커컴포즈 0 개. 운영 비용은 전기/인터넷 외 ₩0.
 
-| 서버 | 사양 | 역할 |
-|------|------|------|
-| 르무엘 | i7-6500U / 32GB / 400GB | K3s 마스터, ASAT, 약국, 쇼핑, RealGrid, news-pipeline, data-warehouse, Shiny |
-| 루이스 | i7-8565U / 16GB / 98GB | K3s 워커, Settlement, 굿즈, 패션, 라이브, SNS, market-feed, dart-crawler, Rust orderbook-matcher, Go gateway |
-| 르무엘클라우드 | AWS Lightsail 2C/4G | codingtest, media, database, judge-engine gRPC |
+#### 노드 구성
 
-- **네트워크**: Cloudflare Tunnel 3개 → 외부 포트 0개로 HTTPS 제공
-- **컨테이너**: Docker 40+ 컨테이너
-- **K3s**: ASAT 이중화 (backend 2 + frontend 2)
-- **모니터링**: Uptime Kuma + Grafana + Prometheus + 텔레그램 알림
-- **백업**: 매일 04:00 DB 자동 백업 → Cloudflare R2 (7일 보관)
-- **시세 백업**: 5분 주기 Parquet rollup → R2 lemuel-backup/snapshots/
+| 서버 | 사양 | K3s 역할 | 주요 워크로드 |
+|------|------|----------|--------------|
+| **르무엘** | 4C / 32GB | control-plane, etcd | settlement, fashion, goods, ghost, news-pipeline, judge-engine (systemd) |
+| **루이스** | i7-8565U / 16GB | worker | market-feed, orderbook-matcher (Rust), lqc-gateway (Go), dart-crawler |
+| **데이비드** | 6C / 16GB / 218GB SSD | worker (모니터링) | kube-prometheus-stack, Loki, lemuel-explorer |
+| **일원** | 12C / 14GB / 457GB NVMe + **4TB HDD** | control-plane, etcd | postgres / storage 풀, ASAT, lowshopping, pharmacy |
+| **솔로몬** | 2014 Mac Mini, **floating VIP** | control-plane, etcd | backup 전용 + etcd quorum |
+
+총 ~40 vCPU / ~80GB RAM / 4.4TB+ 스토리지
+
+#### K3s 운영 방식
+
+**3-master HA + embedded etcd** (2026-05-12 완료)
+- SQLite → embedded etcd 인플레이스 마이그레이션 (18 분 다운타임으로 30+ ArgoCD 앱 모두 보존)
+- RAFT 합의 (르무엘 / 일원 / 솔로몬 3 멤버 quorum), 1 노드 다운에도 control-plane 유지
+- 마스터 추가 시 critical 설정 동기화 필수: `cluster-dns: 169.254.20.10` top-level + kubelet-arg 동시 일치
+
+**솔로몬 floating VIP (`[내부VIP]`)** — 2014 Mac Mini WiFi 안정성
+- 3 WiFi NIC (내장 + AX900 + A3000UA), 30 줄 bash watchdog 가 활성 NIC 자동 결정
+- keepalived 대신 단순 bash + systemd (단일 호스트 다중 NIC 시나리오엔 VRRP 부적합)
+- 페일오버 시 gratuitous ARP 로 스위치 ARP table 즉시 갱신, K3s 통신 무중단
+
+**일원 4TB HDD 스토리지 풀**
+- `bind mount`: `/mnt/hdd-4tb → /var/lib/rancher/k3s/storage`
+- K3s 매니지드 애드온이 ConfigMap 을 자동 복원하는 함정 우회 (데이터 평면을 건드리지 않고 디스크 표현만 변경)
+- SSD 1TB 도착 시 storage-tier 라벨 + nodeSelector 로 hot/cold 분리 예정
+
+**외부 노출 — Cloudflare Tunnel**
+- 외부 포트 0 개. Tunnel agent (cloudflared) → K3s NodePort (30000-32767 대역)
+- 15+ 외부 도메인 모두 lemuel.co.kr 산하 서브도메인
+- Cloudflare Access (SSO + Zero Trust) 로 관리 페이지 보호
+
+**GitOps — ArgoCD + Image Updater**
+- Helm 차트 기반 30+ 앱 매니페스트가 GitHub repo 단일 진실
+- 컨테이너 이미지 푸시 → ArgoCD Image Updater 가 차트 values 자동 갱신
+- 시크릿은 SOPS + age 로 git 안에 암호화 보관 (5 머신 + Mac 모두 등록)
+
+**백업 — Velero + Cloudflare R2**
+- daily-with-volumes: 03:00 KST, 전체 ns, 30 일 TTL
+- hourly-critical: 매시 정각, jen/asat/fashion/settlement/ghost/jabis/argocd, 7 일 TTL
+- PV 데이터는 Kopia uploader (PodVolumeBackup), object lock 활성
+
+**모니터링**
+- **kube-prometheus-stack** (Prometheus + Grafana + Alertmanager + node-exporter, monitoring ns)
+- **Loki** (로그 집중화, 데이비드 노드)
+- **Blackbox Exporter** (HTTPS 도메인 외부 가용성)
+- **ServerCheck 봇** (Mac 에서 5 분 cycle, SSH + HTTP 헬스체크, Telegram 알림)
+
+**네트워크 / 보안**
+- ufw 화이트리스트: 6443 / 10250 / 8472(flannel) / 2379-2380(etcd) 모두 [내부LAN] 한정
+- 비표준 SSH 포트 (르무엘 [비공개SSH포트])
+- 노드 간 트래픽은 모두 LAN, 외부 노출은 Cloudflare 단일 진입점
+
+#### 비용 비교 (월간)
+
+| 항목 | 2026-05-11 이전 | 2026-05-12 이후 |
+|------|----------------|----------------|
+| AWS Lightsail (2 인스턴스) | ~₩32,000 | ₩0 (종료) |
+| Cloudflare (Tunnel + DNS + R2) | ~₩2,000 | ~₩2,000 |
+| 전기 (5 노드) | 기존 | 기존 |
+| 트래픽 / 정적 IP | ₩4,000+ | ₩0 |
+
+#### 최근 운영 기록 (2026-05-12 일괄)
+
+K3s 마이그레이션 / HA 전환 / WiFi 안정화 / 스토리지 통합 / Lightsail 종료 / SB4 의존성 디버깅 — 다섯 편 postmortem:
+
+- [K3s 3-Master HA 마이그레이션 — SQLite → embedded etcd](/2026/05/12/k3s-3master-ha-sqlite-etcd-migration/)
+- [WiFi 3-NIC + bash watchdog 로 K3s 노드 floating VIP failover](/2026/05/12/solomon-wifi-3nic-vip-floating-failover/)
+- [K3s local-path-provisioner 에 4TB HDD 통합 — configmap 자동 복원 우회하기](/2026/05/12/k3s-local-path-storage-hdd-bind-mount/)
+- [AWS Lightsail → 5-노드 온프레미스 K3s 이관 — 월 $30 비용 0 으로](/2026/05/12/lightsail-to-k3s-onprem-repatriation/)
+- [Spring Boot 4 의존성 지옥 디버깅 후기 — Spring AI / SpringDoc / classpath leakage](/2026/05/12/spring-boot-4-dependency-hell-debugging/)
 
 ---
 
