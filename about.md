@@ -21,17 +21,17 @@ permalink: /about/
 ---
 
 <!-- AUTO-UPDATE-START -->
-*Last auto-update: 2026-05-11 (KST)* — public repos: **175**
+*Last auto-update: 2026-05-12 (KST)* — public repos: **174**
 
 #### 🔥 최근 푸시한 레포 5
 
 | 레포 | 언어 | 마지막 푸시 | 설명 |
 |------|------|-------------|------|
-| [MyoungSoo7.github.io](https://github.com/MyoungSoo7/MyoungSoo7.github.io) | HTML | 2026-05-10 |  |
+| [server-monitor](https://github.com/MyoungSoo7/server-monitor) | Go | 2026-05-11 | Go 서버 모니터링 + 사이트 헬스체커 — SSH 기반 3대 서버 + 28개 사이트 감시 |
+| [settlement](https://github.com/MyoungSoo7/settlement) | Java | 2026-05-11 | 주문·결제·정산·승인 시스템(헥사고날아키텍처, 자바, 스프링부트, k8s, prometheus, elasticsearch,  postgresql) |
+| [MyoungSoo7.github.io](https://github.com/MyoungSoo7/MyoungSoo7.github.io) | HTML | 2026-05-11 |  |
 | [lemuel-academy](https://github.com/MyoungSoo7/lemuel-academy) | Kotlin | 2026-05-10 | 동영상 강의 플랫폼 — 크리에이터/학생/관리자 MSA. ffmpeg HLS 트랜스코딩 + R2 저장 + Spring Boot Kotlin + Next.js. Class101/탈잉 스타일. |
 | [MyoungSoo7](https://github.com/MyoungSoo7/MyoungSoo7) |  | 2026-05-09 |  |
-| [lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core) | C++ | 2026-05-08 | 고성능 C++ 시장 데이터 파이프라인 + 채점 엔진. crypto/stock/dart/news/data/codingtest 사이트와 통합되는 lemuel 인프라 코어. |
-| [settlement](https://github.com/MyoungSoo7/settlement) | Java | 2026-05-08 | 주문·결제·정산·승인 시스템(헥사고날아키텍처, 자바, 스프링부트, k8s, prometheus, elasticsearch,  postgresql) |
 
 <!-- AUTO-UPDATE-END -->
 
