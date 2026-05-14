@@ -118,7 +118,7 @@ Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffm
 - RAFT 합의 (르무엘 / 일원 / 솔로몬 3 멤버 quorum), 1 노드 다운에도 control-plane 유지
 - 마스터 추가 시 critical 설정 동기화 필수: `cluster-dns: 169.254.20.10` top-level + kubelet-arg 동시 일치
 
-**솔로몬 floating VIP (`[내부VIP]`)** — 2014 Mac Mini WiFi 안정성
+**솔로몬 floating VIP** — 2014 Mac Mini WiFi 안정성
 - 3 WiFi NIC (내장 + AX900 + A3000UA), 30 줄 bash watchdog 가 활성 NIC 자동 결정
 - keepalived 대신 단순 bash + systemd (단일 호스트 다중 NIC 시나리오엔 VRRP 부적합)
 - 페일오버 시 gratuitous ARP 로 스위치 ARP table 즉시 갱신, K3s 통신 무중단
@@ -129,7 +129,7 @@ Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffm
 - SSD 1TB 도착 시 storage-tier 라벨 + nodeSelector 로 hot/cold 분리 예정
 
 **외부 노출 — Cloudflare Tunnel**
-- 외부 포트 0 개. Tunnel agent (cloudflared) → K3s NodePort (30000-32767 대역)
+- 외부에 직접 노출되는 포트 없음. cloudflared 가 클러스터 내부로만 트래픽 중계
 - 15+ 외부 도메인 모두 lemuel.co.kr 산하 서브도메인
 - Cloudflare Access (SSO + Zero Trust) 로 관리 페이지 보호
 
@@ -150,9 +150,9 @@ Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffm
 - **ServerCheck 봇** (Mac 에서 5 분 cycle, SSH + HTTP 헬스체크, Telegram 알림)
 
 **네트워크 / 보안**
-- ufw 화이트리스트: 6443 / 10250 / 8472(flannel) / 2379-2380(etcd) 모두 [내부LAN] 한정
-- 비표준 SSH 포트 (르무엘 [비공개SSH포트])
-- 노드 간 트래픽은 모두 LAN, 외부 노출은 Cloudflare 단일 진입점
+- 호스트 방화벽 (ufw) 화이트리스트 정책 — K8s control plane / kubelet / flannel / etcd 트래픽은 내부 LAN 으로만 제한
+- 모든 SSH 접속은 비표준 포트 + key-only
+- 노드 간 트래픽은 모두 LAN, 외부 노출은 Cloudflare 단일 진입점 (Tunnel + Access)
 
 #### 비용 비교 (월간)
 
