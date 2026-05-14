@@ -97,8 +97,6 @@ Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffm
 
 ### 인프라 — 온프레미스 K3s 클러스터 (5 노드, 100% 자체호스팅)
 
-> **2026-05-12 업데이트**: AWS Lightsail 2 대 (르무엘클라우드 + 포트폴리오클라우드) 종료, 모든 워크로드를 5 노드 온프레미스 K3s 로 이관 완료. 도커컴포즈 0 개. 운영 비용은 전기/인터넷 외 ₩0.
-
 #### 노드 구성
 
 | 서버 | 사양 | K3s 역할 | 주요 워크로드 |
@@ -154,23 +152,13 @@ Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffm
 - 모든 SSH 접속은 비표준 포트 + key-only
 - 노드 간 트래픽은 모두 LAN, 외부 노출은 Cloudflare 단일 진입점 (Tunnel + Access)
 
-#### 비용 비교 (월간)
-
-| 항목 | 2026-05-11 이전 | 2026-05-12 이후 |
-|------|----------------|----------------|
-| AWS Lightsail (2 인스턴스) | ~₩32,000 | ₩0 (종료) |
-| Cloudflare (Tunnel + DNS + R2) | ~₩2,000 | ~₩2,000 |
-| 전기 (5 노드) | 기존 | 기존 |
-| 트래픽 / 정적 IP | ₩4,000+ | ₩0 |
-
 #### 최근 운영 기록 (2026-05-12 일괄)
 
-K3s 마이그레이션 / HA 전환 / WiFi 안정화 / 스토리지 통합 / Lightsail 종료 / SB4 의존성 디버깅 — 다섯 편 postmortem:
+K3s 마이그레이션 / HA 전환 / WiFi 안정화 / 스토리지 통합 / SB4 의존성 디버깅 — 네 편 postmortem:
 
 - [K3s 3-Master HA 마이그레이션 — SQLite → embedded etcd](/2026/05/12/k3s-3master-ha-sqlite-etcd-migration/)
 - [WiFi 3-NIC + bash watchdog 로 K3s 노드 floating VIP failover](/2026/05/12/solomon-wifi-3nic-vip-floating-failover/)
 - [K3s local-path-provisioner 에 4TB HDD 통합 — configmap 자동 복원 우회하기](/2026/05/12/k3s-local-path-storage-hdd-bind-mount/)
-- [AWS Lightsail → 5-노드 온프레미스 K3s 이관 — 월 $30 비용 0 으로](/2026/05/12/lightsail-to-k3s-onprem-repatriation/)
 - [Spring Boot 4 의존성 지옥 디버깅 후기 — Spring AI / SpringDoc / classpath leakage](/2026/05/12/spring-boot-4-dependency-hell-debugging/)
 
 ---
