@@ -38,17 +38,42 @@ title: Home
   .search-results .hit-snippet { color: #555; font-size: 0.9em; margin-top: 0.3em; }
   .search-results mark { background: #ffe66d; padding: 0 2px; border-radius: 2px; }
   .search-status { color: #666; font-size: 0.9em; }
-  .pagination { margin-top: 2em; text-align: center; }
-  .pagination a, .pagination strong, .pagination span {
-    display: inline-block;
-    padding: 0.4em 0.7em;
-    margin: 0 0.2em;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    text-decoration: none;
+  .pagination {
+    margin: 2.5em 0 1em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35em;
+    font-size: 0.95em;
   }
-  .pagination strong { background: #2a7ae2; color: #fff; border-color: #2a7ae2; }
-  .pagination a:hover { background: #f5f5f5; }
+  .pagination a,
+  .pagination strong,
+  .pagination .disabled,
+  .pagination .ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.4em;
+    height: 2.4em;
+    padding: 0 0.7em;
+    border: 1px solid #e2e2e2;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    line-height: 1;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .pagination a:hover { background: #f5f7fb; border-color: #c8d4ec; color: #2a7ae2; }
+  .pagination strong { background: #2a7ae2; color: #fff; border-color: #2a7ae2; cursor: default; }
+  .pagination .disabled { color: #bbb; border-color: #eee; cursor: default; background: #fafafa; }
+  .pagination .ellipsis { border: none; background: transparent; color: #999; min-width: 1em; padding: 0 0.2em; }
+  .pagination .nav-label { padding: 0 0.9em; font-weight: 500; }
+  @media (max-width: 480px) {
+    .pagination { font-size: 0.9em; gap: 0.25em; }
+    .pagination a, .pagination strong, .pagination .disabled { min-width: 2.1em; height: 2.1em; padding: 0 0.45em; }
+    .pagination .nav-label { padding: 0 0.55em; }
+  }
 </style>
 
 <div class="home">
@@ -104,29 +129,56 @@ title: Home
       {% endfor %}
     </ul>
 
-    <!-- Pagination -->
+    <!-- Pagination — window(±2) + first/last + ellipsis -->
     {% if paginator.total_pages > 1 %}
-    <nav class="pagination">
+    {% assign current = paginator.page %}
+    {% assign total = paginator.total_pages %}
+    {% assign window = 2 %}
+    {% assign win_min = current | minus: window %}
+    {% assign win_max = current | plus: window %}
+    {% if win_min < 1 %}{% assign win_min = 1 %}{% endif %}
+    {% if win_max > total %}{% assign win_max = total %}{% endif %}
+
+    <nav class="pagination" aria-label="포스트 페이지 네비게이션">
       {% if paginator.previous_page %}
-        <a href="{{ paginator.previous_page_path | relative_url }}">&laquo; 이전</a>
+        <a class="nav-label" href="{{ paginator.previous_page_path | relative_url }}" rel="prev" aria-label="이전 페이지">&laquo; 이전</a>
       {% else %}
-        <span style="color:#ccc;">&laquo; 이전</span>
+        <span class="disabled nav-label" aria-disabled="true">&laquo; 이전</span>
       {% endif %}
 
-      {% for page_num in (1..paginator.total_pages) %}
-        {% if page_num == paginator.page %}
-          <strong>{{ page_num }}</strong>
+      {% comment %} 첫 페이지 + 좌측 ellipsis {% endcomment %}
+      {% if win_min > 1 %}
+        <a href="{{ '/' | relative_url }}" aria-label="1 페이지">1</a>
+        {% if win_min > 2 %}
+          <span class="ellipsis" aria-hidden="true">…</span>
+        {% endif %}
+      {% endif %}
+
+      {% comment %} 윈도우 안 페이지들 {% endcomment %}
+      {% for page_num in (win_min..win_max) %}
+        {% if page_num == current %}
+          <strong aria-current="page">{{ page_num }}</strong>
         {% elsif page_num == 1 %}
-          <a href="{{ '/' | relative_url }}">{{ page_num }}</a>
+          <a href="{{ '/' | relative_url }}" aria-label="1 페이지">1</a>
         {% else %}
-          <a href="{{ site.paginate_path | replace: ':num', page_num | relative_url }}">{{ page_num }}</a>
+          {% assign page_path = site.paginate_path | replace: ':num', page_num %}
+          <a href="{{ page_path | relative_url }}" aria-label="{{ page_num }} 페이지">{{ page_num }}</a>
         {% endif %}
       {% endfor %}
 
+      {% comment %} 우측 ellipsis + 마지막 페이지 {% endcomment %}
+      {% if win_max < total %}
+        {% if win_max < total | minus: 1 %}
+          <span class="ellipsis" aria-hidden="true">…</span>
+        {% endif %}
+        {% assign last_path = site.paginate_path | replace: ':num', total %}
+        <a href="{{ last_path | relative_url }}" aria-label="마지막 {{ total }} 페이지">{{ total }}</a>
+      {% endif %}
+
       {% if paginator.next_page %}
-        <a href="{{ paginator.next_page_path | relative_url }}">다음 &raquo;</a>
+        <a class="nav-label" href="{{ paginator.next_page_path | relative_url }}" rel="next" aria-label="다음 페이지">다음 &raquo;</a>
       {% else %}
-        <span style="color:#ccc;">다음 &raquo;</span>
+        <span class="disabled nav-label" aria-disabled="true">다음 &raquo;</span>
       {% endif %}
     </nav>
     {% endif %}
