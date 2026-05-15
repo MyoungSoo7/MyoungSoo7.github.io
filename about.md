@@ -104,10 +104,10 @@ Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffm
 | **르무엘** | 4C / 32GB | control-plane, etcd | settlement, fashion, goods, ghost, news-pipeline, judge-engine (systemd) |
 | **루이스** | i7-8565U / 16GB | worker | market-feed, orderbook-matcher (Rust), lqc-gateway (Go), dart-crawler |
 | **데이비드** | 6C / 16GB / 218GB SSD | worker (모니터링) | kube-prometheus-stack, Loki, lemuel-explorer |
-| **일원** | 12C / 14GB / 457GB NVMe + **4TB HDD** | control-plane, etcd | postgres / storage 풀, ASAT, lowshopping, pharmacy |
+| **일원** | 12C / 14GB / 457GB NVMe + **4TB HDD** + **1TB SSD** | control-plane, etcd | postgres / storage 풀, ASAT, lowshopping, pharmacy |
 | **솔로몬** | 2014 Mac Mini, **floating VIP** | control-plane, etcd | backup 전용 + etcd quorum |
 
-총 ~40 vCPU / ~80GB RAM / 4.4TB+ 스토리지
+총 ~40 vCPU / ~80GB RAM / 5.4TB+ 스토리지 (NVMe + HDD + SSD)
 
 #### K3s 운영 방식
 
@@ -124,7 +124,7 @@ Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffm
 **일원 4TB HDD 스토리지 풀**
 - `bind mount`: `/mnt/hdd-4tb → /var/lib/rancher/k3s/storage`
 - K3s 매니지드 애드온이 ConfigMap 을 자동 복원하는 함정 우회 (데이터 평면을 건드리지 않고 디스크 표현만 변경)
-- SSD 1TB 도착 시 storage-tier 라벨 + nodeSelector 로 hot/cold 분리 예정
+- SSD 1TB 추가 후 `storage-tier` 라벨 + `nodeSelector` 로 hot/cold 분리 작업 진행 중 — 진척은 [/progress/](/progress/) 참고
 
 **외부 노출 — Cloudflare Tunnel**
 - 외부에 직접 노출되는 포트 없음. cloudflared 가 클러스터 내부로만 트래픽 중계
