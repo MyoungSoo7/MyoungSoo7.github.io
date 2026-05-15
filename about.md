@@ -81,17 +81,7 @@ permalink: /about/
 
 📜 [구축기 블로그 포스트](/2026/05/07/lemuel-quant-core-build/)
 
-#### 🎬 동영상 강의 플랫폼 — [lemuel-academy](https://github.com/MyoungSoo7/lemuel-academy)
-
-Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffmpeg HLS 트랜스코딩.
-
-| 서비스 | 역할 |
-|--------|------|
-| user-service | JWT 인증 + 진도 + 즐겨찾기 |
-| catalog-service | 강의/챕터/레슨/리뷰 + 검수 워크플로 |
-| media-service + ffmpeg-worker | R2 업로드 → HLS 1080p/720p/480p |
-| api-gateway | Spring Cloud Gateway + JwtFilter |
-| learner / creator-studio / admin | Next.js 3개 (Tailwind + hls.js) |
+> lemuel-academy(동영상 강의 플랫폼)는 진행 중인 작업이라 [/progress/](/progress/) 의 작업 로그로 이동했습니다.
 
 ---
 
