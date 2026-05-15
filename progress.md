@@ -12,6 +12,22 @@ permalink: /progress/
 
 ## 🔧 진행 중인 변경
 
+### 🎬 동영상 강의 플랫폼 — [lemuel-academy](https://github.com/MyoungSoo7/lemuel-academy)
+
+Class101/탈잉 스타일 MSA. Spring Boot 4 Kotlin × 4 + Next.js 15 × 3 + ffmpeg HLS 트랜스코딩.
+
+| 서비스 | 역할 |
+|--------|------|
+| user-service | JWT 인증 + 진도 + 즐겨찾기 |
+| catalog-service | 강의/챕터/레슨/리뷰 + 검수 워크플로 |
+| media-service + ffmpeg-worker | R2 업로드 → HLS 1080p/720p/480p |
+| api-gateway | Spring Cloud Gateway + JwtFilter |
+| learner / creator-studio / admin | Next.js 3개 (Tailwind + hls.js) |
+
+**인프라**: 온프레미스 K3s 클러스터 (5 노드, 100% 자체호스팅).
+
+---
+
 ### 일원 SSD 1TB 통합 — hot / cold 스토리지 티어 분리
 
 **현재 상태**: SSD 1TB 추가, 노드 라벨링 + nodeSelector 작업 중
