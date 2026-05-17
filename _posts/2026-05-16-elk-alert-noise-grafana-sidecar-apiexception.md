@@ -11,7 +11,7 @@ tags: [kubernetes, monitoring, elk, grafana, alerting, sidecar, argocd, postmort
 ```
 ELK ERROR spike (last 5m, threshold 20) - 04:40
 monitoring : 45건
-Kibana: https://kibana.lemuel.co.kr
+Kibana: https://kibana.<internal-domain>
 ```
 
 처음 본 순간의 직감 — *"04:40 새벽에 모니터링 스택 어딘가 죽었구나"*. 그런데 진단을 시작하자마자 두 개의 함정이 동시에 튀어나왔다:
