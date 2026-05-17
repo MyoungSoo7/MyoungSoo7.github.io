@@ -194,7 +194,7 @@ sudo systemctl disable --now k3s-agent.service
 # → 8초 후
 ip -d link show flannel.1
 # → flannel.1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 ...
-#   vxlan id 1 local 192.168.219.108 dev wlp3s0b1 srcport 0 0 dstport 8472
+#   vxlan id 1 local <internal-ip> dev wlp3s0b1 srcport 0 0 dstport 8472
 ```
 
 cross-node ping 부활. 4개 CrashLoopBackOff pod 자동 복구.
