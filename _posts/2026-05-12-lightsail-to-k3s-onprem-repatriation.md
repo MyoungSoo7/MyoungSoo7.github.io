@@ -20,7 +20,7 @@ tags: [aws, lightsail, k3s, repatriation, cost-optimization, cloudflare-tunnel]
 ## 1. 인벤토리 — 무엇이 어디 있었나
 
 ```
-르무엘클라우드 (43.201.110.54, 2vCPU 4GB)
+르무엘클라우드 (<old-aws-ip>, 2vCPU 4GB)
 ├─ docker compose
 │   ├─ media-app          (Pexels API, :8093)
 │   ├─ codingtest-app     (Spring Boot, :8094)
@@ -29,7 +29,7 @@ tags: [aws, lightsail, k3s, repatriation, cost-optimization, cloudflare-tunnel]
 └─ systemd
     └─ judge-engine       (C++ gRPC, lemuel-quant-core)
 
-포트폴리오클라우드 (3.34.141.94, 2vCPU 4GB)
+포트폴리오클라우드 (<old-aws-ip>, 2vCPU 4GB)
 └─ docker compose (inter-asat 스택, eln.lmshi.site)
     ├─ asat-backend       (Spring Boot 4)
     ├─ asat-frontend      (Next.js)
@@ -228,7 +228,7 @@ CF Tunnel 에 라우트 추가했는데도 안 됨. 원인:
 
 ```
 DNS 탭:
-A  lemuel.co.kr  182.225.28.203  Proxied   ← 옛 집 공인 IP!
+A  lemuel.co.kr  <old-home-ip>   Proxied   ← 옛 집 공인 IP!
 ```
 
 apex 도메인은 서브도메인과 달리 **DNS 충돌 시 자동 CNAME 생성 안 됨**. 옛 A 레코드 삭제 → Public Hostname 라우트 재저장 → CF 가 자동 CNAME 생성 (`<tunnel-uuid>.cfargotunnel.com`) → 200 OK.
