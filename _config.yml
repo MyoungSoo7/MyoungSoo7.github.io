@@ -12,6 +12,12 @@ plugins:
   - jekyll-paginate
 paginate: 10
 paginate_path: "/page:num/"
+# Minima 기본 header 는 site.pages 의 title 있는 페이지 모두 노출 — paginate 가 만드는
+# /page2/, /page3/, ... 가 index.html 의 title:"Home" 을 상속해 nav 에 N번 등장.
+# 명시적 화이트리스트로 약속된 페이지만 보이게. Home 은 좌측 상단 사이트 제목이 그 역할.
+header_pages:
+  - about.md
+  - progress.md
 markdown: kramdown
 kramdown:
   syntax_highlighter: rouge
