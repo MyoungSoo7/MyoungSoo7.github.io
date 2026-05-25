@@ -164,8 +164,8 @@ david   Ready   192.168.219.116   # ← 아직 옛 IP
 
 ```bash
 $ ssh david@192.168.219.113 "cat /etc/systemd/system/k3s-agent.service.env"
-K3S_URL=https://192.168.219.101:6443
-K3S_TOKEN=K10e4180402c4ac973e62eba30ae7b7969904dc688d65d39c2e68a0091ad724dfd7::server:...
+K3S_URL=https://<control-plane-ip>:6443
+K3S_TOKEN=<redacted>
 K3S_AGENT_ARGS="--node-ip=192.168.219.113 --node-external-ip=192.168.219.113"
 ```
 
