@@ -83,7 +83,7 @@ permalink: /about/
 | **루이스** | i7-8565U / 16GB | worker | market-feed, orderbook-matcher (Rust), lqc-gateway (Go), dart-crawler |
 | **데이비드** | 6C / 16GB / 218GB SSD | worker (모니터링) | kube-prometheus-stack, Loki, lemuel-explorer |
 | **일원** | 12C / 14GB / 457GB NVMe + **4TB HDD** + **1TB SSD** | control-plane, etcd | postgres / storage 풀, ASAT, lowshopping, pharmacy |
-| **솔로몬** | 2014 Mac Mini, **floating VIP** | control-plane, etcd | backup 전용 + etcd quorum |
+| **솔로몬** | 저전력 소형 노드, **floating VIP** | control-plane, etcd | backup 전용 + etcd quorum |
 
 총 ~40 vCPU / ~80GB RAM / 5.4TB+ 스토리지 (NVMe + HDD + SSD)
 
@@ -93,7 +93,7 @@ permalink: /about/
 - SQLite → embedded etcd 인플레이스 마이그레이션 (18 분 다운타임으로 30+ ArgoCD 앱 모두 보존)
 - RAFT 합의 (르무엘 / 일원 / 솔로몬 3 멤버 quorum), 1 노드 다운에도 control-plane 유지
 
-**솔로몬 floating VIP** — 2014 Mac Mini WiFi 안정성
+**솔로몬 floating VIP** — 소형 노드 WiFi 안정성
 - 3 WiFi NIC (내장 WiFi + USB 동글 2개), 30 줄 bash watchdog 가 활성 NIC 자동 결정
 - keepalived 대신 단순 bash + systemd (단일 호스트 다중 NIC 시나리오엔 VRRP 부적합)
 - 페일오버 시 gratuitous ARP 로 스위치 ARP table 즉시 갱신, K3s 통신 무중단
