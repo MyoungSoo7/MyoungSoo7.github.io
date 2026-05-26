@@ -93,11 +93,6 @@ permalink: /about/
 - SQLite → embedded etcd 인플레이스 마이그레이션 (18 분 다운타임으로 30+ ArgoCD 앱 모두 보존)
 - RAFT 합의 (르무엘 / 일원 / 솔로몬 3 멤버 quorum), 1 노드 다운에도 control-plane 유지
 
-**솔로몬 floating VIP** — 소형 노드 WiFi 안정성
-- 3 WiFi NIC (내장 WiFi + USB 동글 2개), 30 줄 bash watchdog 가 활성 NIC 자동 결정
-- keepalived 대신 단순 bash + systemd (단일 호스트 다중 NIC 시나리오엔 VRRP 부적합)
-- 페일오버 시 gratuitous ARP 로 스위치 ARP table 즉시 갱신, K3s 통신 무중단
-
 **외부 노출 — Cloudflare Tunnel**
 - 외부에 직접 노출되는 포트 없음. cloudflared 가 클러스터 내부로만 트래픽 중계
 - 15+ 외부 도메인 모두 lemuel.co.kr 산하 서브도메인
