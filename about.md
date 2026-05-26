@@ -83,7 +83,7 @@ permalink: /about/
 | **루이스** | i7-8565U / 16GB | worker | market-feed, orderbook-matcher (Rust), lqc-gateway (Go), dart-crawler |
 | **데이비드** | 6C / 16GB / 218GB SSD | worker (모니터링) | kube-prometheus-stack, Loki, lemuel-explorer |
 | **일원** | 12C / 14GB / 457GB NVMe + **4TB HDD** + **1TB SSD** | control-plane, etcd | postgres / storage 풀, ASAT, lowshopping, pharmacy |
-| **솔로몬** | 저전력 소형 노드, **floating VIP** | control-plane, etcd | backup 전용 + etcd quorum |
+| **솔로몬** | 저전력 소형 노드 | control-plane, etcd | backup 전용 + etcd quorum |
 
 총 ~40 vCPU / ~80GB RAM / 5.4TB+ 스토리지 (NVMe + HDD + SSD)
 
