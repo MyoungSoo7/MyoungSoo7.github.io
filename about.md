@@ -107,7 +107,7 @@ permalink: /about/
 - 마스터 추가 시 critical 설정 동기화 필수: `cluster-dns: 169.254.20.10` top-level + kubelet-arg 동시 일치
 
 **솔로몬 floating VIP** — 2014 Mac Mini WiFi 안정성
-- 3 WiFi NIC (내장 + AX900 + A3000UA), 30 줄 bash watchdog 가 활성 NIC 자동 결정
+- 3 WiFi NIC (내장 WiFi + USB 동글 2개), 30 줄 bash watchdog 가 활성 NIC 자동 결정
 - keepalived 대신 단순 bash + systemd (단일 호스트 다중 NIC 시나리오엔 VRRP 부적합)
 - 페일오버 시 gratuitous ARP 로 스위치 ARP table 즉시 갱신, K3s 통신 무중단
 
@@ -147,7 +147,6 @@ permalink: /about/
 K3s 마이그레이션 / HA 전환 / WiFi 안정화 / 스토리지 통합 / SB4 의존성 디버깅 — 네 편 postmortem:
 
 - [K3s 3-Master HA 마이그레이션 — SQLite → embedded etcd](/2026/05/12/k3s-3master-ha-sqlite-etcd-migration/)
-- [WiFi 3-NIC + bash watchdog 로 K3s 노드 floating VIP failover](/2026/05/12/solomon-wifi-3nic-vip-floating-failover/)
 - [K3s local-path-provisioner 에 4TB HDD 통합 — configmap 자동 복원 우회하기](/2026/05/12/k3s-local-path-storage-hdd-bind-mount/)
 - [Spring Boot 4 의존성 지옥 디버깅 후기 — Spring AI / SpringDoc / classpath leakage](/2026/05/12/spring-boot-4-dependency-hell-debugging/)
 
