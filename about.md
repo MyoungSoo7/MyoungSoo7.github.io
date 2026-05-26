@@ -98,11 +98,6 @@ permalink: /about/
 - keepalived 대신 단순 bash + systemd (단일 호스트 다중 NIC 시나리오엔 VRRP 부적합)
 - 페일오버 시 gratuitous ARP 로 스위치 ARP table 즉시 갱신, K3s 통신 무중단
 
-**일원 4TB HDD 스토리지 풀**
-- `bind mount`: `/mnt/hdd-4tb → /var/lib/rancher/k3s/storage`
-- K3s 매니지드 애드온이 ConfigMap 을 자동 복원하는 함정 우회 (데이터 평면을 건드리지 않고 디스크 표현만 변경)
-- SSD 1TB 추가 후 `storage-tier` 라벨 + `nodeSelector` 로 hot/cold 분리 작업 진행 중 — 진척은 [/progress/](/progress/) 참고
-
 **외부 노출 — Cloudflare Tunnel**
 - 외부에 직접 노출되는 포트 없음. cloudflared 가 클러스터 내부로만 트래픽 중계
 - 15+ 외부 도메인 모두 lemuel.co.kr 산하 서브도메인
