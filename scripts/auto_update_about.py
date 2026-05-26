@@ -65,26 +65,11 @@ def latest_pushes(limit: int = 5) -> list[dict]:
 def render_block() -> str:
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     repos = repo_count()
-    pushes = latest_pushes(5)
-
-    lines = [
+    return "\n".join([
         START_MARK,
         f"*Last auto-update: {today} (KST)* — public repos: **{repos}**",
-        "",
-        "#### 🔥 최근 푸시한 레포 5",
-        "",
-        "| 레포 | 언어 | 마지막 푸시 | 설명 |",
-        "|------|------|-------------|------|",
-    ]
-    for p in pushes:
-        desc = p["desc"].replace("|", "\\|")
-        lines.append(
-            f"| [{p['name']}]({p['url']}) | {p['lang']} | "
-            f"{p['pushed']} | {desc} |"
-        )
-    lines.append("")
-    lines.append(END_MARK)
-    return "\n".join(lines)
+        END_MARK,
+    ])
 
 
 def main() -> int:
