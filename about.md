@@ -92,7 +92,6 @@ permalink: /about/
 **3-master HA + embedded etcd** (2026-05-12 완료)
 - SQLite → embedded etcd 인플레이스 마이그레이션 (18 분 다운타임으로 30+ ArgoCD 앱 모두 보존)
 - RAFT 합의 (르무엘 / 일원 / 솔로몬 3 멤버 quorum), 1 노드 다운에도 control-plane 유지
-- 마스터 추가 시 critical 설정 동기화 필수: `cluster-dns: 169.254.20.10` top-level + kubelet-arg 동시 일치
 
 **솔로몬 floating VIP** — 2014 Mac Mini WiFi 안정성
 - 3 WiFi NIC (내장 WiFi + USB 동글 2개), 30 줄 bash watchdog 가 활성 NIC 자동 결정
