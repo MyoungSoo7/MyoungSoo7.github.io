@@ -47,6 +47,8 @@ permalink: /about/
 | **Auto Trading** | [stock.lemuel.co.kr](https://stock.lemuel.co.kr) | 자동 주식매매 (KIS API) | Spring Boot 4 + PostgreSQL |
 | **Crypto Trading** | [crypto.lemuel.co.kr](https://crypto.lemuel.co.kr) | 빗썸 암호화폐 자동매매 | Spring Boot 4 + Bithumb API |
 | **K8s Dashboard** | [k8s.lemuel.co.kr](https://k8s.lemuel.co.kr) | Kubernetes 클러스터 관리 | K3s + Dashboard v2.7 |
+| **Homelab Dashboard** | [k3s.lemuel.co.kr](https://k3s.lemuel.co.kr) | 자체 제작 K3s 운영 대시보드 (노드/Pod/SSH/Argo/SSE 라이브) | Spring Boot 3 + Thymeleaf + K8s Java client 24 + JSch |
+| **Burger Display Order** | [qr.lemuel.co.kr](https://qr.lemuel.co.kr) | 매장 키오스크 주문 디스플레이 (QR 결제) | React 18 + Vite + TossPayments + nginx |
 | **Grafana** | [grafana.lemuel.co.kr](https://grafana.lemuel.co.kr) | 서비스 모니터링 대시보드 | Grafana + Prometheus |
 
 #### 🏛️ 통합 정량 인프라 — [lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core)
