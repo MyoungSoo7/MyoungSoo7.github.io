@@ -26,7 +26,7 @@ permalink: /about/
 
 ### 운영 중인 시스템
 
-#### 🛒 도메인 사이트 (20+)
+#### 🛒 도메인 사이트 (22+)
 
 | 서비스 | URL | 설명 | 기술 |
 |--------|-----|------|------|
@@ -68,8 +68,6 @@ permalink: /about/
 | QuantTools.jl | Julia + JuMP | 르무엘 | Black-Scholes + Markowitz |
 | R 분석 6 | R + Quarto + Shiny | 르무엘 | GARCH/ARIMA/공적분/일간 리포트/대시보드 |
 | backtester / strategy-bot | Python + vectorbt | 르무엘 | 전략 백테스트 + 텔레그램 알림 |
-
-📜 [구축기 블로그 포스트](/2026/05/07/lemuel-quant-core-build/)
 
 > lemuel-academy(동영상 강의 플랫폼)는 진행 중인 작업이라 [/progress/](/progress/) 의 작업 로그로 이동했습니다.
 
