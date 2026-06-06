@@ -34,6 +34,8 @@ permalink: /about/
 | **ASAT** | [eln.lemuel.co.kr](https://eln.lemuel.co.kr) | 청각 재활 훈련 시스템 (K3s 5컴포넌트) | Spring Boot + Next.js + Postgres + Redis + MinIO |
 | **AI 검색** | [chat.lemuel.co.kr](https://chat.lemuel.co.kr) | AI 상품 검색 (RAG + Agent) | Spring AI + Gemini + pgvector |
 | **K-POP 굿즈** | [goods.lemuel.co.kr](https://goods.lemuel.co.kr) | 굿즈 뽑기 (해시 체인 투명성) | Spring Boot 4 + Toss Payments |
+| **물류 통합 관리** | [admin.lemuel.co.kr](https://admin.lemuel.co.kr) | OMS / WMS / LMS 3 MSA 통합 대시보드 | Next.js + Spring Boot 4 (logistic-oms / wms / lms) |
+| **lemuel-xr** | [xr.lemuel.co.kr](https://xr.lemuel.co.kr) | 성경 기반 감정 회복 + 서사 게임 (AI 풀스택) | Spring Boot 4 + Next.js + AI 사이드카 + PostgreSQL |
 | **패션 매칭** | [fashion.lemuel.co.kr](https://fashion.lemuel.co.kr) | 디자이너-의뢰인 매칭 + AI 프로필 | Spring Boot 4 + Next.js + AI |
 | **라이브커머스** | [live.lemuel.co.kr](https://live.lemuel.co.kr) | 실시간 방송 상품 판매 | Spring Boot 4 + React |
 | **SNS** | [sns.lemuel.co.kr](https://sns.lemuel.co.kr) | SNS 피드 (Kafka + SSE 실시간 알림) | Spring Boot 4 + Kafka |
