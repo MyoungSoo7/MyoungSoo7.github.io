@@ -17,7 +17,6 @@ paginate_path: "/page:num/"
 # 명시적 화이트리스트로 약속된 페이지만 보이게. Home 은 좌측 상단 사이트 제목이 그 역할.
 header_pages:
   - about.md
-  - progress.md
 markdown: kramdown
 kramdown:
   syntax_highlighter: rouge

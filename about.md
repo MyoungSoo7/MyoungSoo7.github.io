@@ -71,8 +71,6 @@ permalink: /about/
 | R 분석 6 | R + Quarto + Shiny | 르무엘 | GARCH/ARIMA/공적분/일간 리포트/대시보드 |
 | backtester / strategy-bot | Python + vectorbt | 르무엘 | 전략 백테스트 + 텔레그램 알림 |
 
-> lemuel-academy(동영상 강의 플랫폼)는 진행 중인 작업이라 [/progress/](/progress/) 의 작업 로그로 이동했습니다.
-
 ---
 
 ### 🏗️ 인프라 — 온프레미스 K3s 클러스터 (**6 노드**, 100% 자체호스팅)
