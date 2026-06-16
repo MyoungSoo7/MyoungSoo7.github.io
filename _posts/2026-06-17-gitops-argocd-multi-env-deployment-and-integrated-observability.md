@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "*GitOps(ArgoCD) 기반* *멀티 환경 배포 자동화* 와 *통합 관측 체계 구축* — *K3s 6 노드* *30+ 앱* *무중단 운영* 실전 정리"
+title: "*GitOps(ArgoCD) 기반* *멀티 환경 배포 자동화* 와 *통합 관측 체계 구축* — *K3s 5 노드 HA* *47 개 ArgoCD App* *무중단 운영* 실전 정리"
 date: 2026-06-17 01:30:00 +0900
 categories: [infrastructure, devops, gitops, observability]
 tags: [argocd, gitops, k3s, elk, prometheus, grafana, tempo, velero, sops, playwright, telegram, frp, helm]
@@ -10,7 +10,7 @@ tags: [argocd, gitops, k3s, elk, prometheus, grafana, tempo, velero, sops, playw
 >
 > *그러나 *무너지는 순간* 은 *코드가 *고장난 순간* 이 *아니다*. *대부분은 *배포 직후* 다. *그래서 *배포 파이프라인* 과 *관측 체계* 가 *같은 무게* 로 *설계* 되어야 한다.
 >
-> 이 글은 *온프레미스 K3s 6 노드 클러스터* 위에서 *30+ 개 애플리케이션* 을 *GitOps 단일 소스* 로 *무중단 배포 / 관측 / 백업 / 게이트* 하는 *5 개 축* 의 *실제 운영 설계* 를 정리한다.
+> 이 글은 *온프레미스 K3s 5 노드 HA 클러스터* (control-plane × 3 + worker × 2) 위에서 *47 개 ArgoCD Application (prod + staging 합산)* 을 *GitOps 단일 소스* 로 *무중단 배포 / 관측 / 백업 / 게이트* 하는 *5 개 축* 의 *실제 운영 설계* 를 정리한다.
 
 ---
 
@@ -298,15 +298,21 @@ route:
 
 ### 5.1 *K3s HA (etcd 3 voter) — *control-plane 1 대 죽어도 *클러스터 살아 있음*
 
-```
-6 노드 구성 (현 시점):
-  control-plane + etcd × 3   (lemuel / ilwon / solomon)
-  worker                × 2  (louise / david)
-  +1 노드                    (확장 / 백업 / GPU 등 워크로드별)
-```
+*실제 5 노드 토폴로지 (2026-06 시점)*:
+
+| 노드 | 역할 | IP | 비고 |
+|---|---|---|---|
+| *lemuel* | control-plane + etcd | 192.168.219.101 | 메인 마스터, SSH 2652 |
+| *ilwon* | control-plane + etcd | 192.168.219.110 | NVMe 1TB + 4TB HDD (storage tier) |
+| *solomon* | control-plane + etcd | 192.168.219.108 | Floating VIP (3-NIC failover), 백업 전용 |
+| *louise* | worker | 192.168.219.111 | 일반 워크로드 |
+| *david* | worker | 192.168.219.107 | 모니터링 전용 (Prometheus / Grafana / Loki) |
 
 - *etcd 3 voter quorum* — *2 대만 *살아 있으면* *클러스터 의사 결정 *계속 가능*
-- *VIP (solomon 192.168.219.108)* — *외부 진입점* *한 IP 가 *죽어도 *나머지로 *failover*
+- *Floating VIP* — solomon 의 *3-NIC failover* 로 *NIC 1 개 *죽어도 *VIP 유지*
+- *워크로드 분리* — david 는 *monitoring 전용 tier* 로 *labeled*, 운영 부하가 *관측 시스템 을 *압살하지 않도록*
+- *역사* — K3s v1.35.4+k3s1 / *SQLite → embedded etcd 마이그레이션 완료 (2026-05-12)*. SQLite 단일 마스터에서 *진짜 HA* 로 *전환한 큰 변곡점*
+- *마스터 추가 시 *반드시 동기화* — `/etc/rancher/k3s/config.yaml` 의 *top-level `cluster-dns`* 와 *`kubelet-arg.cluster-dns`* *둘 다 *같은 값 (169.254.20.10)*. 한쪽만 두면 *DNS 어긋남*
 
 ### 5.2 *NFS Storage — *공유 PV 의 *단순한 진리*
 
@@ -367,7 +373,108 @@ sops:
 
 ---
 
-## 6. *통합 아키텍처 — *5 개 축이 *어떻게 *겹치나*
+## 6. *운영 플레이북 — *내가 *매일 *클러스터 를 *움직이는 방법*
+
+### 6.1 *진입점 — *root-app 의 *App-of-Apps 패턴*
+
+```yaml
+# root-app.yaml — 클러스터의 *유일한 *수동 apply 대상*
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+spec:
+  source:
+    repoURL: https://github.com/MyoungSoo7/helm-deploy
+    targetRevision: master
+    path: argocd-applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+- *root-app 자체 만* `kubectl apply -f root-app.yaml` *수동 1 회*
+- 그 후로는 *root-app 이 *argocd-applications/ 디렉터리 의 *모든 Application CR* 을 *자동 sync*
+- *prune: true* — Git 에서 *파일을 *지우면 *클러스터에서도 *제거*
+- *selfHeal: true* — *수동 `kubectl edit` drift* 가 *발생하면 *Git 상태로 *되돌림*
+
+### 6.2 *새 앱 추가 — *4 단계 *고정 절차*
+
+```bash
+# 1. 차트 작성
+mkdir -p charts/myapp/templates
+$EDITOR charts/myapp/Chart.yaml charts/myapp/values.yaml charts/myapp/values-prod.yaml
+
+# 2. Application CR 추가 (기존 academy-prod.yaml 패턴 복사)
+cp argocd-applications/academy-prod.yaml argocd-applications/myapp-prod.yaml
+$EDITOR argocd-applications/myapp-prod.yaml   # path, namespace 만 바꿈
+
+# 3. 시크릿 (필요 시)
+$EDITOR /tmp/myapp-secret.yaml                 # 평문 작성
+sops --encrypt --in-place /tmp/myapp-secret.yaml
+mv /tmp/myapp-secret.yaml secrets/myapp-secret.sops.yaml
+
+# 4. push — ArgoCD 가 알아서 sync
+git add . && git commit -m "feat(myapp): add app" && git push
+```
+
+→ *수동으로 `kubectl apply` 하는 일이 *없다*. 모든 *클러스터 변경 = git push*.
+
+### 6.3 *앱 폐기 — *git rm 한 줄*
+
+```bash
+git rm argocd-applications/myapp-prod.yaml
+git commit -m "chore(myapp): retire" && git push
+# root-app 의 prune: true 가 cascade 로 namespace · PVC · Service 모두 정리
+```
+
+### 6.4 *시크릿 수정 — *SOPS 의 마법*
+
+```bash
+sops secrets/settlement-postgres.sops.yaml
+# → 에디터 가 *평문으로 *열리고*
+# → 저장 시 *자동으로 *다시 *암호화*
+git add -u && git commit -m "chore(secrets): rotate settlement-postgres" && git push
+```
+
+- *Git 에는 *항상 *암호화된 상태 만 *commit*
+- *복호화 키 (age private key)* 는 *클러스터 의 *SOPS-Operator 만 *보유* — *Git 에는 *없음*
+
+### 6.5 *수동 디버깅 — *마스터에서 `sudo kubectl`*
+
+```bash
+# lemuel 마스터에 SSH
+ssh -p 2652 lemuel
+sudo kubectl get pods -A | grep -v Running
+sudo kubectl logs -n settlement-prod deploy/order-service --tail=200
+sudo kubectl describe pod -n settlement-prod order-service-xxx
+```
+
+- `/etc/rancher/k3s/k3s.yaml` 권한 때문에 *`sudo` 필수*
+- *수동 변경은 *금지* — `selfHeal: true` 가 *Git 으로 되돌림*
+
+### 6.6 *ArgoCD UI — *육안 모니터링*
+
+- `argocd.example.com` — *외부 frp 로 노출*
+- *47 개 Application 의 *Health × Sync* 매트릭스 *한 화면*
+- *Out-of-sync 노랑 / Degraded 빨강* 이 *알람보다 *먼저 *보일 때가 많다*
+
+### 6.7 *내 *하루 *운영 패턴*
+
+| 시간 | 행동 |
+|---|---|
+| 아침 | ArgoCD UI / Grafana 대시보드 / Telegram 알림 history *5 분 스캔* |
+| 작업 시 | helm-deploy 의 *PR 로 변경* (직접 push 도 가능 하지만 *PR 권장*) |
+| 알림 시 | Telegram → Kibana / Grafana 점프 → *근본 원인 까지 *5 분 내 도달* 목표 |
+| 주간 | *false positive 알림 통계* 리뷰 → 룰 조정 PR |
+| 분기 | *Velero restore + pg_dump 복원* *staging 검증* |
+
+→ *"하지 않는 일"* 이 *명확*: *kubectl apply 수동 / kubectl edit 직접 변경 / 평문 시크릿 commit / 클러스터에서 *수동 helm install*.
+
+---
+
+## 7. *통합 아키텍처 — *5 개 축이 *어떻게 *겹치나*
 
 ```
 [Developer commits code]
@@ -400,21 +507,21 @@ sops:
 
 ---
 
-## 7. *운영 경험에서 얻은 *3 가지 교훈*
+## 8. *운영 경험에서 얻은 *3 가지 교훈*
 
-### 7.1 *"Healthy 가 *Healthy 가 *아니다"*
+### 8.1 *"Healthy 가 *Healthy 가 *아니다"*
 
 > *ArgoCD 가 *Healthy* 라고 말해도 *외부 사용자 가 *못 보면* *그것은 *Unhealthy* 다.
 
 - *내부 신호* (`kube_pod_status_ready`, `argocd app health`) 와 *외부 신호* (Uptime Kuma 의 *body keyword*) 를 *둘 다 *측정*
 - *둘이 *동시에 *green 일 때만 *진짜 *healthy*
 
-### 7.2 *"백업은 *복원해 본 적 없으면 *백업이 아니다"*
+### 8.2 *"백업은 *복원해 본 적 없으면 *백업이 아니다"*
 
 - 분기별 *staging 클러스터에 *Velero restore + pg_dump 복원* *수동 검증*
 - *RTO 측정 결과* 를 *Grafana 에 *수치로 *남긴다* — *팀이 *기대치를 *공유*
 
-### 7.3 *"알림은 *시끄러우면 *읽히지 않는다"*
+### 8.3 *"알림은 *시끄러우면 *읽히지 않는다"*
 
 - *severity 별 채널 분리* — *infra-critical / deploy / cronjob-fail*
 - *분기별 *false positive 비율 리뷰* — *> 30% 룰은 *조정 또는 *삭제*
@@ -422,7 +529,7 @@ sops:
 
 ---
 
-## 8. *결론 — *GitOps + 통합 관측 의 *진짜 가치*
+## 9. *결론 — *GitOps + 통합 관측 의 *진짜 가치*
 
 > *코드를 짜는 것은 *쉽다*. *그 코드 가 *production 에서 *영원히 *돌게 하는 것* 이 *어렵다*.
 
