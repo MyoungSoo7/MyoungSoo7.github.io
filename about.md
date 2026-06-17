@@ -6,7 +6,7 @@ permalink: /about/
 
 ## 푸른영혼의 별 | Java Backend Engineer
 
-공공·이커머스 환경에서 운영 중인 시스템의 *안정성* 과 *변경 비용* 을 기준으로 구조를 설계해온 백엔드 엔지니어. 7년차.
+공공·이커머스 환경에서 운영 중인 시스템의 *안정성* 과 *변경 비용* 을 기준으로 구조를 설계해온 백엔드 엔지니어. 9년차.
 
 ### 기술 스택
 - **Backend**: Java 25, Kotlin 2.0, Spring Boot 4, JPA/Hibernate, Kafka, Elasticsearch, gRPC

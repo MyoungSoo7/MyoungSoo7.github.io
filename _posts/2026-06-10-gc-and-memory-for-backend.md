@@ -389,10 +389,10 @@ JFR 의 *Allocation events*
 2. **heap 크기 + GC 알고리즘 *2 개* 만 잘 잡아도 *80% 해결*** — 미시 옵션 *대부분 불필요*.
 3. **메모리 누수의 *상위 패턴 5* 만 *체크 list* 로 *항상 점검*** — ThreadLocal / static Collection / Listener / Inner class / unbounded cache.
 
-이 *3 줄* 을 *7년차 *까지 따라가면* — *GC 가 *시스템 운영의 *친구* 가 *된다*. *적이 아니다*.
+이 *3 줄* 을 *9년차 *까지 따라가면* — *GC 가 *시스템 운영의 *친구* 가 *된다*. *적이 아니다*.
 
 다음 글 — *Direct Buffer 와 Off-Heap Memory* — Netty / Kafka 등 *큰 시스템 의 *숨겨진 *메모리 *함정*. 시리즈로 이어집니다.
 
 ---
 
-> 본 글은 *7년차 백엔드 운영 회고*. *JVM 중심* 이지만 *Go / Node.js / Python* 의 GC 도 *원리 유사*. *세대 가설 + STW + Allocation rate* 의 *3 가지 개념* 만 *몸에 익히면* 다른 언어도 *빠르게 *적응*.
+> 본 글은 *9년차 백엔드 운영 회고*. *JVM 중심* 이지만 *Go / Node.js / Python* 의 GC 도 *원리 유사*. *세대 가설 + STW + Allocation rate* 의 *3 가지 개념* 만 *몸에 익히면* 다른 언어도 *빠르게 *적응*.

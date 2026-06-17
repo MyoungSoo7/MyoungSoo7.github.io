@@ -549,7 +549,7 @@ RestClient client = RestClient.builder()
 
 *100+ 페이지 분석 자료 작성*. *Decorator + Chain + Strategy + Adapter 의 *조합 이 *눈 에 보이기 시작*.
 
-### *7 년차* — *Spring 의 *모든 핵심 기능 의 *패턴 적 *해석 가능*
+### *9 년차* — *Spring 의 *모든 핵심 기능 의 *패턴 적 *해석 가능*
 
 *신규 서비스 설계 시 — *Spring 의 *어느 패턴 응용* 인지 *직 관*. *코드 작성 *속도 ↑* + *유지 보수 *부담 ↓*.
 
@@ -567,7 +567,7 @@ RestClient client = RestClient.builder()
 2. ***Filter / Interceptor / HandlerAdapter 의 *역할 분담 *을 *패턴 으로 *읽기***.
 3. ***Spring 코드 안 의 *패턴 의 *조합 의 *직 관* 이 *시니어 의 *능력***.
 
-7년차 회고 :
+9년차 회고 :
 
 > *"학부 시절 *패턴 책 *외우려 했다*. *7년 후 *Spring 의 *코드 만 *읽 어도 *패턴 이 *드러 남* 을 *몸 으로 *느낀다*."*
 
@@ -575,4 +575,4 @@ RestClient client = RestClient.builder()
 
 ---
 
-> 본 글은 *7년차 백엔드 / Spring 운영 회고*. *Spring 5/6 기준*. *세부 구현 은 *버전* 마다 *변할 수 있음*. *원리 + 패턴 매핑* 은 *오래 가는 지식*.
+> 본 글은 *9년차 백엔드 / Spring 운영 회고*. *Spring 5/6 기준*. *세부 구현 은 *버전* 마다 *변할 수 있음*. *원리 + 패턴 매핑* 은 *오래 가는 지식*.

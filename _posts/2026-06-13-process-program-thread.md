@@ -421,7 +421,7 @@ Thread 2 : 읽으면 *옛 값 보일 수 있음*
 2. ***Multi-Thread 와 Multi-Process 는 *trade-off — *공유 vs 격리***.
 3. ***적정 동시성 = CPU × 2 (CPU bound), CPU × 10~100 (I/O bound)*** — *과한 thread 는 *오히려 *느림*.
 
-7년차 회고 :
+9년차 회고 :
 
 > *"학부 시절 *OS 가 *지루* 했다. *7년 후 *Tomcat 의 *thread pool 튜닝* 의 *결정 적 *순간* 에 *그때 의 *기초가 *되돌아 온다*."*
 
@@ -429,4 +429,4 @@ Thread 2 : 읽으면 *옛 값 보일 수 있음*
 
 ---
 
-> 본 글은 *7년차 백엔드 *운영 회고*. *OS 의 *원리* 는 *언어 / 프레임워크 무관*. *Linux 의 *task_struct, *Windows 의 *thread 객체* 등 *세부 구현* 은 *다를 수 있다*.
+> 본 글은 *9년차 백엔드 *운영 회고*. *OS 의 *원리* 는 *언어 / 프레임워크 무관*. *Linux 의 *task_struct, *Windows 의 *thread 객체* 등 *세부 구현* 은 *다를 수 있다*.
