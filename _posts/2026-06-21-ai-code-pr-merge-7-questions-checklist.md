@@ -6,6 +6,9 @@ categories: [ai, code-review, software-engineering, senior-engineer]
 tags: [ai-coding, code-review, pr-review, vibe-coding, defensive-programming, senior-engineer, claude-code, copilot, secure-coding]
 ---
 
+![AI 코드 PR 머지하기 전, 7 가지 질문](/assets/images/ai-pr-7-questions.jpg)
+*AI 가 만든 코드의 PR 머지 전 던져야 할 7 가지 질문 — 신뢰할 수 없는 입력 / 동시 요청 / 경계값 / 외부 의존 다운 / 100만 건 데이터 / 도메인 규칙 / 로그·알람. **Rule of thumb**: "이게 운영에서 죽을 수 있는 5 가지 시나리오는?" — 머지 전 항상.*
+
 > *"AI 가 *이 코드 짜 줬어요. *돌아가는 것 같아요. *머지 해도 될까요?"* — 2026 년 *팀 PR 의 가장 흔한 대화*.
 >
 > *돌아가는 것 같음* 과 *production 에서 *살아남음* 사이 의 *거리* 는 *AI 가 *알려주지 않는다*. *AI 는 *기쁜 경로 (happy path)* 의 *코드 를 *기쁘게 *생성* 하고 — *경계값 / 동시성 / 외부 의존 / 도메인 규칙 / 관측성* 의 *어두운 골목* 은 *명시적 으로 묻지 않으면* *대부분 *비어 있다*.

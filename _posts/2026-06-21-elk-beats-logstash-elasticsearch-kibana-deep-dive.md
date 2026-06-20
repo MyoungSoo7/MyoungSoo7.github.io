@@ -6,6 +6,9 @@ categories: [observability, logging, infrastructure, devops]
 tags: [elk, elasticsearch, logstash, kibana, beats, filebeat, metricbeat, loki, logging, log-aggregation, ilm]
 ---
 
+![Beats + ELK — 경량 수집기 추가 (운영 표준)](/assets/images/elk-beats-pipeline.jpg)
+*서비스/앱 → **Filebeat** (경량 수집) → **Logstash** (파싱·변환) → **Elasticsearch** (색인·검색) → **Kibana** (시각화). 이 4 단계 의 *각자 책임 분리* 가 production 로깅 의 진짜 그림.*
+
 > *"로그 가 *서버 마다 *각자 흩어져 있다"* — 노드 5 개 까지 는 *`ssh + tail -f`* 로 버틸 수 있다. *50 개 부터* 그 방법 은 *물리적으로 불가능* 해진다.
 >
 > *2010 년대 초* *Elasticsearch 와 *Logstash 와 *Kibana* 가 *각자 다른 회사 / 다른 시점 에 출현* 한 후 *Elastic NV 가 *세 개를 묶어 *ELK Stack* 으로 통합* 했다. *그 후 *Beats* 가 *경량 수집기 로 추가* 되어 *오늘 의 *production 표준* 이 *되었다*. *Filebeat → Logstash → Elasticsearch → Kibana* — 이 *4 단계 가 *각자 책임 을 *나눠서 *대규모 로깅 의 *공통 어휘 가 되었다*.

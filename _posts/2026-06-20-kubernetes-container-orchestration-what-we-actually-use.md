@@ -6,6 +6,9 @@ categories: [kubernetes, infrastructure, container-orchestration, devops]
 tags: [kubernetes, container-orchestration, k3s, docker-swarm, mesos, marathon, nomad, rancher, deis, scheduling, hpa, podantiaffinity]
 ---
 
+![컨테이너 오케스트레이션 후보 — DEIS / Rancher / Mesos+Marathon / Nomad / Docker Swarm](/assets/images/container-orchestration-landscape.jpg)
+*컨테이너 오케스트레이션 전쟁 (2014~2018) 의 5 후보 — 그리고 살아남은 K8s. 이 글은 그 *전쟁사* 와 *우리가 실제로 쓰는 K8s 의 기능* 을 다룬다.*
+
 > *"쿠버네티스 가 *컨테이너 오케스트레이션* 의 *표준 이다"* — 이 한 줄 은 *2018 년 부터 *반복 되어 진실 처럼 들리지만*, *그 표준화 이전 에 *5 ~ 6 개 의 *다른 후보* 가 *각자 *진지 한 시도* 를 했다는 사실 은 *기억 에서 지워진다*.
 >
 > *DEIS, Rancher, Mesos + Marathon, HashiCorp Nomad, Docker Swarm* — *2014 ~ 2018 사이* 의 *오케스트레이션 전쟁* 의 *주요 참전자* 다. *각자 *고유한 철학* 과 *기술적 강점* 을 가지고 있었다. *왜 *Kubernetes 가 살아남았나*, *그들이 *틀린 길* 이었나, *살아남은 K8s 의 *어떤 기능* 이 *우리 가 *실제로 *쓰고 있는 것* 인가 — *이 글 은 그 *세 질문* 에 *답한다*.
