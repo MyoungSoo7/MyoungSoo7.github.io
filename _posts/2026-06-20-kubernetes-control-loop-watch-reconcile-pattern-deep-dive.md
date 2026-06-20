@@ -12,25 +12,9 @@ tags: [kubernetes, control-loop, watch, reconcile, scheduler, kubelet, etcd, inf
 
 이 그림 한 장 :
 
-```
-Cluster:
-  [echo Pod 1개]
+![kubectl run 한 줄 — Scheduler 루프 + Kubelet 루프 의 5 단계 시퀀스 다이어그램](/assets/images/k8s-control-loop-scheduler-kubelet.jpg)
 
-kubectl run ──► API Server
-                   ▲ ▲
-                   │ │  ┌─[loop 1 — Scheduler]──────┐
-                   │ ◄──┤ 1. 할당 안 된 Pod 감시       │
-                   │ ◄──┤ 2. Pod 를 노드에 할당        │
-                   │    └─────────────────────────┘
-                   │
-                   │    ┌─[loop 2 — Kubelet]────────┐
-                   ◄────┤ 3. 노드에 할당된 Pod 감시    │
-                        │ 4. ── 컨테이너 생성 ──► Container │
-                        │ 5. Pod 상태 전달 ──►       │
-                        └─────────────────────────┘
-```
-
-위 다이어그램 의 *진짜 의미* 는 *Kubernetes 의 *전체 아키텍처 철학* * 이다. *오늘 의 글* 은 *이 두 루프* 를 *현미경 으로 들여다 보고*, *그게 왜 *마이크로서비스 + 분산 시스템* 의 *교과서* 인지* 풀어본다.
+*위 시퀀스* 의 *진짜 의미* 는 *Kubernetes 의 *전체 아키텍처 철학* * 이다. *오늘 의 글* 은 *이 두 루프* 를 *현미경 으로 들여다 보고*, *그게 왜 *마이크로서비스 + 분산 시스템* 의 *교과서* 인지* 풀어본다.
 
 ---
 
@@ -139,10 +123,19 @@ Body: {"status":{"phase":"Running","containerStatuses":[...]}}
 
 ### 2.1 *Push 기반 의 *전통 모델***
 
-```
-[Orchestrator] ──HTTP POST──► [Worker]
-              ──HTTP POST──► [Worker]
-              ──HTTP POST──► [Worker]
+```mermaid
+flowchart LR
+    O[Orchestrator<br/>중앙 명령자]
+    W1[Worker 1]
+    W2[Worker 2]
+    W3[Worker 3]
+    O -->|HTTP POST<br/>"이거 해"| W1
+    O -->|HTTP POST<br/>"이거 해"| W2
+    O -->|HTTP POST<br/>"이거 해"| W3
+    classDef boss fill:#5f1e1e,stroke:#ef4444,color:#fff
+    classDef worker fill:#1e3a5f,stroke:#3b82f6,color:#fff
+    class O boss
+    class W1,W2,W3 worker
 ```
 
 *문제* :
@@ -153,11 +146,31 @@ Body: {"status":{"phase":"Running","containerStatuses":[...]}}
 
 ### 2.2 *Pull (Watch) 기반 의 *Kubernetes 모델***
 
-```
-[API Server + etcd]  ◄── watch ──  [Scheduler]
-                     ◄── watch ──  [Kubelet]
-                     ◄── watch ──  [Controller A]
-                     ◄── watch ──  [Controller B]
+```mermaid
+flowchart LR
+    E[(etcd<br/>공유 칠판)]
+    A[API Server<br/>칠판 관리인]
+    S[Scheduler]
+    K[Kubelet]
+    C1[Controller A<br/>Deployment]
+    C2[Controller B<br/>ReplicaSet]
+
+    E <--> A
+    A -.watch.-> S
+    A -.watch.-> K
+    A -.watch.-> C1
+    A -.watch.-> C2
+    S -.write.-> A
+    K -.status.-> A
+    C1 -.write.-> A
+    C2 -.write.-> A
+
+    classDef store fill:#3f1e3f,stroke:#a855f7,color:#fff
+    classDef api fill:#3f2f1f,stroke:#f59e0b,color:#fff
+    classDef ctrl fill:#1f3f1f,stroke:#22c55e,color:#fff
+    class E store
+    class A api
+    class S,K,C1,C2 ctrl
 ```
 
 *특성* :
@@ -186,12 +199,26 @@ Body: {"status":{"phase":"Running","containerStatuses":[...]}}
 
 각 컨트롤러 (Scheduler 포함) 는 *client-go 라이브러리* 의 *Informer* 를 사용. 내부 구조 :
 
-```
-[API Server] ──watch──► [Reflector] ──► [Delta FIFO] ──► [Local Cache]
-                                                              │
-                                                              ▼
-                                                       [Event Handlers]
-                                                       (OnAdd/OnUpdate/OnDelete)
+```mermaid
+flowchart LR
+    AS[API Server] -->|"List<br/>(시작 시 1회)"| R[Reflector]
+    AS -->|"Watch<br/>(증분 events)"| R
+    R --> DF[Delta FIFO<br/>변경 큐]
+    DF --> LC[(Local Cache<br/>최신 스냅샷)]
+    DF --> EH[Event Handlers<br/>OnAdd / OnUpdate / OnDelete]
+    EH --> WQ[Workqueue<br/>namespace/name key]
+    WQ --> RC[Reconcile<br/>desired vs current<br/>멱등]
+    RC -.조회.-> LC
+    RC -.수정.-> AS
+
+    classDef api fill:#3f2f1f,stroke:#f59e0b,color:#fff
+    classDef internal fill:#1e3a5f,stroke:#3b82f6,color:#fff
+    classDef cache fill:#3f1e3f,stroke:#a855f7,color:#fff
+    classDef reconcile fill:#1f3f1f,stroke:#22c55e,color:#fff
+    class AS api
+    class R,DF,EH,WQ internal
+    class LC cache
+    class RC reconcile
 ```
 
 작동 :
@@ -238,14 +265,28 @@ func (c *Controller) reconcile(key string) error {
 
 *그 동안 의 *내부* :
 
+```mermaid
+flowchart TD
+    S[Pod: ImagePullBackOff<br/>spec.image=ghcr.io/...] --> R[Kubelet Reconcile]
+    R --> P{Image Pull 시도}
+    P -->|401 UNAUTHORIZED| F[실패 → status 업데이트]
+    F --> B[Exponential Backoff<br/>10s → 20s → 40s → ... → 5min]
+    B --> R
+    R -.15시간 후 사람 개입.-> U[PAT 갱신<br/>Secret rotation]
+    U --> P
+    P -->|200 OK| OK[Container Started<br/>Pod Running]
+
+    classDef fail fill:#5f1e1e,stroke:#ef4444,color:#fff
+    classDef loop fill:#3f2f1f,stroke:#f59e0b,color:#fff
+    classDef success fill:#1f3f1f,stroke:#22c55e,color:#fff
+    classDef human fill:#1e3a5f,stroke:#3b82f6,color:#fff
+    class S,F fail
+    class R,P,B loop
+    class OK success
+    class U human
 ```
-Kubelet 의 *reconcile 루프 가 *15 시간 동안 *4,053 번* 시도 :
-  → Image pull
-  → ghcr.io 가 *401 UNAUTHORIZED*
-  → Container 시작 실패
-  → 다음 *backoff (10s, 20s, 40s, ...) *기다림*
-  → 다시 reconcile
-```
+
+*15 시간 *4,053 번* 시도*. *명령 받지 않은 상태 에서 *알아서 *재시도*. *내가 *PAT 만 갱신* 하면 — *명령 없이 도 *알아서 *성공*.
 
 *이게 *Kubernetes 의 *위대함*. *명령 받지 않은 상태 에서 *15 시간 *알아서 *재시도*. *그리고 *내가 *PAT 만 갱신* 하면 — *명령 없이 도 *알아서 *성공* *.
 
