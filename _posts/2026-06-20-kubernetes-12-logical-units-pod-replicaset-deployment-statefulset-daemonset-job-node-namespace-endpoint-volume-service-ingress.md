@@ -6,6 +6,9 @@ categories: [infrastructure, kubernetes, devops]
 tags: [k8s, kubernetes, pod, replicaset, deployment, statefulset, daemonset, job, node, namespace, endpoint, volume, service, ingress, logical-units]
 ---
 
+![쿠버네티스 의 논리적 단위 — Pod / ReplicaSet / Deployment / StatefulSet / DaemonSet / Job / Node / Namespace / Endpoint / Volume / Service / Ingress](/assets/images/k8s-12-logical-units.jpg)
+*쿠버네티스 의 *논리적 단위* — 좌측 *워크로드 계열 (Pod / ReplicaSet / Deployment / StatefulSet / DaemonSet / Job)*, 우측 *컨텍스트 계열 (Node / Namespace / Endpoint / Volume / Service / Ingress)*. 이 12 개 가 *어떻게 *서로 참조* 하고 *어느 축* 에 *속하는지* 를 *분해* 한다.*
+
 > *"쿠버네티스 *오브젝트 *너무 *많다"* 라고 *말하는 사람과 *"12 개 *논리 단위 가 *각자 *맡은 책임* 이 있다"* 라고 *말하는 사람은 *kubectl get 결과* 를 *완전히 *다르게 *읽는다*.
 >
 > 쿠버네티스는 *YAML 한 장 만 *보면 *컨테이너 *오케스트레이션* 이지만, *그 한 장 이 *살아 있게 하는 *논리 단위* 를 *세어 보면 *12 개* 다. 이 12 개 가 *워크로드 / 노드 / 네트워크 / 스토리지 / 격리* 라는 *5 가지 *축* 으로 *나뉘어* 서로를 *참조* 한다.
