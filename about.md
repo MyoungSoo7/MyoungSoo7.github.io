@@ -22,13 +22,15 @@ permalink: /about/
 
 ### 운영 중인 시스템
 
-#### 🛒 도메인 사이트 (22+)
+#### 🛒 포트폴리오 / 도메인 사이트
 
 | 서비스 | URL | 설명 | 기술 |
 |--------|-----|------|------|
 | **Settlement MSA** | [jen.lemuel.co.kr](https://jen.lemuel.co.kr) | 이커머스 정산 플랫폼 (4모듈 MSA, **HA 3 replica**) | Spring Boot 4 + Kafka + ES |
 | **ASAT** | [eln.lemuel.co.kr](https://eln.lemuel.co.kr) | 청각 재활 훈련 시스템 (K3s 5컴포넌트) | Spring Boot + Next.js + Postgres + Redis + MinIO |
 | **Sparta MSA (AI 검색)** | [chat.lemuel.co.kr](https://chat.lemuel.co.kr) | Spring Cloud Gateway + AI 챗봇 (**HA 3 replica**) | Spring AI + Gemini + pgvector |
+| **Academy (교육 플랫폼)** | [academy.lemuel.co.kr](https://academy.lemuel.co.kr) | 동영상 강의 + 학습 관리 (HLS, ffmpeg, R2) | Spring Boot Kotlin MSA + Next.js + ffmpeg + R2 |
+| **lemuel-xr** | [xr.lemuel.co.kr](https://xr.lemuel.co.kr) | XR / 묵상 가이드 (트랙 B 인물 미션) | Spring Boot + Next.js + PostgreSQL + pgvector |
 | **K-POP 굿즈** | [goods.lemuel.co.kr](https://goods.lemuel.co.kr) | 굿즈 뽑기 (*데모 — 익명 가챠 모드*) | Spring Boot 4 + Next.js 16 |
 | **패션 매칭** | [fashion.lemuel.co.kr](https://fashion.lemuel.co.kr) | 디자이너-의뢰인 매칭 + AI 프로필 | Spring Boot 4 + Next.js + AI |
 | **라이브커머스** | [live.lemuel.co.kr](https://live.lemuel.co.kr) | 실시간 방송 상품 판매 | Spring Boot 4 + React |
@@ -42,12 +44,43 @@ permalink: /about/
 | **Media Search** | [media.lemuel.co.kr](https://media.lemuel.co.kr) | 무료 이미지/동영상 검색 | Spring Boot 4 + Pexels API |
 | **Auto Trading** | [stock.lemuel.co.kr](https://stock.lemuel.co.kr) | 자동 주식매매 (KIS API) | Spring Boot 4 + PostgreSQL |
 | **Crypto Trading** | [crypto.lemuel.co.kr](https://crypto.lemuel.co.kr) | 빗썸 암호화폐 자동매매 | Spring Boot 4 + Bithumb API |
+| **DART 공시** | [dart.lemuel.co.kr](https://dart.lemuel.co.kr) | 공시 공시 추적 + NER 감성분석 | Spring Boot + C++ crawler + KR-FinBERT |
+| **Cost / Pilgrim / Report / Serverless / Data / Grid** | (도메인 별) | 다양한 포트폴리오 백엔드 (Spring Boot 4 + PostgreSQL) |
+| **Burger Display Order** | [qr.lemuel.co.kr](https://qr.lemuel.co.kr) | 매장 키오스크 주문 디스플레이 (QR 결제) | React 18 + Vite + TossPayments + nginx |
+| **Ghost CMS Blog** | [blog.lemuel.co.kr](https://blog.lemuel.co.kr) | 일반 글 / 본질 / 회고 (Admin API 자동 게시) | Ghost 5.130 + SQLite |
+
+#### 🚚 물류 / 미들오피스
+
+| 서비스 | URL | 설명 | 기술 |
+|--------|-----|------|------|
+| **LMS (물류 관리)** | [lms.lemuel.co.kr](https://lms.lemuel.co.kr) | 물류 운영 / 배송 관리 시스템 | Spring Boot Kotlin + PostgreSQL |
+| **OMS (주문 관리)** | [oms.lemuel.co.kr](https://oms.lemuel.co.kr) | 통합 주문 관리 | Spring Boot Kotlin + Kafka |
+| **WMS (창고 관리)** | [wms.lemuel.co.kr](https://wms.lemuel.co.kr) | 창고 / 재고 / 입출고 관리 | Spring Boot Kotlin + PostgreSQL |
+| **Logistic Admin / Robot** | (내부) | 물류 어드민 + 로봇 콘솔 (event/route/task/monitoring) | Spring Boot + MQTT + Kafka |
+| **Logistics 통합 대시보드** | (내부) | 7 마이크로서비스 통합 모니터링 | Spring Boot + Grafana |
+
+#### 🛠 셀프호스팅 / 개인 productivity (2026-06-21 추가)
+
+| 서비스 | URL | 설명 | 비고 |
+|--------|-----|------|------|
+| **Vaultwarden** | [vault.lemuel.co.kr](https://vault.lemuel.co.kr) | Bitwarden 호환 비밀번호 매니저 | 자체 차트, SOPS+age, ADMIN_TOKEN 보호 |
+| **Memos** | [memo.lemuel.co.kr](https://memo.lemuel.co.kr) | Twitter-like 개인 마이크로블로그 | 시니어 의 생각 흐름 일지 |
+| **Linkding** | [links.lemuel.co.kr](https://links.lemuel.co.kr) | 셀프호스팅 북마크 매니저 | Ghost 와 짝 — 블로그 자료 모음 |
+| **SearXNG** | [search.lemuel.co.kr](https://search.lemuel.co.kr) | 프라이버시 메타 검색 엔진 | Valkey sidecar, secret_key SOPS |
+| **Immich** | [photos.lemuel.co.kr](https://photos.lemuel.co.kr) | Google Photos 대체 (AI 얼굴 인식 + 자동 백업) | postgres+pgvector + Redis + ML (4 component 자체 차트) |
+| **Uptime Kuma** | (내부) | 외부 가용성 모니터 | Self-host status page |
+
+#### 🔧 인프라 / 운영
+
+| 서비스 | URL | 설명 | 기술 |
+|--------|-----|------|------|
 | **K8s Dashboard** | [k8s.lemuel.co.kr](https://k8s.lemuel.co.kr) | Kubernetes 클러스터 관리 | K3s + Dashboard v2.7 |
 | **Homelab Dashboard** | [k3s.lemuel.co.kr](https://k3s.lemuel.co.kr) | 자체 제작 K3s 운영 대시보드 | Spring Boot 3 + Thymeleaf + K8s Java client 24 + JSch |
-| **frp Self-Hosted Tunnel** | [frp.lemuel.co.kr](https://frp.lemuel.co.kr) | Cloudflare Tunnel 의 *self-host 카운터파트* (2026-06-08 신규) | Fast Reverse Proxy + Helm + ArgoCD |
-| **Ghost CMS Blog** | [blog.lemuel.co.kr](https://blog.lemuel.co.kr) | 일반 글 / 본질 / 회고 (Admin API 자동 게시) | Ghost 5.130 + SQLite |
-| **Burger Display Order** | [qr.lemuel.co.kr](https://qr.lemuel.co.kr) | 매장 키오스크 주문 디스플레이 (QR 결제) | React 18 + Vite + TossPayments + nginx |
+| **frp Self-Hosted Tunnel** | [frp.lemuel.co.kr](https://frp.lemuel.co.kr) | Cloudflare Tunnel 의 *self-host 카운터파트* | Fast Reverse Proxy + Helm + ArgoCD |
 | **Grafana** | [grafana.lemuel.co.kr](https://grafana.lemuel.co.kr) | 서비스 모니터링 대시보드 | Grafana + Prometheus |
+| **Landing** | [lemuel.co.kr](https://lemuel.co.kr) | 도메인 메인 / 포트폴리오 랜딩 | static + Cloudflare |
+
+**총 33+ 도메인** — 모두 6 노드 K3s 클러스터 + Cloudflare Tunnel 의 *단일 외부 진입점* 으로 운영. ArgoCD App-of-Apps + SOPS+age (시크릿) + Velero (백업, daily/hourly + R2) + Prometheus/Grafana/Loki (관측).
 
 #### 🏛️ 통합 정량 인프라 — [lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core)
 
