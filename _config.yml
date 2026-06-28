@@ -3,6 +3,12 @@ description: "Java Backend Engineer의 기술 블로그"
 url: "https://MyoungSoo7.github.io"
 baseurl: ""
 theme: minima
+
+# timezone: 미설정 시 Jekyll / GitHub Pages 가 UTC 로 처리 →
+# KST 새벽 시간 (예: 2026-06-26 02:30 KST) 의 글이 *2026-06-25 17:30 UTC*
+# 로 변환 → blog index 가 *전날 날짜* 로 잘못 표시 (2026-06-29 발견).
+# Asia/Seoul 명시 로 frontmatter 의 +0900 시간 그대로 표시.
+timezone: Asia/Seoul
 author:
   name: "푸른영혼의 별"
   email: "iamipro@naver.com"
