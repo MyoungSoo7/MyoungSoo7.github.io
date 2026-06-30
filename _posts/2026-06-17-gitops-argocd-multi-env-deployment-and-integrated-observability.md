@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "*GitOps(ArgoCD) 기반* *멀티 환경 배포 자동화* 와 *통합 관측 체계 구축* — *K3s 6 노드 HA* (이사갈 합류) *65+ ArgoCD App* *무중단 운영* 실전 정리"
+title: "*GitOps(ArgoCD) 기반* *멀티 환경 배포 자동화* 와 *통합 관측 체계 구축* — *K3s 5 노드 HA* *47 개 ArgoCD App* *무중단 운영* 실전 정리"
 date: 2026-06-17 01:30:00 +0900
 categories: [infrastructure, devops, gitops, observability]
 tags: [argocd, gitops, k3s, elk, prometheus, grafana, tempo, velero, sops, playwright, telegram, frp, helm]
@@ -10,7 +10,7 @@ tags: [argocd, gitops, k3s, elk, prometheus, grafana, tempo, velero, sops, playw
 >
 > *그러나 *무너지는 순간* 은 *코드가 *고장난 순간* 이 *아니다*. *대부분은 *배포 직후* 다. *그래서 *배포 파이프라인* 과 *관측 체계* 가 *같은 무게* 로 *설계* 되어야 한다.
 >
-> 이 글은 *온프레미스 K3s 6 노드 HA 클러스터* (control-plane × 3 + worker × 3, *74 vCPU / 126 GB / 9 TB+*) 위에서 *65+ 개 ArgoCD Application* 을 *GitOps 단일 소스* 로 *무중단 배포 / 관측 / 백업 / 게이트* 하는 *5 개 축* 의 *실제 운영 설계* 를 정리한다. *2026-06-07 이사갈 (40 vCPU CPU 깡패) 합류 + HA 3 replica + podAntiAffinity* 로 *각 핵심 서비스가 *3 노드에 *spread* 되어 *노드 1 개 fail 에도 *downtime 0*.
+> 이 글은 *온프레미스 K3s 5 노드 HA 클러스터* (control-plane × 3 + worker × 2) 위에서 *47 개 ArgoCD Application (prod + staging 합산)* 을 *GitOps 단일 소스* 로 *무중단 배포 / 관측 / 백업 / 게이트* 하는 *5 개 축* 의 *실제 운영 설계* 를 정리한다.
 
 ---
 
@@ -298,35 +298,20 @@ route:
 
 ### 5.1 *K3s HA (etcd 3 voter + worker 3) — *control-plane 1 대 죽어도 *클러스터 살아 있음*
 
-*실제 6 노드 토폴로지 (2026-06-13 기준)*:
+*실제 5 노드 토폴로지 (2026-06 시점)*:
 
-| 노드 | 사양 | 역할 | tier | 주요 워크로드 |
-|---|---|---|---|---|
-| *르무엘 (lemuel)* | 4 vCPU / 32 GB | control-plane + etcd (leader) | management | news-pipeline, judge-engine, GitHub Actions runner |
-| *루이스 (louise)* | i7-8565U 8 vCPU / 16 GB | worker | worker | market-feed (C++), orderbook-matcher (Rust), settlement/sparta replica 1 |
-| *데이비드 (david)* | 6 vCPU / 16 GB | worker (모니터링) | worker | kube-prometheus-stack, Loki, settlement/sparta replica 2 |
-| *일원 (ilwon)* | 12 vCPU / 32 GB / NVMe 457 GB + 4 TB HDD + 1 TB SSD | control-plane + etcd | storage | postgres / storage 풀, ASAT, lowshopping |
-| *솔로몬 (solomon)* | 4 vCPU / 15 GB / *Intel DC S3700 SSD* | control-plane + etcd | storage-backup | backup 전용 + etcd quorum |
-| *이사갈 (isagal)* ⭐ | **40 vCPU / 15 GB / 3.6 TB SSD** | worker (*CPU 깡패*) | worker | settlement/sparta replica 3, frp self-host, 확장 워크로드 |
+| 노드 | 역할 | IP | 비고 |
+|---|---|---|---|
+| *lemuel* | control-plane + etcd | 192.168.219.101 | 메인 마스터, SSH 2652 |
+| *ilwon* | control-plane + etcd | 192.168.219.110 | NVMe 1TB + 4TB HDD (storage tier) |
+| *solomon* | control-plane + etcd | 192.168.219.108 | Floating VIP (3-NIC failover), 백업 전용 |
+| *louise* | worker | 192.168.219.111 | 일반 워크로드 |
+| *david* | worker | 192.168.219.107 | 모니터링 전용 (Prometheus / Grafana / Loki) |
 
-**총합** : **74 vCPU / 126 GB RAM / 9 TB+ 스토리지**
-
-- *etcd 3 voter quorum* (르무엘 / 일원 / 솔로몬) — *2 대만 *살아 있으면* *클러스터 의사 결정 *계속 가능*
-- *이사갈은 worker only* — *etcd 멤버 *아님* (합류 시 *orphan Learner 멤버 제거 정리 완료* 2026-06-07)
-- *worker 3 대* (louise / david / isagal) — *podAntiAffinity preferred* 로 *settlement / sparta 등 핵심 서비스 replicas=3 이 *3 노드에 *spread* 됨. *노드 1 개 fail → 2/3 ready 유지 → downtime 0*
-- *tier 라벨 분리* — david 는 *monitoring 전용 tier*, 일원/솔로몬은 *storage tier* — *운영 부하가 *관측·etcd 를 *압살하지 않도록*
-
-**핵심 변곡점 timeline**:
-
-| 날짜 | 사건 | 의미 |
-|---|---|---|
-| 2026-05-12 | *SQLite → embedded etcd 마이그레이션* (18 분 다운타임으로 30+ ArgoCD 앱 모두 보존) | 단일 마스터 → *진짜 HA* 전환 |
-| 2026-06-06 | *솔로몬 etcd 디스크 SSD 이전* (Intel DC S3700) | *etcd p99 latency 극적 개선* — 저전력 노드 의 *I/O 병목 해소* |
-| 2026-06-07 | *이사갈 합류* (40 vCPU CPU 깡패) | 클러스터 *capacity 1.6 배 확장*, *HA 3 spread 가능* |
-| 2026-06-07 | *Velero node-agent OOM fix* (mem 512Mi → 2Gi + KOPIA_PARALLEL_FILE_READS=2) | 백업 신뢰성 회복 |
-| 2026-06-08 | *frp self-host 추가* — Cloudflare Tunnel 의 *self-host 카운터파트* | *외부 의존 감소* + *5 PR 디버깅 학습* |
-| 2026-06-08 | *settlement / sparta HA 정책 적용* (replicas=3 + podAntiAffinity preferred) | *각 핵심 서비스 가 *3 노드에 spread* |
-
+- *etcd 3 voter quorum* — *2 대만 *살아 있으면* *클러스터 의사 결정 *계속 가능*
+- *Floating VIP* — solomon 의 *3-NIC failover* 로 *NIC 1 개 *죽어도 *VIP 유지*
+- *워크로드 분리* — david 는 *monitoring 전용 tier* 로 *labeled*, 운영 부하가 *관측 시스템 을 *압살하지 않도록*
+- *역사* — K3s v1.35.4+k3s1 / *SQLite → embedded etcd 마이그레이션 완료 (2026-05-12)*. SQLite 단일 마스터에서 *진짜 HA* 로 *전환한 큰 변곡점*
 - *마스터 추가 시 *반드시 동기화* — `/etc/rancher/k3s/config.yaml` 의 *top-level `cluster-dns`* 와 *`kubelet-arg.cluster-dns`* *둘 다 *같은 값 (169.254.20.10)*. 한쪽만 두면 *DNS 어긋남*
 
 ### 5.2 *NFS Storage — *공유 PV 의 *단순한 진리*
@@ -472,7 +457,7 @@ sudo kubectl describe pod -n settlement-prod order-service-xxx
 ### 6.6 *ArgoCD UI — *육안 모니터링*
 
 - `argocd.example.com` — *외부 frp 로 노출*
-- *65+ 개 Application 의 *Health × Sync* 매트릭스 *한 화면*
+- *47 개 Application 의 *Health × Sync* 매트릭스 *한 화면*
 - *Out-of-sync 노랑 / Degraded 빨강* 이 *알람보다 *먼저 *보일 때가 많다*
 
 ### 6.7 *내 *하루 *운영 패턴*
