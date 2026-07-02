@@ -21,8 +21,11 @@ paginate_path: "/page:num/"
 # Minima 기본 header 는 site.pages 의 title 있는 페이지 모두 노출 — paginate 가 만드는
 # /page2/, /page3/, ... 가 index.html 의 title:"Home" 을 상속해 nav 에 N번 등장.
 # 명시적 화이트리스트로 약속된 페이지만 보이게. Home 은 좌측 상단 사이트 제목이 그 역할.
-header_pages:
-  - about.md
+#
+# 2026-07-02 About 링크 nav 에서 숨김 — /about/ URL 은 유지 (직접 링크 접근 가능).
+# 빈 리스트 유지 이유: header_pages 자체를 삭제 하면 Minima 기본 로직 (전체 노출)
+# 으로 되돌아가 paginate 페이지 들이 nav 에 다시 등장. 화이트리스트 로직 만 유지.
+header_pages: []
 markdown: kramdown
 kramdown:
   syntax_highlighter: rouge
