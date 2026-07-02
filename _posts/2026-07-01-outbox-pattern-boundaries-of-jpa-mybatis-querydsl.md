@@ -4,6 +4,7 @@ title: "Outbox 패턴 에서 JPA · MyBatis · QueryDSL 의 *경계* — 하나 
 date: 2026-07-01 19:00:00 +0900
 categories: [backend, outbox, jpa, mybatis, querydsl]
 tags: [outbox, jpa, hibernate, mybatis, querydsl, kafka, idempotency, skip-locked, settlement]
+published: false
 ---
 
 *"JPA 를 쓰는 팀 은 *모든 것 을 JPA 로 하려 함*. MyBatis 팀 은 *모든 것 을 MyBatis 로*"* — 이 함정 이 *Outbox 패턴 의 *진짜 실패 원인*. Outbox 는 *4 가지 성격 이 다른 데이터 접근* 을 요구 — *하나 의 도구 로 강제 하면 *성능 / 유지보수 / 안전 성* 이 *모두 손상*.

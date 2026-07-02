@@ -4,6 +4,7 @@ title: "캐시 적중률 (Cache Hit Rate) — 7 계층 을 관통 하는 *진짜
 date: 2026-07-01 19:45:00 +0900
 categories: [backend, cache, performance, observability]
 tags: [cache, caffeine, redis, cdn, page-cache, cpu-cache, buffer-pool, eviction, lru, tinylfu]
+published: false
 ---
 
 *"우리 시스템 은 캐시 를 씁니다"* — 이 문장 자체 로는 *의미 없음*. *캐시 를 *얼마나 잘 씀* = *적중률 (Hit Rate)*. 90% 는 *괜찮음*, 95% 는 *좋음*, 99% 는 *탁월*, 99.9% 는 *예술*. 이 숫자 의 차이 가 *p99 latency 의 *10 배 차이*.
