@@ -3,7 +3,7 @@ layout: post
 title: "K3s 클러스터 의 *시스템 pod 해부* — 6 노드 위 에 얹은 80 개 인프라 컴포넌트"
 date: 2026-07-02 19:45:00 +0900
 categories: [devops, kubernetes, k3s, observability, gitops]
-tags: [k3s, kube-system, argocd, velero, prometheus, grafana, elk, fluent-bit, tempo, cert-manager]
+tags: [k3s, kube-system, argocd, velero, prometheus, grafana, elk, fluent-bit, tempo, cloudflare-tunnel]
 ---
 
 내 6 노드 K3s 홈랩 클러스터 에는 *약 215 개 pod* 이 실행 중. 그 중 **80 여 개 가 *인프라 (system) pod***. *애플리케이션 이 아니라 *클러스터 자체 를 돌리는 pod*. 이 글 은 그 *64 개 핵심 인프라 pod* (kube-system + logging + monitoring + argocd + velero) 를 *하나씩 해부* 하고, *왜 이 구성 이 성숙 한 지* 정리.
@@ -19,7 +19,7 @@ tags: [k3s, kube-system, argocd, velero, prometheus, grafana, elk, fluent-bit, t
 | Observability — Metrics (Prometheus 스택) | **12** | ⭐⭐⭐⭐⭐ |
 | GitOps (ArgoCD) | **8** | ⭐⭐⭐⭐⭐ |
 | Backup (Velero — 실 실행) | **5** | ⭐⭐⭐⭐ |
-| 기타 인프라 (ECK, Kafka, cert-manager, SOPS 등) | ~15 | ⭐⭐⭐⭐ |
+| 기타 인프라 (ECK, Kafka, SOPS, dashboard 등) | ~14 | ⭐⭐⭐⭐ |
 | **합계** | ~80 | 중견 SaaS 급 |
 
 ---
@@ -211,9 +211,7 @@ spec:
 |---|---|---|
 | **elastic-system** | 1 | ECK Operator — Elasticsearch 자동 관리 |
 | **kafka** | 3 | Kafka broker + zookeeper (Outbox 이벤트 발행) |
-| **kubernetes-dashboard** | 3 | Web UI (k8s.lemuel.co.kr) |
-| **cert-manager** | 1 | Let's Encrypt 자동 갱신 (Cloudflare Tunnel 사용 시 idle) |
-| **ingress-nginx** | 1 | Nginx ingress (Traefik 병행) |
+| **kubernetes-dashboard** | 3 | Web UI — dashboard v2.7.0 + metrics-scraper + *nginx reverse proxy* (커스텀) |
 | **sops-operator** | 1 | SopsSecret CRD reconciler |
 | **registry-mirror** | 1 | Docker Hub / ghcr mirror |
 | **nfs-server** | 1 | 공유 스토리지 (일부 앱 이 참조) |
@@ -222,6 +220,23 @@ spec:
 | **homelab-dashboard** | 1 | 홈랩 서비스 tile 대시보드 |
 
 *이 중 몇 개 는 실 사용 여부 재검토 대상* (예: `frp-prod` 이 실제 로 traffic 받고 있는지, `echo-webhook` 이 필요한지).
+
+### TLS 는 누가 처리?
+
+*cert-manager 나 ingress-nginx 는 배포 안 됨* — 대신 **Cloudflare 가 edge TLS 를 완전 처리**:
+
+```
+[브라우저] ── TLS 1.3 (Let's Encrypt on Cloudflare edge) ──→ [Cloudflare]
+                                                                ↓
+                                                        Cloudflare Tunnel
+                                                                ↓ (내부, K3s self-signed)
+                                                        [K3s ingress / service]
+```
+
+- **외부 TLS**: Cloudflare 자동 발급·갱신
+- **내부 TLS**: K3s 의 self-signed cert (`k3s-server-ca`, 1년 자동 갱신)
+
+→ **cert-manager 미설치 는 *올바른 선택***. Cloudflare Tunnel + K3s built-in mTLS 조합 이면 cert-manager 는 불필요 한 추가 컴포넌트.
 
 ---
 
@@ -245,25 +260,21 @@ spec:
 
 ---
 
-## 9. 개선 여지 5 가지
+## 9. 개선 여지 4 가지
 
 ### (1) Velero completed job 자동 정리
 - CronJob 으로 매일 03:00 삭제
 - 미구축 → *매 시간 15 개 accumulate*
 
-### (2) Ingress 이중화
-- Traefik (K3s default) + ingress-nginx *둘 다 실행*
-- 하나 만 남기고 정리 필요 (트래픽 routing 검증 후)
+### (2) kubernetes-dashboard 안정성
+- 메인 pod `kubernetes-dashboard-6c7b75ffc-*` 이 13 일 age 에 *11 회 재시작* (평균 1.2 일 마다)
+- 최근 6 일 안정 하지만 반복 발생 시 진단 필요 — 로그 + resource limit 검토
 
-### (3) cert-manager 실 사용 검토
-- Cloudflare Tunnel 이 TLS 처리 → cert-manager 미사용 가능성
-- 사용 안 하면 삭제
-
-### (4) Descheduler 도입 검토
+### (3) Descheduler 도입 검토
 - 노드 부하 불균형 시 pod 자동 재배치
 - ilwon (81% mem) vs solomon (36% mem) 균형 조정
 
-### (5) etcd backup 자동화
+### (4) etcd backup 자동화
 - Velero 는 PVC / K8s 리소스 백업
 - etcd 는 별도 — K3s 의 `etcd-snapshot` 자동 (per node local)
 - *R2 로 외부 백업* 추가 권장
