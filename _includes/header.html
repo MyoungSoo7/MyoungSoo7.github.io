@@ -19,7 +19,7 @@
           상속 → Minima 기본 header 로직 은 이 것 을 nav 에 N번 노출.
           해결: site.pages 를 순회 하지 않고 *단일 Home 링크 만* 하드코딩.
         {%- endcomment -%}
-        <a class="page-link" href="{{ "/" | relative_url }}">Home</a>
+        <a class="page-link" href="{{ "/about/" | relative_url }}">About</a>
       </div>
     </nav>
   </div>
