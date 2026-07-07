@@ -228,11 +228,11 @@ title: Home
       return;
     }
     const query = q.trim().toLowerCase();
-    const hits = posts.filter(p =>
-      p.title.toLowerCase().includes(query) ||
-      p.content.toLowerCase().includes(query) ||
-      (p.tags || []).some(t => t.toLowerCase().includes(query))
-    );
+    const hits = posts.filter(p => p && (
+      (p.title || '').toLowerCase().includes(query) ||
+      (p.content || '').toLowerCase().includes(query) ||
+      (p.tags || []).some(t => (t || '').toLowerCase().includes(query))
+    ));
 
     defaultList.style.display = 'none';
     results.style.display = '';
@@ -247,9 +247,9 @@ title: Home
       <div class="hit">
         <span class="post-meta">${p.date}</span>
         <div class="hit-title">
-          <a href="${p.url}">${highlight(p.title, query)}</a>
+          <a href="${p.url}">${highlight(p.title || '(제목 없음)', query)}</a>
         </div>
-        <div class="hit-snippet">${highlight(snippet(p.content, query), query)}</div>
+        <div class="hit-snippet">${highlight(snippet(p.content || '', query), query)}</div>
         ${(p.tags || []).length ? '<div style="font-size:0.85em; color:#888; margin-top:0.3em;">' +
           p.tags.map(t => '#' + t).join(' ') + '</div>' : ''}
       </div>

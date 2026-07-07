@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "*오프셋* 과 *어셈블리어* 의 *관계* — *어셈블리어 는 결국 *오프셋 의 *산술 언어* 였다는 *깨달음***
+title: "오프셋 과 어셈블리어 의 관계 — 어셈블리어 는 결국 오프셋 의 산술 언어 였다는 깨달음"
 date: 2026-06-21 19:30:00 +0900
 categories: [systems, low-level, assembly, compiler, computer-architecture]
 tags: [assembly, x86-64, offset, addressing-mode, rip-relative, pic, aslr, struct-layout, calling-convention, gcc, gdb]

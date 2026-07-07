@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "*Spring *AOP* — *@Aspect 와 *Pointcut* 을 *시니어가 *주니어에게 *''*카페에서 *예제로 *조곤조곤""* 설명하는 *글"
+title: "Spring AOP — @Aspect 와 Pointcut 을 시니어가 주니어에게 카페에서 예제로 조곤조곤 설명하는 글"
 date: 2026-06-06 02:10:00 +0900
 categories: [spring, aop, fundamentals]
 tags: [spring, aop, aspect, pointcut, advice, cross-cutting-concerns, fundamentals, proxy, java]
