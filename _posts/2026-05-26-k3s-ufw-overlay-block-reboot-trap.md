@@ -119,16 +119,16 @@ VXLAN 동작 메커니즘:
 
 ```text
 $ ssh louise 'bridge fdb show dev flannel.1'
-9e:55:de:c0:22:fa  dst 10.0.0.113  self permanent    # david
-82:17:27:be:3a:20  dst 10.0.0.101  self permanent    # lemuel
-3e:51:16:ff:31:8d  dst 10.0.0.110  self permanent    # ilwon ← 있음
-16:c1:e6:9d:5b:50  dst 10.0.0.120  self permanent    # solomon
+02:00:00:00:00:13  dst 10.0.0.113  self permanent    # david
+02:00:00:00:00:01  dst 10.0.0.101  self permanent    # lemuel
+02:00:00:00:00:10  dst 10.0.0.110  self permanent    # ilwon ← 있음
+02:00:00:00:00:20  dst 10.0.0.120  self permanent    # solomon
 
 $ ssh louise 'ip neigh show dev flannel.1'
-10.42.4.0  lladdr 3e:51:16:ff:31:8d PERMANENT             # ilwon subnet ← 있음
-10.42.1.0  lladdr 9e:55:de:c0:22:fa PERMANENT             # david subnet
-10.42.0.0  lladdr 82:17:27:be:3a:20 PERMANENT             # lemuel subnet
-10.42.6.0  lladdr 16:c1:e6:9d:5b:50 PERMANENT             # solomon subnet
+10.42.4.0  lladdr 02:00:00:00:00:10 PERMANENT             # ilwon subnet ← 있음
+10.42.1.0  lladdr 02:00:00:00:00:13 PERMANENT             # david subnet
+10.42.0.0  lladdr 02:00:00:00:00:01 PERMANENT             # lemuel subnet
+10.42.6.0  lladdr 02:00:00:00:00:20 PERMANENT             # solomon subnet
 
 $ ssh louise 'ip route show | grep 10.42'
 10.42.0.0/24 via 10.42.0.0 dev flannel.1 onlink
@@ -138,7 +138,7 @@ $ ssh louise 'ip route show | grep 10.42'
 10.42.7.0/24 dev cni0 proto kernel scope link src 10.42.7.1
 ```
 
-FDB, neighbor table, route table 다 정상. ilwon 측에서도 똑같이 louise 의 flannel.1 MAC (`fa:b8:6d:09:83:dd`) 가 잘 매핑되어 있음.
+FDB, neighbor table, route table 다 정상. ilwon 측에서도 똑같이 louise 의 flannel.1 MAC (`02:00:00:00:00:11`) 가 잘 매핑되어 있음.
 
 **그런데 packet 이 흐르지 않는다.**
 
