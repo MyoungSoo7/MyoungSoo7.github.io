@@ -302,7 +302,7 @@ route:
 
 | 노드 | 역할 | IP | 비고 |
 |---|---|---|---|
-| *lemuel* | control-plane + etcd | 10.0.0.101 | 메인 마스터, SSH 2652 |
+| *lemuel* | control-plane + etcd | 10.0.0.101 | 메인 마스터 |
 | *ilwon* | control-plane + etcd | 10.0.0.110 | NVMe 1TB + 4TB HDD (storage tier) |
 | *solomon* | control-plane + etcd | 10.0.0.108 | Floating VIP (3-NIC failover), 백업 전용 |
 | *louise* | worker | 10.0.0.111 | 일반 워크로드 |
@@ -445,7 +445,7 @@ git add -u && git commit -m "chore(secrets): rotate settlement-postgres" && git 
 
 ```bash
 # lemuel 마스터에 SSH
-ssh -p 2652 lemuel
+ssh lemuel   # ~/.ssh/config 에 정의된 호스트 별칭
 sudo kubectl get pods -A | grep -v Running
 sudo kubectl logs -n settlement-prod deploy/order-service --tail=200
 sudo kubectl describe pod -n settlement-prod order-service-xxx
