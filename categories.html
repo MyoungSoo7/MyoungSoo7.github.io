@@ -1,0 +1,104 @@
+---
+layout: default
+title: Categories
+permalink: /categories/
+---
+
+<style>
+  .cat-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45em;
+    margin: 1.2em 0 2em;
+  }
+  .cat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.35em 0.85em;
+    border: 1px solid #dbe4f0;
+    border-radius: 999px;
+    background: #f7f9fc;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.92em;
+    line-height: 1;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .cat-chip:hover { background: #eaf1fb; border-color: #b9cdec; color: #2a7ae2; text-decoration: none; }
+  .cat-chip .cnt {
+    background: #2a7ae2;
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.12em 0.55em;
+    font-size: 0.8em;
+    font-weight: 600;
+  }
+  .cat-section { margin-top: 2.4em; }
+  .cat-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid #eef2f8;
+    scroll-margin-top: 80px;
+  }
+  .cat-section h2 small { color: #888; font-size: 0.6em; font-weight: normal; }
+  .cat-posts { list-style: none; margin-left: 0; }
+  .cat-posts li {
+    display: flex;
+    gap: 0.9em;
+    align-items: baseline;
+    padding: 0.42em 0;
+    border-bottom: 1px dashed #f0f0f0;
+  }
+  .cat-posts .d { color: #999; font-size: 0.85em; white-space: nowrap; font-family: monospace; }
+  .cat-posts a { text-decoration: none; }
+  .cat-posts a:hover { text-decoration: underline; }
+  .top-link { font-size: 0.8em; margin-left: auto; color: #999; text-decoration: none; }
+  .top-link:hover { color: #2a7ae2; }
+</style>
+
+<div class="home">
+  <h1 class="page-heading" id="top">Categories</h1>
+
+  <p>총 {{ site.posts | size }}편 · {{ site.categories | size }}개 카테고리.
+  칩 을 누르면 해당 카테고리 글 목록 으로 이동 합니다.
+  본문 검색 은 <a href="{{ '/' | relative_url }}">홈 의 검색창</a> 을 쓰세요 (제목·내용·태그·카테고리 모두 검색 됨).</p>
+
+  <div class="cat-cloud">
+    {%- comment -%} 글 수 내림차순 정렬: Liquid 제약으로 2-pass (크기 목록 → 크기별 순회) {%- endcomment -%}
+    {% assign sizes = "" | split: "" %}
+    {% for cat in site.categories %}
+      {% assign sizes = sizes | push: cat[1].size %}
+    {% endfor %}
+    {% assign sizes = sizes | uniq | sort | reverse %}
+    {% for s in sizes %}
+      {% for cat in site.categories %}
+        {% if cat[1].size == s %}
+          <a class="cat-chip" href="#{{ cat[0] | slugify }}">{{ cat[0] }} <span class="cnt">{{ cat[1].size }}</span></a>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+  {% for s in sizes %}
+    {% for cat in site.categories %}
+      {% if cat[1].size == s %}
+        <div class="cat-section">
+          <h2 id="{{ cat[0] | slugify }}">{{ cat[0] }} <small>{{ cat[1].size }}편</small>
+            <a class="top-link" href="#top">▲ 맨 위로</a>
+          </h2>
+          <ul class="cat-posts">
+            {% for post in cat[1] %}
+            <li>
+              <span class="d">{{ post.date | date: "%Y-%m-%d" }}</span>
+              <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+</div>
