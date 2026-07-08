@@ -92,7 +92,7 @@ ls k8s/
 # Before (kompose 결과)
 volumes:
   - name: db-data
-    hostPath: { path: /home/iamipro/data }   # 노드 의존
+    hostPath: { path: /home/admin/data }   # 노드 의존
 
 # After
 volumes:

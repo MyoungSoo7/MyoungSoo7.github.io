@@ -97,9 +97,9 @@ L1 Link          ← Ethernet, Wi-Fi, MAC
 
 > *48-bit (6 byte) 의 *고유 식별자*. *제조 시 *NIC 에 *각인*. *전 세계 *유일*.
 
-예: `B0:38:6C:F4:AF:80`
+예: `B0:38:6C:12:34:56`
 - *앞 24-bit (B0:38:6C)* = *OUI (Organizationally Unique Identifier)* — *제조사*. 위 는 *Apple* OUI.
-- *뒤 24-bit (F4:AF:80)* = *NIC 별 *시리얼*.
+- *뒤 24-bit (12:34:56)* = *NIC 별 *시리얼*.
 
 ### 3.2 *Ethernet Frame*
 

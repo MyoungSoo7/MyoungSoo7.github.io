@@ -41,7 +41,7 @@ tags: [k3s, networkmanager, nmcli, static-ip, dhcp, autoconnect, homelab, node-i
 ## 2. 현재 상태 확인부터
 
 ```bash
-$ ssh david@<current-ip> "ip -br addr; nmcli -t -f NAME,DEVICE,STATE,AUTOCONNECT-PRIORITY connection show --active"
+$ ssh admin@<current-ip> "ip -br addr; nmcli -t -f NAME,DEVICE,STATE,AUTOCONNECT-PRIORITY connection show --active"
 enp2s0           UP   10.0.0.116/24 fe80::2d8:61ff:fe2d:51ef/64
 wlxb0386cf8d624  UP   10.0.0.113/24 fe80::2cae:8073:961e:2d46/64
 
@@ -68,7 +68,7 @@ sky:wlxb0386cf8d624:802-11-wireless:activated:0
 확인:
 
 ```bash
-$ ssh david@10.0.0.116 "ss -tn | grep ':22'"
+$ ssh admin@10.0.0.116 "ss -tn | grep ':22'"
 ESTAB  0  0  10.0.0.116:22  10.0.0.108:54932
 ```
 
@@ -130,7 +130,7 @@ echo 'swap kicked off'
 15 초 뒤 다시 SSH (이번엔 .113):
 
 ```bash
-$ ssh david@10.0.0.113 "ip -br addr | head -3"
+$ ssh admin@10.0.0.113 "ip -br addr | head -3"
 lo               UNKNOWN   127.0.0.1/8 ::1/128
 enp2s0           UP        10.0.0.113/24 10.0.0.116/24 ...
 wlxb0386cf8d624  UP        (IPv6 only)
@@ -139,8 +139,8 @@ wlxb0386cf8d624  UP        (IPv6 only)
 흠 — `10.0.0.116` 이 *아직 enp2s0 에 붙어있다*. NetworkManager 가 *새 IP 추가* 만 하고 *이전 DHCP lease 의 IP* 는 해제 안 함. 잔여 IP 라 통신엔 문제 없지만 *깔끔하지 않음*. 정리:
 
 ```bash
-$ ssh david@10.0.0.113 "sudo ip addr del 10.0.0.116/24 dev enp2s0"
-$ ssh david@10.0.0.113 "ip -br addr show enp2s0"
+$ ssh admin@10.0.0.113 "sudo ip addr del 10.0.0.116/24 dev enp2s0"
+$ ssh admin@10.0.0.113 "ip -br addr show enp2s0"
 enp2s0   UP   10.0.0.113/24 fe80::...
 ```
 
@@ -163,7 +163,7 @@ david   Ready   10.0.0.116   # ← 아직 옛 IP
 ### 6.1 `K3S_AGENT_ARGS` 에 `--node-ip` 명시
 
 ```bash
-$ ssh david@10.0.0.113 "cat /etc/systemd/system/k3s-agent.service.env"
+$ ssh admin@10.0.0.113 "cat /etc/systemd/system/k3s-agent.service.env"
 K3S_URL=https://<control-plane-ip>:6443
 K3S_TOKEN=<redacted>
 K3S_AGENT_ARGS="--node-ip=10.0.0.113 --node-external-ip=10.0.0.113"
