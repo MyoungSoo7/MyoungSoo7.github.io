@@ -6,7 +6,7 @@ categories: [infra, kubernetes, etcd, postmortem]
 tags: [k3s, kubeconfig, etcd, raft, control-plane, homelab, postmortem, etcdctl]
 ---
 
-`kubectl get nodes` 가 `dial tcp 192.168.219.110:6443: connect: host is down` 으로 죽었다. 어제 살려놨던 클러스터가 다시 안 보였다. 두 시간 뒤 알아낸 것: *클러스터는 멀쩡했다*. 단지 **내 kubeconfig 가 죽은 노드 한 대를 가리키고 있었을 뿐이었고**, 그 노드를 갈아끼고 나니 새 문제가 보였다 — *남은 etcd 멤버 한 대가 ghost 였고, 살아있는 두 멤버가 ghost 에게 raft heartbeat 보내려다 버퍼가 가득 차서 클러스터 전체가 2초씩 느려지고 있었다*.
+`kubectl get nodes` 가 `dial tcp 10.0.0.110:6443: connect: host is down` 으로 죽었다. 어제 살려놨던 클러스터가 다시 안 보였다. 두 시간 뒤 알아낸 것: *클러스터는 멀쩡했다*. 단지 **내 kubeconfig 가 죽은 노드 한 대를 가리키고 있었을 뿐이었고**, 그 노드를 갈아끼고 나니 새 문제가 보였다 — *남은 etcd 멤버 한 대가 ghost 였고, 살아있는 두 멤버가 ghost 에게 raft heartbeat 보내려다 버퍼가 가득 차서 클러스터 전체가 2초씩 느려지고 있었다*.
 
 이 글은 그 두 시간을 *진단 가능한 형태로* 정리한다. 비슷한 상황에서 *어디부터 의심해야 하는지* 가 핵심.
 
@@ -27,7 +27,7 @@ tags: [k3s, kubeconfig, etcd, raft, control-plane, homelab, postmortem, etcdctl]
 
 ```bash
 $ kubectl get nodes
-Unable to connect to the server: dial tcp 192.168.219.110:6443: connect: host is down
+Unable to connect to the server: dial tcp 10.0.0.110:6443: connect: host is down
 ```
 
 여기서 *내 첫 의심* 은 *클러스터가 죽었다* 였다. 잘못된 가정. **kubeconfig 는 control-plane 한 대만 가리킨다**. 가리킨 그 한 대가 죽어도, 다른 control-plane 은 살아있을 수 있다.
@@ -36,22 +36,22 @@ Unable to connect to the server: dial tcp 192.168.219.110:6443: connect: host is
 
 ```bash
 $ grep server: ~/.kube/config
-    server: https://192.168.219.110:6443
+    server: https://10.0.0.110:6443
 
 # 다른 control-plane 후보 ping
-$ for IP in 192.168.219.101 192.168.219.108 192.168.219.110; do
+$ for IP in 10.0.0.101 10.0.0.108 10.0.0.110; do
     nc -z -G 1 $IP 6443 && echo "$IP api alive" || echo "$IP dead"
   done
-192.168.219.101 api alive
-192.168.219.108 dead
-192.168.219.110 dead
+10.0.0.101 api alive
+10.0.0.108 dead
+10.0.0.110 dead
 ```
 
 .101(lemuel) 만 살아있었다. 갈아끼면 끝:
 
 ```bash
 $ cp ~/.kube/config ~/.kube/config.bak.$(date +%s)
-$ sed -i.tmp 's|server: https://192.168.219.110:6443|server: https://192.168.219.101:6443|' ~/.kube/config
+$ sed -i.tmp 's|server: https://10.0.0.110:6443|server: https://10.0.0.101:6443|' ~/.kube/config
 $ kubectl get nodes
 NAME      STATUS                     ROLES                AGE   VERSION
 david     Ready                      <none>               21h   v1.35.4+k3s1
@@ -139,9 +139,9 @@ $ sudo /tmp/etcdctl \
 +------------------+---------+------------------+------------------------------+
 |        ID        | STATUS  |       NAME       |          PEER ADDRS          |
 +------------------+---------+------------------+------------------------------+
-| 84bb708329b5a819 | started | solomon-5068b1dd | https://192.168.219.108:2380 |
-| e08783cfcc895f20 | started |   ilwon-b2c6a1ee | https://192.168.219.110:2380 |
-| e5ff91e8e2ce2970 | started |  lemuel-d2eb1a27 | https://192.168.219.101:2380 |
+| 84bb708329b5a819 | started | solomon-5068b1dd | https://10.0.0.108:2380 |
+| e08783cfcc895f20 | started |   ilwon-b2c6a1ee | https://10.0.0.110:2380 |
+| e5ff91e8e2ce2970 | started |  lemuel-d2eb1a27 | https://10.0.0.101:2380 |
 +------------------+---------+------------------+------------------------------+
 ```
 
@@ -209,7 +209,7 @@ deployment / statefulset / replicaset controller 가 잠시 멈춤
 
 ### 6.1 kubeconfig 를 *load-balanced endpoint* 로
 
-지금: `server: https://192.168.219.110:6443` — 한 노드 가리킴.
+지금: `server: https://10.0.0.110:6443` — 한 노드 가리킴.
 
 권장: `server: https://k3s-api.lemuel.local:6443` (DNS 라운드 로빈) 또는 HAProxy/keepalived VIP. 한 노드 죽어도 클라이언트는 모름.
 

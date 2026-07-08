@@ -70,18 +70,18 @@ postgres 는 다 Running. *하지만 모두 ilwon 위* 다. 그리고 ilwon 은 
 ARP / 일반 ping 으로 확인:
 
 ```text
-$ ping -c 3 192.168.219.110     # ilwon 의 host IP
+$ ping -c 3 10.0.0.110     # ilwon 의 host IP
 3 packets transmitted, 3 received, 0.0% packet loss
 
-$ ssh louise 'ping -c 3 192.168.219.110'
+$ ssh louise 'ping -c 3 10.0.0.110'
 3 packets transmitted, 3 received, 0.0% packet loss
 ```
 
 노드 간 *host network* 는 OK. *VXLAN UDP 8472* 도 outbound 는 열림:
 
 ```text
-$ ssh louise 'nc -zvu -w 3 192.168.219.110 8472'
-Connection to 192.168.219.110 8472 port [udp/*] succeeded!
+$ ssh louise 'nc -zvu -w 3 10.0.0.110 8472'
+Connection to 10.0.0.110 8472 port [udp/*] succeeded!
 ```
 
 → 그런데 *pod-to-pod* 만 안 됨:
@@ -119,10 +119,10 @@ VXLAN 동작 메커니즘:
 
 ```text
 $ ssh louise 'bridge fdb show dev flannel.1'
-9e:55:de:c0:22:fa  dst 192.168.219.113  self permanent    # david
-82:17:27:be:3a:20  dst 192.168.219.101  self permanent    # lemuel
-3e:51:16:ff:31:8d  dst 192.168.219.110  self permanent    # ilwon ← 있음
-16:c1:e6:9d:5b:50  dst 192.168.219.120  self permanent    # solomon
+9e:55:de:c0:22:fa  dst 10.0.0.113  self permanent    # david
+82:17:27:be:3a:20  dst 10.0.0.101  self permanent    # lemuel
+3e:51:16:ff:31:8d  dst 10.0.0.110  self permanent    # ilwon ← 있음
+16:c1:e6:9d:5b:50  dst 10.0.0.120  self permanent    # solomon
 
 $ ssh louise 'ip neigh show dev flannel.1'
 10.42.4.0  lladdr 3e:51:16:ff:31:8d PERMANENT             # ilwon subnet ← 있음

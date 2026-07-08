@@ -164,14 +164,14 @@ kind: IPAddressPool
 metadata: { name: home-pool, namespace: metallb-system }
 spec:
   addresses:
-    - 192.168.219.200-192.168.219.220
+    - 10.0.0.200-10.0.0.220
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata: { name: l2adv, namespace: metallb-system }
 ```
 
-→ Service type=LoadBalancer 가 *192.168.219.200 같은 *VIP 받음.
+→ Service type=LoadBalancer 가 *10.0.0.200 같은 *VIP 받음.
 
 > **현실 *권장**: *''*Cloudflare Tunnel 만 *써도 *외부 *진입은 *충분""*. *MetalLB 는 *내부 *VIP 가 *진짜 *필요 *할 때만*. *''*K8s 표준""* 을 *맞추려고 *MetalLB 도입하면 *오버엔지니어링.
 

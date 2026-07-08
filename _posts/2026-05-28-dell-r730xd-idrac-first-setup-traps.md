@@ -22,7 +22,7 @@ tags: [dell, r730xd, idrac, idrac8, bmc, homelab, k3s, networking, dhcp, ipmi]
 | 2 | BIOS 화면이 *실시간 갱신 안 됨* | 케이블 꽂아도 `Active NIC Interface: None` 그대로 표시 | 무시하고 ESC → 재진입 또는 *그냥 노트북에서 ARP 로 확인* (실제 iDRAC 은 잘 동작) |
 | 3 | 공장 기본 비번 `root/calvin` 그대로 사용 | 누구나 알 수 있는 비번 → *집 네트워크 안에서도* 위험 | 즉시 변경, 단 *오타 주의* (변경 시 의도와 다른 비번 저장되면 본인도 못 들어감) |
 | 4 | 비번 5회 틀리면 *600초 잠금* | `RAC0212: Log in delayed for 600 seconds` | 10분 대기 + *F2 BIOS → iDRAC Settings → Reset Configurations to Defaults* 로 강제 초기화 |
-| 5 | 관리 PC 가 *모뎀 직결* 이라 사설망 못 봄 | iDRAC `192.168.50.106` 접속 timeout, 본인 IP 는 `203.0.113.x` (공인 IP) | 데스크탑 LAN 케이블 → *공유기 LAN 포트* 로 이동 (모뎀 직결 X) |
+| 5 | 관리 PC 가 *모뎀 직결* 이라 사설망 못 봄 | iDRAC `10.0.50.106` 접속 timeout, 본인 IP 는 `203.0.113.x` (공인 IP) | 데스크탑 LAN 케이블 → *공유기 LAN 포트* 로 이동 (모뎀 직결 X) |
 
 ---
 
@@ -116,11 +116,11 @@ R730XD 뒷면에 RJ45 가 *4개 + 1개* 있다:
 이미 *맥/노트북에서* iDRAC 동작 여부를 확인할 수 있다 — iDRAC 의 MAC 은 BIOS 에 표시돼있으므로:
 
 ```bash
-$ ping -c 5 192.168.50.0/24 의 가능한 IP 들  # 또는 router admin 페이지에서 DHCP 리스트
+$ ping -c 5 10.0.50.0/24 의 가능한 IP 들  # 또는 router admin 페이지에서 DHCP 리스트
 $ arp -a | grep -i "10:98:36"      # Dell OUI
-? (192.168.50.106) at 10:98:36:00:11:22 on en0 ifscope [ethernet]  ← iDRAC IP 찾았다!
+? (10.0.50.106) at 10:98:36:00:11:22 on en0 ifscope [ethernet]  ← iDRAC IP 찾았다!
 
-$ curl -sk https://192.168.50.106/
+$ curl -sk https://10.0.50.106/
 HTTP/1.1 302 Found
 Location: /start.html               ← iDRAC 웹 살아있음 ✅
 ```
@@ -223,11 +223,11 @@ iDRAC 웹 로그인 화면:
 
 ### 증상
 
-iDRAC `192.168.50.106` 가 *분명히 살아있는데* 데스크탑 브라우저:
+iDRAC `10.0.50.106` 가 *분명히 살아있는데* 데스크탑 브라우저:
 
 ```
 사이트에 연결할 수 없음
-192.168.50.106에서 응답하는 데 시간이 너무 오래 걸립니다.
+10.0.50.106에서 응답하는 데 시간이 너무 오래 걸립니다.
 ERR_CONNECTION_TIMED_OUT
 ```
 
@@ -248,10 +248,10 @@ ERR_CONNECTION_TIMED_OUT
 [ISP 모뎀] ─┬── 데스크탑 (203.0.113.45)  ← 직결, 공인 IP
             │
             └── [ipTime 공유기] ── 노트북 (WiFi) / iDRAC (LAN)
-                  192.168.50.1      (192.168.50.x 사설망)
+                  10.0.50.1      (10.0.50.x 사설망)
 ```
 
-데스크탑은 *공인 IP* 를 직접 받아서 사설망 `192.168.50.x` 와 *완전히 다른 네트워크* — 서로 통신 불가. 노트북은 WiFi 로 공유기에 붙어있어서 iDRAC 잘 보였던 것.
+데스크탑은 *공인 IP* 를 직접 받아서 사설망 `10.0.50.x` 와 *완전히 다른 네트워크* — 서로 통신 불가. 노트북은 WiFi 로 공유기에 붙어있어서 iDRAC 잘 보였던 것.
 
 ### 부가 문제: 보안 노출
 
@@ -260,14 +260,14 @@ ERR_CONNECTION_TIMED_OUT
 ### 해결
 
 ```
-[ISP 모뎀] ─── [ipTime 공유기] ─┬── 데스크탑 (LAN, 192.168.50.115)
-                  192.168.50.1   ├── 노트북 (WiFi, 192.168.50.x)
-                                  └── iDRAC (LAN, 192.168.50.106)
+[ISP 모뎀] ─── [ipTime 공유기] ─┬── 데스크탑 (LAN, 10.0.50.115)
+                  10.0.50.1   ├── 노트북 (WiFi, 10.0.50.x)
+                                  └── iDRAC (LAN, 10.0.50.106)
 ```
 
 1. 데스크탑의 LAN 케이블을 *모뎀이 아니라 공유기 LAN 포트* 로 옮김
 2. 데스크탑에서 `ipconfig /release && ipconfig /renew`
-3. 새 IPv4 가 `192.168.50.xxx` 로 잡힘 → iDRAC 접속 가능 + NAT 보호도 얻음
+3. 새 IPv4 가 `10.0.50.xxx` 로 잡힘 → iDRAC 접속 가능 + NAT 보호도 얻음
 
 ---
 
@@ -278,11 +278,11 @@ ERR_CONNECTION_TIMED_OUT
 ```
 서버 본체 전원 OFF 상태에서도 ⤵️
 
-$ ping 192.168.50.106
-64 bytes from 192.168.50.106: time=2.78 ms    ← 응답 ✅
+$ ping 10.0.50.106
+64 bytes from 10.0.50.106: time=2.78 ms    ← 응답 ✅
 0% packet loss
 
-$ curl -sk https://192.168.50.106/
+$ curl -sk https://10.0.50.106/
 HTTP/1.1 302 Found                              ← 웹 살아있음 ✅
 ```
 

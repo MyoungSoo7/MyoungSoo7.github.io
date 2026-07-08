@@ -168,10 +168,10 @@ Job velero/argocd-default-kopia-9nkv7-maintain-job-1778421891769 failed to compl
 
 ```
 $ kubectl get nodes
-Unable to connect to the server: dial tcp 192.168.219.101:6443:
+Unable to connect to the server: dial tcp 10.0.0.101:6443:
   connect: no route to host
 
-$ curl -k https://192.168.219.101:6443/version
+$ curl -k https://10.0.0.101:6443/version
 { ... ok ... }
 ```
 
