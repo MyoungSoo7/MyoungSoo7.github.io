@@ -12,11 +12,8 @@ tags: [DailyBriefing]
 
 | 제목 | 핵심 내용 |
 | --- | --- |
-
 | **HAMi, CNCF 인큐베이팅 프로젝트 승격** | 이기종 가속기(GPU, NPU) 리소스 공유 및 격리 기술의 표준화 가속 |
-
 | **MyDecisive, $12M 투자 유치 및 'SmartHub' 출시** | K8s 및 OpenTelemetry 기반의 자율 운영(Day 2) AI 인프라 플랫폼 |
-
 | **Cast AI 2026 K8s 최적화 보고서 발표** | AI 워크로드의 폭증에도 불구하고 평균 GPU 활용률은 5%에 불과한 실태 보고 |
 
 ---
