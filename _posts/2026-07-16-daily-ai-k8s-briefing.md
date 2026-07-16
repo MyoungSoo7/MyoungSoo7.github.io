@@ -1,5 +1,3 @@
-⚠️  Normalized model 'google/gemini-3-flash-preview' to 'gemini-3-flash-preview'
-for gemini.
 ---
 layout: post
 title: "AI & K8s 데일리 브리핑: 2026-07-16"
