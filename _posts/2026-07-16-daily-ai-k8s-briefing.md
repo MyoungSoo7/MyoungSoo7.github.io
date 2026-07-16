@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI & K8s 데일리 브리핑: 2026-07-16"
-date: 2026-07-16
+date: 2026-07-16 10:00:00 +0900
 categories: [AI, K8s]
 tags: [DailyBriefing]
 ---
@@ -9,6 +9,7 @@ tags: [DailyBriefing]
 # AI & K8s 데일리 브리핑: 2026-07-16
 
 ### 1. 뉴스 요약 테이블
+
 | 제목 | 핵심 내용 |
 | :--- | :--- |
 | **HAMi, CNCF 인큐베이팅 프로젝트 승격** | 이기종 가속기(GPU, NPU) 리소스 공유 및 격리 기술의 표준화 가속 |
