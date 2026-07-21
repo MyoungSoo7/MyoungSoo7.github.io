@@ -8,7 +8,7 @@ tags: [ClaudeCode, Harness, Plugins, Hookify, Skills, Observability, CodeReview]
 
 # 규율을 '설치'할 수 있는가
 
-이 시리즈에서 두 개의 층을 다뤘습니다. [Superpowers](/2026/07/22/Superpowers-프롬프트를-넘어-에이전트의-작업-방식을-설계하는-하네스/)는 에이전트 하나의 **절차 규율**, [OMC](/2026/07/22/oh-my-claudecode-OMC-Claude-Code-위에-얹는-멀티에이전트-오케스트레이션-레이어/)는 여러 에이전트의 **편성 레이어**였죠. 이번 글은 그 아래를 받치는 공구함입니다.
+이 시리즈에서 두 개의 층을 다뤘습니다. [Superpowers](/2026/07/22/superpowers-prompt-harness/)는 에이전트 하나의 **절차 규율**, [OMC](/2026/07/22/omc-multiagent-orchestration/)는 여러 에이전트의 **편성 레이어**였죠. 이번 글은 그 아래를 받치는 공구함입니다.
 
 Claude Code 공식 마켓플레이스에는 140개가 넘는 플러그인이 있습니다. 전부 훑어보면 대부분은 벤더 연동(AWS, DB, SaaS)입니다 — 유용하지만 하네스 엔지니어링과는 결이 다릅니다. 제가 찾은 건 다른 부류였습니다. **에이전트의 행동 자체를 설계·측정·강제하는 도구들.** 그 기준으로 걸러낸 8개를 세 계층으로 나눠 소개합니다.
 

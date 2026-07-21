@@ -8,7 +8,7 @@ tags: [ClaudeCode, Harness, Superpowers, OMC, Ouroboros, SkillCreator, PluginDev
 
 # 여섯 개의 도구, 하나의 경제
 
-하네스 시리즈를 세 편 썼습니다 — [Superpowers의 절차 규율](/2026/07/22/Superpowers-프롬프트를-넘어-에이전트의-작업-방식을-설계하는-하네스/), [OMC의 편성 레이어](/2026/07/22/oh-my-claudecode-OMC-Claude-Code-위에-얹는-멀티에이전트-오케스트레이션-레이어/), 그리고 [도구함 8선](/2026/07/22/하네스-엔지니어링-도구함-140개-플러그인-중에서-골라낸-8선/). 이번 글은 그 마무리로, 도구함에서 고른 세 개(**skill-creator, plugin-dev, session-report**)가 이미 운영 중인 세 개(**Superpowers, OMC, Ouroboros**)와 만났을 때 무슨 일이 벌어지는지를 분석합니다.
+하네스 시리즈를 세 편 썼습니다 — [Superpowers의 절차 규율](/2026/07/22/superpowers-prompt-harness/), [OMC의 편성 레이어](/2026/07/22/omc-multiagent-orchestration/), 그리고 [도구함 8선](/2026/07/22/harness-engineering-toolbox/). 이번 글은 그 마무리로, 도구함에서 고른 세 개(**skill-creator, plugin-dev, session-report**)가 이미 운영 중인 세 개(**Superpowers, OMC, Ouroboros**)와 만났을 때 무슨 일이 벌어지는지를 분석합니다.
 
 결론을 먼저 말하면: 이 여섯은 겹치지 않습니다. 대신 지금까지 **끊겨 있던 사이클 하나를 닫습니다.**
 

@@ -8,7 +8,7 @@ tags: [ClaudeCode, OMC, MultiAgent, Orchestration, AgentTeams, Harness]
 
 # 에이전트 하나로 부족할 때: 오케스트레이션이라는 레이어
 
-이전 글에서 [Superpowers의 프롬프트 하네스](/2026/07/22/Superpowers-프롬프트를-넘어-에이전트의-작업-방식을-설계하는-하네스/)를 다뤘습니다 — 에이전트 **하나**가 올바른 절차를 밟게 만드는 규율의 층이었죠. 이번 글은 그 다음 층입니다. **oh-my-claudecode(OMC)** 는 Claude Code 위에 "여러 에이전트를 어떻게 편성하고, 위임하고, 검증시킬 것인가"라는 **오케스트레이션 레이어**를 얹는 플러그인입니다.
+이전 글에서 [Superpowers의 프롬프트 하네스](/2026/07/22/superpowers-prompt-harness/)를 다뤘습니다 — 에이전트 **하나**가 올바른 절차를 밟게 만드는 규율의 층이었죠. 이번 글은 그 다음 층입니다. **oh-my-claudecode(OMC)** 는 Claude Code 위에 "여러 에이전트를 어떻게 편성하고, 위임하고, 검증시킬 것인가"라는 **오케스트레이션 레이어**를 얹는 플러그인입니다.
 
 슬로건부터 노선이 분명합니다: *"Teams-first Multi-agent orchestration for Claude Code. Zero learning curve."* — 그리고 다소 도발적인 *"Don't learn Claude Code. Just use OMC."*
 
