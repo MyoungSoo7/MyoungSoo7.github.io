@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "하네스는 한 겹이 아니다 — Superpowers × OMC × Ouroboros, 3축 하네스 스택"
-date: 2026-07-22 05:00:00 +0900
+date: 2026-07-22 04:35:00 +0900
 categories: [AI, Architecture]
 tags: [ClaudeCode, Superpowers, OhMyClaudeCode, Ouroboros, HarnessEngineering, Agent, SpecFirst, TraceGuard, Plugin]
 ---
