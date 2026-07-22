@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "하나의 표준, 네 개의 얼굴: Claude Code · OpenAI · Codex · agentskills.io 스킬 비교 분석"
-date: 2026-07-22 23:10:00 +0900
+date: 2026-07-22 22:50:00 +0900
 categories: [AI, Agent]
 tags: [agent-skills, claude-code, openai, codex, agentskills, SKILL-md, progressive-disclosure, harness-engineering, mcp]
 ---
