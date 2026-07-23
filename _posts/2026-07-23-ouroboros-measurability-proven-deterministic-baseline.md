@@ -66,11 +66,13 @@ Ouroboros는 모든 것을 `~/.ouroboros/ouroboros.db`(event-sourced SQLite)에 
 
 읽는 법: **evidence-gate가 있으면 환각(근거 없는 주장) 비율이 0.0, 없으면 1.0.** 재귀 구조만으로는 부족하다(`without_gate`도 1.0). 게이트가 붙어야 0이 된다. 그리고 이 게이트는 이론이 아니다 — 이번 라이브 run에서 **비정형 synthesis를 실제로 거부**하는 걸 눈으로 봤다(그래서 파서를 고쳐야 했다). 게이트가 "그럴듯한데 근거 없는" 출력을 성공으로 위장시키지 않고 붙잡는다는 게, 문서 문구가 아니라 관측된 사실로 확인됐다.
 
+> **정정 (2026-07-23 추가) — 이 게이트는 정확히 누구 것인가.** 여기서 말하는 결정론적 evidence-gate(TraceGuard)와 위 표의 수치는 **Ouroboros 코어가 아니라, 이를 감싸는 rlm-forge 층**의 것이다(`rlm_forge/traceguard.py`, `ooo_rlm_traceguard.py` — 이번에 내가 패치한 그 파일). Ouroboros 패키지에는 "TraceGuard"라는 문자열조차 없다. 층 구조는 *rlm-forge(TraceGuard 결정론적 게이트) → 감쌈 → Ouroboros 코어(재귀 루프 + 이벤트 스토어 + `measure_drift`)* 이다. 그래서 아래 세 다리 중 ③(결정론적 게이트)은 **rlm-forge의 기여**이고, Ouroboros 코어가 자체적으로 가진 품질 장치는 `evaluate`/`measure_drift`인데 — 이건 **LLM(semantic-evaluator)이 채점**하는 방식이라, 이 표 같은 "LLM을 안 부르는 결정론성"과는 성격이 다르다.
+
 ## (C)가 뜻하는 것
 
 세 다리를 합치면 이렇게 정리된다.
 
-> **Ouroboros 위에서는 "하네스가 목표에서 얼마나 벗어났나"를 숫자로 물을 수 있다.** 모든 스텝이 이벤트로 남고(①), 품질이 결정론적으로 계산되며(②), 게이트가 근거 없는 주장을 0으로 눌러버린다(③). 이 세 가지는 API를 태우지 않고도 언제든 똑같이 재현된다.
+> **이 스택 위에서는 "하네스가 목표에서 얼마나 벗어났나"를 숫자로 물을 수 있다.** 모든 스텝이 이벤트로 남고(① Ouroboros 코어의 이벤트 스토어), 품질이 결정론적으로 계산되며(② 아티팩트), 게이트가 근거 없는 주장을 0으로 눌러버린다(③ rlm-forge의 TraceGuard). 이 세 가지는 API를 태우지 않고도 언제든 똑같이 재현된다.
 
 이게 측정가능성의 실증이다. 라이브 비교수치 한 줄은 여기에 *더 예쁜 데코레이션*일 뿐, 증명의 필수 조건이 아니었다. 오히려 그 한 줄에 매달리면 측정의 근거를 모델 룰렛에 넘겨주게 된다. 그래서 (C) — **결정론적 baseline을 공식 baseline으로 채택하고, 여기서 선을 긋는다.**
 
@@ -81,7 +83,7 @@ Ouroboros는 모든 것을 `~/.ouroboros/ouroboros.db`(event-sourced SQLite)에 
 두 가지는 솔직히 열어둔다.
 
 - **Fresh 라이브 vanilla-vs-recursive 비교수치**는 이제 파서 문제가 아니라, `--truncation-benchmark`의 입력 fixture가 이 작업 환경에 없어서 막혀 있다. 출력 아티팩트로 입력을 충실히 복원할 수 없고, 지어내면 그건 가짜 수치다. 그래서 안 만들었다.
-- 이 결정론적 실험들이 기록된 실험용 리포(rlm-forge)는 사실상 접는 방향이다. 앞으로 **측정의 무게중심은 Ouroboros 자신의 계측기** — 이벤트 스토어, `measure_drift`/`evaluate`의 지표 벡터(`{score, ac_compliance, goal_alignment, drift_score, uncertainty}`, 통과 게이트 score≥0.8·drift≤0.3), evidence-gate — 로 옮겨간다.
+- 이 결정론적 실험들이 기록된 실험용 리포(rlm-forge)는 사실상 접는 방향이다. **그런데 위 ③의 결정론적 evidence-gate(TraceGuard)가 바로 그 rlm-forge 층의 것**이라, rlm-forge를 접으면 그 게이트도 함께 빠진다. 앞으로 **측정의 무게중심은 Ouroboros 코어 자신의 계측기** — 이벤트 스토어, `measure_drift`/`evaluate`의 지표 벡터(`{score, ac_compliance, goal_alignment, drift_score, uncertainty}`, 통과 게이트 score≥0.8·drift≤0.3) — 로 옮겨간다. 단 이건 **LLM(semantic-evaluator) 채점**이라, rlm-forge식 "LLM 안 부르는 결정론적 게이트"를 코어로 이식하는 건 별도 과제로 남는다.
 
 ## 한 줄 요약
 
