@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "멀티에이전트 조율 패턴 5가지 — Anthropic의 패턴 선택 프레임워크 해설"
-date: 2026-07-23 21:40:00 +0900
+date: 2026-07-23 21:34:00 +0900
 categories: [AI, Architecture]
 tags: [MultiAgent, CoordinationPatterns, Orchestrator, GeneratorVerifier, AgentTeams, MessageBus, SharedState, Anthropic]
 ---
