@@ -29,5 +29,41 @@
       </div>
     </div>
 
+    {%- if site.goatcounter_code -%}
+    <div class="visitor-count" data-gc="{{ site.goatcounter_code }}" aria-label="방문자 수"
+         style="text-align:center;margin-top:20px;color:#828282;font-size:14px;">
+      <span class="visitor-count__inner" hidden>👀 오늘 <strong class="vc-today">–</strong>명 · 누적 <strong class="vc-total">–</strong>명</span>
+    </div>
+    {%- endif -%}
+
   </div>
+
+  {%- if site.goatcounter_code -%}
+  <!-- GoatCounter: 프라이버시 친화(쿠키 없음) 방문자 카운팅. 추적 스크립트는 페이지 어디에 둬도 됨. -->
+  <script data-goatcounter="https://{{ site.goatcounter_code }}.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+  <script>
+  (function () {
+    var el = document.querySelector('.visitor-count');
+    if (!el) return;
+    var code = el.getAttribute('data-gc');
+    if (!code) return;
+    var base = 'https://' + code + '.goatcounter.com/counter/TOTAL.json';
+    var num = function (x) { return parseInt(String(x == null ? '' : x).replace(/[^0-9]/g, ''), 10) || 0; };
+    var pick = function (d) { return d && (d.count_unique != null ? d.count_unique : d.count); };
+    var today = function () {
+      var n = new Date(), z = function (v) { return (v < 10 ? '0' : '') + v; };
+      return n.getFullYear() + '-' + z(n.getMonth() + 1) + '-' + z(n.getDate());
+    };
+    Promise.all([
+      fetch(base).then(function (r) { return r.json(); }),
+      fetch(base + '?start=' + today()).then(function (r) { return r.json(); })
+    ]).then(function (res) {
+      el.querySelector('.vc-total').textContent = num(pick(res[0])).toLocaleString();
+      el.querySelector('.vc-today').textContent = num(pick(res[1])).toLocaleString();
+      el.querySelector('.visitor-count__inner').hidden = false;
+    }).catch(function () { /* 사이트 코드 미가입/차단 시 조용히 숨김 유지 */ });
+  })();
+  </script>
+  {%- endif -%}
 </footer>

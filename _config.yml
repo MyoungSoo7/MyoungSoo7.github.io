@@ -1,6 +1,9 @@
 title: "푸른영혼의 별 | Tech Blog"
 description: "Java Backend Engineer의 기술 블로그"
 url: "https://MyoungSoo7.github.io"
+# GoatCounter 방문자 카운터 사이트 코드 (https://<code>.goatcounter.com 에서 가입해 확보).
+# 값이 비어 있으면 카운터/추적이 모두 비활성화됨. 코드를 바꾸면 이 한 줄만 수정.
+goatcounter_code: "myoungsoo7"
 baseurl: ""
 theme: minima
 
