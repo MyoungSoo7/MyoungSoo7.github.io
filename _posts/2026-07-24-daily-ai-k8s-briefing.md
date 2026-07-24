@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI & K8s 데일리 브리핑: 2026-07-24"
-date: 2026-07-24 09:00:00 +0900
+date: 2026-07-24 08:00:00 +0900
 categories: [AI, K8s]
 tags: [DailyBriefing]
 ---
