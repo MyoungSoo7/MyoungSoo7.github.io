@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "21개 사일로 DB를 하나로 — Postgres만으로 만든 홈랩 ETL 파이프라인 (dart·ECOS 정규화)"
-date: 2026-07-25 13:00:00 +0900
+date: 2026-07-25 09:00:00 +0900
 categories: [Data, Architecture]
 tags: [ETL, DataWarehouse, Medallion, StarSchema, PostgreSQL, postgres_fdw, n8n, Grafana, GitOps, ArgoCD, Kimball]
 ---
