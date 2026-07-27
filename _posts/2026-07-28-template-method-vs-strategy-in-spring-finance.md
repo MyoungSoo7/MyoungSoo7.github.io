@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "템플릿 메서드 vs 전략 패턴 — 스프링과 금융 정산 시스템에서 실제로 어디에 쓰이나"
-date: 2026-07-28 09:00:00 +0900
+date: 2026-07-28 00:05:00 +0900
 categories: [Java, DesignPattern]
 tags: [TemplateMethod, Strategy, GoF, Spring, SpringBatch, Settlement, Fintech, Java]
 ---

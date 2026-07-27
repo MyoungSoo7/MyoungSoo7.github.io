@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "*금융 도메인의 ThreadLocal 과 동시성* — *필드 동기화* 로 푸는 것, *스레드 격리* 로만 풀리는 것, 그리고 *스레드풀 오염* 이라는 사고"
-date: 2026-07-28 09:00:00 +0900
+date: 2026-07-28 00:20:00 +0900
 categories: [java, spring, concurrency]
 tags: [ThreadLocal, Concurrency, Spring, JMM, happens-before, ScopedValue, VirtualThreads, MDC, TaskDecorator, Finance]
 ---
