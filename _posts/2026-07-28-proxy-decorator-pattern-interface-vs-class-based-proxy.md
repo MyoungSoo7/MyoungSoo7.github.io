@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지"
-date: 2026-07-28 00:40:00 +0900
+date: 2026-07-28 00:26:00 +0900
 categories: [java, spring, design-patterns]
 tags: [Proxy, Decorator, GoF, DesignPatterns, SpringAOP, CGLIB, JDKDynamicProxy, Hibernate, Servlet]
 ---
