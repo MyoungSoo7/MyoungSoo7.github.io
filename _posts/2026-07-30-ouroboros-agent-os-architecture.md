@@ -41,6 +41,8 @@ tags: [Ouroboros, AgentOS, EventSourcing, Determinism, Provenance, MCP, ControlP
 둘 다 감상이 아니라 **저장소의 문서와 소스에 적힌 것만으로** 답한다.
 
 > **먼저 밝혀둘 것**: Ouroboros 는 필자의 프로젝트가 아니다. [Q00](https://github.com/Q00) 이 MIT 라이선스로 공개한 오픈소스이고, 2026-07-30 기준 GitHub 스타 5,197 개, 커밋 이력상 Q00(482) · shaun0927(100) · JunghwanNA(58) 등이 참여하고 있다.[^repo] 이 글은 그 프로젝트의 **구조 분석**이며, 모든 인용은 업스트림 저장소를 가리킨다.
+>
+> **기준 버전**: 이 글은 **v0.50.6**(2026-07-24 릴리스, 커밋 `4e8ba60d`) 및 그 시점의 `main` 문서를 기준으로 한다. 특히 5절의 RFC 구현 상태 매트릭스는 **시점 의존적**이므로, 이후 버전에서는 달라져 있을 수 있다. (버전 근거는 git 태그·GitHub Releases·PyPI `ouroboros-ai` 세 곳이 일치. 저장소의 `CHANGELOG.md` 는 최신 버전 섹션이 `[0.41.0]` 에 멈춰 있어 버전 확인용으로 적합하지 않다.)
 
 ---
 
