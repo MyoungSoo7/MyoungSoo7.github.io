@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "*프로세스 안에서 코드를 갈아끼울 것인가, 프로세스를 통째로 버릴 것인가* — Elixir *핫 업그레이드* vs *쿠버네티스 파드 교체*, 그리고 *네이티브 하이브리드* 3종 비교 (Rust · Python · JNI/Panama)"
-date: 2026-07-30 02:00:00 +0900
+date: 2026-07-30 01:20:00 +0900
 categories: [elixir, kubernetes, architecture, jvm]
 tags: [Elixir, BEAM, OTP, HotCodeUpgrade, relup, Kubernetes, RollingUpdate, Rustler, Rust, Pythonx, Python, NIF, JNI, Panama, FFM, Java, Nx, FLAME]
 ---
