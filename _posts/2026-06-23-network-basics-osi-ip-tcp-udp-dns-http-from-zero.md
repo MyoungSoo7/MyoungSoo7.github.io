@@ -3,54 +3,70 @@ layout: post
 title: "*네트워크 기초* — *OSI 7 계층* / *IP* / *TCP vs UDP* / *DNS* / *HTTP* 까지, *입문* 부터 *실전 도구* 까지"
 date: 2026-06-23 06:00:00 +0900
 categories: [networking, fundamentals, backend]
-tags: [network, osi, tcp-ip, ip, mac, arp, dns, http, https, ping, traceroute, fundamentals, basics]
+tags:
+  [
+    network,
+    osi,
+    tcp-ip,
+    ip,
+    mac,
+    arp,
+    dns,
+    http,
+    https,
+    ping,
+    traceroute,
+    fundamentals,
+    basics,
+  ]
 ---
 
-> *"브라우저 주소창 에 google.com 입력 하고 엔터 치면 *무슨 일* 이 일어 나는가?"* — *주니어 면접 의 *고전 질문*. *시니어 가 보기엔 *그 한 줄* 에 *수십 개 의 *네트워크 의 *층* 이 *함께 도는 것* 이 보인다.
+> *"브라우저 주소창 에 google.com 입력 하고 엔터 치면 *무슨 일* 이 일어 나는가?"* — *주니어 면접 의 *고전 질문*. *시니어 가 보기엔 _그 한 줄_ 에 *수십 개 의 *네트워크 의 _층_ 이 _함께 도는 것_ 이 보인다.
 >
-> *DNS lookup 으로 *도메인 → IP* 변환, *TCP 3-way handshake 로 *연결 수립*, *TLS handshake 로 *암호화*, *HTTP 요청 송신*, *Cloudflare edge 가 *처리*, *origin 서버 로 *forward*, *response 가 *역경로 로 돌아옴*. *각 단계 가 *서로 다른 *OSI 계층* 에서 *각자 책임* 을 *수행*.
+> *DNS lookup 으로 *도메인 → IP* 변환, *TCP 3-way handshake 로 _연결 수립_, *TLS handshake 로 *암호화*, *HTTP 요청 송신*, *Cloudflare edge 가 _처리_, *origin 서버 로 *forward*, *response 가 _역경로 로 돌아옴_. *각 단계 가 *서로 다른 _OSI 계층_ 에서 _각자 책임_ 을 _수행_.
 >
-> 이 글은 *기본기 시리즈 의 *네트워크 입문 편* — *OSI 7 계층 의 *각자 의무*, *IP / MAC / ARP / NAT 의 *물리적 의미*, *TCP vs UDP 의 *철학*, *DNS 의 *분산 lookup*, *HTTP / HTTPS 의 *진실*, *ping / traceroute / dig 의 *진짜 동작* — 까지 *입문자 부터 *백엔드 엔지니어 까지* *공통 으로 *알아야 하는 깊이* 로 정리한다.
+> 이 글은 *기본기 시리즈 의 *네트워크 입문 편* — *OSI 7 계층 의 _각자 의무_, *IP / MAC / ARP / NAT 의 *물리적 의미*, *TCP vs UDP 의 _철학_, *DNS 의 *분산 lookup*, *HTTP / HTTPS 의 _진실_, *ping / traceroute / dig 의 *진짜 동작* — 까지 *입문자 부터 _백엔드 엔지니어 까지_ *공통 으로 *알아야 하는 깊이\* 로 정리한다.
 
-내 *기본기 시리즈 의 *네트워크 편 (입문)*. *심화 편* 은 [*TCP 상태 기계 / BBR / QUIC / mTLS*](/2026/06/22/network-fundamentals-tcp-state-machine-bbr-cubic-quic-mtls.html) 참조.
-
----
-
-## TL;DR — *한 줄 결론*
-
-> 네트워크 의 *기초 7 가지* : (1) **OSI 7 계층** 의 *각자 책임 분리*, (2) **IP (Layer 3)** = *글로벌 주소 + 라우팅*, (3) **MAC + ARP (Layer 2)** = *LAN 내부 주소 + L3→L2 변환*, (4) **NAT** = *private IP ↔ public IP* 의 *주소 변환 의 마법*, (5) **TCP vs UDP (Layer 4)** = *신뢰성 vs 속도* 의 *철학*, (6) **DNS** = *도메인 → IP* 의 *분산 lookup*, (7) **HTTP / HTTPS (Layer 7)** = *웹 의 공통 어휘* + *TLS 의 암호화 종료*. *ping / traceroute / dig / netstat / tcpdump* 가 *각 계층 의 *진단 도구*. *기초 의 깊이* 가 *클러스터 운영 / 사고 진단 / 보안 의 *모든 결정 의 *밑* 에서 *작동*.
+내 *기본기 시리즈 의 *네트워크 편 (입문)*. *심화 편* 은 [*TCP 상태 기계 / BBR / QUIC / mTLS\*](/2026/06/22/network-fundamentals-tcp-state-machine-bbr-cubic-quic-mtls.html) 참조.
 
 ---
 
-## 1. *왜 *네트워크 를 *나누어 보나*
+## TL;DR — _한 줄 결론_
 
-### 1.1 *통신 의 *복잡성*
+> 네트워크 의 _기초 7 가지_ : (1) **OSI 7 계층** 의 _각자 책임 분리_, (2) **IP (Layer 3)** = _글로벌 주소 + 라우팅_, (3) **MAC + ARP (Layer 2)** = _LAN 내부 주소 + L3→L2 변환_, (4) **NAT** = _private IP ↔ public IP_ 의 _주소 변환 의 마법_, (5) **TCP vs UDP (Layer 4)** = _신뢰성 vs 속도_ 의 _철학_, (6) **DNS** = _도메인 → IP_ 의 _분산 lookup_, (7) **HTTP / HTTPS (Layer 7)** = _웹 의 공통 어휘_ + _TLS 의 암호화 종료_. _ping / traceroute / dig / netstat / tcpdump_ 가 *각 계층 의 *진단 도구*. *기초 의 깊이* 가 *클러스터 운영 / 사고 진단 / 보안 의 *모든 결정 의 *밑* 에서 *작동\*.
 
-> *서울 의 한 컴퓨터 가 *부산 의 한 컴퓨터 에게 *메시지 보내기* — 이 *단순한 일* 에 *수십 단계 의 *기술* 이 *얽혀 있다*.
+---
+
+## 1. *왜 *네트워크 를 _나누어 보나_
+
+### 1.1 *통신 의 *복잡성\*
+
+> *서울 의 한 컴퓨터 가 *부산 의 한 컴퓨터 에게 _메시지 보내기_ — 이 _단순한 일_ 에 *수십 단계 의 *기술* 이 *얽혀 있다\*.
 
 각 단계 :
-- *어떻게 *부산 의 컴퓨터 를 *찾는가*? (DNS, 라우팅)
-- *어떤 *포맷* 으로 보낼까? (HTTP, JSON)
-- *패킷* 이 *중간 에 *손실* 되면 어떻게? (TCP 재전송)
-- *데이터 가 *큰 면 어떻게 *분할*? (IP fragment, TCP segment)
-- *암호화* 는 어떻게? (TLS)
-- *서버 가 *나만 응답* 하게? (포트, 세션)
 
-→ *이 *수십 가지 의 *복잡성* 을 *한 곳 에 모으면 *불가능*. *계층 으로 *분리* 가 *유일한 답*.
+- *어떻게 *부산 의 컴퓨터 를 _찾는가_? (DNS, 라우팅)
+- *어떤 *포맷\* 으로 보낼까? (HTTP, JSON)
+- _패킷_ 이 *중간 에 *손실\* 되면 어떻게? (TCP 재전송)
+- *데이터 가 *큰 면 어떻게 _분할_? (IP fragment, TCP segment)
+- _암호화_ 는 어떻게? (TLS)
+- *서버 가 *나만 응답\* 하게? (포트, 세션)
 
-### 1.2 *계층 의 *원칙*
+→ *이 *수십 가지 의 _복잡성_ 을 *한 곳 에 모으면 *불가능*. *계층 으로 _분리_ 가 _유일한 답_.
 
-> *각 계층 은 *자기 책임 만* — *아래 계층 의 *세부 모름*, *위 계층 의 *세부 모름*.
+### 1.2 *계층 의 *원칙\*
 
-이게 *추상화 의 *힘*. *Ethernet 케이블 이 *광케이블 로 바뀌어도 *TCP 는 *변경 없음*. *HTTP 가 *HTTP/2 로 바뀌어도 *IP 는 *모름*.
+> *각 계층 은 *자기 책임 만* — *아래 계층 의 _세부 모름_, *위 계층 의 *세부 모름\*.
 
-→ *각 계층 의 *교체 가능 성* 이 *네트워크 의 *수십 년 진화* 의 *물리적 토대*.
+이게 *추상화 의 *힘*. *Ethernet 케이블 이 *광케이블 로 바뀌어도 *TCP 는 _변경 없음_. *HTTP 가 *HTTP/2 로 바뀌어도 *IP 는 *모름\*.
+
+→ *각 계층 의 *교체 가능 성* 이 *네트워크 의 _수십 년 진화_ 의 _물리적 토대_.
 
 ---
 
-## 2. *OSI 7 계층 vs TCP/IP 4 계층*
+## 2. _OSI 7 계층 vs TCP/IP 4 계층_
 
-### 2.1 *OSI 7 (이론)*
+### 2.1 _OSI 7 (이론)_
 
 ```
 L7 Application   ← HTTP, FTP, SMTP, SSH, DNS
@@ -62,7 +78,7 @@ L2 Data Link     ← Ethernet, Wi-Fi (802.11), MAC, ARP
 L1 Physical      ← cable, fiber, NIC, wireless signal
 ```
 
-### 2.2 *TCP/IP 4 (현실)*
+### 2.2 _TCP/IP 4 (현실)_
 
 ```
 L4 Application   ← HTTP, DNS, SSH, ... (OSI L5-L7 통합)
@@ -71,9 +87,9 @@ L2 Internet      ← IP, ICMP
 L1 Link          ← Ethernet, Wi-Fi, MAC
 ```
 
-→ *TCP/IP 4 계층 이 *실무 의 표준*. OSI 는 *이론 / 교육* 의 표준. 둘 다 *알면 *유연하게 *대응 가능*.
+→ *TCP/IP 4 계층 이 *실무 의 표준*. OSI 는 *이론 / 교육* 의 표준. 둘 다 *알면 *유연하게 *대응 가능\*.
 
-### 2.3 *데이터 의 *변환* — *Encapsulation*
+### 2.3 *데이터 의 *변환* — *Encapsulation\*
 
 ```text
 [Application]   HTTP Request: "GET /index.html HTTP/1.1\r\nHost: ..."
@@ -87,34 +103,35 @@ L1 Link          ← Ethernet, Wi-Fi, MAC
 [Physical]      비트 신호 → 케이블/Wi-Fi 전송
 ```
 
-→ *각 계층 이 *header 를 *추가* (encapsulation). 수신 측 은 *header 를 *제거* (decapsulation). *Russian doll* 같은 *중첩*.
+→ *각 계층 이 *header 를 _추가_ (encapsulation). 수신 측 은 *header 를 *제거* (decapsulation). *Russian doll* 같은 *중첩\*.
 
 ---
 
-## 3. *Layer 1-2 : 물리 + Ethernet + MAC + ARP*
+## 3. _Layer 1-2 : 물리 + Ethernet + MAC + ARP_
 
-### 3.1 *MAC Address — *NIC 의 *지문***
+### 3.1 *MAC Address — *NIC 의 \*지문\*\*\*
 
-> *48-bit (6 byte) 의 *고유 식별자*. *제조 시 *NIC 에 *각인*. *전 세계 *유일*.
+> *48-bit (6 byte) 의 *고유 식별자*. *제조 시 *NIC 에 *각인*. *전 세계 _유일_.
 
 예: `B0:38:6C:12:34:56`
-- *앞 24-bit (B0:38:6C)* = *OUI (Organizationally Unique Identifier)* — *제조사*. 위 는 *Apple* OUI.
-- *뒤 24-bit (12:34:56)* = *NIC 별 *시리얼*.
 
-### 3.2 *Ethernet Frame*
+- _앞 24-bit (B0:38:6C)_ = _OUI (Organizationally Unique Identifier)_ — _제조사_. 위 는 _Apple_ OUI.
+- _뒤 24-bit (12:34:56)_ = *NIC 별 *시리얼\*.
+
+### 3.2 _Ethernet Frame_
 
 ```text
 [Preamble][Dst MAC][Src MAC][EtherType][Payload (IP packet)][CRC]
    8 byte   6 byte  6 byte    2 byte      46~1500 byte         4 byte
 ```
 
-*EtherType*: `0x0800` = IPv4, `0x86DD` = IPv6, `0x0806` = ARP.
+_EtherType_: `0x0800` = IPv4, `0x86DD` = IPv6, `0x0806` = ARP.
 
-*MTU (Maximum Transmission Unit)* = *Ethernet 의 payload 최대* = *1500 byte*. *그 이상 데이터* 는 *IP 가 분할*.
+_MTU (Maximum Transmission Unit)_ = _Ethernet 의 payload 최대_ = _1500 byte_. _그 이상 데이터_ 는 _IP 가 분할_.
 
-### 3.3 *ARP (Address Resolution Protocol)*
+### 3.3 _ARP (Address Resolution Protocol)_
 
-> *IP 주소 만 알 때 *MAC 주소 찾는 법*.
+> *IP 주소 만 알 때 *MAC 주소 찾는 법\*.
 
 ```text
 PC A 가 *192.168.0.5* (서버 B) 와 통신 하려고 함.
@@ -134,42 +151,45 @@ ip neigh
 # 192.168.0.5 dev eth0 lladdr cc:dd:ee:11:22:33 REACHABLE
 ```
 
-→ *우리 클러스터 의 *DHCP 진단* (2026-06-19 사고) 시 *ARP table* 로 *MAC ↔ IP 매핑* 확인. *.120 (유령 솔로몬)* 의 정체 도 *ARP* 로 추적.
+→ *우리 클러스터 의 *DHCP 진단* (2026-06-19 사고) 시 *ARP table* 로 *MAC ↔ IP 매핑* 확인. *.120 (유령 솔로몬)* 의 정체 도 *ARP\* 로 추적.
 
-### 3.4 *Switch 의 *작동*
+### 3.4 *Switch 의 *작동\*
 
-> *Hub* (deprecated) = *모든 포트에 *broadcast*. *Switch* = *MAC 학습 후 *해당 포트에만 전달*.
+> _Hub_ (deprecated) = *모든 포트에 *broadcast*. *Switch* = *MAC 학습 후 _해당 포트에만 전달_.
 
-Switch 의 *학습* :
-- *각 포트 에서 *들어오는 frame 의 *src MAC* 기록 → *MAC 테이블*
-- *destination MAC* 찾아 *해당 포트* 만 전달
-- *없으면 (학습 안 됨) *broadcast*
+Switch 의 _학습_ :
 
-→ *Hub 보다 *Switch 의 *throughput 압도적 우위*.
+- *각 포트 에서 *들어오는 frame 의 _src MAC_ 기록 → _MAC 테이블_
+- _destination MAC_ 찾아 _해당 포트_ 만 전달
+- *없으면 (학습 안 됨) *broadcast\*
+
+→ *Hub 보다 *Switch 의 _throughput 압도적 우위_.
 
 ---
 
-## 4. *Layer 3 : IP, 라우팅, NAT*
+## 4. _Layer 3 : IP, 라우팅, NAT_
 
-### 4.1 *IP 주소 의 *역할***
+### 4.1 *IP 주소 의 *역할\*\*\*
 
-> *Ethernet 의 MAC 은 *LAN 내부 만*. *인터넷 전체 의 *유일한 주소* 가 *IP*.
+> *Ethernet 의 MAC 은 *LAN 내부 만*. *인터넷 전체 의 _유일한 주소_ 가 _IP_.
 
 **IPv4** (32-bit, 약 43억) :
+
 ```
 192.168.0.5
 └─ 4 byte . 각 byte 0~255 (8-bit)
 ```
 
 **IPv6** (128-bit, 약 3.4 × 10^38) :
+
 ```
 2001:0db8:85a3:0000:0000:8a2e:0370:7334
 └─ 8 segment (각 16-bit)
 ```
 
-→ *IPv4 주소 고갈* 이 *2010 년대 부터 *큰 문제*. *NAT 가 *임시 해결*. *IPv6 는 *2026 년 *전체 인터넷 의 *45% 채택*.
+→ _IPv4 주소 고갈_ 이 *2010 년대 부터 *큰 문제*. *NAT 가 _임시 해결_. *IPv6 는 *2026 년 *전체 인터넷 의 *45% 채택\*.
 
-### 4.2 *Subnet — *네트워크 의 *나눔***
+### 4.2 *Subnet — *네트워크 의 \*나눔\*\*\*
 
 ```
 192.168.0.0/24  ← /24 = 앞 24-bit 가 *네트워크 부분*
@@ -182,7 +202,7 @@ Switch 의 *학습* :
 └ *Gateway 통해 라우팅* 필요
 ```
 
-### 4.3 *Private IP — *RFC 1918*
+### 4.3 *Private IP — *RFC 1918\*
 
 ```
 10.0.0.0/8        ← 16,777,216 개 (대기업)
@@ -190,9 +210,9 @@ Switch 의 *학습* :
 192.168.0.0/16    ← 65,536 개 (가정)
 ```
 
-이 IP 들은 *인터넷 에 *라우팅 안 됨*. *NAT 거쳐야 함*. → *우리 클러스터 의 *.219.0/24 LAN* 도 *private*.
+이 IP 들은 *인터넷 에 *라우팅 안 됨*. *NAT 거쳐야 함*. → *우리 클러스터 의 _사설 /24 LAN_ 도 _private_.
 
-### 4.4 *Routing — *다른 subnet 으로 가는 길*
+### 4.4 *Routing — *다른 subnet 으로 가는 길\*
 
 ```text
 PC (192.168.0.5)
@@ -207,7 +227,7 @@ PC (192.168.0.5)
      ↓ Anycast 로 가장 가까운 edge POP 으로
 ```
 
-`ip route` 또는 `route -n` 으로 *내 컴퓨터 의 *라우팅 테이블* 확인.
+`ip route` 또는 `route -n` 으로 *내 컴퓨터 의 *라우팅 테이블\* 확인.
 
 ```bash
 $ ip route
@@ -215,9 +235,9 @@ default via 192.168.0.1 dev eth0       ← *default gateway*
 192.168.0.0/24 dev eth0 scope link     ← *직접 연결 된 subnet*
 ```
 
-### 4.5 *NAT (Network Address Translation)*
+### 4.5 _NAT (Network Address Translation)_
 
-> *Private IP → Public IP 변환*. *IPv4 고갈 의 *임시 해결*.
+> _Private IP → Public IP 변환_. *IPv4 고갈 의 *임시 해결\*.
 
 ```text
 [PC 192.168.0.5]            [Home Router]              [Internet 서버]
@@ -237,26 +257,28 @@ default via 192.168.0.1 dev eth0       ← *default gateway*
      │ ←────────────────────────│                          │
 ```
 
-→ *Router 가 *NAT table* 로 *outbound 시 src 변환*, *inbound 시 dst 복원*. *연결 추적*.
+→ *Router 가 *NAT table* 로 *outbound 시 src 변환*, *inbound 시 dst 복원*. *연결 추적\*.
 
-NAT 의 *함정*:
-- *서버 측에선 *모든 사용자 가 *같은 public IP 로 보임* (CGNAT 환경). *rate limit / DDoS 차단 어려움*.
-- *Inbound connection* (외부 → 내부) 이 *port forwarding* 없으면 *불가능*. → *우리 클러스터 의 *Cloudflare Tunnel 이 *outbound only* 로 *이 한계 우회*.
+NAT 의 _함정_:
 
-### 4.6 *ICMP — *L3 의 *제어 프로토콜***
+- *서버 측에선 *모든 사용자 가 _같은 public IP 로 보임_ (CGNAT 환경). _rate limit / DDoS 차단 어려움_.
+- _Inbound connection_ (외부 → 내부) 이 _port forwarding_ 없으면 _불가능_. → *우리 클러스터 의 *Cloudflare Tunnel 이 _outbound only_ 로 _이 한계 우회_.
 
-> *ping*, *traceroute* 가 사용.
+### 4.6 *ICMP — *L3 의 \*제어 프로토콜\*\*\*
+
+> _ping_, _traceroute_ 가 사용.
 
 ICMP type:
-- *Echo Request / Reply* — `ping`
-- *TTL Exceeded* — `traceroute` 가 사용
-- *Destination Unreachable* — 라우팅 실패
+
+- _Echo Request / Reply_ — `ping`
+- _TTL Exceeded_ — `traceroute` 가 사용
+- _Destination Unreachable_ — 라우팅 실패
 
 ---
 
-## 5. *Layer 4 : TCP vs UDP*
+## 5. _Layer 4 : TCP vs UDP_
 
-### 5.1 *Port — *프로세스 의 *구별*
+### 5.1 *Port — *프로세스 의 _구별_
 
 > *IP 는 *호스트 까지*. *Port 는 *그 호스트 의 *어느 프로세스* 인지*.
 
@@ -266,9 +288,10 @@ ICMP type:
 49152~65535 Dynamic / Private ports (client 의 src port 보통 여기)
 ```
 
-### 5.2 *TCP — *신뢰성***
+### 5.2 *TCP — *신뢰성\*\*\*
 
 **3-way handshake** :
+
 ```
 Client                   Server
   │                         │
@@ -279,53 +302,55 @@ Client                   Server
 ```
 
 **보장**:
-- *순서 보장* — 보낸 순서 대로 도착
-- *재전송* — 손실 패킷 *자동 재전송*
-- *흐름 제어* — 수신 측 buffer 가득 차면 *송신 측 멈춤*
-- *혼잡 제어* — 네트워크 혼잡 감지 시 *송신 속도 감소*
 
-**대가**: *handshake overhead*, *latency 증가*, *bandwidth 소모*.
+- _순서 보장_ — 보낸 순서 대로 도착
+- _재전송_ — 손실 패킷 _자동 재전송_
+- _흐름 제어_ — 수신 측 buffer 가득 차면 _송신 측 멈춤_
+- _혼잡 제어_ — 네트워크 혼잡 감지 시 _송신 속도 감소_
 
-### 5.3 *UDP — *속도***
+**대가**: _handshake overhead_, _latency 증가_, _bandwidth 소모_.
 
-> *Connectionless + 신뢰성 보장 X*.
+### 5.3 *UDP — *속도\*\*\*
+
+> _Connectionless + 신뢰성 보장 X_.
 
 ```
 Client → Server : "data"   (그게 끝)
 ```
 
-- *handshake 없음*
-- *재전송 없음* (애플리케이션 책임)
-- *순서 보장 없음*
+- _handshake 없음_
+- _재전송 없음_ (애플리케이션 책임)
+- _순서 보장 없음_
 
 **용도**:
+
 - DNS query (대부분)
-- VoIP, video streaming (재전송 보다 *지연 회피* 우선)
+- VoIP, video streaming (재전송 보다 _지연 회피_ 우선)
 - 게임 (실시간)
-- QUIC (HTTP/3 의 *기반*) — *UDP 위에 *재전송 / 암호화 직접 구현*
+- QUIC (HTTP/3 의 _기반_) — *UDP 위에 *재전송 / 암호화 직접 구현\*
 
-### 5.4 *TCP vs UDP 의 *선택*
+### 5.4 *TCP vs UDP 의 *선택\*
 
-| | TCP | UDP |
-|---|---|---|
-| 신뢰성 | ✅ | ❌ |
-| 순서 | ✅ | ❌ |
-| 재전송 | ✅ | ❌ |
-| Latency | 높음 (handshake) | 낮음 |
-| Bandwidth overhead | 높음 | 낮음 |
-| 사용 예 | HTTP, SSH, DB | DNS, VoIP, 게임 |
+|                    | TCP              | UDP             |
+| ------------------ | ---------------- | --------------- |
+| 신뢰성             | ✅               | ❌              |
+| 순서               | ✅               | ❌              |
+| 재전송             | ✅               | ❌              |
+| Latency            | 높음 (handshake) | 낮음            |
+| Bandwidth overhead | 높음             | 낮음            |
+| 사용 예            | HTTP, SSH, DB    | DNS, VoIP, 게임 |
 
-→ *대부분 의 백엔드 코드* 가 *TCP 위*. *UDP 는 *특수 용도*.
+→ _대부분 의 백엔드 코드_ 가 _TCP 위_. *UDP 는 *특수 용도\*.
 
 ---
 
-## 6. *DNS — *도메인 → IP*
+## 6. *DNS — *도메인 → IP\*
 
-### 6.1 *왜 *DNS 인가*
+### 6.1 *왜 *DNS 인가\*
 
-> *우리 가 *142.250.207.110 외우지 않고 *google.com* 으로 접근 가능 한 *이유*.
+> *우리 가 *142.250.207.110 외우지 않고 _google.com_ 으로 접근 가능 한 _이유_.
 
-### 6.2 *Resolution 의 *단계*
+### 6.2 *Resolution 의 *단계\*
 
 ```text
 [Browser] : "google.com 의 IP?"
@@ -344,24 +369,25 @@ Client → Server : "data"   (그게 끝)
 ```
 
 **Caching** :
-- *각 단계 마다 *TTL (Time To Live)* 따라 캐시
-- *Recursive resolver* + *OS resolver* + *Browser* 의 *3 단 캐시*
-- *자주 가는 도메인 은 *DNS 한 번 후 *수 분 ~ 수 시간 캐시*
 
-### 6.3 *DNS Record 타입*
+- *각 단계 마다 *TTL (Time To Live)\* 따라 캐시
+- _Recursive resolver_ + _OS resolver_ + _Browser_ 의 _3 단 캐시_
+- *자주 가는 도메인 은 *DNS 한 번 후 _수 분 ~ 수 시간 캐시_
 
-| Type | 의미 |
-|---|---|
-| **A** | hostname → IPv4 |
-| **AAAA** | hostname → IPv6 |
-| **CNAME** | hostname → 다른 hostname (alias) |
-| **MX** | mail server |
-| **TXT** | 임의 텍스트 (SPF, DKIM, verification) |
-| **NS** | 이 zone 의 nameserver |
-| **SOA** | zone 의 metadata |
-| **SRV** | 서비스 + 포트 |
+### 6.3 _DNS Record 타입_
 
-### 6.4 *dig — *실전 도구***
+| Type      | 의미                                  |
+| --------- | ------------------------------------- |
+| **A**     | hostname → IPv4                       |
+| **AAAA**  | hostname → IPv6                       |
+| **CNAME** | hostname → 다른 hostname (alias)      |
+| **MX**    | mail server                           |
+| **TXT**   | 임의 텍스트 (SPF, DKIM, verification) |
+| **NS**    | 이 zone 의 nameserver                 |
+| **SOA**   | zone 의 metadata                      |
+| **SRV**   | 서비스 + 포트                         |
+
+### 6.4 *dig — *실전 도구\*\*\*
 
 ```bash
 $ dig google.com
@@ -391,11 +417,12 @@ dig -x 142.250.207.110
 dig +dnssec google.com
 ```
 
-→ 우리 클러스터 의 *Cloudflare DNS* 진단 (2026-06-23) 시 `dig` 로 *각 도메인 의 *CNAME 추적* + *Tunnel 매핑* 확인.
+→ 우리 클러스터 의 _Cloudflare DNS_ 진단 (2026-06-23) 시 `dig` 로 *각 도메인 의 *CNAME 추적* + *Tunnel 매핑\* 확인.
 
-### 6.5 *우리 클러스터 의 *내부 DNS*
+### 6.5 *우리 클러스터 의 *내부 DNS\*
 
-K8s 안 의 *CoreDNS*:
+K8s 안 의 _CoreDNS_:
+
 - `<service>.<namespace>.svc.cluster.local` 형식
 - 예: `postgres.settlement-prod.svc.cluster.local` → ClusterIP
 
@@ -406,15 +433,16 @@ nslookup postgres.settlement-prod.svc
 # Address:    10.43.x.y      (postgres service ClusterIP)
 ```
 
-→ K8s 의 *모든 서비스 통신* 이 *DNS 기반*. *2026-06-19 outage* 의 *root cause* 도 *cluster-dns 의 잘못된 IP* 였음.
+→ K8s 의 _모든 서비스 통신_ 이 _DNS 기반_. _2026-06-19 outage_ 의 _root cause_ 도 _cluster-dns 의 잘못된 IP_ 였음.
 
 ---
 
-## 7. *Layer 7 : HTTP / HTTPS*
+## 7. _Layer 7 : HTTP / HTTPS_
 
-### 7.1 *HTTP 요청 / 응답*
+### 7.1 _HTTP 요청 / 응답_
 
 **Request**:
+
 ```http
 GET /index.html HTTP/1.1
 Host: google.com
@@ -426,6 +454,7 @@ Cookie: session=abc123
 ```
 
 **Response**:
+
 ```http
 HTTP/1.1 200 OK
 Content-Type: text/html
@@ -435,31 +464,31 @@ Set-Cookie: session=def456
 <html>...</html>
 ```
 
-### 7.2 *Status Code*
+### 7.2 _Status Code_
 
-| 범위 | 의미 |
-|---|---|
-| 1xx | Informational (잘 안 씀) |
-| 2xx | Success — 200 OK, 201 Created, 204 No Content |
-| 3xx | Redirect — 301 Moved Permanently, 302 Found, 304 Not Modified |
-| 4xx | Client Error — 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 429 Too Many Requests |
-| 5xx | Server Error — 500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout |
+| 범위 | 의미                                                                                                    |
+| ---- | ------------------------------------------------------------------------------------------------------- |
+| 1xx  | Informational (잘 안 씀)                                                                                |
+| 2xx  | Success — 200 OK, 201 Created, 204 No Content                                                           |
+| 3xx  | Redirect — 301 Moved Permanently, 302 Found, 304 Not Modified                                           |
+| 4xx  | Client Error — 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 429 Too Many Requests   |
+| 5xx  | Server Error — 500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout |
 
-→ *백엔드 의 *모든 에러 분류 의 *공통 어휘*.
+→ *백엔드 의 *모든 에러 분류 의 _공통 어휘_.
 
-### 7.3 *HTTP Methods*
+### 7.3 _HTTP Methods_
 
-| Method | 의미 | Idempotent |
-|---|---|---|
-| GET | 조회 | ✅ |
-| POST | 생성 (또는 임의 action) | ❌ |
-| PUT | 전체 갱신 또는 생성 | ✅ |
-| PATCH | 부분 갱신 | ❌ (대부분) |
-| DELETE | 삭제 | ✅ |
-| HEAD | 헤더만 (body 없이) | ✅ |
-| OPTIONS | 지원 method 조회 (CORS preflight) | ✅ |
+| Method  | 의미                              | Idempotent  |
+| ------- | --------------------------------- | ----------- |
+| GET     | 조회                              | ✅          |
+| POST    | 생성 (또는 임의 action)           | ❌          |
+| PUT     | 전체 갱신 또는 생성               | ✅          |
+| PATCH   | 부분 갱신                         | ❌ (대부분) |
+| DELETE  | 삭제                              | ✅          |
+| HEAD    | 헤더만 (body 없이)                | ✅          |
+| OPTIONS | 지원 method 조회 (CORS preflight) | ✅          |
 
-### 7.4 *HTTPS = HTTP + TLS*
+### 7.4 _HTTPS = HTTP + TLS_
 
 ```text
 [Client]                              [Server]
@@ -476,27 +505,27 @@ Set-Cookie: session=def456
    │ ←── HTTP Response (암호화) ────────── │
 ```
 
-→ *TLS 가 *Layer 6 (Presentation)* 위치. *TCP 위, HTTP 아래*.
+→ *TLS 가 *Layer 6 (Presentation)* 위치. *TCP 위, HTTP 아래\*.
 
-자세히는 [*보안 의 7 기둥*](/2026/06/20/security-7-pillars-auth-encryption-firewall-audit.html) 참조.
+자세히는 [_보안 의 7 기둥_](/2026/06/20/security-7-pillars-auth-encryption-firewall-audit.html) 참조.
 
-### 7.5 *HTTP 의 *진화*
+### 7.5 *HTTP 의 *진화\*
 
-| 버전 | 출시 | 핵심 |
-|---|---|---|
-| HTTP/0.9 | 1991 | GET 만, HTML 만 |
-| HTTP/1.0 | 1996 | Header, status code |
-| HTTP/1.1 | 1997 | Keep-Alive, virtual host, chunked encoding |
-| HTTP/2 | 2015 | Multiplexing, binary framing, HPACK 헤더 압축 |
-| HTTP/3 | 2022 | QUIC (UDP 위), 0-RTT, connection migration |
+| 버전     | 출시 | 핵심                                          |
+| -------- | ---- | --------------------------------------------- |
+| HTTP/0.9 | 1991 | GET 만, HTML 만                               |
+| HTTP/1.0 | 1996 | Header, status code                           |
+| HTTP/1.1 | 1997 | Keep-Alive, virtual host, chunked encoding    |
+| HTTP/2   | 2015 | Multiplexing, binary framing, HPACK 헤더 압축 |
+| HTTP/3   | 2022 | QUIC (UDP 위), 0-RTT, connection migration    |
 
-자세히는 [*심화 편 — TCP / BBR / QUIC*](/2026/06/22/network-fundamentals-tcp-state-machine-bbr-cubic-quic-mtls.html).
+자세히는 [_심화 편 — TCP / BBR / QUIC_](/2026/06/22/network-fundamentals-tcp-state-machine-bbr-cubic-quic-mtls.html).
 
 ---
 
-## 8. *실전 도구 — *7 가지***
+## 8. *실전 도구 — *7 가지\*\*\*
 
-### 8.1 *ping — *L3 의 *살아 있나?***
+### 8.1 *ping — *L3 의 \*살아 있나?\*\*\*
 
 ```bash
 $ ping -c 4 google.com
@@ -508,9 +537,9 @@ PING google.com (142.250.207.110): 56 data bytes
 round-trip min/avg/max/stddev = 10.123/12.456/14.789/0.987 ms
 ```
 
-→ *ICMP Echo* 로 *서버 까지 *왕복 RTT* 측정. *기본 진단 도구*.
+→ _ICMP Echo_ 로 *서버 까지 *왕복 RTT* 측정. *기본 진단 도구\*.
 
-### 8.2 *traceroute — *경로 추적*
+### 8.2 *traceroute — *경로 추적\*
 
 ```bash
 $ traceroute google.com
@@ -521,11 +550,11 @@ $ traceroute google.com
 12  142.250.207.110 (google.com)     20.456 ms     ← destination
 ```
 
-**원리** : *TTL=1, 2, 3, ...* 로 *각 hop 마다 *ICMP TTL Exceeded* 응답* 받음.
+**원리** : _TTL=1, 2, 3, ..._ 로 *각 hop 마다 *ICMP TTL Exceeded* 응답* 받음.
 
-→ *어디서 *느린지 / 끊기는지* *경로 의 *어느 hop* 식별.
+→ *어디서 *느린지 / 끊기는지\* *경로 의 *어느 hop\* 식별.
 
-### 8.3 *dig — *DNS resolver*
+### 8.3 *dig — *DNS resolver\*
 
 ```bash
 dig +short google.com           # 짧게
@@ -534,7 +563,7 @@ dig -x 142.250.207.110          # 역방향
 dig google.com MX               # mail server
 ```
 
-### 8.4 *nslookup — *간단 DNS*
+### 8.4 *nslookup — *간단 DNS\*
 
 ```bash
 nslookup google.com
@@ -544,7 +573,7 @@ nslookup google.com
 # Address: 142.250.207.110
 ```
 
-### 8.5 *netstat / ss — *연결 상태*
+### 8.5 *netstat / ss — *연결 상태\*
 
 ```bash
 # 모든 TCP listen
@@ -561,9 +590,9 @@ ss -tan state established
 sudo ss -tnp
 ```
 
-→ *어떤 포트 가 *열려 있고 *누가 듣고 있는지*.
+→ *어떤 포트 가 *열려 있고 _누가 듣고 있는지_.
 
-### 8.6 *tcpdump / Wireshark — *패킷 캡처***
+### 8.6 *tcpdump / Wireshark — *패킷 캡처\*\*\*
 
 ```bash
 # 80 포트 패킷
@@ -576,9 +605,9 @@ sudo tcpdump -i any host google.com
 wireshark /tmp/dump.pcap
 ```
 
-→ *애플리케이션 의 *진짜 트래픽* 보는 *마지막 도구*. *handshake, header, RTT* 모두 보임.
+→ *애플리케이션 의 *진짜 트래픽* 보는 *마지막 도구*. *handshake, header, RTT\* 모두 보임.
 
-### 8.7 *curl — *HTTP 클라이언트*
+### 8.7 *curl — *HTTP 클라이언트\*
 
 ```bash
 # 기본
@@ -598,11 +627,11 @@ Total: %{time_total}s\n" -o /dev/null -s https://google.com
 curl -v https://google.com
 ```
 
-→ *애플리케이션 의 *latency 분리* — *어디서 *느린지* 정량적 확인.
+→ *애플리케이션 의 *latency 분리* — *어디서 _느린지_ 정량적 확인.
 
 ---
 
-## 9. *현실 — *브라우저 에 google.com 입력 시 *전체 흐름*
+## 9. *현실 — *브라우저 에 google.com 입력 시 _전체 흐름_
 
 ```text
 1. [Browser] : "google.com" 입력
@@ -629,7 +658,7 @@ curl -v https://google.com
 9. [추가 fetch 들] : 각자 또 DNS / TCP / TLS / HTTP 사이클
 ```
 
-→ *우리 가 *한 번 의 페이지 로드* 라고 *생각* 하지만 *실제 로는 *수십 개 의 *네트워크 cycle*. *각자 의 *latency 비용*. *CDN (Cloudflare)* 가 *그 cycle 의 *대부분 을 *지역 edge* 에서 *처리* 해서 *느낌 상 빠르게* 만든다.
+→ *우리 가 *한 번 의 페이지 로드* 라고 *생각* 하지만 *실제 로는 *수십 개 의 *네트워크 cycle*. *각자 의 _latency 비용_. _CDN (Cloudflare)_ 가 *그 cycle 의 *대부분 을 _지역 edge_ 에서 _처리_ 해서 _느낌 상 빠르게_ 만든다.
 
 ---
 
@@ -641,7 +670,7 @@ curl -v https://google.com
 [Cloudflare Edge POP]                ← 사용자 가 가장 가까운 *Cloudflare 노드*
     │ HTTP / TLS termination
     │ WAF, rate limit, DDoS
-    ↓ 
+    ↓
 [Cloudflare Tunnel (cfargotunnel.com)]
     │ outbound-only 연결 (NAT 우회)
     ↓
@@ -658,71 +687,67 @@ curl -v https://google.com
 ```
 
 각 단계 별 도구:
-- *Cloudflare edge* — *전 세계 200+ POP*
-- *Cloudflare Tunnel* — *outbound 연결 만, *방화벽 친화*
-- *cloudflared* — *systemd 서비스*, *Tunnel A / B 두 개*
-- *NodePort (30000~32767)* — K8s 의 *외부 노출 단순 방법*
-- *kube-proxy iptables 모드* — *Service ClusterIP → Pod IP 변환*
-- *Flannel VXLAN* — *Pod 간 *cross-node 통신*
 
-→ *2026-06-19 outage* (k3s config.yaml cluster-dns 한 줄), *2026-06-22 Tunnel 라우팅 사고*, *2026-06-23 Gemini token 회전* — *모두 *이 토폴로지 의 *어느 한 곳* 의 *작은 변화* 가 *전체 의 *큰 영향*. *기초 의 깊이* 가 *진단 의 *속도* 를 *결정*.
+- _Cloudflare edge_ — _전 세계 200+ POP_
+- _Cloudflare Tunnel_ — *outbound 연결 만, *방화벽 친화\*
+- _cloudflared_ — _systemd 서비스_, _Tunnel A / B 두 개_
+- _NodePort (30000~32767)_ — K8s 의 _외부 노출 단순 방법_
+- _kube-proxy iptables 모드_ — _Service ClusterIP → Pod IP 변환_
+- _Flannel VXLAN_ — *Pod 간 *cross-node 통신\*
+
+→ _2026-06-19 outage_ (k3s config.yaml cluster-dns 한 줄), _2026-06-22 Tunnel 라우팅 사고_, _2026-06-23 Gemini token 회전_ — *모두 *이 토폴로지 의 _어느 한 곳_ 의 _작은 변화_ 가 *전체 의 *큰 영향*. *기초 의 깊이* 가 *진단 의 _속도_ 를 _결정_.
 
 ---
 
-## 11. *백엔드 엔지니어 의 *체크리스트***
+## 11. *백엔드 엔지니어 의 *체크리스트\*\*\*
 
-내가 *네트워크 관련 사고* 진단 시 *순서 대로 확인* :
+내가 _네트워크 관련 사고_ 진단 시 _순서 대로 확인_ :
 
 **L3 (IP)**:
-1. `ping <target>` — *기본 reachability*
-2. `traceroute <target>` — *경로 / hop loss*
-3. `ip route` — *라우팅 테이블 정상*
 
-**L4 (TCP / UDP)**:
-4. `ss -tan` — *연결 상태 (ESTABLISHED, TIME_WAIT 등)*
-5. `nc -zv <host> <port>` — *port reachable*
-6. `tcpdump` — *실제 패킷 흐름*
+1. `ping <target>` — _기본 reachability_
+2. `traceroute <target>` — _경로 / hop loss_
+3. `ip route` — _라우팅 테이블 정상_
 
-**L7 (HTTP / DNS)**:
-7. `dig <domain>` — *DNS 해석*
-8. `curl -v <url>` — *HTTP 단계 별 시간*
-9. *Browser DevTools — Network tab* — *waterfall*
+**L4 (TCP / UDP)**: 4. `ss -tan` — _연결 상태 (ESTABLISHED, TIME_WAIT 등)_ 5. `nc -zv <host> <port>` — _port reachable_ 6. `tcpdump` — _실제 패킷 흐름_
 
-**Application**:
-10. *로그 / 메트릭* — *5xx, latency, error rate*
+**L7 (HTTP / DNS)**: 7. `dig <domain>` — _DNS 해석_ 8. `curl -v <url>` — _HTTP 단계 별 시간_ 9. _Browser DevTools — Network tab_ — _waterfall_
 
-→ *위 → 아래* 순서 로 *층별 진단* — *어디 가 깨졌는지* 식별.
+**Application**: 10. _로그 / 메트릭_ — _5xx, latency, error rate_
+
+→ _위 → 아래_ 순서 로 _층별 진단_ — _어디 가 깨졌는지_ 식별.
 
 ---
 
-## 12. *결론 — *7 계층 의 *우아함***
+## 12. *결론 — *7 계층 의 \*우아함\*\*\*
 
-> *서울 → 부산 의 *복잡성* 이 *7 계층 의 *책임 분리* 로 *단순* 해 진다. *각 계층 은 *자기 일* 만. *밑 / 위 계층 의 *세부 모름*.
+> *서울 → 부산 의 *복잡성* 이 *7 계층 의 _책임 분리_ 로 _단순_ 해 진다. *각 계층 은 *자기 일* 만. *밑 / 위 계층 의 _세부 모름_.
 
-오늘 정리한 *7 기초* :
-1. **OSI 7 계층** — *책임 분리 의 *원칙*
-2. **MAC + ARP** — *LAN 내부 의 *물리적 주소*
-3. **IP + NAT** — *글로벌 주소 + private 우회*
-4. **TCP vs UDP** — *신뢰성 vs 속도*
-5. **DNS** — *도메인 의 *분산 lookup*
-6. **HTTP / HTTPS** — *웹 의 *공통 어휘*
-7. **실전 도구** — *ping / traceroute / dig / ss / tcpdump / curl*
+오늘 정리한 _7 기초_ :
 
-> *백엔드 엔지니어 가 *알아야 하는 깊이* 는 *각 계층 의 *철학 과 *도구*. *그 도구 들 의 *조합* 으로 *어디 깨졌는지* 식별 가능 한 능력 — *그게 *시니어 의 *진짜 기본기*.
+1. **OSI 7 계층** — *책임 분리 의 *원칙\*
+2. **MAC + ARP** — *LAN 내부 의 *물리적 주소\*
+3. **IP + NAT** — _글로벌 주소 + private 우회_
+4. **TCP vs UDP** — _신뢰성 vs 속도_
+5. **DNS** — *도메인 의 *분산 lookup\*
+6. **HTTP / HTTPS** — *웹 의 *공통 어휘\*
+7. **실전 도구** — _ping / traceroute / dig / ss / tcpdump / curl_
 
-*"브라우저 에 google.com 입력 시 무슨 일* 이 *일어나는가"* 의 *답이 *5 분 분량 의 *흐름 으로 *입에서 *나올 수 있다면* — *기초 가 *체화 된 것*. *수만 줄 의 *코드* 와 *수십 개 의 *프레임워크* 의 *밑* 에 *이 7 계층 이 *언제나 *돈다*. *그 흐름 을 *놓치지 않는 시야* 가 *2026 년 *백엔드 의 *기본기 의 *진실*.
+> *백엔드 엔지니어 가 *알아야 하는 깊이* 는 *각 계층 의 *철학 과 *도구*. *그 도구 들 의 _조합_ 으로 _어디 깨졌는지_ 식별 가능 한 능력 — *그게 *시니어 의 _진짜 기본기_.
+
+_"브라우저 에 google.com 입력 시 무슨 일_ 이 _일어나는가"_ 의 *답이 *5 분 분량 의 *흐름 으로 *입에서 _나올 수 있다면_ — *기초 가 *체화 된 것*. *수만 줄 의 _코드_ 와 *수십 개 의 *프레임워크* 의 *밑* 에 *이 7 계층 이 *언제나 *돈다*. *그 흐름 을 _놓치지 않는 시야_ 가 *2026 년 *백엔드 의 *기본기 의 *진실\*.
 
 ---
 
-## *참고*
+## _참고_
 
-- *Computer Networks* (Andrew Tanenbaum, 6th ed.) — *교과서 의 표준*.
-- *TCP/IP Illustrated, Vol. 1* (Kevin Fall, W. Richard Stevens, 2nd ed.).
-- *Computer Networking: A Top-Down Approach* (Kurose / Ross).
-- *Wireshark User's Guide* — *실전 패킷 분석*.
-- *RFC 791* (IPv4), *RFC 793* (TCP), *RFC 768* (UDP), *RFC 1035* (DNS), *RFC 7230* (HTTP/1.1).
+- _Computer Networks_ (Andrew Tanenbaum, 6th ed.) — _교과서 의 표준_.
+- _TCP/IP Illustrated, Vol. 1_ (Kevin Fall, W. Richard Stevens, 2nd ed.).
+- _Computer Networking: A Top-Down Approach_ (Kurose / Ross).
+- _Wireshark User's Guide_ — _실전 패킷 분석_.
+- _RFC 791_ (IPv4), _RFC 793_ (TCP), _RFC 768_ (UDP), _RFC 1035_ (DNS), _RFC 7230_ (HTTP/1.1).
 - 자매편:
-  - [*심화 편 — TCP 상태 기계 / BBR / QUIC / mTLS*](/2026/06/22/network-fundamentals-tcp-state-machine-bbr-cubic-quic-mtls.html)
-  - [*K8s 로드밸런서*](/2026/06/21/kubernetes-loadbalancer-network-layers-l4-l7.html)
-  - [*논블로킹 I/O 서버*](/2026/06/19/non-blocking-io-server-deep-dive.html)
-  - [*보안 의 7 기둥*](/2026/06/20/security-7-pillars-auth-encryption-firewall-audit.html)
+  - [_심화 편 — TCP 상태 기계 / BBR / QUIC / mTLS_](/2026/06/22/network-fundamentals-tcp-state-machine-bbr-cubic-quic-mtls.html)
+  - [_K8s 로드밸런서_](/2026/06/21/kubernetes-loadbalancer-network-layers-l4-l7.html)
+  - [_논블로킹 I/O 서버_](/2026/06/19/non-blocking-io-server-deep-dive.html)
+  - [_보안 의 7 기둥_](/2026/06/20/security-7-pillars-auth-encryption-firewall-audit.html)
