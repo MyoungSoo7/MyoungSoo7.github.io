@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "바이브 코딩의 심장, 구조적 하네스(Harness): 7대 강제 원칙으로 빚어낸 정산 시스템"
-date: 2026-07-28 10:00:00 +0900
+date: 2026-08-02 00:40:00 +0900
 categories: [Engineering, AI, Settlement]
 tags: [VibeCoding, Harness, AgentOS, Architecture, Fintech]
 ---
