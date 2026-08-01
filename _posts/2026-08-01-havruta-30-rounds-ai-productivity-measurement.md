@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI 둘을 30라운드 붙여봤다 — '잘 쓴다'는 말이 측정되지 않는 이유"
-date: 2026-08-01 17:40:00 +0900
+date: 2026-08-01 17:20:00 +0900
 categories: [ai, llm, methodology]
 tags: [Havruta, METR, DORA, Goodhart, Productivity, Measurement, RCT, AgentOps]
 ---
