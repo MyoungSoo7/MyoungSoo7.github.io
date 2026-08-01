@@ -8,6 +8,10 @@ tags: [VibeCoding, Harness, AgentOS, Architecture, Fintech]
 
 # 바이브 코딩의 심장, 구조적 하네스(Harness): 7대 강제 원칙
 
+![7대 강제 원칙](/assets/images/vibe-coding-harness-rules.jpg)
+
+*에이전트가 준수해야 할 7가지 물리적 제약 조건*
+
 AI 에이전트가 코드를 짜는 '바이브 코딩' 시대, 많은 이들이 자유로운 생산성에 열광합니다. 하지만 금융의 정점이라 불리는 **정산(Settlement)** 도메인에서 '바이브'만으로 시스템을 구축하는 것은 브레이크 없는 슈퍼카를 모는 것과 같습니다. 
 
 우리 팀은 에이전트의 지능을 믿는 대신, 에이전트가 결코 넘을 수 없는 **물리적 강제력(Enforcement)**, 즉 **구조적 하네스**를 구축했습니다. `settlement` 레포지토리에 적용된 7대 강제 원칙을 공개합니다.
