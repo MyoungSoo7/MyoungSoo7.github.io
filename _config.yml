@@ -32,6 +32,11 @@ header_pages: []
 markdown: kramdown
 kramdown:
   syntax_highlighter: rouge
+  # 2026-08-02 수식 배선. kramdown 2.4 기본값과 같은 값이지만 명시해 둔다 —
+  # $$...$$ 를 <script type="math/tex"> 로 출력하며, 이건 MathJax 2 용 규약이다.
+  # MathJax 3 는 이 태그를 모르므로 _includes/head.html 의 shim 이 typeset 전에
+  # 델리미터로 되돌린다. 이 값을 건드리면 head.html 도 같이 고쳐야 한다.
+  math_engine: mathjax
 permalink: /:year/:month/:day/:title/
 defaults:
   - scope:

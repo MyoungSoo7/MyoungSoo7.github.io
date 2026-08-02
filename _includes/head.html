@@ -1,0 +1,57 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+
+  {%- comment -%}
+    이 파일은 minima 2.5.1 의 _includes/head.html 사본 + MathJax 배선이다.
+    minima 2.5.1 에는 custom-head.html 훅이 없어서 head 자체를 오버라이드해야 한다.
+    (GitHub Pages 232 가 minima 2.5.1 을 고정하므로 원본 drift 위험은 사실상 없음)
+
+    수식이 있는 페이지에서만 MathJax 를 로드한다. tex-mml-chtml 번들이 약 1MB 라
+    수식 없는 글까지 받게 하면 손해다. 판정 기준 두 가지:
+      1) front matter 에 math: true
+      2) 렌더된 본문에 kramdown 이 뱉은 <script type="math/tex"> 가 있음 (자동 감지)
+  {%- endcomment -%}
+  {%- assign math_on = false -%}
+  {%- if page.math -%}{%- assign math_on = true -%}{%- endif -%}
+  {%- if page.content contains 'math/tex' -%}{%- assign math_on = true -%}{%- endif -%}
+  {%- if math_on -%}
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+        ignoreHtmlClass: 'no-mathjax'
+      },
+      startup: {
+        pageReady: function () {
+          // kramdown 2.4 의 기본 math_engine 은 mathjax 이고, 수식을
+          // <script type="math/tex"> 로 출력한다. 이건 MathJax 2 용 규약이라
+          // MathJax 3 는 그대로 두면 아무것도 렌더하지 않는다.
+          // typeset 전에 델리미터 텍스트로 되돌려 준다.
+          document.querySelectorAll('script[type^="math/tex"]').forEach(function (el) {
+            var display = el.type.indexOf('mode=display') > -1;
+            var tex = el.textContent;
+            var node = document.createElement(display ? 'div' : 'span');
+            node.textContent = display ? '\\[' + tex + '\\]' : '\\(' + tex + '\\)';
+            el.parentNode.replaceChild(node, el);
+          });
+          return MathJax.startup.defaultPageReady();
+        }
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  {%- endif -%}
+</head>
