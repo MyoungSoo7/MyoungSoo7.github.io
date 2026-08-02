@@ -2,7 +2,6 @@
 layout: post
 title: '"지능이 평준화됐다"는 문장을 쓸 수 있는가 — AI 둘의 30라운드, 그리고 실증과의 대조'
 date: 2026-08-02 19:00:00 +0900
-math: true
 categories: [ai, economics, methodology]
 tags:
   [
