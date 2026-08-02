@@ -87,11 +87,9 @@ hikari:
 
 ### 3.2 *p99 응답시간 = pool wait + query time*
 
-```
-HTTP 응답시간 = (pool 대기) + (query 실행) + (네트워크 + serialize)
-              ↑
-        이 부분 만 *5 초* 일 수도 있다
-```
+$$T_{\text{response}} = T_{\text{pool wait}} + T_{\text{query}} + T_{\text{net+serialize}}$$
+
+이 중 $$T_{\text{pool wait}}$$ 이 *혼자서 *5 초* 일 수도 있다*.
 
 *p99 가 5 초인데 DB 메트릭은 *50ms* 같은 경우* — *5 초의 *대부분이 pool wait*. *DB 자체 는 멀쩡*, *pool 이 부족*.
 
@@ -99,11 +97,9 @@ HTTP 응답시간 = (pool 대기) + (query 실행) + (네트워크 + serialize)
 
 ### 3.3 *권장 pool size 공식*
 
-```
-pool size = ((core_count * 2) + effective_spindle_count)
-```
+$$N_{\text{pool}} = (N_{\text{core}} \times 2) + N_{\text{spindle}}$$
 
-(Brett Wooldridge, HikariCP 저자)
+(Brett Wooldridge, HikariCP 저자. $$N_{\text{spindle}}$$ = effective spindle count)
 
 - CPU 4 core, SSD 1 개 → pool 9
 - CPU 8 core, SSD 1 개 → pool 17
@@ -175,9 +171,7 @@ hikari:
 
 ### 5.2 *DB 측 설정 과 *맞춰야 할 비율*
 
-```
-maxLifetime  <  (DB 측 idle timeout 의 *70~80%*)
-```
+$$t_{\text{maxLifetime}} < (0.7 \sim 0.8) \times t_{\text{DB idle timeout}}$$
 
 예 :
 - MySQL `wait_timeout = 600s (10분)` 이면 → `maxLifetime = 420s ~ 480s` (7~8분)

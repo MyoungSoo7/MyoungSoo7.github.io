@@ -33,11 +33,11 @@ tags: [cache, hit-ratio, miss-rate, working-set, lru, lfu, arc, caffeine, redis,
 
 ## 0. *기본 정의* — 적중률·미스율·평균 latency
 
-```
-hit ratio  = cache hits / total requests
-miss rate  = 1 - hit ratio
-average latency = hit_ratio × cache_lat + miss_rate × source_lat
-```
+$$h = \frac{\text{hits}}{\text{hits} + \text{misses}}, \qquad m = 1 - h$$
+
+$$L_{avg} = h\,L_{cache} + (1-h)\,L_{src}$$
+
+여기서 $$h$$ = *적중률*, $$m$$ = *미스율*, $$L_{cache}$$ = *캐시 조회 latency*, $$L_{src}$$ = *원본 (DB) 조회 latency*.
 
 ```
 예시:
@@ -82,6 +82,12 @@ cache 크기 10000 종 → hit ratio ~100%
 - *상위 1% 항목 이 *50% 트래픽*
 - *상위 10% 항목 이 *90% 트래픽*
 - *적은 cache 크기 로도 *높은 hit ratio*
+
+*Zipf 의 형태* — 순위 $$k$$ 번째 항목 의 조회 빈도 $$f(k)$$ 가 *순위 의 거듭제곱 에 반비례* :
+
+$$f(k) \propto \frac{1}{k^{s}}$$
+
+*지수* $$s$$ *가 클수록 상위 쏠림 이 심하다*.
 
 이 *불균등 이 *cache 가 효과적 인 이유*. *모든 항목이 균등하게 조회* 된다면 — *cache 는 거의 의미 없다 (반복 hit 없음)*.
 
@@ -243,9 +249,9 @@ Product p = cache.get(productId);
 
 ### 5-1. *Modular Hashing 의 *함정**
 
-```
-node = hash(key) % N    where N = cache 노드 수
+$$\text{node}(k) = \text{hash}(k) \bmod N \qquad (N = \text{cache 노드 수})$$
 
+```
 N = 5 → node 1
 노드 추가 (N = 6) → node 3 (다른 노드)
 모든 키 의 *분포 가 *완전 재배치*

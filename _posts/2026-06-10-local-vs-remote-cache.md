@@ -220,7 +220,8 @@ TTL 만료 *전에 *백그라운드 *미리 갱신*
 - *DB hit 2%* — *진짜 새 데이터 만*
 
 → *평균 응답시간* :
-*0.8 × 100ns + 0.18 × 1ms + 0.02 × 100ms = ~0.2ms + 2ms = ~2.2ms*
+
+$$L_{avg} = 0.8 \times 100\text{ns} + 0.18 \times 1\text{ms} + 0.02 \times 100\text{ms} \approx 0.2\text{ms} + 2\text{ms} \approx 2.2\text{ms}$$
 
 *DB 직접* 이었으면 *100ms* — *50 배 개선*.
 

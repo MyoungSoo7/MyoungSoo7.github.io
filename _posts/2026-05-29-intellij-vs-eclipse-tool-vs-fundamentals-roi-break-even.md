@@ -93,8 +93,8 @@ tags: [intellij, eclipse, vscode, fundamentals, algorithm, data-structure, roi, 
 도구 (IntelliJ, AI Assistant, Copilot) 가 *아무리* 좋아도 *못 메우는 영역*:
 
 **1. 알고리즘 / 자료구조의 *시간복잡도 직관***
-- O(n²) 알고리즘을 *데이터 100 만 개* 에 돌리는 코드를 *IDE 는 경고 안 함*
-- `List.contains()` 가 *O(n)* 인 걸 *모르면* IDE 가 못 가르쳐줌
+- $$O(n^2)$$ 알고리즘을 *데이터 100 만 개* 에 돌리는 코드를 *IDE 는 경고 안 함*
+- `List.contains()` 가 $$O(n)$$ 인 걸 *모르면* IDE 가 못 가르쳐줌
 
 **2. 분산 시스템의 *부분 실패 시나리오***
 - AI 가 *코드* 는 짜지만 *"이 서비스가 *50% 응답 + 50% 타임아웃* 상태일 때 어떻게 되나"* 는 *사람이 생각해야*
@@ -167,11 +167,15 @@ Set<User> deduped = new HashSet<>(users);
 
 ### 3.1 *손익분기점 (Break-Even Point)* 의 정의
 
-> *Total Cost = Total Benefit* 이 되는 사용량 / 시간 지점.
+> 총비용 $$C_{\text{total}}$$ 과 총편익 $$B_{\text{total}}$$ 이 같아지는 지점, 즉 $$C_{\text{total}} = B_{\text{total}}$$ 이 되는 사용량 / 시간 지점.
 
 IntelliJ Ultimate 경우:
 - **비용** = 라이센스료
 - **편익** = *생산성 향상* × *시간당 가치*
+
+편익을 $$B$$, 생산성 향상으로 아낀 시간을 $$\Delta t$$, 시간당 가치를 $$v_h$$ 라 하면:
+
+$$B = \Delta t \times v_h$$
 
 ### 3.2 *비용 계산*
 
@@ -183,7 +187,7 @@ IntelliJ Ultimate 라이센스 (2026 년 5 월 기준):
 
 ### 3.3 *시간당 가치 계산*
 
-개발자 시간당 가치 = *연봉 / 연근로시간*. 한국 기준:
+개발자 시간당 가치 = *연봉 / 연근로시간* — 연봉을 $$S$$, 연근로시간을 $$H$$ 라 하면 $$v_h = S / H$$. 한국 기준:
 
 | 연봉 | 시간당 가치 (2,080 시간 기준) |
 |---|---|
@@ -290,7 +294,7 @@ IntelliJ Ultimate *안 쓰는* 시간 = *Eclipse 로 처리하는 시간*.
 | 연봉 +50% | ROI ↑ 50% (시간 가치 ↑) |
 | 사용 시간 (주 -10시간) | ROI ↓ (사용량 ↓) |
 | 라이센스료 +50% | ROI ↓ 33% |
-| AI Assistant 추가 (+$$/년) | ROI 재계산 필요 |
+| AI Assistant 추가 (+&#36;&#36;/년) | ROI 재계산 필요 |
 | 다른 무료 대안 (Cursor 등) 등장 | IntelliJ 의 *비교 우위* 감소 |
 
 ### 4.5 *Strategic Value* — *비계량적* 가치

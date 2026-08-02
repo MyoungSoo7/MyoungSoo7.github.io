@@ -18,25 +18,31 @@
     수식 없는 글까지 받게 하면 손해다. front matter 의 math: true 가 명시 스위치이고,
     나머지는 자동 감지다 — 글쓸 때 math 플래그를 잊어도 수식이 살아 있게 하는 게 목적.
 
-    감지 패턴을 셋 다 두는 이유 (2026-08-02 실측):
+    감지 패턴 (2026-08-02 실측):
       - \( \[  : GitHub Pages 232 의 kramdown 2.4.0 이 math_engine: mathjax 에서
                  실제로 뱉는 출력. 처음엔 script 태그일 거라 가정했는데 아니었다.
-      - $$     : page.content 가 렌더 전 원문으로 잡히는 경우의 보험.
-                 (셸 예제의 $$ 같은 오탐 가능 — 대가는 그 페이지 1MB 뿐이라 감수)
       - math/tex : 옛 kramdown 이 쓰던 MathJax 2 규약. 버전이 되돌아가도 살아남게.
+
+    $$ 는 감지에서 뺐다. page.content 는 렌더 *후* 라 진짜 수식은 이미 \( \[ 로
+    바뀌어 있고, 그때까지 $$ 로 남아 있는 건 코드블록 안의 비용 표기($0→$$→$$$)나
+    Postgres 의 DO $$ 같은 오탐뿐이었다. 그것들 때문에 1MB 번들을 받게 할 이유가 없다.
   {%- endcomment -%}
   {%- assign math_on = false -%}
   {%- if page.math -%}{%- assign math_on = true -%}{%- endif -%}
   {%- if page.content contains 'math/tex' -%}{%- assign math_on = true -%}{%- endif -%}
   {%- if page.content contains '\(' -%}{%- assign math_on = true -%}{%- endif -%}
   {%- if page.content contains '\[' -%}{%- assign math_on = true -%}{%- endif -%}
-  {%- if page.content contains '$$' -%}{%- assign math_on = true -%}{%- endif -%}
   {%- if math_on -%}
   <script>
     window.MathJax = {
       tex: {
         inlineMath: [['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        {%- comment -%}
+          $$ 는 델리미터에서 뺐다. kramdown 이 진짜 수식을 이미 \[ \] 로 바꿔 놓기
+          때문에 필요 없고, 본문에 남은 리터럴 $$ (예: 비용 사다리 "$0 → $$ → $$$")
+          를 MathJax 가 런타임에 수식으로 오인해 먹어버리는 사고만 남는다.
+        {%- endcomment -%}
+        displayMath: [['\\[', '\\]']],
         processEscapes: true
       },
       options: {

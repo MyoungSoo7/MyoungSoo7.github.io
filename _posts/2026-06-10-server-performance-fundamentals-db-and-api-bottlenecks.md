@@ -125,6 +125,8 @@ CREATE INDEX idx_orders_customer_id ON orders(customer_id);
 -- B-tree lookup. O(log n) — 같은 row 수 에 *~수 ms*
 ```
 
+탐색 비용의 _차수 자체_ 가 다르다 — 풀스캔은 $$O(n)$$, B-tree 인덱스 조회는 $$O(\log n)$$.
+
 *어제 컴퓨터과학 글 의 *B-tree* 가 *현실에서 *수십만 배* 의 차이를 만든다*. 다만 *모든 컬럼에 인덱스 가 능사 가 아님*:
 
 - INSERT / UPDATE *비용 증가* (인덱스 도 유지)
@@ -166,7 +168,11 @@ spring:
       maximum-pool-size: 100  # ❌ 너무 큼
 ```
 
-*"풀이 클수록 빠를 것"* — 직관 적이지만 *틀림*. DB 의 *동시 연결 처리 능력* 이 *코어 수 의 *몇 배* 가 한계*. *PostgreSQL 의 권장: *(코어 수 × 2) + 디스크 스핀들 수***. *수십 정도*.
+*"풀이 클수록 빠를 것"* — 직관 적이지만 *틀림*. DB 의 *동시 연결 처리 능력* 이 *코어 수 의 *몇 배* 가 한계*. *PostgreSQL 의 권장_ :
+
+$$N_{\text{pool}} = (N_{\text{core}} \times 2) + N_{\text{spindle}}$$
+
+_수십 정도_.
 
 ```yaml
 # ✅ 보통 정공
@@ -282,6 +288,10 @@ CompletableFuture<Result> fb = CompletableFuture.supplyAsync(this::apiB);
 // ... 등
 CompletableFuture.allOf(fa, fb, ...).join();
 ```
+
+총 소요 시간이 순차는 합, 병렬은 최댓값 :
+
+$$T_{\text{seq}} = \sum_{i=1}^{N} t_i, \qquad T_{\text{par}} = \max_{1 \le i \le N} t_i$$
 
 *N 개 호출 이 *서로 독립* 이라면 *반드시 *병렬*. 그러나 *부주의 한 parallel* 은 *외부 의 *rate limit 폭발* 또는 *thread pool 고갈*. *bulkhead + circuit* 과 *세트로 사용*.
 

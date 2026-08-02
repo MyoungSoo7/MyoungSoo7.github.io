@@ -6,7 +6,7 @@ categories: [algorithm, python, java, performance]
 tags: [python, java, jvm, jit, gil, hashmap, hashset, timsort, recursion, garbage-collection, coding-test, big-o]
 ---
 
-> 코딩테스트 사이트의 *같은 문제* 를 *Python* 으로 *2.3 초* 에 푼다. 같은 알고리즘을 *Java* 로 옮기면 *0.4 초* 에 끝난다. *알고리즘 복잡도* 는 *같은 O(n log n)*.
+> 코딩테스트 사이트의 *같은 문제* 를 *Python* 으로 *2.3 초* 에 푼다. 같은 알고리즘을 *Java* 로 옮기면 *0.4 초* 에 끝난다. *알고리즘 복잡도* 는 *같은 $$O(n \log n)$$*.
 >
 > *왜 *6 배* 차이가 나는가*?
 
@@ -160,7 +160,7 @@ Python 3.7+ 의 dict 는 *insertion order* 유지 + *open addressing* 해시.
 Java 8+ 의 HashMap :
 
 - *충돌 시* 같은 bucket 의 *linked list*
-- *list 길이 8 넘으면* *red-black tree 로 변환* (worst-case O(log n) 보장)
+- *list 길이 8 넘으면* *red-black tree 로 변환* (worst-case $$O(\log n)$$ 보장)
 - *해시 충돌 공격 (DoS)* 에 *내성*
 
 ### 4.3 *체감 성능 차이*
@@ -176,8 +176,8 @@ Java 8+ 의 HashMap :
 
 | 연산 | Python set | Java HashSet |
 |---|---|---|
-| add / contains | *O(1) avg* | *O(1) avg* |
-| 충돌 시 worst | *O(n) — open addressing* | *O(log n) — treeify* |
+| add / contains | *$$O(1)$$ avg* | *$$O(1)$$ avg* |
+| 충돌 시 worst | *$$O(n)$$ — open addressing* | *$$O(\log n)$$ — treeify* |
 | 메모리 (n=100만 정수) | *약 50 MB* | *약 60 MB (boxed)* |
 
 *Java 의 primitive HashSet 은 표준 라이브러리에 없음* — *Eclipse Collections* 또는 *fastutil* 같은 external 라이브러리가 *primitive HashSet* 을 제공.
@@ -194,7 +194,7 @@ Timsort 의 특징 :
 
 - *Merge sort 변형*
 - *이미 정렬된 부분 (run)* 을 *감지해 최적화*
-- *Worst-case O(n log n)*, *best-case O(n)* (정렬된 입력)
+- *Worst-case $$O(n \log n)$$*, *best-case $$O(n)$$* (정렬된 입력)
 
 ### 5.2 *Java 의 *Dual-Pivot Quicksort* (primitive 배열)*
 
@@ -223,7 +223,7 @@ Timsort 의 특징 :
 
 ### 6.1 *둘 다 *불변 (immutable)*
 
-`s = s + "x"` 는 *새 문자열 생성*. 매 반복마다 *O(len(s)) 비용*. 결과 : *O(n²)* — 흔한 *느린 코드*.
+`s = s + "x"` 는 *새 문자열 생성*. 매 반복마다 *$$O(\text{len}(s))$$ 비용*. 결과 : *$$O(n^2)$$* — 흔한 *느린 코드*.
 
 ### 6.2 *해결 — 내장 *string builder 패턴**
 
@@ -249,7 +249,7 @@ String result = sb.toString();  // O(n)
 - *Python : 짧은 string (60 자 이하) + 식별자 패턴 자동 intern*
 - *Java : String literal 은 자동 intern + `String.intern()` 명시 가능*
 
-*같은 string 비교 시* `is` (Python) / `==` (Java) 는 *interned 면 O(1)*, *아니면 동작 다름*.
+*같은 string 비교 시* `is` (Python) / `==` (Java) 는 *interned 면 $$O(1)$$*, *아니면 동작 다름*.
 
 ### 6.4 *String 비교 비용*
 
@@ -257,9 +257,9 @@ String result = sb.toString();  // O(n)
 |---|---|---|
 | `==` / `equals` | *length 다르면 즉시 false, 같으면 byte 비교* | *동일* |
 | hash | *PEP 456 — SipHash* | *javahash (간단)* |
-| substring | *O(k) copy* | *Java 7 이후 *O(k) copy* (이전엔 O(1) view)* |
+| substring | *$$O(k)$$ copy* | *Java 7 이후 *$$O(k)$$ copy* (이전엔 $$O(1)$$ view)* |
 
-Java 6 까지는 substring 이 *O(1) view* — 메모리 누수 위험으로 *Java 7 부터 *O(k) copy* 로 변경*. *역사적 trade-off*.
+Java 6 까지는 substring 이 *$$O(1)$$ view* — 메모리 누수 위험으로 *Java 7 부터 *$$O(k)$$ copy* 로 변경*. *역사적 trade-off*.
 
 ---
 
@@ -355,7 +355,7 @@ JVM thread 는 *OS thread 1:1 매핑* — *멀티코어 직접 활용*.
 
 ## 10. *Big-O 가 *거짓말 하는 순간**
 
-이론적 복잡도 *O(n log n)* 인 두 구현이 *50 배 차이* 가 나는 *이유* :
+이론적 복잡도 *$$O(n \log n)$$* 인 두 구현이 *50 배 차이* 가 나는 *이유* :
 
 - *상수 항 차이* (Java 의 cache-friendly primitive 배열 vs Python 의 boxed object 포인터 추적)
 - *Memory access pattern* — *연속 메모리 (Java int[]) 가 cache hit rate 압도*

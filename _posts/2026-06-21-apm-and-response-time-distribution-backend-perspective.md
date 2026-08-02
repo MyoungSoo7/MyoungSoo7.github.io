@@ -33,7 +33,9 @@ tags: [apm, latency, p99, percentile, hdr-histogram, t-digest, opentelemetry, mi
 
 ### 1.1 *평균 의 *수학적 정의 가 *백엔드 와 안 맞는다**
 
-평균 = 모든 응답 시간 의 합 / 요청 수.
+평균 = 모든 응답 시간 의 합 / 요청 수. *N 개 요청 의 응답 시간* 을 $$L_1, \dots, L_N$$ 이라 하면 :
+
+$$\bar{L} = \frac{1}{N} \sum_{i=1}^{N} L_i$$
 
 이 정의 의 *조용한 가정* — *모든 응답 시간 이 *대칭 적 정규 분포* 를 따른다*. 그래야 *평균 = 중앙값 = 최빈값*.
 
@@ -93,21 +95,17 @@ tags: [apm, latency, p99, percentile, hdr-histogram, t-digest, opentelemetry, mi
 
 #### *분위수 는 *평균낼 수 없다*
 
-```
-서비스 A 의 p99 = 200ms
-서비스 B 의 p99 = 300ms
-→ A+B 합쳐서 p99 = ???  ← 250ms 아님!!!
-```
+$$p_{99}(A) = 200\,\text{ms}, \qquad p_{99}(B) = 300\,\text{ms}$$
+
+$$\Rightarrow \quad p_{99}(A \cup B) \neq \frac{p_{99}(A) + p_{99}(B)}{2} = 250\,\text{ms}$$
 
 분위수 *합산 의 진실* — *원본 분포 가 필요*. *합쳐서 *p99 가 *200~500ms 사이 어디 든 가능*. *Grafana 의 *평균 패널* 이 *p99 를 평균* 내면 *통계적 으로 의미 없음*. *반드시 *HDR Histogram 의 *원본 버킷 합* 으로 재계산*.
 
 #### *분위수 는 *시간 별로 *나눌 수 없다*
 
-```
-1 분간 p99 = 200ms
-2 분간 p99 = 300ms
-→ 2 분 합쳐서 p99 = ???  ← 250ms 아님!!!
-```
+$$p_{99}(W_1) = 200\,\text{ms}, \qquad p_{99}(W_2) = 300\,\text{ms}$$
+
+$$\Rightarrow \quad p_{99}(W_1 \cup W_2) \neq 250\,\text{ms} \qquad (W_1, W_2 = \text{연속 한 1 분 윈도우})$$
 
 *같은 이유*. *반드시 *히스토그램 의 합산* 후 재계산*.
 

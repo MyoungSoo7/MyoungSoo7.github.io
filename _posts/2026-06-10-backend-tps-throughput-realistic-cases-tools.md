@@ -81,10 +81,11 @@ spring:
 
 > **함정** — pool size *너무 크게* (예: 200) 잡으면 *DB 측 *connection 수 천 *limit* 충돌. *DB 의 max_connections* 와 *애플리케이션 인스턴스 수* × *pool size* 가 *서로 맞아야 함*.
 
+$$N_{\text{maxconn}} \ge (N_{\text{instance}} \times N_{\text{pool}}) + N_{\text{reserve}}$$
+
+($$N_{\text{reserve}}$$ = DBA 관리용 여유분, 통상 ~30)
+
 ```
-계산 공식:
-  DB max_connections >= (instances × pool_size) + (DBA 관리용 여유 ~ 30)
-  
 예: 인스턴스 10 × pool 50 = 500
    → PostgreSQL max_connections >= 530
 ```
@@ -165,7 +166,7 @@ settlement-service  (Triple Idempotency 로 안전 처리)
 
 **필수 패턴**:
 
-1. **Sharding** — DB 를 *Key 단위로 *N 개 인스턴스*. *userId % N = shard*.
+1. **Sharding** — DB 를 *Key 단위로 *N 개 인스턴스* — $$\text{shard} = \text{userId} \bmod N$$
 2. **CQRS** — Write / Read 모델 *완전 분리*.
 3. **Read-only Projection** — *MSA 간 *데이터 공유 *DB 직 read* (내 settlement 의 패턴).
 4. **Event Sourcing** — Mutable state 가 아니라 *event stream 의 *append-only*.

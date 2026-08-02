@@ -134,8 +134,9 @@ spring:
 > Pool 의 *최대 connection 수*. 가장 자주 만지는 옵션.
 
 **계산 공식 (Brett Wooldridge, HikariCP 저자)**:
+$$N_{\text{conn}} = (N_{\text{core}} \times 2) + N_{\text{spindle}}$$
+
 ```
-connections = ((core_count × 2) + effective_spindle_count)
 
 # 예: 4 코어 SSD 서버:
 #   connections = (4 × 2) + 1 = 9
@@ -244,11 +245,11 @@ DB max_connections = 100
 
 ### 3.2 *정확한 계산 공식*
 
-```
-DB max_connections >= (인스턴스 수 × pool size) 
-                     + DBA / monitoring connection 여유 (~ 30)
-                     + 마이그레이션 / 운영 도구 (~ 20)
+$$N_{\text{maxconn}} \ge (N_{\text{instance}} \times N_{\text{pool}}) + N_{\text{DBA}} + N_{\text{ops}}$$
 
+($$N_{\text{DBA}}$$ = DBA / monitoring connection 여유 ~30, $$N_{\text{ops}}$$ = 마이그레이션 / 운영 도구 ~20)
+
+```
 예) PostgreSQL max_connections = 200
     인스턴스 10 개 → pool size = (200 - 50) / 10 = 15
 ```

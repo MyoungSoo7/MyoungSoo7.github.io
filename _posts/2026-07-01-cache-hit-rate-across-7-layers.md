@@ -15,19 +15,16 @@ published: false
 
 ## 1. Cache Hit Rate 의 *정의*
 
-```
-Hit Rate = Hits / (Hits + Misses)
-```
+$$\text{Hit Rate} = \frac{\text{Hits}}{\text{Hits} + \text{Misses}}$$
 
 - **Hit** — 캐시 에 요청 데이터 *있음* → *즉시 반환*
 - **Miss** — 캐시 에 *없음* → *원본 저장 소* (DB / 원격 서버 / disk) 로 이동
 
 *Hit Rate 이 *n%* 라는 것 은 *n% 요청 이 *캐시 만 으로 완료*. *나머지 (100-n)%* 만 *느린 원본* 접근.
 
-**Latency 로 표현**:
-```
-평균 latency = HitRate × HitLatency + (1 - HitRate) × MissLatency
-```
+**Latency 로 표현** — $$h$$ = Hit Rate, $$L_{hit}$$ = HitLatency, $$L_{miss}$$ = MissLatency:
+
+$$\text{평균 latency} = h \cdot L_{hit} + (1 - h) \cdot L_{miss}$$
 
 *예시* — HitLatency = 1ms, MissLatency = 100ms:
 - Hit Rate 90% → 평균 *10.9 ms* (miss 가 *90.9% 차지*)

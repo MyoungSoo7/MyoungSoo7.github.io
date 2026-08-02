@@ -82,8 +82,8 @@ first = list[0]
 
 | 항목 | Java ArrayList | Python list |
 |------|----------------|-------------|
-| 삽입 (말미) | O(1) amortized | O(1) amortized |
-| 임의 접근 | O(1) | O(1) |
+| 삽입 (말미) | $$O(1)$$ amortized | $$O(1)$$ amortized |
+| 임의 접근 | $$O(1)$$ | $$O(1)$$ |
 | 메모리 효율 | *높음* (primitive 활용 시) | *낮음* (모든 게 객체) |
 | 동시성 | *별도 *synchronizedList* | *GIL — 단일 thread* |
 
@@ -362,7 +362,7 @@ for (Product p : products) {
 }
 ```
 
-→ *Hash Map* 으로 *O(n × m) → O(n + m)* 개선.
+→ *Hash Map* 으로 *$$O(n \times m) \to O(n + m)$$* 개선.
 
 ### Python 의 *흔한 알고리즘 *순간*
 
@@ -387,7 +387,7 @@ top10 = counter.most_common(10)  # *내장 *우선순위 큐 활용*
 
 ### Java 의 흔한 *함정*
 
-1. ***List.contains(o)*** — O(n). *HashSet 이 *대부분 적합*.
+1. ***List.contains(o)*** — $$O(n)$$. *HashSet 이 *대부분 적합*.
 2. ***Stream + parallel 남용*** — *작은 데이터 에선 *오히려 *느림*.
 3. ***Auto-boxing*** — `int` ↔ `Integer` 의 *암묵 변환 비용*.
 4. ***ConcurrentModificationException*** — *iterating 중 *수정* 시.

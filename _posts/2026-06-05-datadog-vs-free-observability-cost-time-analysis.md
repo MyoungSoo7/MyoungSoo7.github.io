@@ -88,7 +88,7 @@ DB / Security / Synthetics      = $5,000
 
 - **Custom metrics**: 추가 $0.05 per metric / 월. *100 metrics = $5/host*. 대규모 환경에선 *큰 부담*
 - **Indexed log retention**: *15 일 기본*, 그 이상 추가 청구
-- **Trace 100% 보존 → $$$**. 보통 *sampling 1~5%*
+- **Trace 100% 보존 → &#36;&#36;&#36;**. 보통 *sampling 1~5%*
 - **Cardinality 폭발**: *user_id label 같은 high-cardinality* 가 청구 폭증
 
 ---

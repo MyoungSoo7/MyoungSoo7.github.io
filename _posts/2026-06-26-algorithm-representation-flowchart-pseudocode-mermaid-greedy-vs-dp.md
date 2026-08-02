@@ -387,9 +387,9 @@ public static int dpChange(int amount, int[] coins) {
 
 DP 의 *알고리즘 본질* 은 *순서도 가 *아니라 *점화식 + 표 (Table)*:
 
-```
-dp[i] = min(dp[i - coin] + 1) for all coin in coins
+$$dp[i] = \min_{\text{coin} \in \text{coins}}\left(dp[i - \text{coin}] + 1\right)$$
 
+```
 dp[0] = 0
 dp[1] = 1 + dp[0]   = 1   (coin=1)
 dp[2] = 1 + dp[1]   = 2   (coin=1)

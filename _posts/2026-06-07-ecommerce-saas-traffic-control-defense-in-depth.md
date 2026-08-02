@@ -222,7 +222,7 @@ flowchart TD
 
 **옵션** :
 
-- **Connection pool sizing** — HikariCP 의 `maximumPoolSize`. *DB CPU * 2 ~ 4* 가 보통 ceiling. *과도하면 DB lock contention*
+- **Connection pool sizing** — HikariCP 의 `maximumPoolSize`. $$N_{\text{pool}} = N_{\text{db cpu}} \times (2 \sim 4)$$ 가 보통 ceiling. *과도하면 DB lock contention*
 - **Read replica + read/write split** — 읽기 80% 를 replica 로. *상품 상세 / 카테고리* 같은 *read-heavy* 가 replica 로
 - **Index 가 *정말* 모든 query 에 있나** — 평소엔 안 보이다가 spike 에 *seq scan* 으로 폭주
 - **Vacuum / autovacuum tuning** — Postgres 의 *transaction ID wraparound* 같은 *조용한 시한폭탄*

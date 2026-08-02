@@ -87,12 +87,12 @@ Edsger Dijkstra 가 *Communications of the ACM* 에 *한 페이지 편지* 를 �
 
 | 자료구조 | 검색 | 삽입 | 삭제 |
 |----------|------|------|------|
-| Array | O(n) | O(n) | O(n) |
-| Sorted Array | O(log n) | O(n) | O(n) |
-| Linked List | O(n) | O(1) | O(1) |
-| Binary Search Tree (균형) | O(log n) | O(log n) | O(log n) |
-| Hash Table (평균) | O(1) | O(1) | O(1) |
-| Heap | O(1) min | O(log n) | O(log n) |
+| Array | $$O(n)$$ | $$O(n)$$ | $$O(n)$$ |
+| Sorted Array | $$O(\log n)$$ | $$O(n)$$ | $$O(n)$$ |
+| Linked List | $$O(n)$$ | $$O(1)$$ | $$O(1)$$ |
+| Binary Search Tree (균형) | $$O(\log n)$$ | $$O(\log n)$$ | $$O(\log n)$$ |
+| Hash Table (평균) | $$O(1)$$ | $$O(1)$$ | $$O(1)$$ |
+| Heap | $$O(1)$$ min | $$O(\log n)$$ | $$O(\log n)$$ |
 
 *복잡도 의 차이* 가 *현장 의 *성능 의 차이*. *수 백 만 *데이터* 에서 *log n vs n* 은 *체감 100 배 *차이*.
 
@@ -259,7 +259,7 @@ sumTree (Node l v r) = sumTree l + v + sumTree r
 ### 7.1. *DB 인덱스 의 *왜 *빠른가*
 
 - *B-Tree 자료구조* 가 *log n 검색* 보장
-- *Hash Index* 가 *O(1) but 범위 검색 불가*
+- *Hash Index* 가 *$$O(1)$$ but 범위 검색 불가*
 - *인덱스 선택* = *자료구조 선택*
 
 → *DB 인덱스 의 *근본* 은 *자료구조*. 알면 *명확*. 모르면 *암기*.
@@ -267,7 +267,7 @@ sumTree (Node l v r) = sumTree l + v + sumTree r
 ### 7.2. *Java HashMap 의 *충돌 처리*
 
 - Java 8 부터 — *충돌 시 *Linked List → Tree* 로 *전환*
-- *Linked List 의 *worst case O(n)* → Tree 의 *O(log n)* 로 *복원*
+- *Linked List 의 *worst case $$O(n)$$* → Tree 의 *$$O(\log n)$$* 로 *복원*
 - 알고리즘 의 *안 정 성* 보장
 
 이걸 *알면* — *HashMap 의 *성능 의 비밀* 이 *직 관*.
@@ -322,7 +322,7 @@ List<String> blacklist = ...;
 if (blacklist.contains(item)) { ... }  // O(n)
 ```
 
-→ HashSet 으로 변경 → O(1).
+→ HashSet 으로 변경 → $$O(1)$$.
 
 ### 9.2. *불필요한 *복잡 자료구조*
 

@@ -109,12 +109,12 @@ tags: [data-structures, algorithms, essence, philosophy, computer-science, funda
 
 ### *알고리즘 의 *Big-O — *비용 의 *공통 언어*
 
-- *O(1)* — *입력 크기 와 *무관* (해시 조회)
-- *O(log n)* — *입력의 *두 배 가 *한 단계 더* (Binary Search)
-- *O(n)* — *입력 비례* (선형 탐색)
-- *O(n log n)* — *정렬 의 *이론 적 *하한*
-- *O(n²)* — *모든 쌍 비교* (Bubble Sort)
-- *O(2ⁿ)* — *지수 폭발* (Brute Force 일부)
+- *$$O(1)$$* — *입력 크기 와 *무관* (해시 조회)
+- *$$O(\log n)$$* — *입력의 *두 배 가 *한 단계 더* (Binary Search)
+- *$$O(n)$$* — *입력 비례* (선형 탐색)
+- *$$O(n \log n)$$* — *정렬 의 *이론 적 *하한*
+- *$$O(n^2)$$* — *모든 쌍 비교* (Bubble Sort)
+- *$$O(2^n)$$* — *지수 폭발* (Brute Force 일부)
 
 Big-O 는 *알고리즘 의 *공통 측정 *언어*. *언어 / 하드웨어 *무관 한 *비교 가능*.
 
@@ -140,9 +140,9 @@ Big-O 는 *알고리즘 의 *공통 측정 *언어*. *언어 / 하드웨어 *무
 
 - *작은 list (n < 50)* → Insertion Sort (간단 + 캐시 친화)
 - *큰 list (n > 10000)* → Quicksort or Merge Sort
-- *거의 정렬 된* → Insertion Sort (O(n))
+- *거의 정렬 된* → Insertion Sort ($$O(n)$$)
 - *외부 정렬 (디스크)* → Merge Sort
-- *키 가 *작은 정수* → Counting Sort O(n)
+- *키 가 *작은 정수* → Counting Sort $$O(n)$$
 - *극한 작은 메모리* → Heap Sort (in-place)
 
 → *알고리즘 의 *선택* 도 *자료구조 / 입력 의 *형태* 에 *의존*. *둘은 *분리 불가*.
@@ -162,8 +162,8 @@ Big-O 는 *알고리즘 의 *공통 측정 *언어*. *언어 / 하드웨어 *무
 
 ### *전형적 *trade-off 의 *5 사례*
 
-1. ***Hash Table*** — *공간 ↑ + 시간 ↓ (O(1))*. 작은 데이터 에서 *오버헤드 비효율*.
-2. ***Sorted Array*** — *시간 (O(log n)) + 공간 효율*. 단 *삽입 비싸짐*.
+1. ***Hash Table*** — *공간 ↑ + 시간 ↓ ($$O(1)$$)*. 작은 데이터 에서 *오버헤드 비효율*.
+2. ***Sorted Array*** — *시간 ($$O(\log n)$$) + 공간 효율*. 단 *삽입 비싸짐*.
 3. ***Linked List*** — *유연 한 변형 + 캐시 친화 적이지 않음*. *메모리 단편*.
 4. ***Cache*** — *공간 ↑ + 시간 ↓*. 어제 글 의 *전부*.
 5. ***Compression*** — *공간 ↓ + 시간 ↑*. *디스크 가 *느린 시대 의 *공통 패턴*.

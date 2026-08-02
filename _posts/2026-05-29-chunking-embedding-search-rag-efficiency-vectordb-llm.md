@@ -69,6 +69,14 @@ LLM 의 context window 는 *유한* 하다 (GPT-4o = 128K, Claude Opus 4.7 = 1M,
 
 *Embedding* 은 *''텍스트 → 벡터''* 의 함수다. *''비슷한 의미의 텍스트는 가까운 벡터''* 가 되도록 *학습된 모델* 이 만든다. *cosine similarity, dot product, L2 distance* 같은 *수학적 거리* 가 *의미적 유사도* 의 *대체값* 이 된다.
 
+$$d$$ 차원 벡터 $$\mathbf{a}, \mathbf{b}$$ 에 대해 세 지표는 각각 이렇게 정의된다.
+
+$$\cos\theta = \frac{\mathbf{a}\cdot\mathbf{b}}{\lVert\mathbf{a}\rVert\,\lVert\mathbf{b}\rVert}$$
+
+$$\mathbf{a}\cdot\mathbf{b} = \sum_{i=1}^{d} a_i b_i$$
+
+$$\lVert\mathbf{a}-\mathbf{b}\rVert_2 = \sqrt{\sum_{i=1}^{d} (a_i - b_i)^2}$$
+
 *이게 작동하는 *이유* 는 *학습 시* *''비슷한 문장 쌍''* 과 *''다른 문장 쌍''* 을 *contrastive learning* 으로 가르쳤기 때문이다. *Sentence-BERT (2019)* 가 표준화한 이 패러다임이 *모든 현대 embedding 모델의 기반*.
 
 ### 3.2. *Dense vs Sparse — 두 가지 의미 표현*

@@ -140,7 +140,7 @@ L1 miss → DRAM    : 추가 ~316 cycles → 총 ~320 cycles
 
 > *코어 가 *많을수록* *L3 한 줄을 *놓고 *N 코어가 *경쟁* 한다.
 
-*16 코어 32 스레드* 가 *36 MB L3* 를 나눠 쓰면 *코어 당 평균 2.25 MB* 다. *하지만 한 워크로드 가 *공격적* 이면 *다른 코어 의 *L3 가 *evict* 된다 → *그 코어의 *DRAM 접근 이 늘어남* → *latency 상승*.
+*16 코어 32 스레드* 가 *36 MB L3* 를 나눠 쓰면 *코어 당 평균* $$\frac{36\,\text{MB}}{16} = 2.25\,\text{MB}$$ 다. *하지만 한 워크로드 가 *공격적* 이면 *다른 코어 의 *L3 가 *evict* 된다 → *그 코어의 *DRAM 접근 이 늘어남* → *latency 상승*.
 
 → *클라우드 multi-tenant* 환경에서 *noisy neighbor* 문제 의 *물리적 근원*.
 
@@ -256,7 +256,7 @@ HW prefetcher 는 *연속적 / 스트라이드 패턴* 을 인식해 *미리 가
 
 만약 *수백만 particle 의 *x 좌표만 *업데이트* 한다면 :
 
-- *AoS* — *y, z, mass, color 도 *같이 캐시에 끌려 옴* → *cache line 사용률 ~12.5%* (4 byte / 32 byte struct).
+- *AoS* — *y, z, mass, color 도 *같이 캐시에 끌려 옴* → *cache line 사용률* $$= \frac{4\,\text{byte}}{32\,\text{byte struct}} \approx 12.5\%$$.
 - *SoA* — *x 만 *연속해서 *읽음* → *cache line 100% 활용* → *SIMD 도 자연스럽게 적용*.
 
 → *게임 엔진 / 시뮬레이션 / ML* 이 *SoA 로 *기울어지는 *물리적 이유*. *Data-Oriented Design (DOD)* 의 *근본*.
@@ -290,10 +290,10 @@ perf stat -e \
 
 읽는 법 :
 
-- *IPC (instructions/cycles)* < 1.0 → *memory-bound 의심*.
-- *L1 miss rate* > 5% → *작업 집합* 이 *L1 보다 큼*.
-- *LLC miss rate* > 30% → *DRAM 바운드* (working set > LLC).
-- *dTLB miss rate* > 1% → *huge pages 도입 검토*.
+- $$\text{IPC} = \frac{\text{instructions}}{\text{cycles}} < 1.0$$ → *memory-bound 의심*.
+- $$\text{L1 miss rate} > 5\%$$ → *작업 집합* 이 *L1 보다 큼*.
+- $$\text{LLC miss rate} > 30\%$$ → *DRAM 바운드* (working set > LLC).
+- $$\text{dTLB miss rate} > 1\%$$ → *huge pages 도입 검토*.
 
 ### 7.2 *Intel VTune / AMD μProf*
 

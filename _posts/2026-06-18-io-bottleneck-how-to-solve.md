@@ -231,7 +231,7 @@ spring:
         default_batch_fetch_size: 100   # IN (?, ?, ?, ...) 100 개씩 묶어서 한 번
 ```
 
-→ *N+1 → N/100 + 1* 로 *축소*.
+→ $$N + 1 \to \frac{N}{100} + 1$$ 로 *축소*.
 
 ### 4.3 *진단 자동화*
 
@@ -287,7 +287,7 @@ spring:
       leak-detection-threshold: 5000 # 5s 동안 안 돌려주면 *경고 로그*
 ```
 
-> PostgreSQL `max_connections=100` 인데 *앱 인스턴스 5 개* 가 *각자 풀 30* 이면 *총 150 > 100* — *DB 가 *추가 연결 거부*. 인스턴스 수 × 풀 크기 ≤ DB max_connections 의 80% 가 *안전선*.
+> PostgreSQL `max_connections=100` 인데 *앱 인스턴스 5 개* 가 *각자 풀 30* 이면 *총 150 > 100* — *DB 가 *추가 연결 거부*. $$\text{인스턴스 수} \times \text{풀 크기} \le \text{DB max\_connections} \times 80\%$$ 가 *안전선*.
 
 **2. 트랜잭션 안에서 외부 호출 금지** :
 

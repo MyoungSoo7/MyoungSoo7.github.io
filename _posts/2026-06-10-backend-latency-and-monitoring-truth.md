@@ -93,7 +93,13 @@ Prometheus 의 *histogram* 은 *미리 정의된 bucket* 에 카운트 누적. *
 
 ### 3.3 *Aggregation 의 위험*
 
-5 개 노드의 p99 를 *평균낸 전체 p99* — 이게 *수학적으로 틀렸다*. *p99 는 aggregable 하지 않다*. 정확한 전체 p99 를 알려면 *모든 raw sample 을 모아서 다시 계산* 해야 한다.
+5 개 노드의 p99 를 *평균낸 전체 p99* — 이게 *수학적으로 틀렸다*. *p99 는 aggregable 하지 않다* :
+
+$$p_{99}\left(\bigcup_{i=1}^{N} S_i\right) \neq \frac{1}{N}\sum_{i=1}^{N} p_{99}(S_i)$$
+
+($$S_i$$ = i 번 노드의 응답시간 sample 집합)
+
+정확한 전체 p99 를 알려면 *모든 raw sample 을 모아서 다시 계산* 해야 한다.
 
 Prometheus 의 `histogram_quantile()` 은 bucket sum 으로 *근사하는 유사 정확*. 완벽하지 않다.
 
@@ -148,6 +154,8 @@ Brendan Gregg 의 *시스템 자원 진단* :
 ### 5.3 *Error Budget*
 
 SLO 가 99.9% 면 *허용 실패율 = 0.1%* = *한 달에 43 분*. 이게 *우리가 망쳐도 되는 시간*.
+
+$$E_{\text{budget}} = (1 - \text{SLO}) \times T_{\text{window}} = 0.001 \times 30\,\text{d} \approx 43\,\text{min}$$
 
 *Error budget burn* 이 평소보다 빠르면 알람. 내 다른 글 [*etcd HDD trap*](/2026/06/06/etcd-fsync-hdd-trap-kube-api-error-budget-burn.html) 에서 자세히 다뤘다. *KubeAPIErrorBudgetBurn* 알람 한 줄에서 *디스크 마이그레이션* 까지 가는 *수직 진단의 시작점*.
 
@@ -206,7 +214,11 @@ Prometheus metric 의 *label 조합 수* 가 *cardinality*. 예 :
 http_request_duration_seconds{method="GET", path="/api/products", status="200"}
 ```
 
-path 가 */api/products/{id}* 같은 *동적 ID* 면 *백만 개 id × 10 method × 5 status = 5천만 개 시계열*. Prometheus 메모리 *수십 GB*. 서비스 망.
+path 가 */api/products/{id}* 같은 *동적 ID* 면 :
+
+$$C = n_{\text{path}} \times n_{\text{method}} \times n_{\text{status}} = 10^{6} \times 10 \times 5 = 5 \times 10^{7}$$
+
+*5 천만 개 시계열*. Prometheus 메모리 *수십 GB*. 서비스 망.
 
 해결 : *path 를 route 패턴 (/api/products/{id}) 으로 집계*. id 별 metric 은 *trace* 로.
 

@@ -27,9 +27,11 @@ tags: [etcd, k3s, fsync, slo, error-budget, prometheus, alertmanager, disk-io, s
 
 ### 1.1 *Error Budget* 와 *Burn Rate* 의 한 줄 모델
 
-SLO 가 `99.9%` 이면 *허용된 실패율 = 0.1%*. 한 달이면 *약 43 분*. 이게 *error budget* — *우리가 망쳐도 되는 시간*.
+SLO 가 `99.9%` 이면 $$\text{허용된 실패율} = 0.1\%$$. 한 달이면 $$0.1\% \times 30\,\text{일} \approx 43\,\text{분}$$. 이게 *error budget* — *우리가 망쳐도 되는 시간*.
 
-평소엔 트래픽이 들어와도 *조금씩* 까먹는다. 30 일 동안 *0.1%* 라는 *허용 페이스* 가 있고, 그보다 *빨리* 까먹으면 "burn rate > 1" 이라 부른다.
+평소엔 트래픽이 들어와도 *조금씩* 까먹는다. 30 일 동안 *0.1%* 라는 *허용 페이스* 가 있고, 그보다 *빨리* 까먹으면 $$\text{burn rate} > 1$$ 이라 부른다.
+
+$$\text{burn rate} = \frac{\text{실제 오류율}}{\text{허용 오류율}}$$
 
 `kube-prometheus-stack` 은 *Google SRE Workbook* 의 *multi-window multi-burn-rate* 패턴을 그대로 채택 :
 
@@ -181,7 +183,7 @@ Host_Writes_32MiB     824,423   = 25.7TB 누적 쓰기
 ```
 
 Intel DC S3700 의 정격 endurance 는 **8.76 PB** (PetaBytes, 정확함, 사양 페이지 참조).
-25.7TB / 8.76PB = **0.3%** 사용. *완전 새것이나 다름없는* 상태.
+$$\frac{25.7\,\text{TB}}{8.76\,\text{PB}} = 0.3\%$$ 사용. *완전 새것이나 다름없는* 상태.
 
 ### 3.2 WDC Scorpio Black 7200rpm — *상태*
 

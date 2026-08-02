@@ -121,7 +121,7 @@ List<UserProfile> profiles = userIds.parallelStream()
 **Platform Thread (`ForkJoinPool.commonPool`):**
 - *CPU 코어 수 (예: 8)* 만 동시
 - 92 개는 *대기*
-- 총 시간 = ⌈100/8⌉ × 1초 = *13 초*
+- 총 시간 $$= \left\lceil \frac{100}{8} \right\rceil \times 1\,\text{s} = 13\,\text{s}$$
 
 **Virtual Thread:**
 ```java
@@ -181,7 +181,7 @@ HikariCP 의 *max 50 connection* 이라면 *50 개만 동시*, *나머지 9,950 
 **교훈:** Virtual Threads 는 *bottleneck 을 *옮길* 뿐*. *진짜 bottleneck (DB / 외부 API rate limit)* 은 *별도 해결*.
 
 **해결:**
-- DB connection 도 *적절히 늘림* (CPU 코어 × 2~4)
+- DB connection 도 *적절히 늘림* — 풀 크기 $$N_{\text{pool}} = N_{\text{cpu}} \times (2 \sim 4)$$
 - 또는 *Semaphore 로 동시 호출 제한*
 
 ### 사례 5 — `synchronized` Pinning — *진짜* 함정

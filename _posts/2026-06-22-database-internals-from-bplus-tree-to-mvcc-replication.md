@@ -58,10 +58,10 @@ for (Order o : orders) {
 
 ### 2.1 *왜 *모든 DB 가 *Tree 인가*
 
-> 디스크 의 *random read latency* (~80 μs) 가 *sequential read 의 *100 배*. *Tree 의 *log(N) seek* 가 *flat scan 의 *N 보다 *훨씬 적은 random read*.
+> 디스크 의 *random read latency* (~80 μs) 가 *sequential read 의 *100 배*. *Tree 의 *$$\log(N)$$ seek* 가 *flat scan 의 *N 보다 *훨씬 적은 random read*.
 
 10억 row 의 *PK lookup* :
-- Flat scan : 10^9 row × 80 μs = *22 시간*
+- Flat scan : $$10^9$$ row × 80 μs = *22 시간*
 - B+Tree (depth 5) : 5 × 80 μs = *400 μs* — *2 억 배 빠름*
 
 ### 2.2 *B+Tree (PostgreSQL, MySQL InnoDB, Oracle)*
@@ -559,7 +559,7 @@ SET synchronous_standby_names = 'replica1, replica2';
 -- commit 시 primary 가 replica1 / replica2 *둘 다* WAL 받을 때까지 대기
 ```
 
-→ *데이터 손실 0 보장*. *commit latency = max(primary fsync, replica fsync, network)* 로 *증가*.
+→ *데이터 손실 0 보장*. *$$\text{commit latency} = \max(\text{primary fsync}, \text{replica fsync}, \text{network})$$* 로 *증가*.
 
 *Synchronous 의 *치명적 함정* : *replica 가 *down 되면 *primary 도 commit 못 함*. *quorum-based* 패턴 권장.
 

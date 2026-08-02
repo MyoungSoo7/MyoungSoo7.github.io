@@ -67,15 +67,15 @@ flowchart TD
 
 | 자료구조 | 시간복잡도 | 백엔드 사용처 |
 |---|---|---|
-| **Array / List** | O(1) access / O(n) search | DB row, JSON array |
-| **HashMap** | O(1) avg | 캐시, dedup, session |
-| **Tree (B-Tree)** | O(log n) | *모든 DB 인덱스 의 *기반* |
-| **Hash + LRU** | O(1) | Redis, Caffeine |
-| **Queue / Heap** | O(1) / O(log n) | Kafka, 우선순위 처리 |
+| **Array / List** | $$O(1)$$ access / $$O(n)$$ search | DB row, JSON array |
+| **HashMap** | $$O(1)$$ avg | 캐시, dedup, session |
+| **Tree (B-Tree)** | $$O(\log n)$$ | *모든 DB 인덱스 의 *기반* |
+| **Hash + LRU** | $$O(1)$$ | Redis, Caffeine |
+| **Queue / Heap** | $$O(1)$$ / $$O(\log n)$$ | Kafka, 우선순위 처리 |
 
 ### 2.2 *알아야 할 *5 가지 알고리즘 카테고리*
 
-- **정렬** — 비교 정렬 의 *O(n log n) 하한*
+- **정렬** — 비교 정렬 의 *$$O(n \log n)$$ 하한*
 - **탐색** — 이진 탐색, BFS / DFS
 - **그래프** — Dijkstra, 위상 정렬
 - **DP** — 메모이제이션 / 점화식
@@ -90,7 +90,7 @@ flowchart TD
 
 ### 2.4 *체감 — *자료구조 모르면 *코드 가 *느려진다***
 
-*"jabis 의 사용자 검색 이 5초"* → *Linear search 였음 (O(n))*. *HashSet 의 도입* (O(1)) → *0.005 초*.
+*"jabis 의 사용자 검색 이 5초"* → *Linear search 였음 ($$O(n)$$)*. *HashSet 의 도입* ($$O(1)$$) → *0.005 초*.
 
 *1000 배*. *자료구조 의 *체감*.
 

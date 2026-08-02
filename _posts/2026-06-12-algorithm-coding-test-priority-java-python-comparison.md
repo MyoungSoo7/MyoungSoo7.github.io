@@ -102,7 +102,7 @@ queue.poll();   // 1
 
 **함정**:
 - *Java 의 `Stack` class 는 `Vector` 상속 — *synchronized — 느림*. `ArrayDeque` 권장.
-- *Python 의 `list.pop(0)` 은 O(n)*. *반드시 `collections.deque`*.
+- *Python 의 `list.pop(0)` 은 $$O(n)$$*. *반드시 `collections.deque`*.
 - *Python 의 `set.add()` 가 *해시 가능 타입만 — list/dict 는 X*. `frozenset` 또는 `tuple` 변환.
 
 ### 1.2 *DFS / BFS*
@@ -234,11 +234,11 @@ Arrays.sort(nums2, Comparator.reverseOrder());
 **함정**:
 - *Python 의 `sort()` 는 *in-place*, `sorted()` 는 *new list*. *return 값을 *변수에 할당 *주의*.
 - *Java 의 *primitive 배열 내림차순* 안 됨. `Integer[]` 박싱 후 `Comparator.reverseOrder()`.
-- *Python 은 *Timsort O(n log n)* (안정). *Java 도 동일*.
+- *Python 은 *Timsort $$O(n \log n)$$* (안정). *Java 도 동일*.
 
 ### 1.4 *이분 탐색 (Binary Search)*
 
-**왜 Tier S**: *O(log n)* 가 *O(n)* 의 *유일한 탈출구*. *"최소값을 찾는데 *어떤 값" 패턴 의 *표준*.
+**왜 Tier S**: *$$O(\log n)$$* 가 *$$O(n)$$* 의 *유일한 탈출구*. *"최소값을 찾는데 *어떤 값" 패턴 의 *표준*.
 
 #### Python
 ```python
@@ -306,11 +306,11 @@ def parametric_search(nums, k):
 ```
 
 **함정**:
-- *(lo + hi) // 2* Python 은 *오버플로 X*. *Java 는 *2^31 - 1 초과 시* 음수 — `lo + (hi - lo) / 2` 필수.
+- *(lo + hi) // 2* Python 은 *오버플로 X*. *Java 는 *$$2^{31} - 1$$ 초과 시* 음수 — `lo + (hi - lo) / 2` 필수.
 
 ### 1.5 *해시 (HashMap / HashSet)*
 
-**왜 Tier S**: *시간 복잡도의 *마법사*. *"X 가 있는가" 의 *O(1)*. *Two Sum 류 의 *기본 도구*.
+**왜 Tier S**: *시간 복잡도의 *마법사*. *"X 가 있는가" 의 *$$O(1)$$*. *Two Sum 류 의 *기본 도구*.
 
 #### Python
 ```python

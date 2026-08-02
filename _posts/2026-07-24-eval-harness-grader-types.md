@@ -72,7 +72,7 @@ Exact/regex → Test → Static → Reference → LLM-judge → Human
 정답이 정확 → Exact/schema. 동작 → Test. 코드 규칙 → Static. 기대 출력 존재 → Reference. 주관 품질 → LLM-judge. 고위험/보정 → Human. **표의 오른쪽 열이 곧 선택 기준이다.**
 
 ### 원칙 2. 비용 사다리 — 싼 게 비싼 걸 게이팅
-이건 [Ouroboros의 3단계 평가](/2026/07/23/ouroboros-manual-agentic-coding-code-analysis/)($0 Mechanical → $$ Semantic → $$$ Consensus)와 같은 구조다. **컴파일도 안 되는 코드의 의미론을 LLM-judge에게 묻지 마라.** exact/test/static이 먼저 걸러야, 비싼 LLM-judge·human을 *걸러진 것에만* 쓴다. 싼 검사가 실패하면 비싼 검사는 아예 건너뛴다.
+이건 [Ouroboros의 3단계 평가](/2026/07/23/ouroboros-manual-agentic-coding-code-analysis/)(&#36;0 Mechanical → &#36;&#36; Semantic → &#36;&#36;&#36; Consensus)와 같은 구조다. **컴파일도 안 되는 코드의 의미론을 LLM-judge에게 묻지 마라.** exact/test/static이 먼저 걸러야, 비싼 LLM-judge·human을 *걸러진 것에만* 쓴다. 싼 검사가 실패하면 비싼 검사는 아예 건너뛴다.
 
 ### 원칙 3. 채점기도 게이밍당한다
 [하드코딩·테스트 전용 분기](/2026/07/23/agent-roles-explorer-implementer-verifier/)로 테스트를 통과시키거나, LLM-judge가 근거 없이 점수만 내는 것 — 채점기 자체를 속이는 것도 막아야 한다. 그래서 test는 negative test를 포함하고, LLM-judge는 evidence를 요구하고, 최종엔 human calibration으로 검증한다.

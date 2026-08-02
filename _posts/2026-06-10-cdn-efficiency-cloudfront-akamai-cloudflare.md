@@ -33,6 +33,10 @@ tags: [cdn, cloudfront, akamai, cloudflare, edge, performance, latency, caching,
 
 사용자 ↔ 서버 사이의 *물리 거리* 가 *응답시간 *하한선*. 빛의 속도가 *유일한 *변수 없는 *상수*. 서울 → 미국 동부 *왕복* 이 *200 ms* 인 건 *순수 *광속 + 광케이블 경로*.
 
+*그 하한선* 은 *광경로 길이* $$d$$ 와 *매질 안 의 전파 속도* $$v$$ 로 정해진다 :
+
+$$\text{RTT}_{\min} = \frac{2d}{v}$$
+
 CDN 의 *핵심 발상* :
 
 > *콘텐츠를 *사용자 가까운 곳* 에 *미리 복제* 해서 *물리 거리 * 단축*.*
@@ -183,8 +187,8 @@ Cloudflare  : ~ $40 (Business plan) / Free 도 가능
 
 ### *핵심 지표 4가지*
 
-1. **Cache Hit Ratio** — *전체 요청 중 *edge 에서 해결된 비율*. *목표 90%+*.
-2. **Origin Offload** — *Origin 으로 *간 트래픽 의 *감소율*. *90%+ 면 *비용 절감 *극적*.
+1. **Cache Hit Ratio** — *전체 요청 중 *edge 에서 해결된 비율* — $$\text{CHR} = \frac{\text{edge hits}}{\text{전체 요청}}$$. *목표 90%+*.
+2. **Origin Offload** — *Origin 으로 *간 트래픽 의 *감소율* — $$1 - \frac{\text{origin 요청}}{\text{전체 요청}}$$. *90%+ 면 *비용 절감 *극적*.
 3. **TTFB (Time To First Byte)** — *사용자 → 첫 바이트* 까지 시간. *50 ms 이하 목표*.
 4. **bandwidth saved** — *origin 대역폭 *절감량*. *비용 직결*.
 

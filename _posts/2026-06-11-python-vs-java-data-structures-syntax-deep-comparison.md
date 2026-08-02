@@ -164,12 +164,12 @@ List<Object> mixed = new ArrayList<>(List.of(1, "hello", 3.14));
 
 | 연산 | Python `list` | Java `ArrayList` |
 |------|--------------|------------------|
-| `lst[i]` | O(1) | O(1) |
-| `append` | amortized O(1) | amortized O(1) |
-| `insert(0, x)` | O(n) | O(n) |
-| `del lst[i]` | O(n) | O(n) |
-| `x in lst` | O(n) | O(n) |
-| `lst.sort()` | O(n log n) — Timsort | O(n log n) — Timsort (Java 8+) |
+| `lst[i]` | $$O(1)$$ | $$O(1)$$ |
+| `append` | amortized $$O(1)$$ | amortized $$O(1)$$ |
+| `insert(0, x)` | $$O(n)$$ | $$O(n)$$ |
+| `del lst[i]` | $$O(n)$$ | $$O(n)$$ |
+| `x in lst` | $$O(n)$$ | $$O(n)$$ |
+| `lst.sort()` | $$O(n \log n)$$ — Timsort | $$O(n \log n)$$ — Timsort (Java 8+) |
 
 > *두 언어 모두 *Timsort* 채택. *Tim Peters 가 *Python 위해 *2002 년에 발명* 한 알고리즘이 *Java 에 *역수입*.
 
@@ -196,7 +196,7 @@ System.out.println(d.getOrDefault("phone", "없음"));
 | 항목 | Python `dict` | Java `HashMap` |
 |------|--------------|----------------|
 | 해시 충돌 | **Open Addressing** + perturbation | **Separate Chaining** (linked list) |
-| 충돌 8 개 초과 시 | resize | **Treeify** (Red-Black Tree, O(log n)) |
+| 충돌 8 개 초과 시 | resize | **Treeify** (Red-Black Tree, $$O(\log n)$$) |
 | load factor | 2/3 (~ 0.667) | 0.75 |
 | 삽입 순서 보존 | **유지** (3.7+) | *유지 안 함* (LinkedHashMap 사용) |
 | null 키 | *허용* | *허용 (1 개만)* |
@@ -285,7 +285,7 @@ Point p = new Point(3, 4);
 | Python | Java |
 |--------|------|
 | `collections.deque` | `LinkedList<T>` (deque) 또는 `ArrayDeque<T>` (faster) |
-| O(1) head/tail | 동일 |
+| $$O(1)$$ head/tail | 동일 |
 
 > 둘 다 *queue / stack* 의 *현실적 선택*. *Java 는 `ArrayDeque` 가 `LinkedList` 보다 *2-3× 빠름* — *cache locality*.
 
