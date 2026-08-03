@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "레오파드 후속 — 같은 토론, 두 사회자: Hermes-4-405B vs gpt-4.1 동일 전문 A/B"
-date: 2026-08-03 19:10:00 +0900
+date: 2026-08-03 18:10:00 +0900
 categories: [ai, business, strategy, engineering]
 tags: [leopard, Hermes-4, gpt-4.1, Nous, 멀티에이전트, 사회자, AB테스트, 커버리지게이트, 경영전략]
 ---
