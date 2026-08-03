@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "LION으로 평가한 Lemuel Settlement — 금융 정합성을 기계로 강제한 폴리글랏 MSA"
-date: 2026-08-03 18:20:00 +0900
+date: 2026-08-03 17:00:00 +0900
 categories: [software-engineering, architecture, settlement, k3s]
 tags: [LION, settlement, MSA, hexagonal, Kafka, double-entry-ledger, security, cloud, on-premises]
 ---
