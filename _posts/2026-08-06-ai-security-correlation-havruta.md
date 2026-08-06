@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI 발전과 보안의 상관관계, 그리고 시스템 보안의 발전 방향 — 하브루타 토론"
-date: 2026-08-06 18:40:00 +0900
+date: 2026-08-06 09:00:00 +0900
 categories: [security, ai, strategy]
 tags:
   [
