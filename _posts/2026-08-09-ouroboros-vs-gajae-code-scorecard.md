@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "우로보로스 vs 가재코드 — 5개 축 10점 채점, 그리고 채점할 수 없었던 것"
-date: 2026-08-09 02:45:00 +0900
+date: 2026-08-09 01:30:00 +0900
 categories: [AI, Engineering]
 tags: [Ouroboros, Gajae-Code, Coding Agent, Harness, Evaluation, Claude Code]
 ---
