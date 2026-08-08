@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "은행 EAI·MCI·FEP의 역할과 현대화: 4대 은행 공개자료의 한계, JEX와 Spring의 설계 비교"
-date: 2026-08-09 12:00:00 +0900
+date: 2026-08-09 01:10:00 +0900
 categories: [Architecture, Finance, Java]
 tags: [Banking, EAI, MCI, FEP, JEX, Spring, Legacy Modernization, 금융IT]
 ---

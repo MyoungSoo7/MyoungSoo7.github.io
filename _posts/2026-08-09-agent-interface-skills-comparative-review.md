@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Agent Interface Skills 비교 분석: better-interface를 우리 프로젝트에 어떻게 쓸 것인가"
-date: 2026-08-09 12:30:00 +0900
+date: 2026-08-09 01:20:00 +0900
 categories: [AI, Design, Engineering]
 tags: [Agent Skills, UI Review, Accessibility, Claude Code, Codex, Flask, RAG]
 ---

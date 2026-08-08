@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Settlement account-service를 은행의 계정계로 확장할 수 있는가: 예금·적금·연금 분석설계"
-date: 2026-08-09 11:00:00 +0900
+date: 2026-08-09 00:40:00 +0900
 categories: [Architecture, Finance, Backend]
 tags: [Settlement, Account Service, Banking, Ledger, Deposit, Savings, Pension, Event Driven]
 ---

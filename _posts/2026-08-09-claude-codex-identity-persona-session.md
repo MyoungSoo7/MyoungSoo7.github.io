@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Claude와 Codex를 운영하는 법: 세션별 Identity와 상황별 Persona의 분리"
-date: 2026-08-09 11:30:00 +0900
+date: 2026-08-09 01:00:00 +0900
 categories: [AI, Engineering, Agent]
 tags: [Claude Code, Codex, Identity, Persona, Session, Agent Orchestration, Harness Engineering]
 ---

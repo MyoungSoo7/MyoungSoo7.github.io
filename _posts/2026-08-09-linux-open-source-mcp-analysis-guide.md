@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux에서 오픈소스 MCP를 쓰는 법: Agent와 내부 도구 사이의 안전한 연결 계층"
-date: 2026-08-09 09:20:00 +0900
+date: 2026-08-09 00:05:00 +0900
 categories: [AI, Linux, DevOps]
 tags: [MCP, Model Context Protocol, Linux, Open Source, Agent, RAG, Security]
 ---

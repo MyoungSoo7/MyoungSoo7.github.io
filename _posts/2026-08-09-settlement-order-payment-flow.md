@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "고객의 상품 주문에서 결제·정산까지: Settlement order-service와 settlement-service 구조 분석"
-date: 2026-08-09 10:10:00 +0900
+date: 2026-08-09 00:20:00 +0900
 categories: [Architecture, Backend, Finance]
 tags: [Settlement, Order Service, Payment, Kafka, Outbox, CQRS, Reconciliation, Ledger]
 ---
