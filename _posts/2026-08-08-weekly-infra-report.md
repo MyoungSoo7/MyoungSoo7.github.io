@@ -139,8 +139,8 @@ Repository 저장 공간
 
 | 경고 | 대상 | 발생 횟수 | 최초 발생 | 마지막 발생 | 심각도 |
 |---|---|---:|---|---|---|
-| `DNSConfigForming` | `kps-prometheus-node-exporter-2rrxl` | 3,452회 | 2026-05-12 01:54:32 UTC | 2026-05-12 12:24:37 UTC | Warning |
-| 영향 노드 | `lemuel` | - | - | - | DNS 구성 점검 필요 |
+| `DNSConfigForming` | `kps-prometheus-node-exporter-2rrxl` | 3,452회 | 2026-05-12 01:54:32 UTC | 2026-05-12 12:24:37 UTC | 과거 Warning |
+| 영향 노드 | `lemuel` | - | - | - | 현재 상태 별도 검증 필요 |
 
 주요 메시지는 다음과 같다.
 
@@ -152,7 +152,7 @@ the applied nameserver line is:
 
 ### DNSConfigForming 분석
 
-Kubelet이 Pod에 적용할 DNS 설정을 구성하는 과정에서 nameserver 개수 제한을 초과했고, 일부 nameserver를 제거했다는 의미다.
+Kubelet이 Pod에 적용할 DNS 설정을 구성하는 과정에서 nameserver 개수 제한을 초과했고, 일부 nameserver를 제거했다는 의미다. 이 기록은 `2026-05-12`에 관찰된 과거 이벤트이며, 이 리포트의 원시 데이터만으로 현재도 지속 중인 경고라고 판단할 수 없다.
 
 관측된 최종 nameserver는 다음과 같다.
 
@@ -162,7 +162,7 @@ Kubelet이 Pod에 적용할 DNS 설정을 구성하는 과정에서 nameserver �
 61.41.153.2
 ```
 
-이 경고는 단발성 장애보다는 동일한 설정 문제가 반복적으로 관측되고 있음을 보여준다. 특히 12시간이 채 되지 않는 구간에서 3,452회 발생했기 때문에 이벤트 노이즈가 매우 큰 상태다.
+당시 이벤트 집계는 12시간이 채 되지 않는 구간에서 3,452회였으므로 해당 시점의 이벤트 노이즈가 컸음을 보여준다. 그러나 현재 장애·현재 DNS 실패·서비스 영향의 증거는 아니다.
 
 가능한 원인은 다음과 같다.
 
@@ -174,7 +174,7 @@ Kubelet이 Pod에 적용할 DNS 설정을 구성하는 과정에서 nameserver �
 | Pod DNS 정책 구성 문제 | `dnsPolicy`, `dnsConfig.nameservers`가 기본 제한을 초과했을 가능성 |
 | 외부 DNS 직접 사용 | 클러스터 내부 DNS 대신 공용 DNS를 직접 사용하도록 구성되었을 가능성 |
 
-현재 데이터만으로는 Prometheus Node Exporter 자체의 장애라고 보기는 어렵다. 이벤트를 생성한 주체는 Node Exporter가 아니라 `kubelet`이며, 실제 문제 지점은 Pod가 실행된 `lemuel` 노드의 DNS 설정에 더 가깝다.
+현재 데이터만으로는 Prometheus Node Exporter 자체의 장애라고 보기는 어렵다. 이벤트를 생성한 주체는 Node Exporter가 아니라 `kubelet`이다. 실제 노드 resolver와 node-local-dns 상태를 확인하기 전에는 현재 `lemuel`의 DNS 문제로 확정하지 않는다.
 
 ### 영향 평가
 
@@ -190,7 +190,7 @@ Kubelet이 Pod에 적용할 DNS 설정을 구성하는 과정에서 nameserver �
 
 ### 모니터링 영역 권고
 
-1. `lemuel` 노드의 실제 resolver 구성을 확인한다.
+1. 먼저 해당 이벤트가 현재도 재현되는지 확인한다. 과거 이벤트만으로 노드 설정을 변경하지 않는다.
 
 ```bash
 cat /etc/resolv.conf
@@ -210,9 +210,10 @@ kubectl -n kube-system get pods
 kubectl -n kube-system logs -l k8s-app=kube-dns
 ```
 
-4. 노드의 VPN, NetworkManager, `systemd-resolved` 설정 변경 이력을 확인한다.
-5. nameserver를 무조건 공용 DNS로 고정하기보다 클러스터 표준 DNS 설계에 맞춰 정리한다.
-6. 동일 이벤트가 반복 생성되지 않도록 Alertmanager에는 이벤트 횟수보다 실제 DNS 질의 실패율과 지연 시간을 주요 신호로 사용한다.
+4. `node-local-dns` DaemonSet, Pod의 `/etc/resolv.conf`, CoreDNS Service(`10.43.0.10`), 실제 DNS 질의를 함께 확인한다.
+5. VPN, NetworkManager, `systemd-resolved` 또는 K3s override를 변경하기 전에 현재 장애 Trace와 영향 범위를 확인한다.
+6. nameserver를 무조건 공용 DNS로 고정하지 말고 클러스터의 node-local-dns 설계와 일치시키며, 현재 장애가 없으면 설정 변경을 하지 않는다.
+7. 동일 이벤트가 반복 생성되지 않도록 Alertmanager에는 이벤트 횟수보다 실제 DNS 질의 실패율과 지연 시간을 주요 신호로 사용한다.
 
 ## 3. ELK 및 로깅: 안정성 점검
 
@@ -326,14 +327,14 @@ kubectl get events -A --sort-by=.lastTimestamp
 
 ## 총평 및 다음 주 조치 권고
 
-이번 데이터에서 가장 명확한 운영 리스크는 `lemuel` 노드에서 반복 발생한 `DNSConfigForming` 경고다. Kubelet이 nameserver 제한 초과로 일부 DNS 서버를 제거하고 있으며, 이 문제는 외부 저장소·로그 저장소·이미지 레지스트리 연결 실패로 확장될 가능성이 있다.
+이번 데이터에서 확인된 것은 `2026-05-12`에 발생한 과거 `DNSConfigForming` 이벤트다. 현재 노드의 DNS 장애 또는 외부 저장소·로그 저장소·이미지 레지스트리 연결 실패로 확정할 수 없다. 후속 점검에서는 node-local-dns와 CoreDNS, 현재 Pod DNS 설정 및 실제 질의를 함께 검증해야 한다.
 
 반면 Velero/Kopia와 ELK는 리소스 메타데이터 일부만 제공되어 성공률, 실패 원인, 재시작 횟수 등 핵심 SRE 지표를 계산할 수 없다. 현재 상태에서 “백업 성공” 또는 “로깅 시스템 안정”이라고 보고하는 것은 데이터 근거가 부족하다.
 
 다음 주에는 아래 순서로 점검하는 것을 권고한다.
 
-1. `lemuel` 노드의 `/etc/resolv.conf`, `systemd-resolved`, VPN 및 NetworkManager 설정을 정리한다.
-2. 모든 Kubernetes 노드의 DNS 설정을 비교해 단일 노드 문제인지 클러스터 공통 문제인지 판별한다.
+1. 과거 이벤트와 현재 이벤트를 분리하고, 현재 동일 경고 재현 여부를 확인한다.
+2. 모든 Kubernetes 노드의 node-local-dns, Pod `/etc/resolv.conf`, CoreDNS Service와 실제 DNS 질의를 비교한다.
 3. Velero Backup과 Kopia 유지보수 Job의 최근 1주 결과를 `status` 기준으로 재수집한다.
 4. 실패 Job별 종료 코드, Pod 로그, Kubernetes Event를 연결해 원인을 분류한다.
 5. Fluent Bit 전체 DaemonSet의 Ready 수, 재시작 수, 오류 로그, 출력 버퍼 상태를 수집한다.
