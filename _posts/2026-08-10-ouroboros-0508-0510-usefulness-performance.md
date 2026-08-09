@@ -123,6 +123,8 @@ find "$OLD" -name '*.py' | wc -l ; find "$NEW" -name '*.py' | wc -l
 
 구현도 방어적입니다. 🔬 실행 중인 CLI와 **동일한 매니저·환경**(uv → pipx → pip 순으로 receipt 기반 탐지)으로만 업그레이드하고, 프로젝트 `.env` 가 `UV_*`/`PIP_*`/`PIPX_*` 를 설정하는 것을 금지합니다.
 
+세 번째 `claude_setup.py` 는 75줄로 제일 작지만 존재 이유가 제일 무겁습니다. 상류 의존성 충돌을 피해 가려고 만든 우회로이고, 그 사정은 §5-②에서 다룹니다.
+
 ### 2.3 Disposable Memory — RFC가 드디어 코드가 됨
 
 📄 PR #1855 본문의 첫 문장: "The accepted Disposable Memory RFC was still **documentation-only on main**." 승인된 설계가 문서로만 존재하던 상태였다는 자기 진술입니다.
@@ -321,15 +323,15 @@ $$
 
 ## 4. 🔬 패키지 메타데이터 델타
 
-| 항목                               | 변화                                                                                                                 |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `Requires-Dist` (기본 의존성 12개) | **변경 0건** — 버전 범위까지 전부 동일                                                                               |
-| `Requires-Python`                  | `>=3.12` 동일                                                                                                        |
-| 제거된 extra                       | 없음                                                                                                                 |
-| 신규 extra                         | `claude-cli` (**의존성 없는 빈 extra**, 마커 역할), `claude-sdk` (`anthropic==0.117.0`, `claude-agent-sdk==0.2.123`) |
-| 신규 Classifier                    | **12줄** (0.50.8에는 Classifier가 한 줄도 없었음)                                                                    |
-| 신규 Keywords                      | `agent-os, ai-agent, claude-code, llm-orchestration, mcp, spec-driven-development` 등 11개                           |
-| 신규 Project-URL                   | Homepage / Repository / Bug Tracker / Sponsor                                                                        |
+| 항목                               | 변화                                                                                                                         |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `Requires-Dist` (기본 의존성 12개) | **변경 0건** — 버전 범위까지 전부 동일                                                                                       |
+| `Requires-Python`                  | `>=3.12` 동일                                                                                                                |
+| 제거된 extra                       | 없음                                                                                                                         |
+| 신규 extra                         | `claude-cli` (**의존성 없는 빈 extra** — 이유는 §5-② 참조), `claude-sdk` (`anthropic==0.117.0`, `claude-agent-sdk==0.2.123`) |
+| 신규 Classifier                    | **12줄** (0.50.8에는 Classifier가 한 줄도 없었음)                                                                            |
+| 신규 Keywords                      | `agent-os, ai-agent, claude-code, llm-orchestration, mcp, spec-driven-development` 등 11개                                   |
+| 신규 Project-URL                   | Homepage / Repository / Bug Tracker / Sponsor                                                                                |
 
 기본 의존성이 하나도 안 바뀐 릴리스에 +15,309줄이 들어왔습니다. 외부 라이브러리를 끌어오지 않고 자체 구현으로 채웠다는 뜻입니다.
 
@@ -350,9 +352,9 @@ Summary 문구 변화도 기록해 둘 만합니다:
 
 `status` / `help` / `config` 스킬 정체성이 `ouroboros-*` 로 바뀌었습니다. 직접 호출형이 `/ouroboros:ouroboros-status`, `/ouroboros:ouroboros-help`, `/ouroboros:ouroboros-config` 가 됩니다. PR 본문이 명시합니다 — "**reserved bare aliases are deliberately not retained** because they would recreate the collision." 자연어 `ooo status` 와 `drift` 별칭은 유지됩니다.
 
-### ② `[mcp,claude]` 동시 설치 거부 (📄 #1928)
+### ② `[mcp,claude]` 동시 설치 거부 (📄 #1928) — 그리고 이건 Ouroboros 탓이 아닙니다
 
-MCP 2와 Claude Agent SDK가 임베드한 MCP 1.x가 한 인터프리터에 공존할 수 없습니다. `[all,mcp]`, `[mcp,claude-sdk]` 도 거부됩니다. 🔬 새 모듈 `package_profiles.py` 에 에러 문구가 그대로 박혀 있습니다:
+MCP 2와 Claude Agent SDK가 요구하는 MCP 1.x가 한 인터프리터에 공존할 수 없습니다. `[all,mcp]`, `[mcp,claude-sdk]` 도 거부됩니다. 🔬 새 모듈 `package_profiles.py` 에 에러 문구가 그대로 박혀 있습니다:
 
 ```python
 UNSUPPORTED_CLAUDE_SDK_MCP_MESSAGE = (
@@ -371,6 +373,42 @@ ls $(python -c "import site;print(site.getsitepackages()[0])") \
 ```
 
 🔬 제 환경에서는 `mcp-2.0.0.dist-info` 와 `mcp_types-2.0.0.dist-info` 만 나오고 `claude_agent_sdk`·`anthropic` 이 없습니다. 즉 순수 `[mcp]` 프로파일이라 이 변경에 물리지 않습니다. 둘 다 나오는 분은 환경을 둘로 쪼개야 합니다.
+
+#### 그런데 왜 이런 선택지 없는 상황이 됐나
+
+이 항목을 처음 쓸 때 저는 이걸 "Ouroboros가 만든 파괴적 변경"으로 분류했습니다. **인과가 반대였습니다.**
+
+📄 PyPI 릴리스 이력을 보면 사정이 분명합니다.
+
+| 패키지                 | 버전                             | 날짜 (UTC)     |
+| ---------------------- | -------------------------------- | -------------- |
+| `mcp` (MCP Python SDK) | `2.0.0a1`                        | 2026-06-11     |
+|                        | `2.0.0rc1`                       | 2026-07-27     |
+|                        | **`2.0.0` 정식**                 | **2026-07-28** |
+| `claude-agent-sdk`     | `0.2.134` (이 글 작성 시점 최신) | 2026-08-08     |
+
+그리고 그 최신 `claude-agent-sdk 0.2.134` 의 의존성이 이렇습니다:
+
+```
+mcp<2.0.0,>=1.23.0
+```
+
+**MCP SDK v2가 정식 출시된 지 열흘이 넘도록 상한이 `<2.0.0` 에 그대로 있습니다.** 그리고 이건 손이 안 간 게 아닙니다 — 같은 기간에 `0.2.129`(08-04)부터 `0.2.134`(08-08)까지 **닷새 동안 여섯 번 릴리스**했습니다. 다른 건 다 나갔고 이 핀만 안 움직였습니다.
+
+핀 자체는 실수가 아니라 의도된 것이었습니다. 이슈 [#1028 "deps: pin mcp below 2.0.0"](https://github.com/anthropics/claude-agent-sdk-python/issues/1028)(2026-06-10, closed)이 v2가 아직 알파일 때 방어적으로 넣은 것입니다. 합리적인 조치였습니다. 문제는 **v2가 정식이 된 뒤에도 풀리지 않았다**는 것입니다.
+
+v2 출시 **다음 날** 이슈가 올라왔습니다 — [#1150 "Support MCP Python SDK v2 for in-process SDK MCP servers"](https://github.com/anthropics/claude-agent-sdk-python/issues/1150) (2026-07-29). 📄 이 글을 쓰는 시점 상태:
+
+- **open**, 라벨 **없음**, assignee **없음**
+- 댓글 1개인데 메인테이너가 아니라 다른 사용자(`author_association: NONE`)의 +1:
+
+> "+1 hit this today upgrading our MCP server to `mcp==2.0.0` (the SDK v2 line implementing the 2026-07-28 MCP spec). With v2 now stable, **the mcp<2.0.0 pin blocks co-installing claude-agent-sdk with any standards-current MCP v2 codebase.** … we cannot move to the new MCP spec until anthropic's agent sdk supports the new spec."
+
+그래서 이 항목의 성격이 달라집니다. Ouroboros는 `[mcp,claude]` 를 **거부하기로 결정한 게 아니라**, 애초에 성립할 수 없게 된 조합을 **런타임에 터지게 두는 대신 설치 시점에 정직하게 막은 것**입니다. 이전에는 pip이 `mcp` 를 한쪽으로 해결해 주고 나면 어느 쪽 코드 경로가 먼저 닿느냐에 따라 깨졌습니다.
+
+§4에서 신규 extra `claude-cli` 가 **의존성이 하나도 없는 빈 extra** 라고 적었는데, 이제 이유가 설명됩니다. **Claude Agent SDK를 아예 끌어오지 않는 것이 목적**입니다. `mcp<2.0.0` 을 상속받지 않으려면 그 패키지를 의존성에서 빼는 수밖에 없고, 대신 subprocess로 Claude CLI에 붙습니다. 🔬 그래서 `setup --runtime claude-cli` 가 런타임 백엔드 `claude_mcp` 로 매핑되고(`config/models.py:470,651` 에 리터럴 추가), 이걸 위해 `cli/commands/claude_setup.py` 75줄이 새로 들어왔습니다.
+
+> **정리하면 이렇습니다.** 상류(MCP SDK)가 메이저 버전을 올렸고, 중간(Claude Agent SDK)이 따라오지 않았고, 하류(Ouroboros)가 그 간극을 자기 패키징으로 흡수했습니다. 사용자에게 보이는 건 "Ouroboros가 설치를 거부한다"지만, 실제로 고쳐져야 할 곳은 거기가 아닙니다. **이 파괴적 변경은 `claude-agent-sdk` 의 핀이 풀리는 날 사라질 성질의 것입니다.**
 
 ### ③ EventStore SQLite 전용 강제 (📄 #1897 / 🔬 `persistence/backend_contract.py`)
 
@@ -484,7 +522,7 @@ Ouroboros가 0.50.0에서 내건 슬로건이 "The Verifiable Loop: **contracts,
 
 - ✅ 스키마 변경 없음, 삭제 모듈 0개, 기본 의존성 변경 0건, MCP 툴 제거 0개
 - ⚠️ 진행 중인 0.50.x run이 있으면 resume이 fail-closed 될 수 있음 (§5-⑤)
-- ⚠️ `[mcp,claude]` 를 같이 설치했다면 먼저 쪼개기 (§5-② 확인 명령 참조)
+- ⚠️ `[mcp,claude]` 를 같이 설치했다면 먼저 쪼개기 (§5-② 확인 명령 참조). 원인은 Ouroboros가 아니라 `claude-agent-sdk` 의 `mcp<2.0.0` 핀이고, 그게 풀리면 없어질 제약입니다
 - ⚠️ 슬래시 커맨드를 스크립트에 박아 뒀다면 `ouroboros-*` 로 (§5-①)
 - ⚠️ 로그가 갑자기 조용해지면 버그가 아니라 `logging.level` 이 이제 먹는 것 (§5-⑥)
 
@@ -525,6 +563,13 @@ Ouroboros가 0.50.0에서 내건 슬로건이 "The Verifiable Loop: **contracts,
 - [#1893 — keep an empty OpenCode error frame terminal](https://github.com/Q00/ouroboros/pull/1893)
 - [#1895 — stop reporting a degraded ourocode turn as a clean one](https://github.com/Q00/ouroboros/pull/1895)
 - [#1915 — stop remembering an unreadable extraction as an answer](https://github.com/Q00/ouroboros/pull/1915)
+
+### 1차 공식 — 상류 의존성 (§5-② 근거)
+
+- [`mcp` on PyPI](https://pypi.org/project/mcp/) — `2.0.0` 정식 출시 **2026-07-28** (`2.0.0rc1` 07-27, `2.0.0a1` 06-11)
+- [`claude-agent-sdk` on PyPI](https://pypi.org/project/claude-agent-sdk/) — 최신 `0.2.134`(2026-08-08)의 `Requires-Dist` 가 여전히 **`mcp<2.0.0,>=1.23.0`**
+- [anthropics/claude-agent-sdk-python#1150 — Support MCP Python SDK v2 for in-process SDK MCP servers](https://github.com/anthropics/claude-agent-sdk-python/issues/1150) — 2026-07-29 개설, 이 글 작성 시점 open·라벨 없음·assignee 없음·메인테이너 응답 없음
+- [anthropics/claude-agent-sdk-python#1028 — deps: pin mcp below 2.0.0](https://github.com/anthropics/claude-agent-sdk-python/issues/1028) — 2026-06-10, closed. 핀이 들어간 경위
 
 ### 패키지
 
