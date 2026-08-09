@@ -7,8 +7,9 @@ tags: [DailyBriefing]
 ---
 
 ### AI·K8s 뉴스 요약
+
 | 제목 | 핵심 내용 |
-| :--- | :--- |
+| --- | --- |
 | OpenAI: Critical Cyber Capabilities | 사이버 보안 역량 강화를 위한 차세대 프론티어 기술 및 연구 결과 발표 |
 | CNCF: Kubernetes DRA vs HAMi | K8s의 Dynamic Resource Allocation(DRA)이 HAMi GPU 가상화를 대체할지 분석 |
 | Shadow AI in CI/CD | 개발자 노트북에서 K8s까지 이르는 CI/CD 파이프라인 내 '그림자 AI' 위협 모델링 |
