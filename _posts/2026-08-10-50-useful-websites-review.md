@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "구글 검색만으로는 놓치기 쉬운 유용한 웹사이트 50개 리뷰"
-date: 2026-08-10 02:40:00 +0900
+date: 2026-08-10 02:30:00 +0900
 categories: [tools, productivity, research]
 tags: [웹도구, 생산성, 개발도구, 학술검색, 보안, 디자인]
 ---
