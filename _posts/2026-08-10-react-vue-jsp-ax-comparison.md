@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "React·Vue·JSP 비교: AX 시대에 어떤 UI 기술이 우위에 있는가"
-date: 2026-08-10 17:00:00 +0900
+date: 2026-08-09 23:59:00 +0900
 categories: [frontend, architecture, ax]
 tags: [React, Vue, JSP, AX, AI, Spring, frontend]
 ---
