@@ -4,100 +4,180 @@ title: About
 permalink: /about/
 ---
 
-## 푸른영혼의 별 | Java Backend Engineer
+## 푸른영혼의 별 | AX Engineer · Agent Architect · Java Backend Engineer
 
-공공·이커머스 환경에서 운영 중인 시스템의 *안정성* 과 *변경 비용* 을 기준으로 구조를 설계해온 백엔드 엔지니어. 9년차.
+공공·이커머스·금융 도메인의 시스템을 설계하고 운영하며, **안정성·정합성·변경 비용·검증 가능성**을 중심으로 문제를 해결합니다. Java/Spring 기반 백엔드와 K3s·GitOps 운영을 바탕으로, AI Agent·RAG·MCP·Ouroboros를 연결하는 재사용 가능한 Agent platform을 만들고 있습니다.
 
-### 기술 스택
-- **Backend**: Java 25, Kotlin 2.0, Spring Boot 4, JPA/Hibernate, Kafka, Elasticsearch, gRPC
-- **System / 정량**: C++20 (Boost.Beast, simdjson, Arrow/Parquet, ONNX Runtime), Rust (tokio), Go, Julia (JuMP, HiGHS), R (Shiny, rugarch, forecast), Python (pandas, vectorbt)
-- **Architecture**: Hexagonal, MSA, Event-Driven, DDD
-- **Infra**: K3s 1.35 (3-master HA, embedded etcd), ArgoCD, Velero, Cloudflare Tunnel, Cloudflare R2, GitHub Actions, SOPS+age
-- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind, hls.js
-- **DB**: PostgreSQL 17, Redis 7, MySQL 8, Apache Parquet
-- **AI**: Spring AI, Gemini, RAG, Function Calling, KR-FinBERT (ONNX)
-- **Monitoring**: Prometheus, Grafana, Micrometer, Loki
+개별 기능을 빠르게 만드는 것보다 다음 질문을 중요하게 봅니다.
 
----
+```text
+무엇이 변하는가?
+누가 소유하는가?
+실패하면 어떻게 재처리하는가?
+완료를 어떤 Trace로 증명하는가?
+```
 
-### 운영 중인 시스템
+## 핵심 역량
 
-#### 🛒 포트폴리오 / 도메인 사이트
+### Backend & Architecture
 
-| 서비스 | URL | 설명 | 기술 |
-|--------|-----|------|------|
-| **Settlement MSA** | [jen.lemuel.co.kr](https://jen.lemuel.co.kr) | 이커머스 정산 플랫폼 (4모듈 MSA, **HA 3 replica**) | Spring Boot 4 + Kafka + ES |
-| **ASAT** | [eln.lemuel.co.kr](https://eln.lemuel.co.kr) | 청각 재활 훈련 시스템 (K3s 5컴포넌트) | Spring Boot + Next.js + Postgres + Redis + MinIO |
-| **Sparta MSA (AI 검색)** | [chat.lemuel.co.kr](https://chat.lemuel.co.kr) | Spring Cloud Gateway + AI 챗봇 (**HA 3 replica**) | Spring AI + Gemini + pgvector |
-| **lemuel-xr** | [xr.lemuel.co.kr](https://xr.lemuel.co.kr) | XR / 묵상 가이드 (트랙 B 인물 미션) | Spring Boot + Next.js + PostgreSQL + pgvector |
-| **K-POP 굿즈** | [goods.lemuel.co.kr](https://goods.lemuel.co.kr) | 굿즈 뽑기 (*데모 — 익명 가챠 모드*) | Spring Boot 4 + Next.js 16 |
-| **SNS** | [sns.lemuel.co.kr](https://sns.lemuel.co.kr) | SNS 피드 (Kafka + SSE 실시간 알림) | Spring Boot 4 + Kafka |
-| **약국 추천** | [pharmacy.lemuel.co.kr](https://pharmacy.lemuel.co.kr) | 위치 기반 약국 추천 | Spring Boot 4 + Redis + 카카오 API |
-| **최저가 쇼핑** | [lowshopping.lemuel.co.kr](https://lowshopping.lemuel.co.kr) | 네이버 쇼핑 최저가 비교 | Spring Boot 4 + Thymeleaf |
-| **코딩테스트** | [codingtest.lemuel.co.kr](https://codingtest.lemuel.co.kr) | 100문제 학습 앱 | Spring Boot 4 + H2 |
-| **SQL 학습** | [database.lemuel.co.kr](https://database.lemuel.co.kr) | SQL 코딩 테스트 연습 | Spring Boot 4 + MySQL |
-| **Media Search** | [media.lemuel.co.kr](https://media.lemuel.co.kr) | 무료 이미지/동영상 검색 | Spring Boot 4 + Pexels API |
-| **Auto Trading** | [stock.lemuel.co.kr](https://stock.lemuel.co.kr) | 자동 주식매매 (KIS API) | Spring Boot 4 + PostgreSQL |
-| **Crypto Trading** | [crypto.lemuel.co.kr](https://crypto.lemuel.co.kr) | 빗썸 암호화폐 자동매매 | Spring Boot 4 + Bithumb API |
-| **DART 공시** | [dart.lemuel.co.kr](https://dart.lemuel.co.kr) | 공시 공시 추적 + NER 감성분석 | Spring Boot + C++ crawler + KR-FinBERT |
-| **Burger Display Order** | [qr.lemuel.co.kr](https://qr.lemuel.co.kr) | 매장 키오스크 주문 디스플레이 (QR 결제) | React 18 + Vite + TossPayments + nginx |
-| **Ghost CMS Blog** | [blog.lemuel.co.kr](https://blog.lemuel.co.kr) | 일반 글 / 본질 / 회고 (Admin API 자동 게시) | Ghost 5.130 + SQLite |
+- **Java/Kotlin**: Java 25, Kotlin 2.0, Spring Boot 4, Spring MVC, Spring AI, JPA/Hibernate
+- **Architecture**: Hexagonal Architecture, DDD, MSA, Event-Driven Architecture, Outbox/Idempotency
+- **Messaging & Data**: Apache Kafka, Redis, PostgreSQL, MySQL, Elasticsearch, Apache Parquet, gRPC
+- **Frontend**: React 19, Next.js 16, Vue, TypeScript, Tailwind CSS
+- **Legacy modernization**: JSP/Spring MVC 시스템과 React/Vue 기반 AX UI의 점진적 전환
 
-#### 🚚 물류 / 미들오피스
+### Agent & AI Engineering
 
-| 서비스 | URL | 설명 | 기술 |
-|--------|-----|------|------|
-| **LMS (물류 관리)** | [lms.lemuel.co.kr](https://lms.lemuel.co.kr) | 물류 운영 / 배송 관리 시스템 | Spring Boot Kotlin + PostgreSQL |
-| **OMS (주문 관리)** | [oms.lemuel.co.kr](https://oms.lemuel.co.kr) | 통합 주문 관리 | Spring Boot Kotlin + Kafka |
-| **WMS (창고 관리)** | [wms.lemuel.co.kr](https://wms.lemuel.co.kr) | 창고 / 재고 / 입출고 관리 | Spring Boot Kotlin + PostgreSQL |
-| **Logistic Admin / Robot** | (내부) | 물류 어드민 + 로봇 콘솔 (event/route/task/monitoring) | Spring Boot + MQTT + Kafka |
-| **Logistics 통합 대시보드** | (내부) | 7 마이크로서비스 통합 모니터링 | Spring Boot + Grafana |
+- Hermes Agent orchestration·cron·memory·skill 운영
+- Claude Code Telegram bots 1~4의 역할 분리·worktree·MCP 운영
+- Codex 전문 reviewer·hook·Ouroboros worker 연계
+- **Ouroboros v0.51.0**: run/evaluate/evolve/checkpoint/receipt/convergence
+- MCP·RAG·Function Calling·Agent tool contract·evaluation harness
+- Hidden Checklist·Evaluator 분리·TraceGuard 기반 완료 판정
+- Script·Tool·Skill provenance registry 및 artifact lifecycle 관리
 
-#### 🛠 셀프호스팅 / 개인 productivity (2026-06-21 추가)
+### Infrastructure & Operations
 
-| 서비스 | URL | 설명 | 비고 |
-|--------|-----|------|------|
-| **Vaultwarden** | [vault.lemuel.co.kr](https://vault.lemuel.co.kr) | Bitwarden 호환 비밀번호 매니저 | 자체 차트, SOPS+age, ADMIN_TOKEN 보호 |
-| **Memos** | [memo.lemuel.co.kr](https://memo.lemuel.co.kr) | Twitter-like 개인 마이크로블로그 | 시니어 의 생각 흐름 일지 |
-| **Linkding** | [links.lemuel.co.kr](https://links.lemuel.co.kr) | 셀프호스팅 북마크 매니저 | Ghost 와 짝 — 블로그 자료 모음 |
-| **SearXNG** | [search.lemuel.co.kr](https://search.lemuel.co.kr) | 프라이버시 메타 검색 엔진 | Valkey sidecar, secret_key SOPS |
-| **Immich** | [photos.lemuel.co.kr](https://photos.lemuel.co.kr) | Google Photos 대체 (AI 얼굴 인식 + 자동 백업) | postgres+pgvector + Redis + ML (4 component 자체 차트) |
-| **Uptime Kuma** | (내부) | 외부 가용성 모니터 | Self-host status page |
+- **K3s 1.35**: 3-master HA, embedded etcd, 6-node homelab
+- ArgoCD App-of-Apps, GitOps, Velero, Cloudflare Tunnel/R2
+- SOPS+age, GitHub Actions, Prometheus, Grafana, Micrometer, Loki
+- 최근 24시간 lookback 기반 RCA, 현재/과거/정리 후보 분리
+- 업무 데이터의 source count·upsert count·last non-zero success 검증
 
-#### 🔧 인프라 / 운영
+## 운영 중인 시스템
+
+### 포트폴리오·도메인 서비스
 
 | 서비스 | URL | 설명 | 기술 |
-|--------|-----|------|------|
-| **K8s Dashboard** | [k8s.lemuel.co.kr](https://k8s.lemuel.co.kr) | Kubernetes 클러스터 관리 | K3s + Dashboard v2.7 |
-| **Homelab Dashboard** | [k3s.lemuel.co.kr](https://k3s.lemuel.co.kr) | 자체 제작 K3s 운영 대시보드 | Spring Boot 3 + Thymeleaf + K8s Java client 24 + JSch |
-| **frp Self-Hosted Tunnel** | [frp.lemuel.co.kr](https://frp.lemuel.co.kr) | Cloudflare Tunnel 의 *self-host 카운터파트* | Fast Reverse Proxy + Helm + ArgoCD |
-| **Grafana** | [grafana.lemuel.co.kr](https://grafana.lemuel.co.kr) | 서비스 모니터링 대시보드 | Grafana + Prometheus |
-| **Landing** | [lemuel.co.kr](https://lemuel.co.kr) | 도메인 메인 / 포트폴리오 랜딩 | static + Cloudflare |
+|---|---|---|---|
+| **Settlement MSA** | [jen.lemuel.co.kr](https://jen.lemuel.co.kr) | 이커머스 주문·결제·정산 플랫폼 | Spring Boot 4 + Kafka + Elasticsearch |
+| **ASAT** | [eln.lemuel.co.kr](https://eln.lemuel.co.kr) | 청각 재활 훈련 시스템 | Spring Boot + Next.js + PostgreSQL + Redis + MinIO |
+| **Sparta MSA** | [chat.lemuel.co.kr](https://chat.lemuel.co.kr) | Spring Cloud Gateway 기반 AI 검색·챗봇 | Spring AI + Gemini + pgvector |
+| **Lemuel-XR** | [xr.lemuel.co.kr](https://xr.lemuel.co.kr) | XR·묵상 가이드 서비스 | Spring Boot + Next.js + PostgreSQL + pgvector |
+| **K-POP Goods** | [goods.lemuel.co.kr](https://goods.lemuel.co.kr) | 굿즈 커머스 데모 | Spring Boot 4 + Next.js 16 |
+| **SNS** | [sns.lemuel.co.kr](https://sns.lemuel.co.kr) | Kafka·SSE 기반 실시간 피드 | Spring Boot 4 + Kafka |
+| **Pharmacy** | [pharmacy.lemuel.co.kr](https://pharmacy.lemuel.co.kr) | 위치 기반 약국 추천 | Spring Boot + Redis + Kakao API |
+| **Coding Test** | [codingtest.lemuel.co.kr](https://codingtest.lemuel.co.kr) | 코딩테스트 학습 앱 | Spring Boot 4 + H2 |
+| **SQL Learning** | [database.lemuel.co.kr](https://database.lemuel.co.kr) | SQL 코딩테스트 연습 | Spring Boot 4 + MySQL |
+| **Media Search** | [media.lemuel.co.kr](https://media.lemuel.co.kr) | 이미지·동영상 검색 | Spring Boot + Pexels API |
+| **Auto Trading** | [stock.lemuel.co.kr](https://stock.lemuel.co.kr) | KIS API 기반 자동매매 실험 | Spring Boot + PostgreSQL |
+| **Crypto Trading** | [crypto.lemuel.co.kr](https://crypto.lemuel.co.kr) | 암호화폐 자동매매 실험 | Spring Boot + Bithumb API |
+| **DART Analysis** | [dart.lemuel.co.kr](https://dart.lemuel.co.kr) | 공시 수집·NER·감성분석 | C++ crawler + PostgreSQL + KR-FinBERT |
 
-**총 33+ 도메인** — 모두 6 노드 K3s 클러스터 + Cloudflare Tunnel 의 *단일 외부 진입점* 으로 운영. ArgoCD App-of-Apps + SOPS+age (시크릿) + Velero (백업, daily/hourly + R2) + Prometheus/Grafana/Loki (관측).
+> `lowshopping.lemuel.co.kr`은 서비스 폐기 범위에 따라 GitOps·Landing에서 제거했으며, 현재 운영 서비스 목록에서는 제외했습니다.
 
-#### 🏛️ 통합 정량 인프라 — [lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core)
+### 물류·미들오피스
 
-9개 언어 ~5,500 lines. 6개 사이트 (crypto/stock/dart/news/data/codingtest) 의 데이터 수집·분석·시그널을 통합한 백엔드 코어.
+| 서비스 | URL | 설명 | 기술 |
+|---|---|---|---|
+| **LMS** | [lms.lemuel.co.kr](https://lms.lemuel.co.kr) | 물류 운영·배송 관리 | Spring Boot Kotlin + PostgreSQL |
+| **OMS** | [oms.lemuel.co.kr](https://oms.lemuel.co.kr) | 통합 주문 관리 | Spring Boot Kotlin + Kafka |
+| **WMS** | [wms.lemuel.co.kr](https://wms.lemuel.co.kr) | 창고·재고·입출고 관리 | Spring Boot Kotlin + PostgreSQL |
+| **Logistics Admin/Robot** | 내부 | event·route·task·monitoring 콘솔 | Spring Boot + MQTT + Kafka |
 
-| 모듈 | 언어 | 서버 | 역할 |
-|------|------|------|------|
-| judge-engine | C++20 + gRPC | 르무엘 (systemd) | seccomp+cgroup 샌드박스 코드 채점 |
-| market-feed | C++20 + Boost.Beast | 루이스 | Binance WSS → Redis pub/sub |
-| stock-feed | C++20 + KIS API | 루이스 | 한투 OpenAPI WS → Redis |
-| dart-crawler | C++20 + libpqxx | 루이스 | DART 공시 폴러 → PostgreSQL |
-| news-pipeline | C++20 + KR-FinBERT | 르무엘 | RSS + NER + 감성분석 |
-| data-warehouse | C++20 + Apache Arrow | 르무엘 | 5분 rollup → R2 Parquet |
-| orderbook-matcher | Rust + tokio | 루이스 | L2 호가창 + spread bps |
-| lqc-gateway | Go + Prometheus | 루이스 | metrics + SSE bridge + healthz |
-| QuantTools.jl | Julia + JuMP | 르무엘 | Black-Scholes + Markowitz |
-| R 분석 6 | R + Quarto + Shiny | 르무엘 | GARCH/ARIMA/공적분/일간 리포트/대시보드 |
-| backtester / strategy-bot | Python + vectorbt | 르무엘 | 전략 백테스트 + 텔레그램 알림 |
+### Self-hosted·생산성
 
----
+| 서비스 | URL | 설명 |
+|---|---|---|
+| **Vaultwarden** | [vault.lemuel.co.kr](https://vault.lemuel.co.kr) | Bitwarden 호환 비밀번호 관리자 |
+| **Memos** | [memo.lemuel.co.kr](https://memo.lemuel.co.kr) | 개인 마이크로블로그 |
+| **Linkding** | [links.lemuel.co.kr](https://links.lemuel.co.kr) | 북마크 관리자 |
+| **SearXNG** | [search.lemuel.co.kr](https://search.lemuel.co.kr) | 프라이버시 메타 검색 |
+| **Immich** | [photos.lemuel.co.kr](https://photos.lemuel.co.kr) | 사진 관리·자동 백업 |
+| **Uptime Kuma** | 내부 | 외부 가용성 모니터링 |
 
-### 링크
+### 인프라·운영
+
+| 서비스 | URL | 설명 |
+|---|---|---|
+| **Kubernetes Dashboard** | [k8s.lemuel.co.kr](https://k8s.lemuel.co.kr) | K3s 클러스터 관리 |
+| **Homelab Dashboard** | [k3s.lemuel.co.kr](https://k3s.lemuel.co.kr) | 자체 제작 K3s 운영 대시보드 |
+| **Grafana** | [grafana.lemuel.co.kr](https://grafana.lemuel.co.kr) | Prometheus 기반 모니터링 |
+| **Landing** | [lemuel.co.kr](https://lemuel.co.kr) | 포트폴리오 랜딩 |
+
+모든 서비스는 6-node K3s 클러스터와 Cloudflare Tunnel을 기반으로 운영하며, ArgoCD·SOPS+age·Velero·Prometheus/Grafana/Loki를 사용합니다.
+
+## Agent platform
+
+이 환경의 Agent는 단순한 대화형 도구가 아니라 다음 계층으로 운영합니다.
+
+```text
+Hermes:
+  중앙 orchestration·cron·memory·보고
+
+Claude bots 1~4:
+  프로젝트별 실행자
+
+Codex:
+  전문 reviewer·hook·Ouroboros worker
+
+Ouroboros:
+  실행·평가·진화·checkpoint·receipt
+
+Script/Tool:
+  반복 수집·계산·검증
+
+Skill:
+  재사용 가능한 절차·정책
+
+Wiki/Memory:
+  근거 있는 지식과 안정적인 운영 사실
+```
+
+Agent artifact에는 owner·runtime·source·permissions·verification·last verified를 기록하고, 최초 작성자를 확인할 수 없으면 `author: unknown`으로 남깁니다.
+
+- [Agent Skill 생태계 지도](https://myoungsoo7.github.io/2026/08/10/agent-skills-inventory/)
+- [Agent Script·Tool 지도](https://myoungsoo7.github.io/2026/08/10/agent-tools-built-on-mac/)
+- [Hidden Checklist와 자기개선 루프](https://myoungsoo7.github.io/2026/08/10/hidden-checklist-agent-loop/)
+- [확장하기 전에 정리 경로부터 설계하라](https://myoungsoo7.github.io/2026/08/10/agent-cleanup-before-scaling/)
+
+## 주요 설계 주제
+
+- [Apache Kafka 핵심 개념과 운영 체크리스트](https://myoungsoo7.github.io/2026/08/10/apache-kafka-core-concepts-and-production-checklist/)
+- [Kafka 기반 MSA와 은행 EAI 비교](https://myoungsoo7.github.io/2026/08/10/kafka-vs-bank-eai-msa-integration/)
+- [React·Vue·JSP와 AX 시대의 프론트엔드 선택](https://myoungsoo7.github.io/2026/08/09/react-vue-jsp-ax-comparison/)
+- [Java/Spring 확장성과 추상화](https://myoungsoo7.github.io/2026/08/09/scalability-abstraction-interview/)
+- [주문·결제·정산 흐름](https://myoungsoo7.github.io/2026/08/09/settlement-order-payment-flow/)
+- [계정계 확장: 예금·적금·연금 설계](https://myoungsoo7.github.io/2026/08/09/settlement-account-service-banking-expansion/)
+
+## 정량 인프라·데이터 파이프라인
+
+[lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core)는 C++·Rust·Go·Julia·R·Python을 활용해 시장 데이터·공시·뉴스·분석·백테스트를 연결하는 실험용 데이터 코어입니다.
+
+```text
+C++:
+  market-feed·stock-feed·dart-crawler·news-pipeline·data-warehouse
+
+Rust:
+  orderbook-matcher
+
+Go:
+  lqc-gateway·metrics·SSE bridge
+
+Julia/R/Python:
+  최적화·시계열 분석·백테스트·전략 실험
+```
+
+실제 구현·실행·운영 상태와 설계 제안은 구분해 기록합니다. 측정되지 않은 성능·비용·트래픽·업타임은 주장하지 않습니다.
+
+## 운영 원칙
+
+```text
+Trace가 기억보다 우선
+현재 상태가 과거 기록보다 우선
+읽기와 쓰기 권한 분리
+업무 성공과 API 성공 분리
+작은 변경·검증·rollback 우선
+```
+
+## 링크
+
 - **GitHub**: [MyoungSoo7](https://github.com/MyoungSoo7)
-- **블로그**: [iamipro.tistory.com](https://iamipro.tistory.com)
-- **Ghost 블로그**: [blog.lemuel.co.kr](https://blog.lemuel.co.kr)  
-- **포트폴리오**: [Notion](https://www.notion.so/a43ac75e1d964a01a6e8c679fbd70677)
+- **기술 블로그**: [MyoungSoo7.github.io](https://myoungsoo7.github.io/)
+- **Ghost Blog**: [blog.lemuel.co.kr](https://blog.lemuel.co.kr)
+- **Portfolio**: [Notion](https://www.notion.so/a43ac75e1d964a01a6e8c679fbd70677)
+
+*이 페이지는 2026-08-10 기준으로 갱신했습니다. 서비스·기술 버전·운영 상태는 변경될 수 있으며, 실제 구현·운영·설계 상태를 구분해 설명합니다.*
+
+*공개 페이지에는 credential, token, private IP, 내부 endpoint를 포함하지 않습니다.*
