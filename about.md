@@ -65,8 +65,6 @@ permalink: /about/
 | **Crypto Trading** | [crypto.lemuel.co.kr](https://crypto.lemuel.co.kr) | 암호화폐 자동매매 실험 | Spring Boot + Bithumb API |
 | **DART Analysis** | [dart.lemuel.co.kr](https://dart.lemuel.co.kr) | 공시 수집·NER·감성분석 | C++ crawler + PostgreSQL + KR-FinBERT |
 
-> `lowshopping.lemuel.co.kr`은 서비스 폐기 범위에 따라 GitOps·Landing에서 제거했으며, 현재 운영 서비스 목록에서는 제외했습니다.
-
 ### 물류·미들오피스
 
 | 서비스 | URL | 설명 | 기술 |
