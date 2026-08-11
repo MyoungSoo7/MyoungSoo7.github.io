@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "공공데이터 한 줄로 연봉을 역산한다 — 좋소판별기(jotso.net) 구조 분해"
-date: 2026-08-11 18:20:00 +0900
+date: 2026-08-11 18:05:00 +0900
 categories: [architecture, product]
 tags: [공공데이터, nextjs, programmatic-seo, 데이터제품, 국민연금, 아키텍처분석]
 ---
