@@ -18,6 +18,16 @@ tags: [DailyBriefing]
 | AWS self-organizing multi-agent clusters | Kiro를 활용한 자율 조직형 멀티 에이전트 클러스터 스케일링 패턴 제안 |
 | CNCF KubeCon NA 2026 일정 공개 | AI 추론 및 에이전트 트랙 신설을 통한 클라우드 네이티브 AI 비중 확대 |
 
+
+## 머신러닝·딥러닝 동향
+
+| 출처 | 날짜 | 핵심 내용 | 실무 영향 | 검증 상태 |
+| :--- | :--- | :--- | :--- | :--- |
+| [Meta AI](https://ai.meta.com/blog/introducing-muse-glimmer-open-agentic-model) | 2026-08-09 | **Muse Glimmer (30B)** 오픈 가중치 릴리스. 로컬 구동 최적화 에이전트 모델 | 24GB VRAM급 로컬 워크스테이션에서 강력한 에이전트 구동 가능 | 공식 릴리스 |
+| [NVIDIA](https://developer.nvidia.com/blog/nvidia-nemotron-3-5-lightning-delivers-fast-accurate-specialized-task-execution-for-long-running-agents/) | 2026-08-11 | **Nemotron 3.5 Lightning (30B MoE)** 출시. 도구 호출 및 검증 레이어 특화 | 에이전틱 워크플로우의 추론 비용 및 지연 시간 획기적 단축 | 공식 블로그 |
+| [NVIDIA/Princeton](https://arxiv.org/abs/2608.07408) | 2026-08-07 | **WorldTrace**: 비디오 월드 모델용 Training-free 메모리 프레임워크 | 비디오 생성 및 시뮬레이션의 장기 시각적 지속성 개선 | arXiv 논문 |
+| [Meta FAIR](https://arxiv.org/abs/2608.07222) | 2026-08-07 | **Skaling law**: 모델 크기-데이터 상호작용을 반영한 새 스케일링 법칙 | LLM 학습 시 자원 배분 최적화 및 성능 예측 정확도 향상 | arXiv 논문 |
+| [Hugging Face](https://huggingface.co/papers/2608.09888) | 2026-08-10 | **BDH-CQ**: 재귀적 잠재 추론 기반 150M 파라미터 모델 | 소형 모델의 고수준 추론 능력(ARC-AGI-1) 확보 가능성 | 기술 리포트 |
 ## Java/Spring 프리랜서·SI 프로젝트 동향
 
 | 플랫폼 | 프로젝트명 / 페이지 상태 | 주요 기술 스택 | 특징 |
