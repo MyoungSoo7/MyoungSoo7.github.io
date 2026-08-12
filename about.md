@@ -130,7 +130,7 @@ Agent artifact에는 owner·runtime·source·permissions·verification·last ver
 
 ## 정량 인프라·데이터 파이프라인
 
-[lemuel-quant-core](https://github.com/MyoungSoo7/lemuel-quant-core)는 C++·Rust·Go·Julia·R·Python을 활용해 시장 데이터·공시·뉴스·분석·백테스트를 연결하는 실험용 데이터 코어입니다.
+lemuel-quant-core는 C++·Rust·Go·Julia·R·Python을 활용해 시장 데이터·공시·뉴스·분석·백테스트를 연결하는 실험용 데이터 코어입니다.
 
 ```text
 C++:
