@@ -85,40 +85,6 @@ permalink: /about/
 
 모든 서비스는 6-node K3s 클러스터와 Cloudflare Tunnel을 기반으로 운영하며, ArgoCD·SOPS+age·Velero·Prometheus/Grafana/Loki를 사용합니다.
 
-## Agent platform
-
-이 환경의 Agent는 단순한 대화형 도구가 아니라 다음 계층으로 운영합니다.
-
-```text
-Hermes:
-  중앙 orchestration·cron·memory·보고
-
-Claude bots 1~4:
-  프로젝트별 실행자
-
-Codex:
-  전문 reviewer·hook·Ouroboros worker
-
-Ouroboros:
-  실행·평가·진화·checkpoint·receipt
-
-Script/Tool:
-  반복 수집·계산·검증
-
-Skill:
-  재사용 가능한 절차·정책
-
-Wiki/Memory:
-  근거 있는 지식과 안정적인 운영 사실
-```
-
-Agent artifact에는 owner·runtime·source·permissions·verification·last verified를 기록하고, 최초 작성자를 확인할 수 없으면 `author: unknown`으로 남깁니다.
-
-- [Agent Skill 생태계 지도](https://myoungsoo7.github.io/2026/08/10/agent-skills-inventory/)
-- [Agent Script·Tool 지도](https://myoungsoo7.github.io/2026/08/10/agent-tools-built-on-mac/)
-- [Hidden Checklist와 자기개선 루프](https://myoungsoo7.github.io/2026/08/10/hidden-checklist-agent-loop/)
-- [확장하기 전에 정리 경로부터 설계하라](https://myoungsoo7.github.io/2026/08/10/agent-cleanup-before-scaling/)
-
 ## 주요 설계 주제
 
 - [Apache Kafka 핵심 개념과 운영 체크리스트](https://myoungsoo7.github.io/2026/08/10/apache-kafka-core-concepts-and-production-checklist/)
