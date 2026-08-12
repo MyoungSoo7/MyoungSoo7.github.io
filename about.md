@@ -49,50 +49,39 @@ permalink: /about/
 
 ### 포트폴리오·도메인 서비스
 
-| 서비스 | URL | 설명 | 기술 |
-|---|---|---|---|
-| **Settlement MSA** | [jen.lemuel.co.kr](https://jen.lemuel.co.kr) | 이커머스 주문·결제·정산 플랫폼 | Spring Boot 4 + Kafka + Elasticsearch |
-| **ASAT** | [eln.lemuel.co.kr](https://eln.lemuel.co.kr) | 청각 재활 훈련 시스템 | Spring Boot + Next.js + PostgreSQL + Redis + MinIO |
-| **Sparta MSA** | [chat.lemuel.co.kr](https://chat.lemuel.co.kr) | Spring Cloud Gateway 기반 AI 검색·챗봇 | Spring AI + Gemini + pgvector |
-| **Lemuel-XR** | [xr.lemuel.co.kr](https://xr.lemuel.co.kr) | XR·묵상 가이드 서비스 | Spring Boot + Next.js + PostgreSQL + pgvector |
-| **K-POP Goods** | [goods.lemuel.co.kr](https://goods.lemuel.co.kr) | 굿즈 커머스 데모 | Spring Boot 4 + Next.js 16 |
-| **SNS** | [sns.lemuel.co.kr](https://sns.lemuel.co.kr) | Kafka·SSE 기반 실시간 피드 | Spring Boot 4 + Kafka |
-| **Pharmacy** | [pharmacy.lemuel.co.kr](https://pharmacy.lemuel.co.kr) | 위치 기반 약국 추천 | Spring Boot + Redis + Kakao API |
-| **Coding Test** | [codingtest.lemuel.co.kr](https://codingtest.lemuel.co.kr) | 코딩테스트 학습 앱 | Spring Boot 4 + H2 |
-| **SQL Learning** | [database.lemuel.co.kr](https://database.lemuel.co.kr) | SQL 코딩테스트 연습 | Spring Boot 4 + MySQL |
-| **Media Search** | [media.lemuel.co.kr](https://media.lemuel.co.kr) | 이미지·동영상 검색 | Spring Boot + Pexels API |
-| **Auto Trading** | [stock.lemuel.co.kr](https://stock.lemuel.co.kr) | KIS API 기반 자동매매 실험 | Spring Boot + PostgreSQL |
-| **Crypto Trading** | [crypto.lemuel.co.kr](https://crypto.lemuel.co.kr) | 암호화폐 자동매매 실험 | Spring Boot + Bithumb API |
-| **DART Analysis** | [dart.lemuel.co.kr](https://dart.lemuel.co.kr) | 공시 수집·NER·감성분석 | C++ crawler + PostgreSQL + KR-FinBERT |
-
-### 물류·미들오피스
-
-| 서비스 | URL | 설명 | 기술 |
-|---|---|---|---|
-| **LMS** | [lms.lemuel.co.kr](https://lms.lemuel.co.kr) | 물류 운영·배송 관리 | Spring Boot Kotlin + PostgreSQL |
-| **OMS** | [oms.lemuel.co.kr](https://oms.lemuel.co.kr) | 통합 주문 관리 | Spring Boot Kotlin + Kafka |
-| **WMS** | [wms.lemuel.co.kr](https://wms.lemuel.co.kr) | 창고·재고·입출고 관리 | Spring Boot Kotlin + PostgreSQL |
-| **Logistics Admin/Robot** | 내부 | event·route·task·monitoring 콘솔 | Spring Boot + MQTT + Kafka |
+| 서비스             | URL                                                        | 설명                           | 기술                                               |
+| ------------------ | ---------------------------------------------------------- | ------------------------------ | -------------------------------------------------- |
+| **Settlement MSA** | [jen.lemuel.co.kr](https://jen.lemuel.co.kr)               | 이커머스 주문·결제·정산 플랫폼 | Spring Boot 4 + Kafka + Elasticsearch              |
+| **ASAT**           | [eln.lemuel.co.kr](https://eln.lemuel.co.kr)               | 청각 재활 훈련 시스템          | Spring Boot + Next.js + PostgreSQL + Redis + MinIO |
+| **Lemuel-XR**      | [xr.lemuel.co.kr](https://xr.lemuel.co.kr)                 | XR·묵상 가이드 서비스          | Spring Boot + Next.js + PostgreSQL + pgvector      |
+| **SNS**            | [sns.lemuel.co.kr](https://sns.lemuel.co.kr)               | Kafka·SSE 기반 실시간 피드     | Spring Boot 4 + Kafka                              |
+| **Pharmacy**       | [pharmacy.lemuel.co.kr](https://pharmacy.lemuel.co.kr)     | 위치 기반 약국 추천            | Spring Boot + Redis + Kakao API                    |
+| **Coding Test**    | [codingtest.lemuel.co.kr](https://codingtest.lemuel.co.kr) | 코딩테스트 학습 앱             | Spring Boot 4 + H2                                 |
+| **SQL Learning**   | [database.lemuel.co.kr](https://database.lemuel.co.kr)     | SQL 코딩테스트 연습            | Spring Boot 4 + MySQL                              |
+| **Media Search**   | [media.lemuel.co.kr](https://media.lemuel.co.kr)           | 이미지·동영상 검색             | Spring Boot + Pexels API                           |
+| **Auto Trading**   | [stock.lemuel.co.kr](https://stock.lemuel.co.kr)           | KIS API 기반 자동매매 실험     | Spring Boot + PostgreSQL                           |
+| **Crypto Trading** | [crypto.lemuel.co.kr](https://crypto.lemuel.co.kr)         | 암호화폐 자동매매 실험         | Spring Boot + Bithumb API                          |
+| **DART Analysis**  | [dart.lemuel.co.kr](https://dart.lemuel.co.kr)             | 공시 수집·NER·감성분석         | C++ crawler + PostgreSQL + KR-FinBERT              |
 
 ### Self-hosted·생산성
 
-| 서비스 | URL | 설명 |
-|---|---|---|
-| **Vaultwarden** | [vault.lemuel.co.kr](https://vault.lemuel.co.kr) | Bitwarden 호환 비밀번호 관리자 |
-| **Memos** | [memo.lemuel.co.kr](https://memo.lemuel.co.kr) | 개인 마이크로블로그 |
-| **Linkding** | [links.lemuel.co.kr](https://links.lemuel.co.kr) | 북마크 관리자 |
-| **SearXNG** | [search.lemuel.co.kr](https://search.lemuel.co.kr) | 프라이버시 메타 검색 |
-| **Immich** | [photos.lemuel.co.kr](https://photos.lemuel.co.kr) | 사진 관리·자동 백업 |
-| **Uptime Kuma** | 내부 | 외부 가용성 모니터링 |
+| 서비스          | URL                                                | 설명                           |
+| --------------- | -------------------------------------------------- | ------------------------------ |
+| **Vaultwarden** | [vault.lemuel.co.kr](https://vault.lemuel.co.kr)   | Bitwarden 호환 비밀번호 관리자 |
+| **Memos**       | [memo.lemuel.co.kr](https://memo.lemuel.co.kr)     | 개인 마이크로블로그            |
+| **Linkding**    | [links.lemuel.co.kr](https://links.lemuel.co.kr)   | 북마크 관리자                  |
+| **SearXNG**     | [search.lemuel.co.kr](https://search.lemuel.co.kr) | 프라이버시 메타 검색           |
+| **Immich**      | [photos.lemuel.co.kr](https://photos.lemuel.co.kr) | 사진 관리·자동 백업            |
+| **Uptime Kuma** | 내부                                               | 외부 가용성 모니터링           |
 
 ### 인프라·운영
 
-| 서비스 | URL | 설명 |
-|---|---|---|
-| **Kubernetes Dashboard** | [k8s.lemuel.co.kr](https://k8s.lemuel.co.kr) | K3s 클러스터 관리 |
-| **Homelab Dashboard** | [k3s.lemuel.co.kr](https://k3s.lemuel.co.kr) | 자체 제작 K3s 운영 대시보드 |
-| **Grafana** | [grafana.lemuel.co.kr](https://grafana.lemuel.co.kr) | Prometheus 기반 모니터링 |
-| **Landing** | [lemuel.co.kr](https://lemuel.co.kr) | 포트폴리오 랜딩 |
+| 서비스                   | URL                                                  | 설명                        |
+| ------------------------ | ---------------------------------------------------- | --------------------------- |
+| **Kubernetes Dashboard** | [k8s.lemuel.co.kr](https://k8s.lemuel.co.kr)         | K3s 클러스터 관리           |
+| **Homelab Dashboard**    | [k3s.lemuel.co.kr](https://k3s.lemuel.co.kr)         | 자체 제작 K3s 운영 대시보드 |
+| **Grafana**              | [grafana.lemuel.co.kr](https://grafana.lemuel.co.kr) | Prometheus 기반 모니터링    |
+| **Landing**              | [lemuel.co.kr](https://lemuel.co.kr)                 | 포트폴리오 랜딩             |
 
 모든 서비스는 6-node K3s 클러스터와 Cloudflare Tunnel을 기반으로 운영하며, ArgoCD·SOPS+age·Velero·Prometheus/Grafana/Loki를 사용합니다.
 
@@ -176,6 +165,6 @@ Trace가 기억보다 우선
 - **Ghost Blog**: [blog.lemuel.co.kr](https://blog.lemuel.co.kr)
 - **Portfolio**: [Notion](https://www.notion.so/a43ac75e1d964a01a6e8c679fbd70677)
 
-*이 페이지는 2026-08-10 기준으로 갱신했습니다. 서비스·기술 버전·운영 상태는 변경될 수 있으며, 실제 구현·운영·설계 상태를 구분해 설명합니다.*
+_이 페이지는 2026-08-12 기준으로 갱신했습니다. 목록의 모든 도메인은 이 날짜에 HTTP 응답과 클러스터 워크로드를 함께 확인해 살아 있는 것만 남겼습니다. 서비스·기술 버전·운영 상태는 변경될 수 있으며, 실제 구현·운영·설계 상태를 구분해 설명합니다._
 
-*공개 페이지에는 credential, token, private IP, 내부 endpoint를 포함하지 않습니다.*
+_공개 페이지에는 credential, token, private IP, 내부 endpoint를 포함하지 않습니다._
