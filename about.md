@@ -72,6 +72,7 @@ permalink: /about/
 | **Linkding**    | [links.lemuel.co.kr](https://links.lemuel.co.kr)   | 북마크 관리자                  |
 | **SearXNG**     | [search.lemuel.co.kr](https://search.lemuel.co.kr) | 프라이버시 메타 검색           |
 | **Immich**      | [photos.lemuel.co.kr](https://photos.lemuel.co.kr) | 사진 관리·자동 백업            |
+| **n8n**         | [n8n.lemuel.co.kr](https://n8n.lemuel.co.kr)       | 워크플로 자동화                |
 | **Uptime Kuma** | 내부                                               | 외부 가용성 모니터링           |
 
 ### 인프라·운영
@@ -81,6 +82,7 @@ permalink: /about/
 | **Kubernetes Dashboard** | [k8s.lemuel.co.kr](https://k8s.lemuel.co.kr)         | K3s 클러스터 관리           |
 | **Homelab Dashboard**    | [k3s.lemuel.co.kr](https://k3s.lemuel.co.kr)         | 자체 제작 K3s 운영 대시보드 |
 | **Grafana**              | [grafana.lemuel.co.kr](https://grafana.lemuel.co.kr) | Prometheus 기반 모니터링    |
+| **LiteLLM Gateway**      | intelligence.lemuel.co.kr (인증 필요)                | LLM 라우팅·비용 게이트웨이  |
 | **Landing**              | [lemuel.co.kr](https://lemuel.co.kr)                 | 포트폴리오 랜딩             |
 
 모든 서비스는 6-node K3s 클러스터와 Cloudflare Tunnel을 기반으로 운영하며, ArgoCD·SOPS+age·Velero·Prometheus/Grafana/Loki를 사용합니다.
@@ -121,6 +123,6 @@ Julia/R/Python:
 - **Ghost Blog**: [blog.lemuel.co.kr](https://blog.lemuel.co.kr)
 - **Portfolio**: [Notion](https://www.notion.so/a43ac75e1d964a01a6e8c679fbd70677)
 
-_이 페이지는 2026-08-12 기준으로 갱신했습니다. 목록의 모든 도메인은 이 날짜에 HTTP 응답과 클러스터 워크로드를 함께 확인해 살아 있는 것만 남겼습니다. 서비스·기술 버전·운영 상태는 변경될 수 있으며, 실제 구현·운영·설계 상태를 구분해 설명합니다._
+_이 페이지는 2026-08-12 기준으로 갱신했습니다. 목록의 모든 도메인은 이 날짜에 HTTP 응답과 클러스터 워크로드를 함께 확인해 살아 있는 것만 남겼고, 반대로 클러스터에서 돌고 있으나 누락돼 있던 항목도 같은 기준으로 채웠습니다. 서비스·기술 버전·운영 상태는 변경될 수 있으며, 실제 구현·운영·설계 상태를 구분해 설명합니다._
 
 _공개 페이지에는 credential, token, private IP, 내부 endpoint를 포함하지 않습니다._
