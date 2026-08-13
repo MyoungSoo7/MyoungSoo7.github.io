@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "사고는 층과 층 사이에서 난다 — 홈랩 K3s 장애를 '어느 문서를 안 읽었나'로 분류했다"
-date: 2026-08-13 20:50:00 +0900
+date: 2026-08-13 20:30:00 +0900
 categories: [kubernetes, ops]
 tags:
   [k3s, kubernetes, storageclass, qos, servicemonitor, argocd, ufw, postmortem]
