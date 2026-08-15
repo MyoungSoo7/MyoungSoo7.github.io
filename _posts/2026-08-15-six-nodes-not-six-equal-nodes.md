@@ -10,6 +10,8 @@ tags: [kubernetes, k3s, etcd, control-plane, taint, high-availability, leader-el
 
 이 글은 그 문장을 확인하려고 클러스터를 실제로 열어본 기록이다. 결론부터 쓰면 이렇다. **노드는 6대인데 이중화된 겹수는 역할마다 다르다. etcd 는 3겹, apiserver 는 2겹, 워커 에이전트의 페일오버 목록도 2겹이다.** 그리고 열흘 전에 고쳤다고 적어둔 문제가 오늘 새벽에 한 번 더 일어났다.
 
+> **명령 출력에 대해.** 아래 붙인 출력은 전부 실제로 돌려서 받은 것이지만, 사설 IP 와 MAC 주소는 `<lemuel>` · `<ilwon>` · `<solomon>` 같은 노드 이름으로 바꿔 실었다. 어느 주소가 어느 노드인지가 이 글의 논지에 필요한 전부이고, 실제 주소값은 아무것도 더 설명해주지 않는다. 치환은 1:1 이라 각 줄의 의미는 원본 그대로다.
+
 ---
 
 ## 1. 쿠버네티스는 무엇을 쪼개 놓았나
@@ -26,7 +28,7 @@ tags: [kubernetes, k3s, etcd, control-plane, taint, high-availability, leader-el
 말로만 하면 안 믿기니 확인해봤다. 워커 노드에 flannel VXLAN 인터페이스는 멀쩡히 올라와 있는데,
 
 ```
-flannel.1  UNKNOWN  16:c1:e6:9d:5b:50  <BROADCAST,MULTICAST,UP,LOWER_UP>
+flannel.1  UNKNOWN  <mac-redacted>  <BROADCAST,MULTICAST,UP,LOWER_UP>
 ```
 
 flannel 파드는 클러스터 전체에 **0개**다. `kubectl get pods -A | grep -c flannel` 이 `0` 을 뱉는다. 데이터플레인은 도는데 그걸 담당하는 파드가 없는 이 그림이, K3s 가 무엇을 접어 넣었는지 한 줄로 보여준다. 다른 배포판을 쓰다 K3s 로 오면 "CNI 파드가 왜 없지?" 하고 한 번 당황하는 지점이기도 하다.
@@ -78,19 +80,19 @@ etcd 멤버로는 그대로 남고 **API 서버만 안 띄우는 노드**다. K3
 
 즉 **느린 노드를 클러스터에서 빼는 대신, 그 노드가 맡던 역할 중 느려서 문제가 되는 역할만 뺐다.** etcd voter 는 3을 유지하고 싶었고, apiserver 풀에는 느린 놈이 섞이면 안 됐다. 1절에서 짚은 "컴포넌트는 독립적으로 배치될 수 있다"가 실전에서 쓰이는 방식이 이거다.
 
-효과는 클러스터 안에서 그대로 관측된다. `default/kubernetes` 엔드포인트에 solomon(`.108`)이 없다.
+효과는 클러스터 안에서 그대로 관측된다. `default/kubernetes` 엔드포인트에 solomon이 없다.
 
 ```
 $ kubectl get endpointslice -n default
-kubernetes: 192.168.219.101 192.168.219.110
+kubernetes: <lemuel> <ilwon>
 ```
 
 etcd 는 셋 다 살아 있다.
 
 ```
-ilwon-f3f37c02    started  https://192.168.219.110:2380
-solomon-0012157a  started  https://192.168.219.108:2380
-lemuel-64066392   started  https://192.168.219.101:2380
+ilwon-f3f37c02    started  https://<ilwon>:2380
+solomon-0012157a  started  https://<solomon>:2380
+lemuel-64066392   started  https://<lemuel>:2380
 ```
 
 **etcd 3겹, apiserver 2겹.** 이 클러스터의 실제 이중화 상태는 이 한 줄이고, "컨트롤 플레인 3대"라는 표현으론 절대 안 보인다.
@@ -102,7 +104,7 @@ etcd 쪽 숫자도 정직하게 적어두자. [etcd FAQ](https://etcd.io/docs/v3
 그러면 워커들은 어느 apiserver 에 붙나. 유닛 환경파일만 보면 하나를 가리킨다.
 
 ```
-K3S_URL=https://192.168.219.101:6443
+K3S_URL=https://<lemuel>:6443
 ```
 
 여기서 멈추면 "단일 컨트롤 플레인에 물려 있네"로 오독하게 된다. 실제로는 그렇지 않다. [K3s 아키텍처 문서](https://docs.k3s.io/architecture)는 에이전트가 **클라이언트 사이드 로드밸런서**를 프로세스 내부에 띄우고, 거기서 서버 목록을 관리한다고 설명한다. 그리고 그 목록의 출처를 이렇게 명시한다.
@@ -125,8 +127,8 @@ $ grep server: /var/lib/rancher/k3s/agent/kubelet.kubeconfig
 
 ```json
 {
-  "ServerURL": "https://192.168.219.101:6443",
-  "ServerAddresses": ["192.168.219.101:6443", "192.168.219.110:6443"]
+  "ServerURL": "https://<lemuel>:6443",
+  "ServerAddresses": ["<lemuel>:6443", "<ilwon>:6443"]
 }
 ```
 
