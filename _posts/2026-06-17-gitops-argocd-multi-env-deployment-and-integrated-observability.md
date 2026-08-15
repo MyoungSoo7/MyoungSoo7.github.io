@@ -6,6 +6,8 @@ categories: [infrastructure, devops, gitops, observability]
 tags: [argocd, gitops, k3s, elk, prometheus, grafana, tempo, velero, sops, playwright, telegram, frp, helm]
 ---
 
+> 사설망 주소는 `<lan>` · `<mgmt>` 로 가렸다. 호스트 옥텟과 각 줄의 의미는 원본 실측 그대로다.
+
 > *"인프라가 무너지면 *비즈니스가 *무너진다*."* 
 >
 > *그러나 *무너지는 순간* 은 *코드가 *고장난 순간* 이 *아니다*. *대부분은 *배포 직후* 다. *그래서 *배포 파이프라인* 과 *관측 체계* 가 *같은 무게* 로 *설계* 되어야 한다.
@@ -302,11 +304,11 @@ route:
 
 | 노드 | 역할 | IP | 비고 |
 |---|---|---|---|
-| *lemuel* | control-plane + etcd | 10.0.0.101 | 메인 마스터 |
-| *ilwon* | control-plane + etcd | 10.0.0.110 | NVMe 1TB + 4TB HDD (storage tier) |
-| *solomon* | control-plane + etcd | 10.0.0.108 | Floating VIP (3-NIC failover), 백업 전용 |
-| *louise* | worker | 10.0.0.111 | 일반 워크로드 |
-| *david* | worker | 10.0.0.107 | 모니터링 전용 (Prometheus / Grafana / Loki) |
+| *lemuel* | control-plane + etcd | <lan>.101 | 메인 마스터 |
+| *ilwon* | control-plane + etcd | <lan>.110 | NVMe 1TB + 4TB HDD (storage tier) |
+| *solomon* | control-plane + etcd | <lan>.108 | Floating VIP (3-NIC failover), 백업 전용 |
+| *louise* | worker | <lan>.111 | 일반 워크로드 |
+| *david* | worker | <lan>.107 | 모니터링 전용 (Prometheus / Grafana / Loki) |
 
 - *etcd 3 voter quorum* — *2 대만 *살아 있으면* *클러스터 의사 결정 *계속 가능*
 - *Floating VIP* — solomon 의 *3-NIC failover* 로 *NIC 1 개 *죽어도 *VIP 유지*

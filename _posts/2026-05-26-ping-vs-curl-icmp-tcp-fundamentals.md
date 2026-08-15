@@ -6,6 +6,8 @@ categories: [networking, infra, debugging]
 tags: [icmp, tcp, ping, curl, arp, kubernetes, k3s, troubleshooting, junior]
 ---
 
+> 사설망 주소는 `<lan>` · `<mgmt>` 로 가렸다. 호스트 옥텟과 각 줄의 의미는 원본 실측 그대로다.
+
 > *"ping 안 되니까 서버 죽었네요."*
 > 
 > *"그런데 `curl` 은 200 응답 오는데요."*
@@ -38,7 +40,7 @@ tags: [icmp, tcp, ping, curl, arp, kubernetes, k3s, troubleshooting, junior]
 $ for ip in 101 107 108 109 110; do
     ping -c 1 -W 2 10.0.0.$ip 2>&1 | grep -oE 'time=[0-9.]+' | head -1
   done
-# (출력 결과 - 10.0.0.101, .107, .108, .109, .110 전부 LOSS)
+# (출력 결과 - <lan>.101, .107, .108, .109, .110 전부 LOSS)
 ```
 
 전부 *LOSS*. 5대 노드 *모두 죽었다*?
@@ -55,7 +57,7 @@ louise    Ready                      <none>               14d   v1.35.4+k3s1
 solomon   NotReady                   control-plane,etcd   14d   v1.35.4+k3s1
 ```
 
-**응답 옴.** 그것도 ilwon API server (10.0.0.110:6443) 와의 TCP 통신 성공. 그런데 같은 .110 으로 *ping 은 안 됨*.
+**응답 옴.** 그것도 ilwon API server (<lan>.110:6443) 와의 TCP 통신 성공. 그런데 같은 .110 으로 *ping 은 안 됨*.
 
 curl 로 사이트도 찍어봤다:
 
@@ -64,7 +66,7 @@ $ curl -sI -m 5 https://xr.lemuel.co.kr
 HTTP/2 200
 ```
 
-*HTTP 200*. 외부에서 → Cloudflare → tunnel → louise (10.0.0.111) 까지의 *수십 hop 의 TCP 경로* 가 정상 동작. 그런데 *Mac 에서 louise 로 ping* 만 안 됨.
+*HTTP 200*. 외부에서 → Cloudflare → tunnel → louise (<lan>.111) 까지의 *수십 hop 의 TCP 경로* 가 정상 동작. 그런데 *Mac 에서 louise 로 ping* 만 안 됨.
 
 말이 안 된다.
 
@@ -132,7 +134,7 @@ OS 는 LAN 의 *같은 서브넷 IP* 와 *MAC 주소* 매핑을 ARP 캐시에 �
 ```
 [Mac]                      [Network]              [server]
 ARP cache:
-  10.0.0.111 -> AA:BB:CC:DD:EE:FF (OLD)
+  <lan>.111 -> AA:BB:CC:DD:EE:FF (OLD)
                        ↑ stale, 실제론 99:88:77:66:55:44
 ```
 

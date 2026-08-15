@@ -6,6 +6,8 @@ categories: [infrastructure, kubernetes, cloud, homelab]
 tags: [k3s, kubernetes, aws, cloudflare, load-balancer, autoscaling, hpa, metallb, traefik, cloudflare-workers, eks, asg]
 ---
 
+> 사설망 주소는 `<lan>` · `<mgmt>` 로 가렸다. 호스트 옥텟과 각 줄의 의미는 원본 실측 그대로다.
+
 > *''*우리 *홈랩 *5 노드 *클러스터도 *AWS 처럼 *알아서 *스케일링 *되나요?""*. *''*Cloudflare Tunnel 만 *물려 있는데 *로드밸런서가 *진짜 *필요 한가요?""*. *작은 *K3s 클러스터를 *운영 *시작한 *모든 *개발자가 *반드시 *마주치는 *질문이다.
 >
 > *답은 *''*AWS / Cloudflare / 홈랩 *3 인프라가 *근본적으로 *다른 *물리적 *제약 *위에 *서 있다""* 는 *사실에서 *시작한다*. *AWS 는 *''*돈을 *쓰면 *알아서""* 가 *전제*, *Cloudflare 는 *''*Edge 가 *대신 *해준다""* 가 *전제*, *홈랩은 *''*내가 *내 *서버를 *직접 *제어 한다""* 가 *전제다*. 같은 *''*로드밸런서""* 와 *''*오토스케일링""* 이 *3 곳에서 *완전히 *다른 *것을 *의미한다.
@@ -164,14 +166,14 @@ kind: IPAddressPool
 metadata: { name: home-pool, namespace: metallb-system }
 spec:
   addresses:
-    - 10.0.0.200-10.0.0.220
+    - <lan>.200-<lan>.220
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata: { name: l2adv, namespace: metallb-system }
 ```
 
-→ Service type=LoadBalancer 가 *10.0.0.200 같은 *VIP 받음.
+→ Service type=LoadBalancer 가 *<lan>.200 같은 *VIP 받음.
 
 > **현실 *권장**: *''*Cloudflare Tunnel 만 *써도 *외부 *진입은 *충분""*. *MetalLB 는 *내부 *VIP 가 *진짜 *필요 *할 때만*. *''*K8s 표준""* 을 *맞추려고 *MetalLB 도입하면 *오버엔지니어링.
 

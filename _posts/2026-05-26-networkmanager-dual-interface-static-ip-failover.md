@@ -6,6 +6,8 @@ categories: [infra, networking, kubernetes]
 tags: [k3s, networkmanager, nmcli, static-ip, dhcp, autoconnect, homelab, node-ip]
 ---
 
+> 사설망 주소는 `<lan>` · `<mgmt>` 로 가렸다. 호스트 옥텟과 각 줄의 의미는 원본 실측 그대로다.
+
 홈랩 노드 한 대(*david*)가 매일 다른 IP 로 깨어났다. 어제 .107, 오늘 .113, 다음에 보니 .116. DHCP 가 풀에서 잘못 골라주는 게 아니라 *유선·무선 두 인터페이스가 동시에 DHCP 로 받아서* 그 중 하나가 올라온다. 사용자가 *''두 개 다 .113 으로 고정해''* 라고 했을 때, 단순히 "yes / no" 가 아니라 *''두 개의 인터페이스에 같은 정적 IP, 어떻게 안전하게''* 를 풀어야 하는 문제가 됐다.
 
 이 글은 그 *3-line nmcli 명령* 의 *배경* 을 같이 정리한다. *왜* 그 명령이어야 하고, *어디서* 다른 선택지가 있고, *k3s* 가 그 결과를 어떻게 reflect 하는지.
@@ -16,10 +18,10 @@ tags: [k3s, networkmanager, nmcli, static-ip, dhcp, autoconnect, homelab, node-i
 
 | 단계 | 명령 | 효과 |
 |---|---|---|
-| 1. 유선·무선 둘 다 static .113 | `nmcli con mod <con> ipv4.method manual ipv4.addresses 10.0.0.113/24 ipv4.gateway 10.0.0.1 ipv4.dns "10.0.0.1 1.1.1.1"` | DHCP 의존성 제거 |
+| 1. 유선·무선 둘 다 static .113 | `nmcli con mod <con> ipv4.method manual ipv4.addresses <lan>.113/24 ipv4.gateway <lan>.1 ipv4.dns "<lan>.1 1.1.1.1"` | DHCP 의존성 제거 |
 | 2. 유선 우선 (priority 높게) | `nmcli con mod netplan-enp2s0 connection.autoconnect-priority 100` | 둘 다 후보일 때 wired 가 이긴다 |
 | 3. WiFi 는 *자동 안 올림* (충돌 방지) | `nmcli con mod sky connection.autoconnect false` | 둘 다 동시에 .113 잡으면 ARP conflict → WiFi 는 명시적으로 올릴 때만 |
-| 4. k3s 가 IP 변경 인지 | `K3S_AGENT_ARGS="--node-ip=10.0.0.113 --node-external-ip=10.0.0.113"` + `systemctl restart k3s-agent` | Node object 의 InternalIP 가 .113 으로 갱신 |
+| 4. k3s 가 IP 변경 인지 | `K3S_AGENT_ARGS="--node-ip=<lan>.113 --node-external-ip=<lan>.113"` + `systemctl restart k3s-agent` | Node object 의 InternalIP 가 .113 으로 갱신 |
 | 5. cordon 풀기 | `kubectl uncordon david` | SchedulingDisabled 해제 |
 
 ---
@@ -42,8 +44,8 @@ tags: [k3s, networkmanager, nmcli, static-ip, dhcp, autoconnect, homelab, node-i
 
 ```bash
 $ ssh admin@<current-ip> "ip -br addr; nmcli -t -f NAME,DEVICE,STATE,AUTOCONNECT-PRIORITY connection show --active"
-enp2s0           UP   10.0.0.116/24 fe80::2d8:61ff:fe2d:51ef/64
-wlxb0386cf8d624  UP   10.0.0.113/24 fe80::2cae:8073:961e:2d46/64
+enp2s0           UP   <lan>.116/24 fe80::2d8:61ff:fe2d:51ef/64
+wlxb0386cf8d624  UP   <lan>.113/24 fe80::2cae:8073:961e:2d46/64
 
 netplan-enp2s0:enp2s0:activated:0
 sky:wlxb0386cf8d624:802-11-wireless:activated:0
@@ -68,11 +70,11 @@ sky:wlxb0386cf8d624:802-11-wireless:activated:0
 확인:
 
 ```bash
-$ ssh admin@10.0.0.116 "ss -tn | grep ':22'"
-ESTAB  0  0  10.0.0.116:22  10.0.0.108:54932
+$ ssh admin@<lan>.116 "ss -tn | grep ':22'"
+ESTAB  0  0  <lan>.116:22  <lan>.108:54932
 ```
 
-`10.0.0.116` — 즉 *유선* 으로 들어와 있다. 그러면 *유선 IP 를 바꾸는 명령* 은 *현재 SSH 를 끊는다*. 두 가지 방법:
+`<lan>.116` — 즉 *유선* 으로 들어와 있다. 그러면 *유선 IP 를 바꾸는 명령* 은 *현재 SSH 를 끊는다*. 두 가지 방법:
 
 **방법 A**: WiFi 로 SSH 다시 잡고, 유선 IP 변경. (WiFi 가 살아있는 동안)
 
@@ -88,16 +90,16 @@ ESTAB  0  0  10.0.0.116:22  10.0.0.108:54932
 # 4-1. NM profile 수정 (활성 연결엔 즉시 영향 X)
 sudo nmcli con mod 'netplan-enp2s0' \
   ipv4.method manual \
-  ipv4.addresses 10.0.0.113/24 \
-  ipv4.gateway 10.0.0.1 \
-  ipv4.dns "10.0.0.1 1.1.1.1" \
+  ipv4.addresses <lan>.113/24 \
+  ipv4.gateway <lan>.1 \
+  ipv4.dns "<lan>.1 1.1.1.1" \
   connection.autoconnect-priority 100
 
 sudo nmcli con mod 'sky' \
   ipv4.method manual \
-  ipv4.addresses 10.0.0.113/24 \
-  ipv4.gateway 10.0.0.1 \
-  ipv4.dns "10.0.0.1 1.1.1.1" \
+  ipv4.addresses <lan>.113/24 \
+  ipv4.gateway <lan>.1 \
+  ipv4.dns "<lan>.1 1.1.1.1" \
   connection.autoconnect false \
   connection.autoconnect-priority 10
 ```
@@ -130,18 +132,18 @@ echo 'swap kicked off'
 15 초 뒤 다시 SSH (이번엔 .113):
 
 ```bash
-$ ssh admin@10.0.0.113 "ip -br addr | head -3"
+$ ssh admin@<lan>.113 "ip -br addr | head -3"
 lo               UNKNOWN   127.0.0.1/8 ::1/128
-enp2s0           UP        10.0.0.113/24 10.0.0.116/24 ...
+enp2s0           UP        <lan>.113/24 <lan>.116/24 ...
 wlxb0386cf8d624  UP        (IPv6 only)
 ```
 
-흠 — `10.0.0.116` 이 *아직 enp2s0 에 붙어있다*. NetworkManager 가 *새 IP 추가* 만 하고 *이전 DHCP lease 의 IP* 는 해제 안 함. 잔여 IP 라 통신엔 문제 없지만 *깔끔하지 않음*. 정리:
+흠 — `<lan>.116` 이 *아직 enp2s0 에 붙어있다*. NetworkManager 가 *새 IP 추가* 만 하고 *이전 DHCP lease 의 IP* 는 해제 안 함. 잔여 IP 라 통신엔 문제 없지만 *깔끔하지 않음*. 정리:
 
 ```bash
-$ ssh admin@10.0.0.113 "sudo ip addr del 10.0.0.116/24 dev enp2s0"
-$ ssh admin@10.0.0.113 "ip -br addr show enp2s0"
-enp2s0   UP   10.0.0.113/24 fe80::...
+$ ssh admin@<lan>.113 "sudo ip addr del <lan>.116/24 dev enp2s0"
+$ ssh admin@<lan>.113 "ip -br addr show enp2s0"
+enp2s0   UP   <lan>.113/24 fe80::...
 ```
 
 이제 깔끔.
@@ -155,7 +157,7 @@ enp2s0   UP   10.0.0.113/24 fe80::...
 ```bash
 $ kubectl get node david -o wide
 NAME    STATUS  INTERNAL-IP       ...
-david   Ready   10.0.0.116   # ← 아직 옛 IP
+david   Ready   <lan>.116   # ← 아직 옛 IP
 ```
 
 해법은 두 단계:
@@ -163,10 +165,10 @@ david   Ready   10.0.0.116   # ← 아직 옛 IP
 ### 6.1 `K3S_AGENT_ARGS` 에 `--node-ip` 명시
 
 ```bash
-$ ssh admin@10.0.0.113 "cat /etc/systemd/system/k3s-agent.service.env"
+$ ssh admin@<lan>.113 "cat /etc/systemd/system/k3s-agent.service.env"
 K3S_URL=https://<control-plane-ip>:6443
 K3S_TOKEN=<redacted>
-K3S_AGENT_ARGS="--node-ip=10.0.0.113 --node-external-ip=10.0.0.113"
+K3S_AGENT_ARGS="--node-ip=<lan>.113 --node-external-ip=<lan>.113"
 ```
 
 (swap 스크립트의 마지막 `systemctl restart k3s-agent` 가 이 env 를 다시 로드하면서 `--node-ip` 가 적용됨)
@@ -178,7 +180,7 @@ K3S_AGENT_ARGS="--node-ip=10.0.0.113 --node-external-ip=10.0.0.113"
 ```bash
 $ sleep 12 && kubectl get node david -o wide
 NAME    STATUS  INTERNAL-IP        ...
-david   Ready   10.0.0.113   # ← 갱신 완료
+david   Ready   <lan>.113   # ← 갱신 완료
 ```
 
 `systemctl restart k3s-agent` 만으로 *대부분의 경우* Node IP 갱신. 안 되면 강제 재등록:
@@ -224,7 +226,7 @@ network:
   bonds:
     bond0:
       interfaces: [enp2s0, wlxb0386cf8d624]
-      addresses: [10.0.0.113/24]
+      addresses: [<lan>.113/24]
       parameters: { mode: active-backup, primary: enp2s0 }
 ```
 *가장 견고*. 다만 WiFi 가 bond slave 가 되면 SSID 설정이 까다로움.
@@ -239,7 +241,7 @@ server-monitor 의 `config.yml` 도 david 의 *지난 IP* 를 들고 있었다:
 
 ```yaml
 - name: 데이비드
-  host: 10.0.0.107   # ← 옛 IP (수 시간 전)
+  host: <lan>.107   # ← 옛 IP (수 시간 전)
   port: 22
   user: david
 ```
@@ -248,7 +250,7 @@ server-monitor 의 `config.yml` 도 david 의 *지난 IP* 를 들고 있었다:
 
 ```yaml
 - name: 데이비드
-  host: 10.0.0.113   # ← 고정 후 영구
+  host: <lan>.113   # ← 고정 후 영구
   port: 22
   user: david
 ```

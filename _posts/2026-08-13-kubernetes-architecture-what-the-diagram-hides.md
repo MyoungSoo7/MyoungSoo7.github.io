@@ -6,6 +6,8 @@ categories: [infra, kubernetes]
 tags: [kubernetes, k3s, architecture, control-plane, etcd, kubelet, cri, cni, reconciliation]
 ---
 
+> 사설망 주소는 `<lan>` · `<mgmt>` 로 가렸다. 호스트 옥텟과 각 줄의 의미는 원본 실측 그대로다.
+
 쿠버네티스 구조를 물으면 대부분 같은 그림을 그립니다. 왼쪽 박스에 API Server·Scheduler·Controller Manager·etcd, 오른쪽 박스에 kubelet·kube-proxy·컨테이너 런타임. 저도 그렇게 배웠고 [1일차 노트]({% post_url 2026-05-09-kubernetes-day1-architecture %})에 그렇게 적었습니다.
 
 그런데 제가 2년째 돌리는 6노드 클러스터에서 그 박스들을 실제로 찾아보면, **그림대로 있는 게 하나도 없습니다.** 컨트롤 플레인 컴포넌트 파드는 0개이고, 7개로 나뉘어 있어야 할 컴포넌트가 프로세스 하나입니다.
@@ -69,8 +71,8 @@ DNS, 스토리지 프로비저너, 메트릭 — 전부 **부가 기능**입니�
 $ sudo ss -lntp | grep -E ":(6443|2379|2380|10250|10256|10257|10259) "
 127.0.0.1:2380         users:(("k3s-server",pid=735720,fd=9))
 127.0.0.1:2379         users:(("k3s-server",pid=735720,fd=14))
-192.168.219.101:2380   users:(("k3s-server",pid=735720,fd=12))
-192.168.219.101:2379   users:(("k3s-server",pid=735720,fd=15))
+<lan>.101:2380   users:(("k3s-server",pid=735720,fd=12))
+<lan>.101:2379   users:(("k3s-server",pid=735720,fd=15))
 127.0.0.1:10259        users:(("k3s-server",pid=735720,fd=220))
 127.0.0.1:10256        users:(("k3s-server",pid=735720,fd=227))
 127.0.0.1:10257        users:(("k3s-server",pid=735720,fd=176))

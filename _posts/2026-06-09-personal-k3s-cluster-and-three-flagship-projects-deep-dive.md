@@ -6,6 +6,8 @@ categories: [portfolio, kubernetes, msa, cpp, fullstack, architecture]
 tags: [k3s, kubernetes, argocd, gitops, velero, spring-boot, java25, msa, hexagonal, archunit, triple-idempotency, outbox, cpp20, systemd, web-audio-api, next.js, hexagonal-architecture, ddd, portfolio, deep-dive]
 ---
 
+> 사설망 주소는 `<lan>` · `<mgmt>` 로 가렸다. 호스트 옥텟과 각 줄의 의미는 원본 실측 그대로다.
+
 이 글은 *내가 *집에서 *개인적으로 운영 중인 *K3s 6 노드 클러스터* 와, 그 위에서 (또는 그 *외곽에서*) *살아 움직이는 *대표 프로젝트 3 개* 를, *왜 그 기술을 골랐는가 / 어떻게 운영되고 있는가 / 깨졌을 때 어떻게 푸는가* 의 *3 층 깊이* 로 *친절하게 풀어쓴 *심층 노트* 다.
 
 대상은 두 종류의 독자:
@@ -168,10 +170,10 @@ Job velero/argocd-default-kopia-9nkv7-maintain-job-1778421891769 failed to compl
 
 ```
 $ kubectl get nodes
-Unable to connect to the server: dial tcp 10.0.0.101:6443:
+Unable to connect to the server: dial tcp <lan>.101:6443:
   connect: no route to host
 
-$ curl -k https://10.0.0.101:6443/version
+$ curl -k https://<lan>.101:6443/version
 { ... ok ... }
 ```
 

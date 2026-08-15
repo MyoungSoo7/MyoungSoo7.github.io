@@ -6,6 +6,8 @@ categories: [infrastructure, operations]
 tags: [kubernetes, k3s, etcd, networking, ufw, vxlan, quorum, cloudflared, sre]
 ---
 
+> 사설망 주소는 `<lan>` · `<mgmt>` 로 가렸다. 호스트 옥텟과 각 줄의 의미는 원본 실측 그대로다.
+
 이 글에는 "인프라 관리 10가지 팁" 같은 목록이 없다. 대신 **내가 운영하는 6노드 K3s 클러스터에서 실제로 터진 장애**만 재료로 쓴다. 항목마다 증상 → 오진 → 실측 → 원인 → 1차 문서 근거 순으로 간다.
 
 이렇게 쓰는 이유가 있다. 인프라 지식은 문서를 읽어서 얻는 게 아니라, **틀린 곳을 짚어보고 아닌 걸 확인하면서** 얻어진다. 아래 사례들의 공통점은 전부 내가 처음에 엉뚱한 데를 팠다는 것이다.
@@ -14,12 +16,12 @@ tags: [kubernetes, k3s, etcd, networking, ufw, vxlan, quorum, cloudflared, sre]
 
 ```
 NAME      STATUS  ROLES                 AGE    VERSION       INTERNAL-IP       OS
-david     Ready   <none>                79d    v1.35.4+k3s1  192.168.219.113   Ubuntu 26.04 LTS
-ilwon     Ready   control-plane,etcd    94d    v1.35.4+k3s1  192.168.219.110   Ubuntu 26.04 LTS
-isagal    Ready   <none>                65d    v1.35.4+k3s1  192.168.219.105   Ubuntu 26.04 LTS
-lemuel    Ready   control-plane,etcd   113d    v1.35.4+k3s1  192.168.219.101   Ubuntu 24.04.4 LTS
-louise    Ready   <none>                93d    v1.35.4+k3s1  192.168.219.111   Ubuntu 24.04.4 LTS
-solomon   Ready   control-plane,etcd    93d    v1.35.4+k3s1  192.168.219.108   Ubuntu 26.04 LTS
+david     Ready   <none>                79d    v1.35.4+k3s1  <lan>.113   Ubuntu 26.04 LTS
+ilwon     Ready   control-plane,etcd    94d    v1.35.4+k3s1  <lan>.110   Ubuntu 26.04 LTS
+isagal    Ready   <none>                65d    v1.35.4+k3s1  <lan>.105   Ubuntu 26.04 LTS
+lemuel    Ready   control-plane,etcd   113d    v1.35.4+k3s1  <lan>.101   Ubuntu 24.04.4 LTS
+louise    Ready   <none>                93d    v1.35.4+k3s1  <lan>.111   Ubuntu 24.04.4 LTS
+solomon   Ready   control-plane,etcd    93d    v1.35.4+k3s1  <lan>.108   Ubuntu 26.04 LTS
 ```
 
 네임스페이스 56개, etcd voter 3개(ilwon·lemuel·solomon). 사설 대역이라 그대로 적는다.
@@ -208,12 +210,12 @@ $ kubectl get pods -A | grep -Ei 'traefik|ingress-nginx|contour'
 ```
 $ kubectl get ingress -A
 NS                  NAME                       CLASS     ADDRESS
-agent-system        litellm-ingress            traefik   192.168.219.101,...,192.168.219.113
-lemuel-xr-prod      lemuel-xr-ingress          traefik   192.168.219.101,...
-n8n                 n8n-ingress                traefik   192.168.219.101,...
-order-oms-prod      order-oms-prod-ingress     traefik   192.168.219.101,...
-settlement-prod     payment-webhook            traefik   192.168.219.101,...
-warehouse-wms-prod  warehouse-wms-prod-ingress traefik   192.168.219.101,...
+agent-system        litellm-ingress            traefik   <lan>.101,...,<lan>.113
+lemuel-xr-prod      lemuel-xr-ingress          traefik   <lan>.101,...
+n8n                 n8n-ingress                traefik   <lan>.101,...
+order-oms-prod      order-oms-prod-ingress     traefik   <lan>.101,...
+settlement-prod     payment-webhook            traefik   <lan>.101,...
+warehouse-wms-prod  warehouse-wms-prod-ingress traefik   <lan>.101,...
 ```
 
 **주소가 찍혀 있으니 정상으로 보인다. 전부 거짓이다.** 저 `status`는 Traefik이 살아 있던 시절 컨트롤러가 써넣은 값이고, 컨트롤러가 사라져도 **status는 지워지지 않는다.** 아무도 갱신하지 않으니 마지막 값에서 그대로 굳는다.

@@ -6,6 +6,8 @@ categories: [infra, kubernetes, networking]
 tags: [k3s, flannel, vxlan, ufw, ubuntu, debugging, homelab]
 ---
 
+> 사설망 주소는 `<lan>` · `<mgmt>` 로 가렸다. 호스트 옥텟과 각 줄의 의미는 원본 실측 그대로다.
+
 새벽 3시. K3s 홈랩에서 *8개 *-prod 앱 pod 가 일제히 CrashLoopBackOff*. 모두 `SocketTimeoutException` — DB 연결 timeout. 모든 postgres 가 ilwon 노드에 있고, app 들은 louise 에 있다. *louise → ilwon* 의 *pod-to-pod overlay* 가 죽었다는 뜻.
 
 진단 5단계를 거쳐서 진짜 범인을 찾았다 — **ufw**.
@@ -70,18 +72,18 @@ postgres 는 다 Running. *하지만 모두 ilwon 위* 다. 그리고 ilwon 은 
 ARP / 일반 ping 으로 확인:
 
 ```text
-$ ping -c 3 10.0.0.110     # ilwon 의 host IP
+$ ping -c 3 <lan>.110     # ilwon 의 host IP
 3 packets transmitted, 3 received, 0.0% packet loss
 
-$ ssh louise 'ping -c 3 10.0.0.110'
+$ ssh louise 'ping -c 3 <lan>.110'
 3 packets transmitted, 3 received, 0.0% packet loss
 ```
 
 노드 간 *host network* 는 OK. *VXLAN UDP 8472* 도 outbound 는 열림:
 
 ```text
-$ ssh louise 'nc -zvu -w 3 10.0.0.110 8472'
-Connection to 10.0.0.110 8472 port [udp/*] succeeded!
+$ ssh louise 'nc -zvu -w 3 <lan>.110 8472'
+Connection to <lan>.110 8472 port [udp/*] succeeded!
 ```
 
 → 그런데 *pod-to-pod* 만 안 됨:
@@ -119,10 +121,10 @@ VXLAN 동작 메커니즘:
 
 ```text
 $ ssh louise 'bridge fdb show dev flannel.1'
-02:00:00:00:00:13  dst 10.0.0.113  self permanent    # david
-02:00:00:00:00:01  dst 10.0.0.101  self permanent    # lemuel
-02:00:00:00:00:10  dst 10.0.0.110  self permanent    # ilwon ← 있음
-02:00:00:00:00:20  dst 10.0.0.120  self permanent    # solomon
+02:00:00:00:00:13  dst <lan>.113  self permanent    # david
+02:00:00:00:00:01  dst <lan>.101  self permanent    # lemuel
+02:00:00:00:00:10  dst <lan>.110  self permanent    # ilwon ← 있음
+02:00:00:00:00:20  dst <lan>.120  self permanent    # solomon
 
 $ ssh louise 'ip neigh show dev flannel.1'
 10.42.4.0  lladdr 02:00:00:00:00:10 PERMANENT             # ilwon subnet ← 있음
