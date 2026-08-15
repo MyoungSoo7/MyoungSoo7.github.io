@@ -304,11 +304,11 @@ route:
 
 | 노드 | 역할 | IP | 비고 |
 |---|---|---|---|
-| *lemuel* | control-plane + etcd | <lan>.101 | 메인 마스터 |
-| *ilwon* | control-plane + etcd | <lan>.110 | NVMe 1TB + 4TB HDD (storage tier) |
-| *solomon* | control-plane + etcd | <lan>.108 | Floating VIP (3-NIC failover), 백업 전용 |
-| *louise* | worker | <lan>.111 | 일반 워크로드 |
-| *david* | worker | <lan>.107 | 모니터링 전용 (Prometheus / Grafana / Loki) |
+| *lemuel* | control-plane + etcd | `<lan>.101` | 메인 마스터 |
+| *ilwon* | control-plane + etcd | `<lan>.110` | NVMe 1TB + 4TB HDD (storage tier) |
+| *solomon* | control-plane + etcd | `<lan>.108` | Floating VIP (3-NIC failover), 백업 전용 |
+| *louise* | worker | `<lan>.111` | 일반 워크로드 |
+| *david* | worker | `<lan>.107` | 모니터링 전용 (Prometheus / Grafana / Loki) |
 
 - *etcd 3 voter quorum* — *2 대만 *살아 있으면* *클러스터 의사 결정 *계속 가능*
 - *Floating VIP* — solomon 의 *3-NIC failover* 로 *NIC 1 개 *죽어도 *VIP 유지*

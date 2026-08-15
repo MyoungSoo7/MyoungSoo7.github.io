@@ -57,7 +57,7 @@ louise    Ready                      <none>               14d   v1.35.4+k3s1
 solomon   NotReady                   control-plane,etcd   14d   v1.35.4+k3s1
 ```
 
-**응답 옴.** 그것도 ilwon API server (<lan>.110:6443) 와의 TCP 통신 성공. 그런데 같은 .110 으로 *ping 은 안 됨*.
+**응답 옴.** 그것도 ilwon API server (`<lan>.110:6443`) 와의 TCP 통신 성공. 그런데 같은 .110 으로 *ping 은 안 됨*.
 
 curl 로 사이트도 찍어봤다:
 
@@ -66,7 +66,7 @@ $ curl -sI -m 5 https://xr.lemuel.co.kr
 HTTP/2 200
 ```
 
-*HTTP 200*. 외부에서 → Cloudflare → tunnel → louise (<lan>.111) 까지의 *수십 hop 의 TCP 경로* 가 정상 동작. 그런데 *Mac 에서 louise 로 ping* 만 안 됨.
+*HTTP 200*. 외부에서 → Cloudflare → tunnel → louise (`<lan>.111`) 까지의 *수십 hop 의 TCP 경로* 가 정상 동작. 그런데 *Mac 에서 louise 로 ping* 만 안 됨.
 
 말이 안 된다.
 
