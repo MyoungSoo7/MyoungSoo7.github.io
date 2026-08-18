@@ -2,6 +2,7 @@
 layout: post
 title: "표에 적은 네 문장을 리포지토리에 대조했다 — settlement 실측"
 date: 2026-08-18 21:15:00 +0900
+last_modified_at: 2026-08-19 01:59:31 +0900
 categories: [Architecture, Kubernetes]
 tags: [settlement, Kafka, Outbox, ArchUnit, ArgoCD, Velero, MSA]
 ---
@@ -126,7 +127,7 @@ Argo CD 쪽 OutOfSync 2건은 Healthy 상태이므로 서비스 영향은 없지
 
 뒷문장부터 보자. **검증 장치는 실재하고, 실행된다.**
 
-- ArchUnit: **17개 모듈 전부**에 아키텍처 테스트가 있다(파일 35개). 도메인의 Spring 의존 금지, application 레이어의 JPA 직접 사용 금지, adapter 간 cross-domain 의존 금지 — 이런 규칙은 리뷰어의 기억이 아니라 컴파일 단계에서 강제돼야 의미가 있다.[^archunit]
+- ArchUnit: 아키텍처 테스트 파일 **35개**가 **17곳**에 퍼져 있다. 도메인의 Spring 의존 금지, application 레이어의 JPA 직접 사용 금지, adapter 간 cross-domain 의존 금지 — 이런 규칙은 리뷰어의 기억이 아니라 컴파일 단계에서 강제돼야 의미가 있다.[^archunit] (처음엔 이 17곳을 "17개 모듈 전부"라고 적었다. 같은 커밋에서 다시 세 보니 **집합이 다르다** — [8절](#addendum)에서 고친다.)
 - CI 워크플로 8개. 그중 `semgrep.yml` 은 `--config p/default --config p/secrets` 로 정적 분석과 비밀값 스캔을 함께 건다.
 - 하네스 자체의 셀프 테스트를 직접 돌려 봤다.
 
@@ -148,18 +149,18 @@ $ node --test scripts/harness/test/*.test.mjs
 
 ## 대조 결과
 
-| 표의 주장                         | 판정      | 근거                                                             |
-| --------------------------------- | --------- | ---------------------------------------------------------------- |
-| 정합성 중심 백엔드                | ✅ 확인됨 | 3겹 멱등성, 낙관/비관 락 병용, 원장 append-only, 대사 전용 모듈  |
-| Kafka·Outbox                      | ✅ 확인됨 | 컨슈머 61, outbox 보유 서비스 13, envelope 규격 통일             |
-| 프로젝션                          | 🟡 부분   | 읽기 모델은 있으나 전면 적용 아님                                |
-| DB-per-service                    | 🟡 논리만 | 12 DB, **인스턴스 1개** — 스키마 결합은 끊었고 장애 격리는 못 함 |
-| 운영까지 책임                     | ✅ 확인됨 | Argo CD 59앱, Velero 2스케줄 상시 가동, 모니터링·로깅 스택       |
-| — 백업 건강도                     | 🟡 79%    | PartiallyFailed 14 / Failed 1                                    |
-| AI 통제(테스트·정적분석·ArchUnit) | ✅ 확인됨 | ArchUnit 17/17, semgrep 2룰셋, 하네스 셀프테스트 235/235         |
-| AI 활용(Loop·Graph)               | ❌ 미확인 | 리포 내 대응 구현 없음                                           |
+| 표의 주장                         | 판정      | 근거                                                                                  |
+| --------------------------------- | --------- | ------------------------------------------------------------------------------------- |
+| 정합성 중심 백엔드                | ✅ 확인됨 | 3겹 멱등성, 낙관/비관 락 병용, 원장 append-only, 대사 전용 모듈                       |
+| Kafka·Outbox                      | ✅ 확인됨 | 컨슈머 61, outbox 보유 서비스 13, envelope 규격 통일                                  |
+| 프로젝션                          | 🟡 부분   | 읽기 모델은 있으나 전면 적용 아님                                                     |
+| DB-per-service                    | 🟡 논리만 | 12 DB, **인스턴스 1개** — 스키마 결합은 끊었고 장애 격리는 못 함                      |
+| 운영까지 책임                     | ✅ 확인됨 | Argo CD 59앱, Velero 2스케줄 상시 가동, 모니터링·로깅 스택                            |
+| — 백업 건강도                     | 🟡 79%    | PartiallyFailed 14 / Failed 1                                                         |
+| AI 통제(테스트·정적분석·ArchUnit) | 🟡 대체로 | ArchUnit 16/17 서브프로젝트(+shared-common), semgrep 2룰셋, 하네스 셀프테스트 235/235 |
+| AI 활용(Loop·Graph)               | ❌ 미확인 | 리포 내 대응 구현 없음                                                                |
 
-여덟 줄 중 다섯이 참, 둘이 절반, 하나가 미확인이다.
+여덟 줄 중 넷이 참, 셋이 절반, 하나가 미확인이다. (처음 셀 때는 다섯·둘·하나였다. ArchUnit 줄이 재측정에서 절반으로 내려갔다 — [8절](#addendum).)
 
 ## 그래서 표를 어떻게 고칠 것인가
 
@@ -169,7 +170,65 @@ $ node --test scripts/harness/test/*.test.mjs
 2. **"Loop·Graph"** → 뺀다. 근거가 생기면 그때 다시 넣는다.
 3. **"운영 자동화"** → 여기에 **백업 복원 리허설**을 붙인다. 79%는 지금 상태의 정직한 숫자이고, 이걸 올리는 게 다음 작업이다.
 
-반대로, 고칠 필요가 없다고 확인된 문장도 있다. 3겹 멱등성과 ArchUnit 17/17, 하네스 셀프테스트 235건은 숫자로 그대로 말할 수 있다. **검증을 거친 문장만 남기면 표는 짧아지지만 반박이 어려워진다.**
+반대로, 고칠 필요가 없다고 확인된 문장도 있다. 3겹 멱등성과 하네스 셀프테스트 235건은 숫자로 그대로 말할 수 있다. **검증을 거친 문장만 남기면 표는 짧아지지만 반박이 어려워진다.**
+
+4번을 하나 더 붙인다. **"ArchUnit 17/17"** → **"ArchUnit 16/17 — 게이트웨이만 없음"**. 이유는 아래에 적는다.
+
+---
+
+## 8. 후기 — "17/17" 을 같은 커밋에서 다시 셌다 {#addendum}
+
+이 글과 같은 날, 같은 리포를 다룬 다른 글이 **"18개 모듈"** 이라고 적었다.[^coverage] 이 글은 **17개** 라고 적었다. 둘 중 하나가 틀린 것처럼 보였다.
+
+**둘 다 맞았다 — 센 커밋이 다르다.** 이 글은 `develop 93fe6368`(2026-08-14 19:27)을 셌고, 그 글의 CI 실행은 `main 221fa7cc`(2026-08-16 01:25)를 돌았다. 그 사이에 `board-service` 가 들어왔다(#263).
+
+```
+$ git show 93fe6368:settings.gradle.kts | grep -c '"[a-z-]*-service"'
+17
+$ git show 221fa7cc:settings.gradle.kts | grep -c '"[a-z-]*-service"'
+18
+```
+
+이 리포는 지금도 움직이고 있어서, 오늘(2026-08-19) `origin/develop` 은 이미 **19개** 다(`education-service` 추가). 모듈 수는 리포의 속성이 아니라 **커밋의 속성** 이다. 숫자 옆에 커밋을 안 적으면 두 글이 서로를 반박하는 것처럼 보인다.[^gradle]
+
+> 이 대조에서 `shared-common` 은 어느 쪽 숫자에도 안 들어간다. `include(...)` 가 아니라 `includeBuild(...)` 로 합성되는 독립 빌드라서 서브프로젝트로 세지 않고, 커버리지 글의 18개 자코코 아티팩트에도 없다.
+
+**그런데 그 과정에서 이 글의 다른 문장이 틀린 게 나왔다.** "17개 모듈 전부에 아키텍처 테스트가 있다" 는 문장이다. 파일 35개는 정확했다. 틀린 건 **그 35개가 흩어져 있는 17곳이 위의 17개 서브프로젝트가 아니라는 점** 이다.
+
+```
+$ grep -rl "com.tngtech.archunit" --include=*.java --include=*.kt . | wc -l
+35
+$ grep -rl "com.tngtech.archunit" --include=*.java --include=*.kt . \
+    | cut -d/ -f2 | sort -u
+account-service  ai-service  card-service  common-data-service
+company-service  deposit-service  economics-service
+financial-statements-service  insurance-service  investment-service
+loan-service  market-service  operation-service  order-service
+organization-service  settlement-service  shared-common
+```
+
+세어 보면 **서브프로젝트 16개 + `shared-common` 1개 = 17곳**. 서브프로젝트 17개 중 **`gateway-service` 에만 아키텍처 테스트가 없다.** 의존성 자체가 선언되어 있지 않다.
+
+```
+$ grep -c archunit gateway-service/build.gradle.kts
+0
+$ find gateway-service -path "*src/test*" -name "*.java" | wc -l
+1        # GatewayServiceApplicationTest — 컨텍스트 로드 테스트 하나
+```
+
+숫자 17 이 맞았기 때문에 틀린 문장이 검증을 통과했다. **"17개 모듈 전부"와 "17곳"은 우연히 같은 수였다.** 합계가 예상과 맞으면 집합까지 맞다고 넘어가게 되는데, 그게 이 글이 다루려던 실수와 정확히 같은 종류다.
+
+그리고 빠진 한 곳이 하필 **게이트웨이** 다. 외부 트래픽이 들어오는 유일한 입구이고, 다른 모든 모듈이 지키는 레이어 규칙을 우회하기에 가장 쉬운 자리다. 없어도 되는 곳이 빠진 게 아니다.
+
+| 문장             | 처음                | 재측정                                 |
+| ---------------- | ------------------- | -------------------------------------- |
+| 모듈 수          | 17개                | 17개 — 맞음 (`93fe6368` 기준)          |
+| ArchUnit 적용    | 17/17 모듈          | **16/17 서브프로젝트** + shared-common |
+| ArchUnit 파일 수 | 35개                | 35개 (변동 없음)                       |
+| 빠진 모듈        | 없음                | **`gateway-service`**                  |
+| 여덟 줄 판정     | 참 5 / 절반 2 / ? 1 | 참 4 / 절반 3 / ? 1                    |
+
+측정하지 않은 것을 측정한 것처럼 쓰지 않는 것이 이 글의 규칙이었다. **한 번 센 것을 다시 세어 보는 것도 같은 규칙에 속한다** — 특히 합계가 예상과 맞아떨어졌을 때.
 
 ---
 
@@ -194,3 +253,7 @@ $ node --test scripts/harness/test/*.test.mjs
 [^argocd]: Argo CD, _Resource Health_ / Application sync status 문서. OutOfSync 와 Healthy 가 독립적인 축임을 설명한다. <https://argo-cd.readthedocs.io/en/stable/operator-manual/health/>
 
 [^archunit]: ArchUnit, _User Guide_. 아키텍처 규칙을 단위 테스트로 강제하는 방식. <https://www.archunit.org/userguide/html/000_Index.html>
+
+[^coverage]: 같은 리포의 커버리지를 18개 모듈 기준으로 합산한 글. 게이트 대상 95.26% / 전체 소스 90.50% 의 차이를 다룬다. [커버리지 95%가 보증하는 것과 보증하지 않는 것](/2026/08/18/what-a-95-percent-coverage-gate-guarantees/)
+
+[^gradle]: Gradle, _Structuring Software Products with Gradle — Composing builds_. `includeBuild` 로 합성된 빌드가 `include` 서브프로젝트와 별개의 단위임을 규정한다. <https://docs.gradle.org/current/userguide/composite_builds.html>

@@ -2,6 +2,7 @@
 layout: post
 title: "커버리지 95%가 보증하는 것과 보증하지 않는 것 — 정산 프로젝트 18개 모듈 실측"
 date: 2026-08-18 20:30:00 +0900
+last_modified_at: 2026-08-19 01:59:31 +0900
 categories: [testing, quality]
 tags: [jacoco, coverage, gradle, mutation-testing, pitest, archunit, ci]
 ---
@@ -46,6 +47,19 @@ tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
 즉 왼쪽 열(**게이트 기준**)은 헥사고날 구조에서 도메인·애플리케이션 계층만 남긴 뒤의 LINE 커버리지이고, 오른쪽 열(**전체 소스 기준**)은 어댑터·설정·부트스트랩까지 전부 포함한 값이다. CI를 실제로 막는 건 왼쪽뿐이다.
 
 18개 모듈 아티팩트를 합산하면 이렇다.
+
+> **같은 날 같은 리포를 다룬 글은 모듈이 17개라고 적었다.** [표에 적은 네 문장을 리포지토리에 대조했다](/2026/08/18/settlement-four-claims-against-the-repo/#addendum) 다. **둘 다 맞다 — 커밋이 다르다.** 그 글은 `develop 93fe6368`(2026-08-14), 이 글의 CI 실행은 `main 221fa7cc`(2026-08-16)를 돌았다. 그 사이에 `board-service` 가 들어왔다.
+>
+> ```
+> $ git show 93fe6368:settings.gradle.kts | grep -c '"[a-z-]*-service"'
+> 17
+> $ git show 221fa7cc:settings.gradle.kts | grep -c '"[a-z-]*-service"'
+> 18        # board-service 추가 (#263, release develop→main)
+> ```
+>
+> 아래 표의 마지막 줄 `board-service` **측정 없음** 이 바로 그 18번째다. 이틀 사이에 모듈이 하나 늘었고, 두 글이 각자 다른 날의 리포를 셌다.
+>
+> **덤으로 이 글의 오류 하나.** 맨 위 provenance 에 적은 커밋 [`a4b254f`](https://github.com/MyoungSoo7/settlement/commit/a4b254f830528109b037f4b7b5b14eea60f75c8b)(2026-08-13)는 **이 CI 실행의 커밋이 아니다.** 실행 [#31895475292](https://github.com/MyoungSoo7/settlement/actions/runs/31895475292) 의 `head_sha` 는 `221fa7cc` 다. `a4b254f` 시점에는 서브프로젝트가 17개여서, 그 커밋이 18개 아티팩트를 낼 수 없다. 숫자를 검증하면서 그 숫자의 출처를 검증하지 않으면 이렇게 된다.
 
 | 구분            | 대상 라인 | 대상 클래스 | LINE 커버리지 |
 | --------------- | --------: | ----------: | ------------: |

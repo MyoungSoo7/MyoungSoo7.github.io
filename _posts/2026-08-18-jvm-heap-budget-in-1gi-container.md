@@ -2,6 +2,7 @@
 layout: post
 title: "힙은 19%인데 컨테이너는 59%다 — 1Gi 파드에서 JVM 메모리 예산 다시 세기"
 date: 2026-08-18 01:55:00 +0900
+last_modified_at: 2026-08-19 01:59:31 +0900
 categories: [Kubernetes, JVM]
 tags: [JVM, GC, Kubernetes, SpringBoot, Metaspace, Observability]
 ---
@@ -30,6 +31,8 @@ settlement-app-7b6b7948b-vb9c5   2m           572Mi
 힙은 최대치의 19%다. 그런데 컨테이너는 1Gi 한도의 **57%**(`kubectl top` 의 working set 기준, cgroup 이 보고하는 `memory.current` 로는 **59%**)를 쓰고 있다. 두 숫자 사이의 440MiB 는 어디서 온 걸까. 그게 궁금해서 파드 안을 열어봤고, 예상과 다른 게 세 개 나왔다.
 
 미리 밝혀두면 **이 글은 장애 리포트가 아니다.** 이 파드들은 지금 잘 돌고 있고, `settlement-prod` 네임스페이스에 `OOMKilled` 이력은 한 건도 없다. 아직 터지지 않은 여유(headroom)를 산수로 재본 기록이다.
+
+> **같은 파드를 같은 시각에 다룬 글이 하나 더 있다.** [limits.memory 한 줄이 GC 알고리즘을 골랐다](/2026/08/18/one-line-memory-limit-chose-the-gc/) 는 같은 `settlement-prod` 파드에서 같은 Serial GC 사실을 독립적으로 발견했다. 겹치는 부분은 **발견 1**(Serial GC) 하나이고, 그 뒤로 갈라진다. 이 글은 **힙 밖의 440MiB 를 항목별로 나눠 예산을 다시 세우는 쪽** 이고, 그 글은 **왜 Serial 이 골라졌는지(1791/1792 MB 임계값)와 Full GC 1회의 범인(코드캐시)** 을 파는 쪽이다. GC 선택의 인과가 궁금하면 그쪽이, 1Gi 안에서 무엇이 얼마를 먹는지가 궁금하면 이쪽이 먼저다.
 
 ## 측정 조건
 
