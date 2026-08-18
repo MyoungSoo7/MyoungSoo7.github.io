@@ -19,6 +19,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-paginate
+  - jekyll-sitemap
 paginate: 10
 paginate_path: "/page:num/"
 # Minima 기본 header 는 site.pages 의 title 있는 페이지 모두 노출 — paginate 가 만드는
