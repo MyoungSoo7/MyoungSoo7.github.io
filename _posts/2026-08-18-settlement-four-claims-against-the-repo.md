@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "표에 적은 네 문장을 리포지토리에 대조했다 — settlement 실측"
-date: 2026-08-18 21:30:00 +0900
+date: 2026-08-18 21:15:00 +0900
 categories: [Architecture, Kubernetes]
 tags: [settlement, Kafka, Outbox, ArchUnit, ArgoCD, Velero, MSA]
 ---
