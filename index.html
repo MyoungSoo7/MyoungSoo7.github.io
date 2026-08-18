@@ -1,6 +1,12 @@
 ---
 layout: default
 title: Home
+# jekyll-paginate 는 이 파일의 Page 객체를 복제해 /page2/ … /pageN/ 를 만든다
+# (Page.new(site, site.source, page.dir, page.name) — front matter 까지 그대로 상속).
+# 따라서 여기 sitemap: false 를 두면 페이지네이션 페이지 전부가 sitemap.xml 에서 빠진다.
+# 대가: 홈("/") 도 함께 빠진다. 루트 URL 은 모든 페이지의 nav 에서 링크되고
+# robots.txt 가 가리키는 호스트 자체이므로 발견성 손실이 사실상 없다고 판단했다.
+sitemap: false
 ---
 
 <style>

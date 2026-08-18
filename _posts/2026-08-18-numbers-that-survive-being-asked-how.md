@@ -2,6 +2,7 @@
 layout: post
 title: '"그 수치 어떻게 뽑으셨어요?" — 이력서에 쓸 수치를 8개 축으로 채점했다'
 date: 2026-08-18 21:15:00 +0900
+last_modified_at: 2026-08-19 00:25:11 +0900
 categories: [engineering, testing]
 tags: [테스트, 검증, ArchUnit, k6, 커버리지, DORA, 포트폴리오]
 ---
