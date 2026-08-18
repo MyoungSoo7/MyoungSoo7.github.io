@@ -2,6 +2,7 @@
 layout: post
 title: "sitemap.xml 을 켰다 — 그리고 666개 URL 을 전부 열어봤다"
 date: 2026-08-19 01:05:00 +0900
+last_modified_at: 2026-08-19 01:40:00 +0900
 categories: [engineering, web]
 tags: [sitemap, seo, jekyll, github-pages, robots-txt, 검증]
 ---
@@ -91,7 +92,7 @@ $ git log -1 --format="%ad" --date=iso -- _posts/2026-08-18-numbers-that-survive
 
 **여기서 정직하게 짚자.** 구글이 경고하는 건 _과대_ 신고(안 바뀌었는데 바뀌었다고 하는 것)이고, 내 경우는 반대인 _과소_ 신고다. 그러니 "신뢰를 잃는" 시나리오는 내게 해당하지 않는다. 내가 실제로 치르는 비용은 다른 쪽이다 — **고친 글이 고쳐졌다고 말하지 못한다.** `lastmod` 는 이미 크롤된 URL 의 재크롤 스케줄링 신호인데[^ping] 내 신호는 영원히 발행일에 고정돼 있다.
 
-고치는 방법은 문서에 있다: 수정할 때 front matter 에 `last_modified_at:` 을 같이 갱신하는 것.[^plugin] 604개를 소급할 생각은 없고, 앞으로 실질적으로 고치는 글에만 붙이려 한다. 구글도 "확신이 있는 페이지에만 `lastmod` 를 써도 된다", "사이드바나 푸터의 사소한 변경이면 갱신하지 않아도 된다" 고 허용한다.[^ping]
+고치는 방법은 문서에 있다: 수정할 때 front matter 에 `last_modified_at:` 을 같이 갱신하는 것.[^plugin] 604개를 소급할 생각은 없고, 앞으로 실질적으로 고치는 글에만 붙이려 한다. 구글도 "확신이 있는 페이지에만 `lastmod` 를 써도 된다", "사이드바나 푸터의 사소한 변경이면 갱신하지 않아도 된다" 고 허용한다.[^ping] → 실제로 적용한 결과는 [8. 후기](#postscript).
 
 ---
 
@@ -103,7 +104,7 @@ $ git log -1 --format="%ad" --date=iso -- _posts/2026-08-18-numbers-that-survive
 
 플러그인은 제외 방법을 제공한다 — front matter 에 `sitemap: false`, 또는 `_config.yml` 의 `defaults` 로 경로 글로브 지정.[^plugin] 내 리포에서 `sitemap: false` 를 쓰는 파일은 현재 **0개**다.
 
-이건 이 글에서 고치지 않는다. 색인을 **망가뜨리는** 결함은 아니고(중복 콘텐츠 신호에 가깝다), 페이지네이션 페이지를 제외하는 정확한 방법은 별도로 측정해서 확인할 문제다. **다만 모르고 있는 것과 알고 두는 것은 다르다.** 지금은 후자다.
+처음 이 글을 올릴 때는 "제외하는 정확한 방법은 별도로 측정해서 확인할 문제" 라고 미뤄 뒀다. 30분 뒤에 확인했고, 예상과 달랐다. → [8. 후기](#postscript)
 
 ---
 
@@ -159,6 +160,70 @@ Sitemap: https://myoungsoo7.github.io/sitemap.xml
 
 ---
 
+## 8. 후기 — 30분 뒤 실제로 고쳤다 {#postscript}
+
+이 글을 올린 직후에 4절(페이지네이션)과 3절(`lastmod`)을 실제로 손봤다. **4절은 예상이 틀렸다.**
+
+### ① 페이지네이션 제외 — `defaults` 글로브로는 불가능하다
+
+플러그인 README 는 제외 방법으로 `_config.yml` 의 `defaults` 경로 글로브를 안내한다.[^plugin] 나도 그걸 쓸 생각이었다. 안 된다.
+
+이유는 `jekyll-paginate` 의 소스 한 줄에 있다.[^paginate-src]
+
+```ruby
+newpage = Page.new(site, site.source, page.dir, page.name)
+newpage.dir = Pager.paginate_path(site, num_page)
+```
+
+**페이지네이션 페이지는 `index.html` 의 Page 객체를 그대로 복제해서 만든다.** 출력 경로(`dir`)만 `/page2/` 로 바꿀 뿐, 소스 파일은 여전히 `index.html` 이다. Jekyll 의 `defaults` 는 _소스 경로_ 로 매칭하므로, `path: index.html` 글로브는 **홈과 페이지네이션 61개를 하나도 구분하지 못한다.** 둘 중 하나만 고르는 방법이 없다.
+
+같은 이유로, 쓸 수 있는 수단은 하나로 좁혀진다 — `index.html` front matter 에 `sitemap: false` 를 두는 것. 복제된 Page 들이 front matter 까지 상속하므로 **61개가 한꺼번에 빠진다. 홈까지 포함해서.**
+
+그 대가를 받아들이기로 했다. 루트 URL 은 모든 페이지의 nav 에서 링크되고 `robots.txt` 가 가리키는 호스트 자체다. 사이트맵에서 빠져도 발견성 손실이 사실상 없다.
+
+측정 결과, 예측과 정확히 일치했다.
+
+|                                | 이전 | 이후        |
+| ------------------------------ | ---- | ----------- |
+| 전체 URL                       | 667  | **606**     |
+| `/pageN/`                      | 60   | **0**       |
+| 홈 `/`                         | 있음 | 없음 (의도) |
+| `/about/`, `/categories/`, PDF | 있음 | 있음        |
+
+667 − 61 = 606. 한 건도 어긋나지 않았다. (앞 절들의 666 은 이 글이 올라가기 전 숫자이고, 667 은 이 글이 추가된 뒤 숫자다.)
+
+**중요한 구분** — 사이트맵에서 빼는 것은 `noindex` 가 아니다. 배포된 사이트에서 두 URL 은 그대로 살아있다.
+
+```
+$ curl -o /dev/null -w '%{http_code}' https://myoungsoo7.github.io/        # 200
+$ curl -o /dev/null -w '%{http_code}' https://myoungsoo7.github.io/page2/  # 200
+```
+
+"크롤해 달라고 목록에 올리지 않는 것" 과 "색인하지 말라고 지시하는 것" 은 다른 일이다. 후자를 원했다면 `robots` 메타 태그를 썼어야 한다.
+
+### ② `lastmod` — 이제 사실을 말한다
+
+3절에서 지적한 대로, 앞 글의 `lastmod` 는 발행 시각(`21:15`)이었지만 실제 수정은 `00:25` 였다. front matter 에 git 이 아는 실제 값을 넣었다.
+
+```yaml
+last_modified_at: 2026-08-19 00:25:11 +0900
+```
+
+배포 후 사이트맵을 다시 받아 확인했다.
+
+```xml
+<loc>https://myoungsoo7.github.io/2026/08/18/numbers-that-survive-being-asked-how/</loc>
+<lastmod>2026-08-19T00:25:11+09:00</lastmod>
+```
+
+**어제 21:15 → 오늘 00:25.** 이제 그 날짜는 사실이다. 604개를 소급하지는 않았다 — 앞으로 실질적으로 고치는 글에만 붙인다. 그리고 지금 읽고 있는 이 글에도 붙였다. 이 절을 추가한 것이 곧 "실질적인 수정" 이니까.
+
+### 배운 것
+
+미리 단정하지 않고 "별도로 측정해서 확인할 문제" 로 미뤄 둔 판단이 맞았다. 확인해 보니 **문서가 안내한 방법이 이 조합에서는 통하지 않았고**, 실제 해법은 "홈을 사이트맵에서 포기한다" 는 _트레이드오프_ 였다. 미뤄두지 않고 "글로브 한 줄이면 된다" 고 써 버렸다면, 그 문장은 앞 글에서 내가 비판한 것과 똑같은 종류의 — 아무도 확인하지 않은 — 주장이 됐을 것이다.
+
+---
+
 ### 검증 방법
 
 이 글의 모든 수치는 아래로 재현된다. 사이트 주소만 바꾸면 다른 Jekyll 사이트에도 그대로 쓸 수 있다.
@@ -187,9 +252,11 @@ grep -rl "last_modified_at" _posts/ | wc -l                    # lastmod 정확�
 
 [^plugin]: jekyll/jekyll-sitemap README — <https://github.com/jekyll/jekyll-sitemap>. GitHub Pages gem 은 Gemfile 의 플러그인을 무시하므로 `_config.yml` 의 `plugins` 에 반드시 넣어야 함, `lastmod` 우선순위 3단계, `sitemap: false` 및 `defaults` 글로브를 통한 제외.
 
+[^paginate-src]: jekyll-paginate 소스, `lib/jekyll-paginate/pagination.rb` — <https://github.com/jekyll/jekyll-paginate/blob/master/lib/jekyll-paginate/pagination.rb>. `Page.new(site, site.source, page.dir, page.name)` 로 index.html 의 Page 를 복제하고 `dir` 만 `Pager.paginate_path` 로 교체한다 — 그래서 소스 경로가 index.html 로 동일해진다.
+
 [^plugin-src]: jekyll-sitemap 소스, `lib/jekyll/jekyll-sitemap.rb` — <https://github.com/jekyll/jekyll-sitemap/blob/master/lib/jekyll/jekyll-sitemap.rb>. `unless file_exists?` 조건부 생성, `INCLUDED_EXTENSIONS = .htm .html .xhtml .pdf .xml`.
 
-_이 글의 수치는 2026-08-19 01:00 KST 기준으로 이 블로그의 실제 배포본을 측정한 값이다. 666 · 604 · 602 · 60 · 603 · 93,911 은 모두 위 "검증 방법" 절의 명령으로 그 시점에 직접 얻었다. 페이지네이션 60개 제외와 `last_modified_at` 도입은 이 글 시점에 아직 적용하지 않았으므로, 지금 사이트맵을 받아보면 결함 두 건은 그대로 재현된다._
+_이 글의 수치는 2026-08-19 01:00 KST 기준으로 이 블로그의 실제 배포본을 측정한 값이다. 666 · 604 · 602 · 60 · 603 · 93,911 은 모두 위 "검증 방법" 절의 명령으로 그 시점에 직접 얻었다. 1~7절의 숫자는 **결함을 고치기 전** 배포본 기준이다. 8절(후기)의 숫자는 고친 뒤 같은 명령으로 다시 측정한 값이므로, 지금 사이트맵을 받아보면 **606 / `/pageN/` 0개** 가 나온다._
 
 ## References
 
@@ -198,3 +265,4 @@ _이 글의 수치는 2026-08-19 01:00 KST 기준으로 이 블로그의 실제 
 3. Google Search Central — _Build and submit a sitemap_. <https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap>
 4. Gary Illyes — _Sitemaps ping endpoint is going away_. Google Search Central Blog, 2023-06-26. <https://developers.google.com/search/blog/2023/06/sitemaps-lastmod-ping>
 5. jekyll/jekyll-sitemap — README 및 `lib/jekyll/jekyll-sitemap.rb`. <https://github.com/jekyll/jekyll-sitemap>
+6. jekyll/jekyll-paginate — `lib/jekyll-paginate/pagination.rb`. <https://github.com/jekyll/jekyll-paginate>
