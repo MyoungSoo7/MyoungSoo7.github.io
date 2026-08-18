@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "커버리지 95%가 보증하는 것과 보증하지 않는 것 — 정산 프로젝트 18개 모듈 실측"
-date: 2026-08-18 22:10:00 +0900
+date: 2026-08-18 20:30:00 +0900
 categories: [testing, quality]
 tags: [jacoco, coverage, gradle, mutation-testing, pitest, archunit, ci]
 ---
