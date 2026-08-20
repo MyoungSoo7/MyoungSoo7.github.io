@@ -1,0 +1,176 @@
+---
+layout: post
+title: "EJB 2.1 의 3파일에서 java -jar 한 줄까지 — 스프링/스프링부트가 실제로 지운 것들"
+date: 2026-08-20 14:20:00 +0900
+categories: [engineering, java]
+tags: [Spring, SpringBoot, EJB, JavaEE, POJO, DI, IoC, AutoConfiguration]
+---
+
+"스프링이 왜 나왔는지" 는 자바 백엔드 인터뷰의 단골이다. 그런데 답변은 대부분 **결과의 목록** 이지 **문제의 목록** 이 아니다. "DI, AOP, POJO…" 를 나열해도, 그것이 **없던 시절엔 무엇을 견뎌야 했는가** 를 설명하지 못하면 정확한 답이 아니다. 이 글은 그 순서를 뒤집는다 — 먼저 무엇이 아팠고, 무엇이 지워졌는지 를 정리한다.
+
+미리 밝혀두면 **스프링 부트는 EJB의 자리를 이어받은 것도 아니고, 스프링 프레임워크의 상위 호환도 아니다.** 두 도구는 서로 다른 층위의 문제를 풀었다. 그걸 하나로 뭉개면 "스프링이 마법이다" 로 끝나는 설명이 된다.
+
+---
+
+## 1. 스프링 이전: EJB 2.x 는 왜 무거웠나
+
+2003년 이전에 J2EE 앱을 만든다는 것은 실질적으로 **EJB(Enterprise JavaBeans)** 를 쓴다는 뜻이었다. EJB 2.x 는 트랜잭션·보안·리모팅·수명주기를 컨테이너에 위임하는 대신, **개발자가 지불해야 하는 규정 요금** 이 컸다.
+
+간단한 Session Bean 하나를 위해 필요한 파일은 최소 세 개였다.[^ejb-history]
+
+```java
+// 1. Remote Interface — 원격 호출용 계약
+public interface HelloRemote extends EJBObject {
+    String sayHello(String name) throws RemoteException;
+}
+
+// 2. Home Interface — 컨테이너에게 인스턴스를 요청하는 팩토리
+public interface HelloHome extends EJBHome {
+    HelloRemote create() throws RemoteException, CreateException;
+}
+
+// 3. Bean 구현체 — 실제 로직 + EJB 수명주기 콜백
+public class HelloBean implements SessionBean {
+    public String sayHello(String name) { return "Hi " + name; }
+    public void ejbCreate() {}
+    public void ejbRemove() {}
+    public void ejbActivate() {}
+    public void ejbPassivate() {}
+    public void setSessionContext(SessionContext ctx) {}
+}
+```
+
+여기에 **XML deployment descriptor** (`ejb-jar.xml`, 벤더별 `weblogic-ejb-jar.xml`/`jboss.xml` 등) 가 추가로 필요했다. 클라이언트에서 이 빈을 부르려면:
+
+```java
+Context ctx = new InitialContext();
+Object ref = ctx.lookup("java:comp/env/ejb/Hello");
+HelloHome home = (HelloHome) PortableRemoteObject.narrow(ref, HelloHome.class);
+HelloRemote hello = home.create();
+String result = hello.sayHello("Rod");
+```
+
+여덟 줄 중 실제 비즈니스 로직은 한 줄이다. 나머지는 컨테이너를 붙잡고 인스턴스를 얻어오는 절차다.
+
+이 방식의 **비용을 항목화** 하면 이렇다.
+
+| 항목            | EJB 2.x 에서의 비용                                                            |
+| --------------- | ------------------------------------------------------------------------------ |
+| 인터페이스 개수 | Remote + Home + Bean 최소 3개                                                  |
+| 배포            | 벤더별 XML descriptor 필수 (WebLogic/JBoss/WebSphere 마다 다름)                |
+| 테스트          | **컨테이너 없이 못 돌림** — 단위 테스트가 사실상 통합 테스트                   |
+| 결합            | 비즈니스 로직 클래스가 `SessionBean` 인터페이스 · JNDI · 벤더 API 에 직접 의존 |
+| 이식성          | 벤더 락인. WebLogic 에서 JBoss 로 옮기려면 descriptor 재작성                   |
+
+Rod Johnson 이 2002년에 낸 *Expert One-on-One J2EE Design and Development* 는 이 점을 정면으로 겨눈 책이었다. 그가 부록으로 제공한 30,000줄 규모의 프레임워크 코드가 다음 해 오픈소스로 풀렸고, 이름은 **Spring** 이었다.[^spring-history]
+
+---
+
+## 2. Spring 1.x (2004): 컨테이너를 뒤집었다
+
+2004년 3월에 나온 Spring 1.0 이 실제로 지운 것은 **"컨테이너가 내 코드에 관여할 권리"** 였다. 이걸 IoC (Inversion of Control) 또는 DI (Dependency Injection) 라 부른다.
+
+같은 서비스가 이렇게 바뀐다.
+
+```java
+// EJB 인터페이스 상속 없음. 그냥 POJO.
+public class HelloService {
+    private final GreetingRepository repo;
+    public HelloService(GreetingRepository repo) { this.repo = repo; }  // 생성자 주입
+    public String sayHello(String name) { return repo.greeting(name); }
+}
+```
+
+의존성은 XML 로 배선한다.
+
+```xml
+<bean id="repo" class="com.example.GreetingRepository" />
+<bean id="hello" class="com.example.HelloService">
+    <constructor-arg ref="repo" />
+</bean>
+```
+
+**같은 문제를 셋으로 나눠서 풀렸다.**
+
+1. 비즈니스 로직 클래스는 인터페이스 상속·JNDI 조회에서 해방됨 → **테스트 가능** (`new HelloService(mockRepo)`)
+2. 트랜잭션·보안 은 AOP 로 데코레이션 → 로직 코드가 깨끗해짐
+3. 벤더 종속 사라짐 → Tomcat 이든 Jetty 든 상관없이 동일
+
+하지만 지워진 만큼 새로 생긴 것도 있었다. **XML config** 이다. 스프링 프로젝트의 `applicationContext.xml` 이 수천 줄로 부풀어 오르는 게 흔한 풍경이 됐다. Spring 2.5 (2007) 에서 `@Autowired` · `@Component` 어노테이션이 도입되면서 XML 은 조금씩 줄었지만, 여전히 **웹 서버(Tomcat/Jetty)를 별도로 설치하고, WAR 파일을 만들어 `webapps/` 에 넣고, 서버 라이프사이클과 앱 라이프사이클을 나눠 관리** 해야 했다.
+
+Spring 3.x (2009) 는 어노테이션 기반 config (`@Configuration`, `@Bean`) 를 정착시켰고, Spring 4.x (2013) 는 자바 8 람다·`CompletableFuture` 를 흡수했다. 그럼에도 "새 프로젝트 하나 만드는 데 필요한 최소 설정" 은 여전히 부담이었다 — pom.xml 에 스프링 코어·MVC·Jackson·Hibernate·Log4j 의 **호환되는 버전 조합** 을 직접 매기고, `web.xml` 에 DispatcherServlet 을 등록하고, tomcat-users.xml 을 손봐야 했다.
+
+---
+
+## 3. Spring Boot (2014): 나머지 조립 비용을 지웠다
+
+2014년 4월, **Spring Boot 1.0** 이 나왔다.[^boot-history] Boot 가 새로 도입한 개념은 실은 딱 세 가지다.
+
+1. **Starter 의존성** — `spring-boot-starter-web` 하나가 spring-webmvc·jackson·tomcat 등의 **검증된 버전 조합** 을 끌어옴
+2. **Auto-Configuration** — 클래스패스에 `HikariCP` 가 있으면 자동으로 `DataSource` 를 만들고, `H2` 가 있으면 자동으로 in-memory DB 를 붙임
+3. **Embedded Server** — Tomcat/Jetty/Undertow 가 앱과 함께 fat JAR 로 패키징 → `java -jar app.jar` 한 줄로 실행
+
+같은 서비스가 이렇게 축소된다.
+
+```java
+@SpringBootApplication
+public class HelloApp {
+    public static void main(String[] args) { SpringApplication.run(HelloApp.class, args); }
+}
+
+@RestController
+class HelloController {
+    private final HelloService svc;
+    HelloController(HelloService svc) { this.svc = svc; }  // 생성자 주입
+    @GetMapping("/hello/{name}")
+    String hi(@PathVariable String name) { return svc.sayHello(name); }
+}
+```
+
+`web.xml` 없음. `applicationContext.xml` 없음. Tomcat 설치 없음. `mvn spring-boot:run` 하면 바로 뜬다.
+
+거기에 **Actuator** 가 얹혔다 — `/actuator/health`, `/actuator/metrics`, `/actuator/prometheus` 같은 관측 엔드포인트가 라이브러리 한 줄로 붙는다. Kubernetes 의 liveness/readiness probe 와 자연스럽게 맞물린다. (내가 지난 이틀 [힙 예산][heap] 과 [GC 알고리즘 선택][gc] 을 팠던 그 파드도 정확히 이 Actuator 를 통해 숫자를 읽었다.)
+
+---
+
+## 4. 세 시대 나란히 놓기
+
+| 항목               | Pre-Spring (EJB 2.x)                        | Spring 1~4                       | Spring Boot 1.0+                            |
+| ------------------ | ------------------------------------------- | -------------------------------- | ------------------------------------------- |
+| 최소 파일 수       | Bean + Home + Remote + XML descriptor ≥ 4개 | POJO + applicationContext.xml    | POJO 하나 (`@SpringBootApplication`)        |
+| 의존성 배선        | JNDI lookup                                 | XML `<bean>` 또는 `@Autowired`   | Auto-config + starter                       |
+| 트랜잭션           | 컨테이너 관리 EJB, XML descriptor           | `@Transactional` (AOP)           | `@Transactional` + auto DataSource          |
+| 웹 서버            | JEE 앱 서버 설치 (WebLogic/JBoss)           | Tomcat 별도 설치, WAR 배포       | Embedded Tomcat, fat JAR (`java -jar`)      |
+| 테스트             | 컨테이너 필수 → 사실상 통합 테스트          | POJO 단위 테스트 가능            | `@SpringBootTest` + Testcontainers          |
+| 새 프로젝트 시작   | 벤더 튜토리얼 하루                          | Spring Initializr 이전엔 반나절  | [start.spring.io](https://start.spring.io/) 에서 30초 |
+| 관측성             | 벤더 콘솔                                   | 별도 배선 (JMX 등)               | Actuator (`/actuator/*`)                    |
+| 벤더 종속          | 강함                                        | 약함                             | 없음                                        |
+
+**한 문장으로 요약하면**: EJB 는 "컨테이너가 코드에 개입" 을 요구했고, 스프링은 그걸 뒤집어 **코드가 컨테이너에 개입** 하게 만들었다. 스프링 부트는 그 개입조차 대부분 자동화해서 **개발자가 손을 대는 지점을 최소 라인** 으로 줄였다.
+
+---
+
+## 5. 그럼 스프링 부트는 완전한 해결인가
+
+아니다. **지운 만큼 새로 생긴 문제** 가 있다.
+
+- **마법의 리버스 엔지니어링 비용** — Auto-config 가 `HikariCP` 를 자동으로 잡아주는 건 편리하지만, 원하지 않는 자동 배선이 있을 때 그걸 **꺼내서 어디서 어떻게 등록됐는지 추적** 하는 일은 XML 을 읽던 시절보다 어렵다. `--debug` 로 auto-configuration report 를 뽑거나 `spring-boot-actuator` 의 `/actuator/conditions` 를 봐야 한다.[^actuator-conditions]
+- **버전 매트릭스는 여전** — Starter 가 조합을 잡아주지만, Spring Boot 3.x → 3.y 마이너 업그레이드에서도 Hibernate·Jackson·Netty 등의 호환성 이슈가 나온다. Boot 팀의 릴리스 노트를 읽는 습관이 필요하다.
+- **관측 부담이 앱으로 옮겨옴** — Actuator 는 편리하지만, `/actuator/prometheus` 를 프로덕션에 열어두면 카디널리티 폭발이 실측 부담을 만든다. 이 블로그의 [지난 GC 글][gc] 이 예시다.
+- **부팅 시간 · 메모리 발자국** — Boot 앱은 fat JAR 로 편의를 주지만, 시작 시간은 여전히 수 초 단위다. GraalVM native image (Spring Boot 3.x, 2022+) 가 이 문제를 겨누고 있지만, 리플렉션·프록시가 많은 코드는 여전히 튜닝 대상이다.
+
+---
+
+## 6. 요약
+
+EJB 2.x 는 컨테이너에게 코드를 위임했고, 그 대가로 개발자가 절차 코드를 견뎠다. 스프링은 그 절차를 지우고 **코드를 다시 POJO로 되돌렸다** — 그 대신 XML 이 늘어났다. 스프링 부트는 그 XML 마저 자동화해서 **`java -jar` 한 줄** 로 실행되는 앱을 표준화했다.
+
+이 세 층은 순차적으로 대체된 게 아니라 **누적되어 지워진** 것이다. 스프링 부트가 auto-config 를 하려면 Spring 프레임워크의 DI 컨테이너가 필요하고, 그 컨테이너의 존재 이유는 EJB 시대의 무게를 알아야 온전히 이해된다. 반대로 오늘 스프링 부트 프로젝트에서 헤매고 있다면, 그 답은 종종 **한 단계 아래 층** 에 있다.
+
+[heap]: /2026/08/18/jvm-heap-budget-in-1gi-container/
+[gc]: /2026/08/18/one-line-memory-limit-chose-the-gc/
+
+[^ejb-history]: Sun Microsystems, *Enterprise JavaBeans Specification, Version 2.1*, 2003. Session Bean 의 Home/Remote/Bean 3-인터페이스 구조와 벤더별 deployment descriptor 요구사항은 이 스펙에 명시돼 있다.
+[^spring-history]: Rod Johnson, *Expert One-on-One J2EE Design and Development*, Wrox, 2002. 이 책의 부록으로 배포된 프레임워크 코드가 SourceForge 에 `spring-framework` 로 공개되었고, 2004년 3월 Spring 1.0 이 릴리스됐다.
+[^boot-history]: Spring Boot 1.0.0 릴리스: 2014년 4월 1일. Pivotal (당시 SpringSource) 의 Phil Webb / Dave Syer 주도. [공식 릴리스 노트 아카이브](https://github.com/spring-projects/spring-boot/releases/tag/v1.0.0.RELEASE) 참조.
+[^actuator-conditions]: Spring Boot Actuator 의 `/actuator/conditions` 엔드포인트는 auto-configuration 이 각 조건 (`@ConditionalOnClass`, `@ConditionalOnMissingBean` 등) 을 어떻게 평가했는지를 보여준다. `--debug` 플래그도 시작 시 같은 보고서를 stdout 으로 덤프한다.
