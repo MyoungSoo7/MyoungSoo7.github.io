@@ -8,7 +8,7 @@ tags: [claude-code, plugin, marketplace, mcp, skills, 검증]
 
 이 이미지를 받았다. "Claude 개발자를 위한 GitHub 급상승 도구 TOP 10".
 
-![Claude 개발자를 위한 GitHub 급상승 도구 TOP 10 — Orca, OmniRoute, Superpowers, Firecrawl, Karpathy Skills, OpenCode, Agent Reach, Everything Claude Code, MarkItDown, OpenMontage 를 카드 형태로 정리한 인포그래픽](/assets/images/claude-plugin-top10-source.jpg)
+![Claude 개발자를 위한 GitHub 급상승 도구 TOP 10 — Orca, OmniRoute, Superpowers, Firecrawl, Karpathy Skills, OpenCode, Agent Reach, Everything Claude Code, MarkItDown, OpenMontage 를 카드 형태로 정리한 인포그래픽](/assets/images/claude-plugin-top10-infographic.jpg)
 
 *이미지 출처: 이상선 님의 LinkedIn 게시물에 실린 정리 이미지, 원 출처는 텔레그램 채널 `t.me/aiinnovationstudio` 로 표기되어 있다.*
 
