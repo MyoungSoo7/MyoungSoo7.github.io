@@ -55,7 +55,6 @@ permalink: /about/
 | **ASAT**           | [eln.lemuel.co.kr](https://eln.lemuel.co.kr)               | 청각 재활 훈련 시스템          | Spring Boot + Next.js + PostgreSQL + Redis + MinIO |
 | **Lemuel-XR**      | [xr.lemuel.co.kr](https://xr.lemuel.co.kr)                 | XR·묵상 가이드 서비스          | Spring Boot + Next.js + PostgreSQL + pgvector      |
 | **SNS**            | [sns.lemuel.co.kr](https://sns.lemuel.co.kr)               | Kafka·SSE 기반 실시간 피드     | Spring Boot 4 + Kafka                              |
-| **Pharmacy**       | [pharmacy.lemuel.co.kr](https://pharmacy.lemuel.co.kr)     | 위치 기반 약국 추천            | Spring Boot + Redis + Kakao API                    |
 | **Coding Test**    | [codingtest.lemuel.co.kr](https://codingtest.lemuel.co.kr) | 코딩테스트 학습 앱             | Spring Boot 4 + H2                                 |
 | **SQL Learning**   | [database.lemuel.co.kr](https://database.lemuel.co.kr)     | SQL 코딩테스트 연습            | Spring Boot 4 + MySQL                              |
 | **Media Search**   | [media.lemuel.co.kr](https://media.lemuel.co.kr)           | 이미지·동영상 검색             | Spring Boot + Pexels API                           |
