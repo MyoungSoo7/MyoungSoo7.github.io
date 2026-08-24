@@ -5,6 +5,14 @@ date: 2026-06-19 00:10:00 +0900
 categories: [java, jvm, concurrency, performance]
 tags: [virtual-thread, carrier-thread, project-loom, jdk21, jdk24, continuation, forkjoinpool, pinning, structured-concurrency, scoped-values, jep444]
 ---
+> **정정 (2026-08-25).** 이 글의 일부 내용은 JDK 24 이후 기준으로 더 이상 맞지 않습니다.
+> `synchronized` pinning 은 [JEP 491](https://openjdk.org/jeps/491) 로 해소돼
+> "ReentrantLock 으로 갈아타라" 는 권고가 철회됐고, `-Djdk.tracePinnedThreads` 는 제거됐습니다.
+> 무엇보다 이 글이 JDK 24+ 대안으로 적어둔 `-XX:+TrackVirtualThreadPinning` 은
+> **존재하지 않는 VM 옵션이라 붙이면 JVM 이 기동하지 않습니다.** 실측과 함께
+> [자바 동시성 조언에는 유통기한이 있다](/2026/08/25/java-concurrency-advice-expiry-measured/)
+> 에 정리했습니다.
+
 
 > *"Virtual Thread* 는 *경량 스레드 다"* — *맞는 말 이지만* *반쪽 짜리 설명* 이다. *Virtual Thread 가 *경량 인 이유* 는 *그 자체로 *가벼워서 가 아니라* *실제로 *CPU 를 *돌리는 스레드 가 *따로 있기 때문* 이다.
 >

@@ -5,6 +5,13 @@ date: 2026-06-13 04:00:00 +0900
 categories: [java, concurrency, performance, jvm]
 tags: [java, virtual-threads, project-loom, java21, jdk21, lts, concurrency, threads, tomcat, spring-boot, jpa, jdbc, pinning, synchronized, threadlocal, kotlin-coroutine, reactor, webflux, structured-concurrency]
 ---
+> **정정 (2026-08-25).** 이 글의 일부 내용은 JDK 24 이후 기준으로 더 이상 맞지 않습니다.
+> `synchronized` pinning 은 [JEP 491](https://openjdk.org/jeps/491) 로 해소됐고,
+> `-Djdk.tracePinnedThreads` 는 제거됐으며, 구조적 동시성은 아직 정식이 아니라 프리뷰입니다.
+> 무엇이 어떻게 바뀌었는지는 실측과 함께
+> [자바 동시성 조언에는 유통기한이 있다](/2026/08/25/java-concurrency-advice-expiry-measured/)
+> 에 정리했습니다.
+
 
 *Java 21 LTS* 가 *Virtual Thread (Project Loom)* 를 *공식 release* 한 *2023 년 9 월* 이후 — *백엔드 자바 의 풍경이 *조용히 바뀌고 있다*. *Reactor / RxJava / WebFlux 의 비동기 지옥* 을 우회하고 *원래 의 *sync-style 코드* 로 *수십~수백 배 의 동시성* 을 얻는 길. *Spring Boot 3.2+ 가 *한 줄 설정* 으로 *전 endpoint 를 *Virtual Thread 위에 올린다*. 그러나 *함정 도 명확* — `synchronized` 블록 의 *pinning*, `ThreadLocal` 의 *수백만 인스턴스*, *CPU 바운드 워크로드 의 *기댓값 0*.
 
