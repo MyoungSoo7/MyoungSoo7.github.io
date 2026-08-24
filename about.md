@@ -60,7 +60,6 @@ permalink: /about/
 | **Media Search**   | [media.lemuel.co.kr](https://media.lemuel.co.kr)           | 이미지·동영상 검색             | Spring Boot + Pexels API                           |
 | **Auto Trading**   | [stock.lemuel.co.kr](https://stock.lemuel.co.kr)           | KIS API 기반 자동매매 실험     | Spring Boot + PostgreSQL                           |
 | **Crypto Trading** | [crypto.lemuel.co.kr](https://crypto.lemuel.co.kr)         | 암호화폐 자동매매 실험         | Spring Boot + Bithumb API                          |
-| **DART Analysis**  | [dart.lemuel.co.kr](https://dart.lemuel.co.kr)             | 공시 수집·NER·감성분석         | C++ crawler + PostgreSQL + KR-FinBERT              |
 
 ### Self-hosted·생산성
 
