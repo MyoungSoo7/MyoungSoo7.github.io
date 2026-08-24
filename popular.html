@@ -40,8 +40,8 @@ permalink: /popular/
 
 <p class="pop-note">
   많이 읽힌 순서입니다. 숫자는 <strong>순방문자 수</strong>고, 같은 사람이 여러 번 열어도 1로 셉니다.
-  {{ pop.scanned }}편을 하루 한 번 다시 세어 갱신합니다 —
-  마지막 갱신 {{ pop.generated | replace: "T", " " | replace: "Z", " UTC" }}.
+  {{ pop.scanned }}편 전부를 하루 한 번 다시 셉니다 —
+  순위가 마지막으로 바뀐 건 {{ pop.generated | replace: "T", " " | replace: "Z", " UTC" }} 입니다.
 </p>
 
 <ul class="pop-list">

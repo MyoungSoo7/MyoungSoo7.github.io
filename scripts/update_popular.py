@@ -76,6 +76,17 @@ def main() -> int:
         key=lambda r: (-r["views"], r["date"]),
     )[:KEEP]
 
+    # 순위가 그대로면 파일을 건드리지 않는다. 타임스탬프만 바꿔 쓰면 아무것도 안 바뀐 날에도
+    # 커밋이 하나씩 쌓이고 Pages 가 매일 헛빌드를 한다. `generated` 는 그래서 "마지막으로
+    # 순위가 바뀐 시각" 이지 "마지막으로 확인한 시각" 이 아니다.
+    if OUT.exists():
+        try:
+            if json.loads(OUT.read_text(encoding="utf-8")).get("posts") == ranked:
+                print(f"[ok] {len(posts)}편 조회 — 순위 변동 없음, 파일 그대로 둔다")
+                return 0
+        except Exception:
+            pass  # 파일이 깨져 있으면 그냥 새로 쓴다
+
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(
         json.dumps(
