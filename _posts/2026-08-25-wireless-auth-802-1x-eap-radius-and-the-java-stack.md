@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "무선인증 서버는 무엇을 하는 프로그램인가 — 802.1X·EAP·RADIUS 와 그 옆의 자바 스택"
-date: 2026-08-25 04:20:00 +0900
+date: 2026-08-25 04:02:40 +0900
 categories: [network, security]
 tags: [802.1x, eap, radius, radsec, netty, protobuf, jdk21, wifi, 본질]
 ---
