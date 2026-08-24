@@ -23,5 +23,20 @@
         <a class="page-link" href="{{ "/about/" | relative_url }}">About</a>
       </div>
     </nav>
+
+    {%- if site.goatcounter_code -%}
+    {%- comment -%}
+      방문자 수는 원래 푸터에 있었는데 페이지 맨 밑이라 아무도 안 봤다. 상단으로 올린다.
+      site-title 과 site-nav 가 float 라 clear:both 가 필요하다.
+      숫자를 채우는 JS 는 푸터에 있다(문서 끝에서 도니 이 요소는 이미 파싱돼 있다).
+    {%- endcomment -%}
+    <div class="visitor-count" data-gc="{{ site.goatcounter_code }}" aria-label="방문자 수"
+         style="clear:both;padding:6px 0 10px;color:#828282;font-size:13px;">
+      <span class="visitor-count__inner" hidden>👀 오늘 <strong class="vc-today">–</strong>명
+        · <span title="최근 7일">주간</span> <strong class="vc-week">–</strong>명
+        · <span title="최근 30일">월간</span> <strong class="vc-month">–</strong>명
+        · 누적 <strong class="vc-total">–</strong>명</span>
+    </div>
+    {%- endif -%}
   </div>
 </header>
