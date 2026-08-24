@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "자바 동시성 조언에는 유통기한이 있다 — 내가 이 블로그에 쓴 것부터 틀렸다"
-date: 2026-08-25 04:20:00 +0900
+date: 2026-08-25 04:08:24 +0900
 categories: [java, concurrency, jvm]
 tags: [java, concurrency, virtual-threads, jep491, jep444, jep505, structured-concurrency, jmm, 본질]
 ---
