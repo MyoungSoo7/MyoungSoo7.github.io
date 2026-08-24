@@ -1,0 +1,52 @@
+{%- comment -%}
+  왼쪽 여백에 띄우는 인기글 목록. 본문 wrapper 는 가운데 정렬 800px 라 넓은 화면에서는
+  양옆이 통째로 비어 있다 — 거기를 쓴다. `right: calc(50% + 420px)` 는 wrapper 왼쪽 밖
+  20px 지점에 오른쪽 끝을 맞추는 것이라, 창 크기가 바뀌어도 본문을 침범하지 않는다.
+  좁은 화면에서는 아예 숨긴다(모바일에서 본문 위에 겹치는 게 최악이라서).
+  숫자는 _data/popular.json 이고 scripts/update_popular.py 가 하루 한 번 갱신한다.
+{%- endcomment -%}
+{%- assign pop = site.data.popular -%}
+{%- if pop and pop.posts.size > 0 -%}
+<style>
+  .pop-rail { display: none; }
+  @media (min-width: 1360px) {
+    .pop-rail {
+      display: block;
+      position: fixed;
+      top: 96px;
+      right: calc(50% + 420px);
+      width: 220px;
+      max-height: calc(100vh - 140px);
+      overflow-y: auto;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+  }
+  .pop-rail h2 {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #999;
+    margin: 0 0 0.7em;
+    font-weight: 600;
+  }
+  .pop-rail ol { list-style: none; margin: 0; padding: 0; }
+  .pop-rail li { margin-bottom: 0.75em; }
+  .pop-rail a { color: #444; text-decoration: none; }
+  .pop-rail a:hover { color: #2a7ae2; text-decoration: underline; }
+  .pop-rail .n { color: #c9c9c9; font-variant-numeric: tabular-nums; margin-right: 0.35em; }
+  .pop-rail .v { color: #aaa; font-size: 11px; white-space: nowrap; }
+  .pop-rail .more { display: inline-block; margin-top: 0.4em; font-size: 12px; color: #2a7ae2; }
+</style>
+<aside class="pop-rail" aria-label="인기글">
+  <h2>많이 읽힌 글</h2>
+  <ol>
+    {%- for p in pop.posts limit: 8 -%}
+    <li>
+      <span class="n">{{ forloop.index }}</span><a href="{{ p.url | relative_url }}">{{ p.title | escape | truncate: 42 }}</a>
+      <span class="v">👀 {{ p.views }}</span>
+    </li>
+    {%- endfor -%}
+  </ol>
+  <a class="more" href="{{ '/popular/' | relative_url }}">전체 순위 →</a>
+</aside>
+{%- endif -%}

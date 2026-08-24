@@ -1,0 +1,67 @@
+---
+layout: default
+title: 인기글
+permalink: /popular/
+---
+
+<style>
+  .pop-list { list-style: none; margin: 1.5em 0 0; padding: 0; }
+  .pop-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7em;
+    padding: 0.7em 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .pop-rank {
+    flex: 0 0 2.1em;
+    text-align: right;
+    color: #bbb;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.95em;
+  }
+  .pop-list li:nth-child(-n+3) .pop-rank { color: #2a7ae2; font-weight: 600; }
+  .pop-main { flex: 1; min-width: 0; }
+  .pop-views {
+    flex: 0 0 auto;
+    color: #828282;
+    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .pop-date { color: #999; font-size: 0.8em; margin-left: 0.5em; }
+  .pop-note { color: #888; font-size: 0.88em; line-height: 1.6; }
+</style>
+
+<h1 class="page-heading">인기글</h1>
+
+{%- assign pop = site.data.popular -%}
+{%- if pop and pop.posts.size > 0 -%}
+
+<p class="pop-note">
+  많이 읽힌 순서입니다. 숫자는 <strong>순방문자 수</strong>고, 같은 사람이 여러 번 열어도 1로 셉니다.
+  {{ pop.scanned }}편을 하루 한 번 다시 세어 갱신합니다 —
+  마지막 갱신 {{ pop.generated | replace: "T", " " | replace: "Z", " UTC" }}.
+</p>
+
+<ul class="pop-list">
+  {%- for p in pop.posts -%}
+  <li>
+    <span class="pop-rank">{{ forloop.index }}</span>
+    <span class="pop-main">
+      <a href="{{ p.url | relative_url }}">{{ p.title | escape }}</a>
+      <span class="pop-date">{{ p.date }}</span>
+    </span>
+    <span class="pop-views">👀 {{ p.views }}명</span>
+  </li>
+  {%- endfor -%}
+</ul>
+
+<p class="pop-note" style="margin-top:1.5em;">
+  조회수 집계는 2026-07-23 에 붙였습니다. 그 전에 읽힌 건 세어진 게 없어서,
+  오래된 글일수록 실제보다 적게 나옵니다.
+</p>
+
+{%- else -%}
+<p class="pop-note">아직 집계된 순위가 없습니다.</p>
+{%- endif -%}
