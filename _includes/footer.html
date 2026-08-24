@@ -32,7 +32,10 @@
     {%- if site.goatcounter_code -%}
     <div class="visitor-count" data-gc="{{ site.goatcounter_code }}" aria-label="방문자 수"
          style="text-align:center;margin-top:20px;color:#828282;font-size:14px;">
-      <span class="visitor-count__inner" hidden>👀 오늘 <strong class="vc-today">–</strong>명 · 누적 <strong class="vc-total">–</strong>명</span>
+      <span class="visitor-count__inner" hidden>👀 오늘 <strong class="vc-today">–</strong>명
+        · <span title="최근 7일">주간</span> <strong class="vc-week">–</strong>명
+        · <span title="최근 30일">월간</span> <strong class="vc-month">–</strong>명
+        · 누적 <strong class="vc-total">–</strong>명</span>
     </div>
     {%- endif -%}
 
@@ -51,16 +54,26 @@
     var base = 'https://' + code + '.goatcounter.com/counter/TOTAL.json';
     var num = function (x) { return parseInt(String(x == null ? '' : x).replace(/[^0-9]/g, ''), 10) || 0; };
     var pick = function (d) { return d && (d.count_unique != null ? d.count_unique : d.count); };
-    var today = function () {
+    // n일 전 날짜(YYYY-MM-DD). 0 이면 오늘.
+    var ago = function (days) {
       var n = new Date(), z = function (v) { return (v < 10 ? '0' : '') + v; };
+      n.setDate(n.getDate() - days);
       return n.getFullYear() + '-' + z(n.getMonth() + 1) + '-' + z(n.getDate());
     };
-    Promise.all([
-      fetch(base).then(function (r) { return r.json(); }),
-      fetch(base + '?start=' + today()).then(function (r) { return r.json(); })
-    ]).then(function (res) {
-      el.querySelector('.vc-total').textContent = num(pick(res[0])).toLocaleString();
-      el.querySelector('.vc-today').textContent = num(pick(res[1])).toLocaleString();
+    // 주간·월간은 달력 주/월이 아니라 *최근 N일* 이다. 오늘을 포함하므로 7일이면 6일 전부터.
+    var spans = [
+      ['.vc-today', 0],
+      ['.vc-week', 6],
+      ['.vc-month', 29],
+      ['.vc-total', null]   // null = 기간 없음(전체)
+    ];
+    Promise.all(spans.map(function (s) {
+      return fetch(s[1] === null ? base : base + '?start=' + ago(s[1]))
+        .then(function (r) { return r.json(); });
+    })).then(function (res) {
+      res.forEach(function (d, i) {
+        el.querySelector(spans[i][0]).textContent = num(pick(d)).toLocaleString();
+      });
       el.querySelector('.visitor-count__inner').hidden = false;
     }).catch(function () { /* 사이트 코드 미가입/차단 시 조용히 숨김 유지 */ });
   })();
