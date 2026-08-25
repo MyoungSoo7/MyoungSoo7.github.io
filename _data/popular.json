@@ -1,19 +1,37 @@
 {
- "generated": "2026-08-24T10:12:09Z",
- "scanned": 636,
+ "generated": "2026-08-25T00:40:58Z",
+ "scanned": 642,
  "failed": 0,
  "posts": [
   {
    "url": "/2026/07/14/incident-response-and-performance-analysis/",
    "title": "장애는 어디서 새는가 — 관측·추적·진단으로 보는 장애대응과 성능분석",
    "date": "2026-07-14",
-   "views": 20
+   "views": 21
   },
   {
    "url": "/2026/08/23/polysona-code-review/",
    "title": "Polysona 코드 리뷰 — 프롬프트는 진짜인데, 대시보드 점수는 해시였다",
    "date": "2026-08-23",
-   "views": 10
+   "views": 11
+  },
+  {
+   "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
+   "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
+   "date": "2026-08-10",
+   "views": 7
+  },
+  {
+   "url": "/2026/08/10/agent-skills-inventory/",
+   "title": "이 Mac의 Agent Skill 생태계 지도: Hermes·Claude·Codex·Leopard",
+   "date": "2026-08-10",
+   "views": 7
+  },
+  {
+   "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
+   "title": "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지",
+   "date": "2026-07-28",
+   "views": 6
   },
   {
    "url": "/2026/08/02/vibe-coding-harness-rules/",
@@ -22,34 +40,16 @@
    "views": 6
   },
   {
-   "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
-   "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
-   "date": "2026-08-10",
-   "views": 6
-  },
-  {
-   "url": "/2026/08/10/agent-skills-inventory/",
-   "title": "이 Mac의 Agent Skill 생태계 지도: Hermes·Claude·Codex·Leopard",
-   "date": "2026-08-10",
-   "views": 6
-  },
-  {
-   "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
-   "title": "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지",
-   "date": "2026-07-28",
-   "views": 5
-  },
-  {
    "url": "/2026/08/13/incidents-between-layers-which-doc/",
    "title": "사고는 층과 층 사이에서 난다 — 홈랩 K3s 장애를 '어느 문서를 안 읽었나'로 분류했다",
    "date": "2026-08-13",
-   "views": 5
+   "views": 6
   },
   {
    "url": "/2026/08/11/clush-fullstack-jd-analysis/",
    "title": "필수 요건에 LLM이 한 줄도 없다 — 클러쉬 10년차 풀스택 공고, 요건 39개 해부",
    "date": "2026-08-11",
-   "views": 4
+   "views": 5
   },
   {
    "url": "/2026/07/23/ouroboros-measurability-proven-deterministic-baseline/",
