@@ -51,7 +51,7 @@ permalink: /about/
 
 | 서비스             | URL                                                        | 설명                           | 기술                                               |
 | ------------------ | ---------------------------------------------------------- | ------------------------------ | -------------------------------------------------- |
-| **Settlement MSA** | [jen.lemuel.co.kr](https://jen.lemuel.co.kr)               | 이커머스 주문·결제·정산 플랫폼 | Spring Boot 4 + Kafka + Elasticsearch              |
+| **Settlement MSA** | [settlement.lemuel.co.kr](https://settlement.lemuel.co.kr) | 이커머스 주문·결제·정산 플랫폼 | Spring Boot 4 + Kafka + Elasticsearch              |
 | **ASAT**           | [eln.lemuel.co.kr](https://eln.lemuel.co.kr)               | 청각 재활 훈련 시스템          | Spring Boot + Next.js + PostgreSQL + Redis + MinIO |
 | **Lemuel-XR**      | [xr.lemuel.co.kr](https://xr.lemuel.co.kr)                 | XR·묵상 가이드 서비스          | Spring Boot + Next.js + PostgreSQL + pgvector      |
 | **SNS**            | [sns.lemuel.co.kr](https://sns.lemuel.co.kr)               | Kafka·SSE 기반 실시간 피드     | Spring Boot 4 + Kafka                              |
