@@ -106,6 +106,7 @@ with ThreadPoolExecutor() as ex:       # GIL 빌드에서는 CPU 병렬이 아�
 
 ### Go
 
+{% raw %}
 ```go
 type Item struct {                     // 값 타입 — 대입하면 복사된다
 	SKU string
@@ -152,6 +153,7 @@ func main() {
 	wg.Wait()
 }
 ```
+{% endraw %}
 
 세 프로그램의 실제 출력은 같다(맵 출력 표기만 다름).
 
