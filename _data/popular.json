@@ -1,6 +1,6 @@
 {
- "generated": "2026-08-27T00:41:05Z",
- "scanned": 649,
+ "generated": "2026-08-29T00:41:03Z",
+ "scanned": 658,
  "failed": 0,
  "posts": [
   {
@@ -50,6 +50,12 @@
    "title": "필수 요건에 LLM이 한 줄도 없다 — 클러쉬 10년차 풀스택 공고, 요건 39개 해부",
    "date": "2026-08-11",
    "views": 5
+  },
+  {
+   "url": "/2026/08/18/what-a-harness-score-of-8-6-actually-measures/",
+   "title": "평균 8.6점짜리 하네스는 무엇으로 만들어지는가 — 검증 9.5, 상태 8.0 의 편차를 읽는다",
+   "date": "2026-08-18",
+   "views": 4
   },
   {
    "url": "/2026/07/23/ouroboros-measurability-proven-deterministic-baseline/",
@@ -157,12 +163,6 @@
    "url": "/2026/08/12/daily-ai-k8s-briefing/",
    "title": "Daily Ai K8s Briefing",
    "date": "2026-08-12",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/18/what-a-harness-score-of-8-6-actually-measures/",
-   "title": "평균 8.6점짜리 하네스는 무엇으로 만들어지는가 — 검증 9.5, 상태 8.0 의 편차를 읽는다",
-   "date": "2026-08-18",
    "views": 3
   },
   {
