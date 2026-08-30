@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-29T00:41:03Z",
+ "generated": "2026-08-30T00:41:01Z",
  "scanned": 658,
  "failed": 0,
  "posts": [
@@ -16,6 +16,18 @@
    "views": 11
   },
   {
+   "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
+   "title": "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지",
+   "date": "2026-07-28",
+   "views": 7
+  },
+  {
+   "url": "/2026/08/02/vibe-coding-harness-rules/",
+   "title": "바이브 코딩의 심장, 구조적 하네스(Harness): 7대 강제 원칙으로 빚어낸 정산 시스템",
+   "date": "2026-08-02",
+   "views": 7
+  },
+  {
    "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
    "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
    "date": "2026-08-10",
@@ -26,18 +38,6 @@
    "title": "이 Mac의 Agent Skill 생태계 지도: Hermes·Claude·Codex·Leopard",
    "date": "2026-08-10",
    "views": 7
-  },
-  {
-   "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
-   "title": "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지",
-   "date": "2026-07-28",
-   "views": 6
-  },
-  {
-   "url": "/2026/08/02/vibe-coding-harness-rules/",
-   "title": "바이브 코딩의 심장, 구조적 하네스(Harness): 7대 강제 원칙으로 빚어낸 정산 시스템",
-   "date": "2026-08-02",
-   "views": 6
   },
   {
    "url": "/2026/08/13/incidents-between-layers-which-doc/",
