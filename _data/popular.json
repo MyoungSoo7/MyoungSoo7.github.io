@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-30T00:41:01Z",
+ "generated": "2026-08-31T00:41:03Z",
  "scanned": 658,
  "failed": 0,
  "posts": [
@@ -196,6 +196,12 @@
    "views": 2
   },
   {
+   "url": "/2026/06/10/vertical-vs-horizontal-scaling-by-resource/",
+   "title": "수직 확장 vs 수평 확장 — CPU · Memory · HDD · SSD 각 자원에서 본 *처리량 / 응답시간* 의 개선 지점",
+   "date": "2026-06-10",
+   "views": 2
+  },
+  {
    "url": "/2026/07/22/harness-flywheel-synergy/",
    "title": "하네스 플라이휠: 스킬을 '잘 쓰는' 체계와 '잘 만드는' 공장이 만날 때",
    "date": "2026-07-22",
@@ -294,12 +300,6 @@
   {
    "url": "/2026/07/31/silent-failure-three-layers/",
    "title": "*초록불인데 프로덕션에선 한 번도 안 돌았다* — 계약 · 설정 · 관측, *조용히 실패하는 세 층* 과 그걸 드러내는 법",
-   "date": "2026-07-31",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/31/agent-report-verification/",
-   "title": "에이전트가 지어낸 성과 보고서를 grep 세 줄로 잡아낸 기록",
    "date": "2026-07-31",
    "views": 2
   }
