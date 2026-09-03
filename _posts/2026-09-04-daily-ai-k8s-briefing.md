@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Daily Briefing] 2026-09-04: AI 보안 이니셔티브와 Kubernetes GPU 예측 스케일링"
-date: 2026-09-04 08:30:00 +0900
+date: 2026-09-04 08:00:00 +0900
 categories: [AI, Kubernetes, Spring]
 tags: [OpenAI, Anthropic, Gemini, CNCF, SpringBoot4.1, AI-Security]
 ---
