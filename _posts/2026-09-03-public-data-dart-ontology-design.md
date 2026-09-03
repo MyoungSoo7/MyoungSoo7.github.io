@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "공공데이터와 DART로 온톨로지를 설계하면 — 표준화된 것은 이름과 분류이지, 개체가 아니다"
-date: 2026-09-03 19:12:00 +0900
+date: 2026-09-03 19:15:45 +0900
 categories: [data, ontology]
 tags: [온톨로지, 공공데이터, DART, OpenDART, XBRL, SKOS, PROV-O, DCAT, 식별자, 개체해소]
 ---
