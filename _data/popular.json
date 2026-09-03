@@ -1,6 +1,6 @@
 {
- "generated": "2026-08-31T00:41:03Z",
- "scanned": 658,
+ "generated": "2026-09-03T00:41:06Z",
+ "scanned": 679,
  "failed": 0,
  "posts": [
   {
@@ -55,6 +55,12 @@
    "url": "/2026/08/18/what-a-harness-score-of-8-6-actually-measures/",
    "title": "평균 8.6점짜리 하네스는 무엇으로 만들어지는가 — 검증 9.5, 상태 8.0 의 편차를 읽는다",
    "date": "2026-08-18",
+   "views": 4
+  },
+  {
+   "url": "/2026/08/24/ralphthon-arc-what-actually-survived/",
+   "title": "랄프톤의 발전 방향 — 질문은 위로 올라갔는데, 코드는 어디에 남았나",
+   "date": "2026-08-24",
    "views": 4
   },
   {
@@ -172,9 +178,9 @@
    "views": 3
   },
   {
-   "url": "/2026/08/24/ralphthon-arc-what-actually-survived/",
-   "title": "랄프톤의 발전 방향 — 질문은 위로 올라갔는데, 코드는 어디에 남았나",
-   "date": "2026-08-24",
+   "url": "/2026/09/01/async-pool-isolation-then-leaving-async/",
+   "title": "@Async 를 튜닝하다가 @Async 를 떠난 78분 — settlement 의 ThreadPoolTaskExecutor 이력",
+   "date": "2026-09-01",
    "views": 3
   },
   {
@@ -295,12 +301,6 @@
    "url": "/2026/07/30/ouroboros-agentos-roadmap-verification/",
    "title": "로드맵은 지켜졌는가 — 우로보로스 AgentOS 보드 한 장을 2달 뒤에 검증해봤다",
    "date": "2026-07-30",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/31/silent-failure-three-layers/",
-   "title": "*초록불인데 프로덕션에선 한 번도 안 돌았다* — 계약 · 설정 · 관측, *조용히 실패하는 세 층* 과 그걸 드러내는 법",
-   "date": "2026-07-31",
    "views": 2
   }
  ]
