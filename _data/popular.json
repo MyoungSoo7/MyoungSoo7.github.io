@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-03T00:41:06Z",
- "scanned": 679,
+ "generated": "2026-09-04T00:41:03Z",
+ "scanned": 699,
  "failed": 0,
  "posts": [
   {
@@ -49,6 +49,12 @@
    "url": "/2026/08/11/clush-fullstack-jd-analysis/",
    "title": "필수 요건에 LLM이 한 줄도 없다 — 클러쉬 10년차 풀스택 공고, 요건 39개 해부",
    "date": "2026-08-11",
+   "views": 5
+  },
+  {
+   "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
+   "title": "레오파드 토론 한 번 — 인용 게이트가 지운 8건이 전부 진짜 출처였다",
+   "date": "2026-09-03",
    "views": 5
   },
   {
@@ -294,12 +300,6 @@
   {
    "url": "/2026/07/30/daily-ai-k8s-briefing/",
    "title": "AI & K8s 데일리 브리핑: 2026-07-30",
-   "date": "2026-07-30",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/30/ouroboros-agentos-roadmap-verification/",
-   "title": "로드맵은 지켜졌는가 — 우로보로스 AgentOS 보드 한 장을 2달 뒤에 검증해봤다",
    "date": "2026-07-30",
    "views": 2
   }
