@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SearXNG·사이트맵·Elasticsearch: 검색의 경로와 인덱스의 차이"
-date: 2026-09-05 05:25:00 +0900
+date: 2026-09-05 05:00:00 +0900
 categories: [Search, AI, Infrastructure]
 tags: [SearXNG, 사이트맵, Elasticsearch, 검색엔진, 정보검색]
 ---
