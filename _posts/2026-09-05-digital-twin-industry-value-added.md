@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "세 가지 디지털 트윈으로 읽는 산업과 부가가치의 구조"
-date: 2026-09-05 05:02:00 +0900
+date: 2026-09-05 04:00:00 +0900
 categories: [AI, Digital Twin, Industry]
 tags: [디지털트윈, 산업, 부가가치, 시뮬레이션, 운영]
 ---
