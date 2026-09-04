@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "photos.lemuel.co.kr로 보는 Immich 사진 플랫폼의 작동원리와 구조"
-date: 2026-09-05 05:35:00 +0900
+date: 2026-09-05 05:00:00 +0900
 categories: [AI, Infrastructure, Media]
 tags: [Immich, 사진관리, Kubernetes, PostgreSQL, Redis, Machine Learning]
 ---
