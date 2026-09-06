@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-04T00:41:03Z",
- "scanned": 699,
+ "generated": "2026-09-06T00:41:06Z",
+ "scanned": 715,
  "failed": 0,
  "posts": [
   {
@@ -13,7 +13,7 @@
    "url": "/2026/08/23/polysona-code-review/",
    "title": "Polysona 코드 리뷰 — 프롬프트는 진짜인데, 대시보드 점수는 해시였다",
    "date": "2026-08-23",
-   "views": 11
+   "views": 12
   },
   {
    "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
@@ -67,6 +67,12 @@
    "url": "/2026/08/24/ralphthon-arc-what-actually-survived/",
    "title": "랄프톤의 발전 방향 — 질문은 위로 올라갔는데, 코드는 어디에 남았나",
    "date": "2026-08-24",
+   "views": 4
+  },
+  {
+   "url": "/2026/09/01/async-pool-isolation-then-leaving-async/",
+   "title": "@Async 를 튜닝하다가 @Async 를 떠난 78분 — settlement 의 ThreadPoolTaskExecutor 이력",
+   "date": "2026-09-01",
    "views": 4
   },
   {
@@ -184,9 +190,33 @@
    "views": 3
   },
   {
-   "url": "/2026/09/01/async-pool-isolation-then-leaving-async/",
-   "title": "@Async 를 튜닝하다가 @Async 를 떠난 78분 — settlement 의 ThreadPoolTaskExecutor 이력",
+   "url": "/2026/09/01/settlement-reentrantlock-two-places/",
+   "title": "핀이 사라진 뒤에도 ReentrantLock 이 남은 두 자리 — settlement 실측",
    "date": "2026-09-01",
+   "views": 3
+  },
+  {
+   "url": "/2026/09/02/java-history/",
+   "title": "Java의 역사 — Oak에서 현대까지",
+   "date": "2026-09-02",
+   "views": 3
+  },
+  {
+   "url": "/2026/09/02/java-kotlin-cancellation-is-the-real-difference/",
+   "title": "자바와 코틀린의 동시성 차이 — 스레드는 둘 다 싸졌는데, 취소는 왜 아직 다른가",
+   "date": "2026-09-02",
+   "views": 3
+  },
+  {
+   "url": "/2026/09/02/synchronized-jpa-mybatis-three-layers-of-staleness/",
+   "title": "락을 걸었는데 왜 옛날 값이 나오나 — synchronized · JPA 영속성 컨텍스트 · MyBatis 로컬 캐시, 낡음이 사는 세 개의 층",
+   "date": "2026-09-02",
+   "views": 3
+  },
+  {
+   "url": "/2026/09/03/reinforcement-learning-marine-control/",
+   "title": "전술을 가르치지 않아도 전투를 배운다: 마린 컨트롤 실험에서 본 강화학습의 구조",
+   "date": "2026-09-03",
    "views": 3
   },
   {
@@ -271,36 +301,6 @@
    "url": "/2026/07/25/daily-ai-k8s-briefing/",
    "title": "AI & K8s 데일리 브리핑: 2026-07-25",
    "date": "2026-07-25",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/25/weekly-infra-report/",
-   "title": "[Weekly Report] 2026년 30주차 클러스터 운영 리포트",
-   "date": "2026-07-25",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/27/daily-ai-k8s-briefing/",
-   "title": "AI & K8s 데일리 브리핑: 2026-07-27",
-   "date": "2026-07-27",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/28/daily-ai-k8s-briefing/",
-   "title": "AI & K8s 데일리 브리핑: 2026-07-28",
-   "date": "2026-07-28",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/29/daily-ai-k8s-briefing/",
-   "title": "AI & K8s 데일리 브리핑: 2026-07-29",
-   "date": "2026-07-29",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/30/daily-ai-k8s-briefing/",
-   "title": "AI & K8s 데일리 브리핑: 2026-07-30",
-   "date": "2026-07-30",
    "views": 2
   }
  ]
