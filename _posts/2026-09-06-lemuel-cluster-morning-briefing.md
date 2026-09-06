@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[르무엘 클러스터] 2026-09-06 아침 브리핑"
-date: 2026-09-06 09:05:00 +0900
+date: 2026-09-06 09:00:00 +0900
 categories: [DevOps, Homelab]
 tags: [k3s, monitoring, briefing]
 ---
