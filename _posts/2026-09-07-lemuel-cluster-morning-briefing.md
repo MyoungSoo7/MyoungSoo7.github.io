@@ -12,7 +12,7 @@ tags: [lemuel, cluster, monitoring, k3s]
 
 | 항목 | 상태 | 비고 |
 | :--- | :--- | :--- |
-| **전체 노드** | 6 / 6 Ready | david, ilwon, isagal, lemuel, louise, solomon |
+| **전체 노드** | 6 / 6 Ready | 6개 노드 |
 | **비정상 파드** | 0 | Running/Succeeded 제외 파드 없음 |
 | **당일 노드 이탈** | 없음 | 안정적인 업타임 유지 |
 
@@ -22,14 +22,14 @@ tags: [lemuel, cluster, monitoring, k3s]
 
 모든 노드가 각자의 역할을 정상적으로 수행하고 있습니다.
 
-| 노드명 | 상태 | 역할 | IP 주소 |
-| :--- | :--- | :--- | :--- |
-| **david** | Ready | etcd | 192.168.219.113 |
-| **ilwon** | Ready | control-plane, etcd | 192.168.219.110 |
-| **isagal** | Ready | <none> | 192.168.219.105 |
-| **lemuel** | Ready | control-plane, etcd | 192.168.219.101 |
-| **louise** | Ready | <none> | 192.168.219.111 |
-| **solomon** | Ready | <none> | 192.168.219.108 |
+| 노드명 | 상태 | 역할 |
+| :--- | :--- | :--- |
+| **david** | Ready | etcd |
+| **ilwon** | Ready | control-plane, etcd |
+| **isagal** | Ready | <none> |
+| **lemuel** | Ready | control-plane, etcd |
+| **louise** | Ready | <none> |
+| **solomon** | Ready | <none> |
 
 ---
 
