@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Daily] 2026-09-07 르무엘 클러스터 아침 브리핑"
-date: 2026-09-07 09:10:00 +0900
+date: 2026-09-07 09:00:00 +0900
 categories: [ops, k3s]
 tags: [lemuel, cluster, monitoring, k3s]
 ---
