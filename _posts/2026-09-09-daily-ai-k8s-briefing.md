@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "2026년 9월 9일 기술 브리핑: AI 하이브리드 아키텍처와 Kubernetes v1.37의 도약"
-date: 2026-09-09 08:30:00 +0900
+date: 2026-09-09 03:50:00 +0900
 categories: [Daily-Briefing]
 tags: [AI, Kubernetes, ML, Spring, Java, Linux]
 ---
