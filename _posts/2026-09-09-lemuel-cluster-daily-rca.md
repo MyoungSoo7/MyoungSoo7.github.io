@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Lemuel Cluster Daily RCA: 2026-09-09"
-date: 2026-09-09 10:00:00 +0900
+date: 2026-09-09 09:00:00 +0900
 categories: [DevOps]
 tags: [K8s, RCA, ELK, Kafka, Lemuel]
 ---
