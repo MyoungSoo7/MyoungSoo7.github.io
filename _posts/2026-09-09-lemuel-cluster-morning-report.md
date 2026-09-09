@@ -1,26 +1,24 @@
 ---
 layout: post
-title: "[Daily] 2026-09-09 르무엘 클러스터 아침 브리핑"
-date: 2026-09-09 03:50:00 +0900
+title: "[Report] 2026-09-09 르무엘 클러스터 아침 브리핑 (09:00)"
+date: 2026-09-09 09:00:00 +0900
 categories: [ops, k3s]
 tags: [lemuel, cluster, monitoring, k3s]
 ---
 
 ## 1. 클러스터 상태 요약 (Summary)
 
-2026년 9월 9일 오전 4시 기준, 르무엘 클러스터의 전반적인 상태는 **양호**합니다. 모든 노드가 정상(Ready) 상태를 유지하고 있으며, 비정상 파드(Running/Succeeded 제외)는 발견되지 않았습니다.
+2026년 9월 9일 오전 9시(KST) 기준, 르무엘 클러스터의 전반적인 상태는 **양호**합니다. 모든 노드가 정상(Ready) 상태를 유지하고 있습니다.
 
 | 항목 | 상태 | 비고 |
 | :--- | :--- | :--- |
-| **전체 노드** | 6 / 6 Ready | 전원 정상 작동 중 |
-| **비정상 파드** | 0 | 특이사항 없음 |
+| **전체 노드** | 6 / 6 Ready | 모든 노드 가동 중 |
+| **비정상 파드** | 1 | `logging/log-error-alerter` (ContainerCreating) |
 | **당일 노드 이탈** | 없음 | 안정적인 업타임 유지 |
 
 ---
 
 ## 2. 세부 노드 현황 (Nodes)
-
-모든 노드가 각자의 역할을 정상적으로 수행하고 있습니다.
 
 | 노드명 | 상태 | 역할 | IP |
 | :--- | :--- | :--- | :--- |
@@ -33,43 +31,43 @@ tags: [lemuel, cluster, monitoring, k3s]
 
 ---
 
-## 3. 파드 재시작 분석 (Top Restarts)
+## 3. 주요 이슈 및 파드 상태
 
-시스템 파드 중 일부에서 재시작이 지속되고 있습니다. 특히 Elastic Operator와 Strimzi Operator의 재시작 횟수가 미세하게 증가했습니다.
+### 3.1 비정상 파드 관측
+- **logging/log-error-alerter-29815200-vvxz9**: `ContainerCreating`
+  - 정기 CronJob 실행 직후 컨테이너 생성 단계인 것으로 보입니다. (발생 시각: 2026-09-09 00:00:01 UTC / 09:00:01 KST)
+
+### 3.2 재시작 상위 파드 (Restarts)
+일부 인프라 구성 요소에서 높은 재시작 횟수가 관찰됩니다.
 
 | 재시작 횟수 | 네임스페이스 / 파드명 |
 | :--- | :--- |
 | **95** | `elastic-system/elastic-operator-0` |
-| **15** | `monitoring/kps-kube-state-metrics-...` |
-| **15** | `monitoring/kps-grafana-...` |
-| **14** | `kafka/strimzi-cluster-operator-...` |
-| **4** | `settlement-prod/settlement-ai-...` |
+| **15** | `monitoring/kps-kube-state-metrics-7bdff49c6b-fbq29` |
+| **15** | `monitoring/kps-grafana-5b77b6b85c-9f8ln` |
+| **14** | `kafka/strimzi-cluster-operator-56fbb45c6-68cw5` |
+| **4** | `settlement-prod/settlement-ai-556948d68c-7mrk2` |
 | **4** | `monitoring/tempo-0` |
-| **4** | `lemuel-monitor/tgbot-heartbeat-...` |
-
-> **분석 메모**: 
-> - `elastic-operator-0`: 9월 7일(92회) 대비 **3회 증가**.
-> - `strimzi-cluster-operator`: 9월 7일(11회) 대비 **3회 증가**.
-> 연쇄적인 재시작은 아니나, 주기적인 재실행 원인(Liveness Probe 실패 등)에 대한 조사가 필요할 수 있습니다.
+| **4** | `lemuel-monitor/tgbot-heartbeat-bhw6v` |
 
 ---
 
-## 4. CronJob 실행 현황 (Last Schedule)
+## 4. 최근 CronJob 실행 현황 (Last Schedule)
 
-주요 백업 및 유지관리 작업들이 정상적으로 예약 실행되었습니다.
+주요 데이터베이스 백업 및 클러스터 관리 작업이 정상적으로 수행되었습니다.
 
-- **데이터베이스 백업**: `pg-backup-pg-dump` (asat, crypto, jen, lemuel-xr, settlement, sns, trading) 작업들이 9월 8일 17시경(UTC) 정상 완료되었습니다.
-- **클러스터 관리**: `cluster-curator`가 9월 8일 15:00Z(자정 KST)에 정상 실행되었습니다.
-- **상태 감시**: `louise-apiserver-probe` 및 `log-error-alerter`가 9월 8일 18:45Z에 정상 작동했습니다.
+- **DB 백업 (pg-dump)**: asat, crypto, jen, lemuel-xr, settlement, sns, trading 각 서비스의 백업이 9월 8일 17:10~17:50Z 사이에 완료되었습니다.
+- **클러스터 관리**: `cluster-curator` (9/8 21:00Z), `etcd-leader-observe` (9/8 23:30Z) 등이 예정대로 실행되었습니다.
+- **상태 프로브**: `louise-apiserver-probe` 및 `log-error-alerter`가 9/9 00:00Z(09:00 KST)에 실행되었습니다.
 
 ---
 
 ## 5. 종합 의견 (Verdict)
 
-- **인프라**: 모든 노드 및 서비스 가용성이 100% 유지되고 있습니다.
-- **백업**: 정기 백업 사이클이 실패 없이 완료되어 데이터 안전성이 확보되었습니다.
-- **조치 권고**: `elastic-operator`와 `strimzi-cluster-operator`의 재시작 증가 추이(2일간 각 3회)를 미루어 보아, 일시적인 리소스 경합이나 설정 오류 가능성을 열어두고 로그 점검을 권장합니다.
+- **인프라 안정성**: 모든 물리/가상 노드가 Ready 상태로 견고한 가용성을 보여주고 있습니다.
+- **특이 사항**: `elastic-operator-0`의 재시작 횟수(95회)가 상당히 높습니다. 이는 이전 브리핑(92회) 대비 점진적으로 증가하고 있는 수치이므로, 리소스 한계(Memory Limit) 도달 여부나 OOMKilled 발생 이력을 점검할 필요가 있습니다.
+- **결론**: 클러스터 전반은 정상이나, 로깅/모니터링 구성 요소의 재시작 추이에 대한 주의가 필요합니다.
 
 ---
-*본 브리핑은 lemuel_morning_probe_gate.py의 canonical probe 결과를 바탕으로 자동 생성되었습니다.*
-*측정 시각: 2026-09-09 03:49:34 KST*
+*본 보고서는 lemuel_morning_probe_gate.py의 canonical probe 결과를 바탕으로 자동 생성되었습니다.*
+*측정 시각: 2026-09-09 09:00:01 KST*
