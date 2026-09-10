@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Aside (YC F25) — 통합을 버리고 브라우저가 된 AI 에이전트"
-date: 2026-09-10 23:30:00 +0900
+date: 2026-09-10 23:20:00 +0900
 categories: [tech]
 tags: [ai-agent, browser-agent, ycombinator, benchmark, playwright]
 ---
