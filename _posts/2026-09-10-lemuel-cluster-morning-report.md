@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Report] 2026-09-10 르무엘 클러스터 아침 브리핑"
-date: 2026-09-10 09:15:00 +0900
+date: 2026-09-10 09:00:00 +0900
 categories: report
 tags: [k3s, kubernetes, monitoring, lemuel]
 ---
@@ -50,5 +50,5 @@ tags: [k3s, kubernetes, monitoring, lemuel]
 - **비즈니스 로직:** `settlement-company-reputation` (22:00 KST) 실행 흔적 확인
 
 ---
-**보고서 생성 시각:** 2026-09-10 09:20:00 KST
+**보고서 생성 시각:** 2026-09-10 09:02:50 KST
 **데이터 기준:** 2026-09-10 09:00:28 KST
