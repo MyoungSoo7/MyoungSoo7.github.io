@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-06T00:41:06Z",
- "scanned": 715,
+ "generated": "2026-09-11T00:41:09Z",
+ "scanned": 744,
  "failed": 0,
  "posts": [
   {
@@ -220,6 +220,12 @@
    "views": 3
   },
   {
+   "url": "/2026/09/10/ai-agent-four-dimensions/",
+   "title": "AI Agent를 이해하는 네 가지 축: 자율성·반응성·사전능동성·사회성",
+   "date": "2026-09-10",
+   "views": 3
+  },
+  {
    "url": "/2026/05/03/auto-trading-system/",
    "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
    "date": "2026-05-03",
@@ -294,12 +300,6 @@
   {
    "url": "/2026/07/25/homelab-etl-pipeline-dart-ecos/",
    "title": "21개 사일로 DB를 하나로 — Postgres만으로 만든 홈랩 ETL 파이프라인 (dart·ECOS 정규화)",
-   "date": "2026-07-25",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/25/daily-ai-k8s-briefing/",
-   "title": "AI & K8s 데일리 브리핑: 2026-07-25",
    "date": "2026-07-25",
    "views": 2
   }
