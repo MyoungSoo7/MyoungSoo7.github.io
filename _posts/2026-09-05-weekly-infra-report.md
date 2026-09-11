@@ -131,13 +131,13 @@ kubectl -n velero logs \
 | 최초 발생 | 2026-05-12 01:54:32 UTC |
 | 마지막 발생 | 2026-05-12 12:24:37 UTC |
 | 누적 횟수 | 3,452회 |
-| 적용된 nameserver | `8.8.8.8 1.1.1.1 61.41.153.2` |
+| 적용된 nameserver | `8.8.8.8 1.1.1.1 [ISP DNS]` |
 
 주요 메시지는 다음과 같다.
 
 ```text
 Nameserver limits were exceeded, some nameservers have been omitted,
-the applied nameserver line is: 8.8.8.8 1.1.1.1 61.41.153.2
+the applied nameserver line is: 8.8.8.8 1.1.1.1 [ISP DNS]
 ```
 
 ### 3.2 원인 분석

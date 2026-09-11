@@ -435,7 +435,7 @@ Schedule: every 1m
 
 Actions:
   - Slack #incident
-  - Email iamipro@naver.com
+  - Email user@example.com
   - Webhook to Telegram bot
 ```
 

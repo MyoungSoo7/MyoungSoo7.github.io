@@ -227,7 +227,7 @@ Set-Cookie: refresh_token=eyJ...; HttpOnly; Secure; SameSite=Strict; Path=/api/v
 
 ```text
 WARN EmailService: JavaMailSender not configured.
-Verification email for iamipro@naver.com (token in URL):
+Verification email for user@example.com (token in URL):
 http://localhost:3000/verify-email?token=SQRIhTlxSa...
 ```
 
@@ -261,11 +261,11 @@ app:
 
 ```bash
 $ curl -X POST https://eln.lemuel.co.kr/api/v1/auth/resend-verification \
-    -d '{"email":"iamipro@naver.com"}'
+    -d '{"email":"user@example.com"}'
 HTTP=200
 
 $ kubectl -n asat-prod logs deploy/asat-app --since=30s | grep -i mail
-INFO i.c.rd.application.service.EmailService : Verification email sent to iamipro@naver.com
+INFO i.c.rd.application.service.EmailService : Verification email sent to user@example.com
 ```
 
 수신함 확인 → 도착 ✓. STARTTLS 587 + App Password 조합으로 발송 성공.

@@ -16,12 +16,12 @@ tags: [k3s, monitoring, briefing]
 
 | 노드명 | 상태 | 역할 | IP |
 | :--- | :--- | :--- | :--- |
-| david | Ready | etcd | 192.168.219.113 |
-| ilwon | Ready | control-plane,etcd | 192.168.219.110 |
-| isagal | Ready | <none> | 192.168.219.105 |
-| lemuel | Ready | control-plane,etcd | 192.168.219.101 |
-| louise | Ready | <none> | 192.168.219.111 |
-| solomon | Ready | <none> | 192.168.219.108 |
+| david | Ready | etcd | (내부망) |
+| ilwon | Ready | control-plane,etcd | (내부망) |
+| isagal | Ready | <none> | (내부망) |
+| lemuel | Ready | control-plane,etcd | (내부망) |
+| louise | Ready | <none> | (내부망) |
+| solomon | Ready | <none> | (내부망) |
 
 ## 3. 파드 안정성 및 이슈
 비정상 파드(Running/Succeeded 제외)는 발견되지 않았습니다. 

@@ -196,7 +196,7 @@ pipeline {
 
   post {
     failure {
-      mail to: 'iamipro@naver.com', subject: "FAIL: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+      mail to: 'user@example.com', subject: "FAIL: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
            body: "${env.BUILD_URL}"
     }
   }
@@ -424,7 +424,7 @@ kubectl -n asat-prod create secret docker-registry ghcr-pull \
   --docker-server=ghcr.io \
   --docker-username=myoungsoo7 \
   --docker-password=<PAT_with_read:packages> \
-  --docker-email=iamipro@naver.com
+  --docker-email=user@example.com
 ```
 
 그리고 Deployment 에서:

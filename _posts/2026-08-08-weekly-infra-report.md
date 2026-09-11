@@ -147,7 +147,7 @@ Repository 저장 공간
 ```text
 Nameserver limits were exceeded, some nameservers have been omitted,
 the applied nameserver line is:
-8.8.8.8 1.1.1.1 61.41.153.2
+8.8.8.8 1.1.1.1 [ISP DNS]
 ```
 
 ### DNSConfigForming 분석
@@ -159,7 +159,7 @@ Kubelet이 Pod에 적용할 DNS 설정을 구성하는 과정에서 nameserver �
 ```text
 8.8.8.8
 1.1.1.1
-61.41.153.2
+[ISP DNS]
 ```
 
 당시 이벤트 집계는 12시간이 채 되지 않는 구간에서 3,452회였으므로 해당 시점의 이벤트 노이즈가 컸음을 보여준다. 그러나 현재 장애·현재 DNS 실패·서비스 영향의 증거는 아니다.
