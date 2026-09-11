@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Report] 2026-09-11 르무엘 클러스터 아침 브리핑"
-date: 2026-09-11 09:10:00 +0900
+date: 2026-09-11 09:00:00 +0900
 categories: [DevOps]
 tags: [Kubernetes, K3s, Monitoring, Report]
 ---
