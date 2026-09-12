@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "신호는 -56 dBm 로 멀쩡한데 비콘을 90번 놓쳤다 — dBm 만 보면 안 되는 이유"
-date: 2026-09-13 03:40:00 +0900
+date: 2026-09-13 03:33:35 +0900
 categories: [infra, network]
 tags: [WiFi, 802.11, mac80211, beacon-loss, 2.4GHz, 5GHz, Kubernetes]
 ---
