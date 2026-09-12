@@ -33,7 +33,7 @@ CRD(`CustomResourceDefinition`)를 만들면 API 서버가 그 종류(kind)에 �
 즉 CRD 는 `kind: Kafka` 라는 **명사**를 등록할 뿐이고, 그 명사를 읽고 실제로 브로커를 띄우는
 **동사**는 별개의 컨트롤러(오퍼레이터)가 한다. 이 둘을 하나로 착각하면 뒤의 함정에 전부 걸린다.
 
-## 2. Strimzi 가 등록하는 명사는 11개다
+## 2. 등록되는 명사는 10개 — 그런데 내 클러스터엔 11개가 있다
 
 ```bash
 kubectl get crd -o json | jq -r '.items[]
@@ -42,7 +42,7 @@ kubectl get crd -o json | jq -r '.items[]
      ([.spec.versions[].name] | join(","))] | @tsv'
 ```
 
-내 클러스터(오퍼레이터 이미지 `quay.io/strimzi/operator:0.51.0`) 실측 결과:
+내 클러스터(오퍼레이터 이미지 `quay.io/strimzi/operator:0.51.0`) 실측 결과 **11개**:
 
 | kind | plural | scope | 제공 버전 |
 | --- | --- | --- | --- |
@@ -67,6 +67,31 @@ kubectl get crd -o json | jq -r '.items[]
 
 `KafkaTopic` 과 `KafkaUser` 만 `v1alpha1` 까지 네 버전을 물고 있는 게 눈에 띈다. 가장 오래
 전에 생긴 명사라서 하위 호환을 길게 끌고 가는 것이다.
+
+### 그런데 공식 번들에는 10개뿐이다
+
+여기서 실측이 밥값을 했다. 0.51.0 의 공식 CRD 번들을 받아 live 와 대조해 봤다.
+
+```bash
+curl -sSLO https://github.com/strimzi/strimzi-kafka-operator/releases/download/0.51.0/strimzi-crds-0.51.0.yaml
+# 1,622,915 bytes / sha256 a11257e67985a946a6facfb17d729aac5670b89675d410d13162fe455a5ac7a8
+```
+
+번들에 든 CRD 는 **10개**다. 그리고 그 10개는 live 의 `.spec` 과 **해시까지 전부 일치**한다
+(10/10, 불일치 0). 즉 지금 깔린 건 정확히 0.51.0 번들이다.
+
+차이는 딱 하나 — **`kafkamirrormakers.kafka.strimzi.io` 가 live 에만 있다.** kind
+`KafkaMirrorMaker`(위 표에서 혼자 `v1beta2` 만 제공하던 그것)는 MirrorMaker 1 이 제거되기
+전 버전에서 깔렸다가 **남아 버린 잔재**다. CR 은 0건이라 아무도 안 쓴다.
+
+```bash
+kubectl get kafkamirrormakers -A   # No resources found
+```
+
+이게 CRD 의 성질을 그대로 보여 준다. **오퍼레이터를 올려도 옛 CRD 는 저절로 안 사라진다.**
+번들 apply 는 있는 걸 더하거나 고칠 뿐, 번들에서 빠진 걸 지우지는 않기 때문이다. 아무도 안
+쓰는 명사가 API 서버에 조용히 남고, "Strimzi CRD 가 몇 개냐"를 클러스터에만 물으면 틀린
+답을 얻는다. 버전이 박힌 번들과 대조해야 안다.
 
 ## 3. CR 하나가 자식 23개를 낳는다
 
@@ -153,7 +178,9 @@ YAML 번들을 직접 apply 한 것이고, 되돌리려면 **helm 이 아니라 
 ## 정리
 
 - CRD 는 API 서버에 **명사를 하나 등록하는 것**이다. 동사는 오퍼레이터가 한다.
-- Strimzi 는 명사를 11개 등록한다. 부피의 대부분은 apply 시점 검증을 해 주는 OpenAPI 스키마다.
+- Strimzi 0.51.0 번들은 명사를 **10개** 등록한다. 부피의 대부분은 apply 시점 검증을 해 주는
+  OpenAPI 스키마다. 내 클러스터엔 11개가 있는데, 11번째는 구버전이 남긴 잔재다 — **CRD 는
+  오퍼레이터를 올려도 저절로 청소되지 않는다.**
 - `Kafka` CR 하나가 `ownerReferences` 로 연결된 자식 23개를 만든다. 그중 9개가 인증서다 —
   이 도메인 지식의 이전이 CRD 를 쓰는 실질적 이유다.
 - CRD 는 클러스터 스코프라 네임스페이스 GitOps 앱의 소유물이 될 수 없다. 오퍼레이터
@@ -169,5 +196,5 @@ YAML 번들을 직접 apply 한 것이고, 되돌리려면 **helm 이 아니라 
 - Strimzi, *Custom Resource API Reference* — <https://strimzi.io/docs/operators/latest/full/configuring.html>
 - strimzi/strimzi-kafka-operator (GitHub) — <https://github.com/strimzi/strimzi-kafka-operator>
 
-*본문의 수치(CRD 11개, 직렬화 합계 약 1.7MB, 자식 리소스 23개, 오퍼레이터 0.51.0)는 필자의
+*본문의 수치(클러스터 CRD 11개 / 번들 10개, 직렬화 합계 약 1.7MB, 자식 리소스 23개, 오퍼레이터 0.51.0)는 필자의
 K3s 클러스터에서 위에 적은 명령으로 직접 측정한 값이다. 다른 Strimzi 버전·구성에서는 달라진다.*
