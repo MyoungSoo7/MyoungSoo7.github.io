@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-11T00:41:09Z",
- "scanned": 744,
+ "generated": "2026-09-12T00:41:11Z",
+ "scanned": 757,
  "failed": 0,
  "posts": [
   {
@@ -73,6 +73,12 @@
    "url": "/2026/09/01/async-pool-isolation-then-leaving-async/",
    "title": "@Async 를 튜닝하다가 @Async 를 떠난 78분 — settlement 의 ThreadPoolTaskExecutor 이력",
    "date": "2026-09-01",
+   "views": 4
+  },
+  {
+   "url": "/2026/09/10/ai-agent-four-dimensions/",
+   "title": "AI Agent를 이해하는 네 가지 축: 자율성·반응성·사전능동성·사회성",
+   "date": "2026-09-10",
    "views": 4
   },
   {
@@ -217,12 +223,6 @@
    "url": "/2026/09/03/reinforcement-learning-marine-control/",
    "title": "전술을 가르치지 않아도 전투를 배운다: 마린 컨트롤 실험에서 본 강화학습의 구조",
    "date": "2026-09-03",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/10/ai-agent-four-dimensions/",
-   "title": "AI Agent를 이해하는 네 가지 축: 자율성·반응성·사전능동성·사회성",
-   "date": "2026-09-10",
    "views": 3
   },
   {
