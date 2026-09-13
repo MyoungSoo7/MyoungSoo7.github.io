@@ -1,0 +1,111 @@
+# 오래된 github-pages 빌드 아티팩트를 정리한다.
+#
+# 왜 필요한가 (2026-09-13):
+#   깃헙의 저장소 할당량은 **아티팩트 · 캐시 · Packages 가 한 통을 나눠 쓰고, 그 통은
+#   리포가 아니라 계정 단위**다. 개인 Free 플랜은 500MB.
+#     "Actions artifacts, Actions caches, and GitHub Packages storage all share the
+#      same pooled allowance."  — docs.github.com/en/billing/concepts/product-billing/github-actions
+#
+#   Pages 는 빌드할 때마다 사이트 전체를 tar 로 묶어 `github-pages` 아티팩트 한 개를
+#   만든다. 이 사이트는 개당 27MB 다. 보존기간이 24시간이라 "언젠가 빠지긴" 하지만,
+#   하루에 글을 여러 편 올리면 빠지는 속도보다 쌓이는 속도가 빠르다.
+#
+#   2026-09-13 실측: 17개 × 27MB = 467MB 가 쌓여 통의 93% 를 먹었고, 그 바람에
+#   **전혀 다른 리포(정산 서비스)의 CI** 가 아티팩트를 못 올려 죽었다.
+#     ##[error]Failed to CreateArtifact: Artifact storage quota has been hit.
+#
+#   그래서 여기서 선제적으로 치운다. 배포가 끝난 아티팩트는 사이트 서빙에 쓰이지
+#   않는다 — Pages 가 배포본을 따로 들고 있고, 아티팩트는 배포 *직전* 단계의 중간
+#   산물이다. 안전을 위해 최신 몇 개는 남긴다.
+#
+#   ⚠ 삭제는 되돌릴 수 없다 ("Once you delete an artifact, it cannot be restored").
+
+name: Cleanup Pages artifacts
+
+on:
+  schedule:
+    # 매시 17분. 정각은 깃헙 전체가 붐벼 밀리기 쉬워 피한다.
+    - cron: '17 * * * *'
+  workflow_dispatch:
+    inputs:
+      keep:
+        description: '남겨둘 최신 아티팩트 개수'
+        required: false
+        default: '2'
+      dry_run:
+        description: '실제로 지우지 않고 목록만 출력'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  actions: write      # 아티팩트 삭제에 필요
+  contents: read
+
+concurrency:
+  group: cleanup-pages-artifacts
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Delete old github-pages artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          KEEP: ${{ inputs.keep || '2' }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+        run: |
+          set -euo pipefail
+
+          # select(.expired==false) 가 중요하다. 만료된 것도 목록에는 남아 있어서
+          # 안 거르면 실제보다 크게 잡히고, 이미 사라진 것을 지우려다 404 가 난다.
+          all=$(gh api "repos/$REPO/actions/artifacts?per_page=100" --paginate \
+                  -q '.artifacts[] | select(.expired==false) | select(.name=="github-pages")
+                      | [.created_at, .id, .size_in_bytes] | @tsv' | sort -r)
+
+          total_n=$(printf '%s' "$all" | grep -c . || true)
+          total_b=$(printf '%s\n' "$all" | awk -F'\t' '{s+=$3} END{print s+0}')
+          echo "현재 github-pages 아티팩트: ${total_n}개 / $((total_b/1024/1024))MB"
+
+          victims=$(printf '%s\n' "$all" | tail -n +$((KEEP + 1)) | cut -f2 | grep -E '^[0-9]+$' || true)
+          n=$(printf '%s' "$victims" | grep -c . || true)
+
+          {
+            echo "### Pages 아티팩트 정리"
+            echo ""
+            echo "- 전체: **${total_n}개 / $((total_b/1024/1024))MB**"
+            echo "- 남길 최신: **${KEEP}개**"
+            echo "- 삭제 대상: **${n}개**"
+            echo "- dry-run: \`${DRY_RUN}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$n" -eq 0 ]; then
+            echo "지울 것 없음."
+            exit 0
+          fi
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "dry-run — 다음을 지웠을 것:"
+            printf '%s\n' "$victims"
+            exit 0
+          fi
+
+          deleted=0
+          for id in $victims; do
+            if gh api -X DELETE "repos/$REPO/actions/artifacts/$id" >/dev/null 2>&1; then
+              deleted=$((deleted + 1))
+            else
+              # 이미 만료돼 사라졌을 수 있다. 실패 한 건으로 잡 전체를 죽이지 않는다.
+              echo "삭제 실패(무시): $id"
+            fi
+          done
+          echo "삭제 완료: ${deleted}개"
+
+          left_b=$(gh api "repos/$REPO/actions/artifacts?per_page=100" --paginate \
+                     -q '.artifacts[] | select(.expired==false) | .size_in_bytes' \
+                   | awk '{s+=$1} END{print s+0}')
+          echo "남은 아티팩트 총량: $((left_b/1024/1024))MB"
+          echo "- 삭제: **${deleted}개** → 남은 총량 **$((left_b/1024/1024))MB**" >> "$GITHUB_STEP_SUMMARY"
