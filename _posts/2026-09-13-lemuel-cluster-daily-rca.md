@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "르무엘 클러스터 일일 RCA 리포트 (2026-09-13)"
-date: 2026-09-13 09:15:00 +0900
+date: 2026-09-13 09:00:00 +0900
 categories: [DevOps, K3s]
 tags: [k3s, rca, cloudflared, kafka, monitoring]
 ---
