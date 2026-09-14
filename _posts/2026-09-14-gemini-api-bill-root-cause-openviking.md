@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "제미나이 API 청구서 ₩183,711 — 근본원인을 찾아 막기까지"
-date: 2026-09-14 22:55:00 +0900
+date: 2026-09-14 22:50:00 +0900
 categories: [infra, cost]
 tags: [gemini, llm, cost, kubernetes, observability, openviking]
 ---
