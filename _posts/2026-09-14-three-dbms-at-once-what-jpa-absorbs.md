@@ -182,7 +182,7 @@ Spring Framework 레퍼런스의 서술이 이 문제의 정확한 요약이다.
    multiple XA resources by using a transaction manager retrieved from JNDI."* 대신 그 순간 이건 JPA 도입 검토가 아니라
    **아키텍처 결정**이 된다. XA 드라이버, 2PC 지연, 미결 트랜잭션(in-doubt) 복구 절차가 3개 DB 몫으로 붙는다.
 2. **묶지 않는다.** DB 당 트랜잭션으로 쪼개고 경계는 아웃박스·보상 트랜잭션으로 잇는다.
-   ([아웃박스 패턴의 경계]({% post_url 2026-07-01-outbox-pattern-boundaries-of-jpa-mybatis-querydsl %}))
+   ([트랜잭션 아웃박스 패턴]({% post_url 2026-07-07-transactional-outbox-pattern-deep-dive %}))
 
 내 권고는 2번이다. 3중 운영을 하는 조직은 이미 DB 별로 팀·배포·장애 경계가 갈려 있는 경우가 많다.
 그 경계를 XA 로 억지로 지우면, 장애가 났을 때 **세 DB 가 한꺼번에 멈춘다.**
