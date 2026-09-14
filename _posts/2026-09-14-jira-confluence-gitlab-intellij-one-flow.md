@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Jira/Confluence·GitLab·IntelliJ 생산적으로 쓰는 법: 이슈 키 하나로 세 도구를 한 흐름으로 엮기"
-date: 2026-09-14 19:20:00 +0900
+date: 2026-09-14 19:05:00 +0900
 categories: [Engineering, Tools]
 tags: [Jira, Confluence, GitLab, IntelliJ, Smart Commits, 생산성, 워크플로]
 ---
