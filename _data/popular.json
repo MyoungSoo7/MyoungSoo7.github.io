@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-12T00:41:11Z",
- "scanned": 757,
+ "generated": "2026-09-15T00:41:14Z",
+ "scanned": 800,
  "failed": 0,
  "posts": [
   {
@@ -250,6 +250,12 @@
    "views": 2
   },
   {
+   "url": "/2026/06/24/k3s-vs-k8s-realistic-comparison/",
+   "title": "K3s vs K8s — 현실적인 비교, 6노드 14개월 운영 경험",
+   "date": "2026-06-24",
+   "views": 2
+  },
+  {
    "url": "/2026/07/22/harness-flywheel-synergy/",
    "title": "하네스 플라이휠: 스킬을 '잘 쓰는' 체계와 '잘 만드는' 공장이 만날 때",
    "date": "2026-07-22",
@@ -295,12 +301,6 @@
    "url": "/2026/07/24/choosing-multi-agent-architecture/",
    "title": "멀티에이전트 아키텍처 고르기 — LangChain의 4패턴과 실측 비용 비교",
    "date": "2026-07-24",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/25/homelab-etl-pipeline-dart-ecos/",
-   "title": "21개 사일로 DB를 하나로 — Postgres만으로 만든 홈랩 ETL 파이프라인 (dart·ECOS 정규화)",
-   "date": "2026-07-25",
    "views": 2
   }
  ]
