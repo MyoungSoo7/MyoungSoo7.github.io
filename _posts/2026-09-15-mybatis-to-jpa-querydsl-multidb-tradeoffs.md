@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Oracle·MySQL·MSSQL 셋을 이고 사는 MyBatis, JPA+QueryDSL 로 갈아탈 것인가 — 기회비용 계산서"
-date: 2026-09-15 22:58:00 +0900
+date: 2026-09-15 22:53:00 +0900
 categories: [backend, database]
 tags: [MyBatis, JPA, QueryDSL, Hibernate, 멀티DB, 마이그레이션, 기회비용]
 ---
