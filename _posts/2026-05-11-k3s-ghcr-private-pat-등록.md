@@ -172,7 +172,7 @@ PAT="ghp_xxxx..."
 USER="myoungsoo7"
 
 NODES=(
-  "iamipro@lemuel.example -p [비공개SSH포트]  docker"
+  "ops@lemuel.example -p [비공개SSH포트]  docker"
   "louise@louise.example          docker"
   "david@david.example            containerd"
   "ilwon@ilwon.example            containerd"

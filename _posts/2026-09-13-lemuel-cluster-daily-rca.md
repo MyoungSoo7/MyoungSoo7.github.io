@@ -28,7 +28,7 @@ tags: [k3s, rca, cloudflared, kafka, monitoring]
 
 ### 3.1. Kubelet 통신 장애 (Log Collection Failure)
 *   **현상**: 특정 노드의 로그 수집 시 `TLS handshake timeout` 또는 `EOF` 발생.
-*   **대상 노드**: `louise` (192.168.219.111), `isagal` (192.168.219.119)
+*   **대상 노드**: `louise`, `isagal` (사내 LAN, IP 비공개)
 *   **근거**: RCA 스크립트 실행 중 `elastic-operator`, `immich-server`, `litellm`, `strimzi-cluster-operator` 로그 수집 실패.
 *   **분석**: Kubelet(10250) 응답 지연으로, 노드 부하 또는 네트워크 혼잡이 원인일 수 있음.
 

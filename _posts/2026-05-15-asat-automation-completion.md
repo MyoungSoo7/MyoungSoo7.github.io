@@ -248,10 +248,10 @@ $ kubectl -n asat-prod patch secret asat-app-secret --type=merge \
 app:
   env:
     ASAT_FRONTEND_URL: "https://eln.lemuel.co.kr"
-    ASAT_EMAIL_FROM: "jinsim37@gmail.com"
+    ASAT_EMAIL_FROM: "<MAIL_ACCOUNT>"
     SPRING_MAIL_HOST: "smtp.gmail.com"
     SPRING_MAIL_PORT: "587"
-    SPRING_MAIL_USERNAME: "jinsim37@gmail.com"
+    SPRING_MAIL_USERNAME: "<MAIL_ACCOUNT>"
     SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
     SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "true"
     SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED: "true"

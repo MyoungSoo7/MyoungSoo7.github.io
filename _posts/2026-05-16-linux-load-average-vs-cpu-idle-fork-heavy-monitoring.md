@@ -67,7 +67,7 @@ Tasks: 296 total, 1 running, 277 sleeping, 0 stopped, 18 zombie
 
     PID USER      %CPU   COMMAND
  959537 netdata   20.0   netdata
-1492335 iamipro   20.0   top              ← 측정 도구 자기 자신
+1492335 ops   20.0   top              ← 측정 도구 자기 자신
  960215 netdata   13.3   apps.plugin
  338889 root       6.7   Suricata-Main
 3777642 root       6.7   k3s-server

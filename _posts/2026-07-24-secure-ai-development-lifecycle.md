@@ -12,7 +12,7 @@ AI 개발 라이프사이클(SDLC)을 규제·보안·컴플라이언스 관점�
 
 ![안전한 AI 개발 라이프사이클 — 한국 규제 중심의 보안·컴플라이언스 플로우. STEP1 입력 정의 및 거버넌스 수립 / STEP2 개발·테스트 및 모델 보안화 / STEP3 승인 및 배포 관리 / STEP4 거버넌스 및 산출물 관리, 추가 제언 6가지와 적용 법령](/assets/images/ai-sdlc/secure-ai-development-lifecycle.jpg)
 
-<p style="text-align:center; font-size:0.9em; color:#888;">이미지 제작: 김진국 (turtle1597@gmail.com). 이 글은 이 그림을 텍스트로 삼아 고찰한 것입니다.</p>
+<p style="text-align:center; font-size:0.9em; color:#888;">이미지 제작: 김진국. 이 글은 이 그림을 텍스트로 삼아 고찰한 것입니다.</p>
 
 ## 먼저, 그림이 담은 것
 
