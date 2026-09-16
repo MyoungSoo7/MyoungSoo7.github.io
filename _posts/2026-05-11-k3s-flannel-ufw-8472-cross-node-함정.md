@@ -65,7 +65,7 @@ ServiceIP `10.43.x.x` 패킷이 kube-proxy 의 iptables rule 로 Pod IP 로 DNAT
 
 ```bash
 $ iptables -t nat -L KUBE-SERVICES | grep cost-postgres
-KUBE-SVC-XXXXX  tcp  --  0.0.0.0/0  10.43.52.150  /* cost-prod/cost-postgres */ tcp dpt:5432
+KUBE-SVC-XXXXX  tcp  --  0.0.0.0/0  <SVC_IP>  /* cost-prod/cost-postgres */ tcp dpt:5432
 ```
 
 룰 있음. 정상. kube-proxy 도 동작 중. 또 헛다리.

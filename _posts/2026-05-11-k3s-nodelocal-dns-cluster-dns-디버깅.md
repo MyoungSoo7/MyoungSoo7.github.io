@@ -29,7 +29,7 @@ $ kubectl exec -n cost-prod cost-app-xxxx -- getent hosts cost-postgres
 Service DNS 가 cross-namespace 도, 같은 namespace 도 안 됨. ClusterIP 직접 호출은 됨:
 
 ```bash
-$ kubectl exec ... -- nc -zvw3 10.43.52.150 5432
+$ kubectl exec ... -- nc -zvw3 <SVC_IP> 5432
 OK
 ```
 
@@ -99,7 +99,7 @@ K3s 의 NodeLocal 배포는 `kube-dns-upstream` 이라는 별도 Service 를 만
 ```bash
 $ kubectl get svc -n kube-system kube-dns-upstream
 NAME                TYPE        CLUSTER-IP      PORT(S)
-kube-dns-upstream   ClusterIP   10.43.244.20    53/UDP,53/TCP
+kube-dns-upstream   ClusterIP   <UPSTREAM_SVC_IP>    53/UDP,53/TCP
 ```
 
 ConfigMap 의 forward 를 이 IP 로 변경:
@@ -108,7 +108,7 @@ ConfigMap 의 forward 를 이 IP 로 변경:
 cluster.local:53 {
     ...
     bind 169.254.20.10
-    forward . 10.43.244.20 {     # ← 10.43.0.10 → kube-dns-upstream
+    forward . <UPSTREAM_SVC_IP> {     # ← 10.43.0.10 → kube-dns-upstream
         force_tcp
     }
     ...
@@ -154,7 +154,7 @@ options ndots:5
 
 ```bash
 $ kubectl exec -n cost-prod cost-app-xxxx -- getent hosts cost-postgres
-10.43.52.150    cost-postgres.cost-prod.svc.cluster.local
+<SVC_IP>    cost-postgres.cost-prod.svc.cluster.local
 $ echo $?
 0
 ```

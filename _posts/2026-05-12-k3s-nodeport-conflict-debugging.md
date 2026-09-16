@@ -56,9 +56,9 @@ asat 의 Service 상태:
 ```
 $ kubectl get svc -n asat-prod
 NAME          TYPE         CLUSTER-IP   EXTERNAL-IP   PORT(S)
-asat-postgres ClusterIP    10.43.4.203  <none>        5432/TCP
-asat-redis    ClusterIP    10.43.86.73  <none>        6379/TCP
-asat-minio    ClusterIP    10.43.137.86 <none>        9000/TCP,9001/TCP
+asat-postgres ClusterIP    <SVC_IP_1>  <none>        5432/TCP
+asat-redis    ClusterIP    <SVC_IP_2>  <none>        6379/TCP
+asat-minio    ClusterIP    <SVC_IP_3> <none>        9000/TCP,9001/TCP
                                                        ← asat-app, asat-frontend 없음!
 ```
 

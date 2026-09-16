@@ -150,7 +150,7 @@ lemuel-settlement lemuel.payment.captured  1          2       0    consumer-lemu
 lemuel-settlement lemuel.payment.captured  2          -       -    consumer-lemuel-settlement-12
 ```
 
-세 파티션에 세 개의 client-id 가 붙어 있고, HOST 는 **셋 다 `10.42.7.61` 로 같다.** 파드 하나 안의 스레드 3개다. Spring Kafka 의 `concurrency` 설정이 그대로 관측된 것이다.
+세 파티션에 세 개의 client-id 가 붙어 있고, HOST 는 **셋 다 `<POD_IP>` 로 같다.** 파드 하나 안의 스레드 3개다. Spring Kafka 의 `concurrency` 설정이 그대로 관측된 것이다.
 
 ```java
 @Value("${app.kafka.consumer.concurrency:3}")

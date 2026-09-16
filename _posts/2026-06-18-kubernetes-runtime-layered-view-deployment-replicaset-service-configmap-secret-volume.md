@@ -177,12 +177,12 @@ ReplicaSet Controller 가 watch:
 > Pod 는 *죽고 *살아나고 *옮겨 다닌다*. *Pod IP* 는 *그때마다 *바뀐다*. *Pod 끼리 *IP 로 *직접 통신* 하면 *깨진다*.
 
 ```
-[10:00] order-service Pod    IP: 10.42.1.5   ← Pod 죽음
-[10:01] order-service Pod    IP: 10.42.2.8   ← 다른 노드에 새로 생김
-[10:02] order-service Pod    IP: 10.42.0.3   ← 또 옮김
+[10:00] order-service Pod    IP: <POD_IP_1>   ← Pod 죽음
+[10:01] order-service Pod    IP: <POD_IP_2>   ← 다른 노드에 새로 생김
+[10:02] order-service Pod    IP: <POD_IP_3>   ← 또 옮김
 ```
 
-→ payment-service 가 *10.42.1.5 로 직접 호출* 했으면 *3 초마다 *깨진다*.
+→ payment-service 가 *<POD_IP_1> 로 직접 호출* 했으면 *3 초마다 *깨진다*.
 
 ### 3.2 *Service 는 *Pod 의 *안정적인 *얼굴 이다*
 

@@ -563,10 +563,10 @@ NEW_IPS=$(kubectl get pods -n asat -l app=asat-backend \
 ```bash
 $ kubectl get pods -n asat -o wide
 NAME                        READY   NODE     IP
-asat-backend-xxx-abc        1/1     lemuel   10.42.0.15
-asat-backend-xxx-def        1/1     louise   10.42.1.8
-asat-frontend-xxx-ghi       1/1     lemuel   10.42.0.16
-asat-frontend-xxx-jkl       1/1     louise   10.42.1.9
+asat-backend-xxx-abc        1/1     lemuel   <POD_IP_1>
+asat-backend-xxx-def        1/1     louise   <POD_IP_3>
+asat-frontend-xxx-ghi       1/1     lemuel   <POD_IP_2>
+asat-frontend-xxx-jkl       1/1     louise   <POD_IP_4>
 ```
 
 - Backend 2개: 르무엘 1, 루이스 1

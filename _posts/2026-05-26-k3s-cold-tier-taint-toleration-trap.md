@@ -110,7 +110,7 @@ kubectl patch sts -n logging logs-es-cold --type=merge -p '
 ```text
 $ kubectl get pod -n logging logs-es-cold-0 -o wide
 NAME             READY   STATUS     RESTARTS   IP            NODE
-logs-es-cold-0   0/1     Init:2/4   0          10.42.6.171   solomon
+logs-es-cold-0   0/1     Init:2/4   0          <POD_IP>   solomon
 ```
 
 → solomon 으로 정상 스케쥴. Init container 작업 (sysctl `vm.max_map_count=262144` 등) 진행.

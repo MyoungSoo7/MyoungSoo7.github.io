@@ -90,7 +90,7 @@ tags: [kubernetes, kube-proxy, iptables, ipvs, nginx-ingress, traefik, metallb, 
 
 ```text
 [Pod on node A]
-   ↓ ClusterIP 10.43.0.5:8080 으로 요청
+   ↓ ClusterIP <SVC_IP>:8080 으로 요청
 [kube-proxy on node A]
    ↓ iptables / IPVS 룰 따라
    ↓ 백엔드 중 *하나* 선택
@@ -132,10 +132,10 @@ tags: [kubernetes, kube-proxy, iptables, ipvs, nginx-ingress, traefik, metallb, 
 
 ```bash
 # IPVS 의 round-robin (rr) 모드
-ipvsadm -A -t 10.43.0.5:8080 -s rr
-ipvsadm -a -t 10.43.0.5:8080 -r 10.42.1.10:8080
-ipvsadm -a -t 10.43.0.5:8080 -r 10.42.2.10:8080
-ipvsadm -a -t 10.43.0.5:8080 -r 10.42.3.10:8080
+ipvsadm -A -t <SVC_IP>:8080 -s rr
+ipvsadm -a -t <SVC_IP>:8080 -r <POD_IP_1>:8080
+ipvsadm -a -t <SVC_IP>:8080 -r <POD_IP_2>:8080
+ipvsadm -a -t <SVC_IP>:8080 -r <POD_IP_3>:8080
 ```
 
 #### **IPVS 의 *8 종 알고리즘***
@@ -222,9 +222,9 @@ spec:
 ```text
 # nginx upstream 의 *기본 round-robin*
 upstream settlement-service {
-    server 10.42.1.10:8080;
-    server 10.42.2.10:8080;
-    server 10.42.3.10:8080;
+    server <POD_IP_1>:8080;
+    server <POD_IP_2>:8080;
+    server <POD_IP_3>:8080;
 }
 # 첫 요청 → .1.10, 둘째 → .2.10, 셋째 → .3.10, 넷째 → .1.10 (진짜 RR)
 ```

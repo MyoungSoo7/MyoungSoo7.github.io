@@ -66,7 +66,7 @@ ECK operator 의 마지막 로그:
 ```json
 E0521 12:49:05.646257 1 leaderelection.go:429] Failed to update lock optimitically:
   Put "https://10.43.0.1:443/apis/coordination.k8s.io/v1/namespaces/elastic-system/leases/elastic-operator-leader?timeout=3m0s":
-  read tcp 10.42.2.218:57322->10.43.0.1:443: read: connection reset by peer,
+  read tcp <POD_IP>:57322->10.43.0.1:443: read: connection reset by peer,
   falling back to slow path
 ```
 

@@ -90,8 +90,8 @@ Connection to <lan>.110 8472 port [udp/*] succeeded!
 
 ```text
 $ kubectl run --rm -it --image=busybox --overrides='{"spec":{"nodeName":"louise"}}' nettest -- \
-    nc -zv 10.42.4.164 5432
-# 10.42.4.164 = asat-postgres 의 pod IP (ilwon 의 cni0/24 안)
+    nc -zv <POD_IP> 5432
+# <POD_IP> = asat-postgres 의 pod IP (ilwon 의 cni0/24 안)
 
 (timeout)
 ```
@@ -102,8 +102,8 @@ $ kubectl run --rm -it --image=busybox --overrides='{"spec":{"nodeName":"louise"
 
 ```text
 $ kubectl run --rm -it --image=busybox --overrides='{"spec":{"nodeName":"david"}}' nettest -- \
-    nc -zv 10.42.4.164 5432
-10.42.4.164 (10.42.4.164:5432) open
+    nc -zv <POD_IP> 5432
+<POD_IP> (<POD_IP>:5432) open
 ```
 
 → david → ilwon 는 됨. **louise ↔ ilwon 만** 안 됨.
@@ -127,17 +127,17 @@ $ ssh louise 'bridge fdb show dev flannel.1'
 02:00:00:00:00:20  dst <lan>.120  self permanent    # solomon
 
 $ ssh louise 'ip neigh show dev flannel.1'
-10.42.4.0  lladdr 02:00:00:00:00:10 PERMANENT             # ilwon subnet ← 있음
-10.42.1.0  lladdr 02:00:00:00:00:13 PERMANENT             # david subnet
-10.42.0.0  lladdr 02:00:00:00:00:01 PERMANENT             # lemuel subnet
-10.42.6.0  lladdr 02:00:00:00:00:20 PERMANENT             # solomon subnet
+<subnet-A>  lladdr 02:00:00:00:00:10 PERMANENT             # ilwon subnet ← 있음
+<subnet-B>  lladdr 02:00:00:00:00:13 PERMANENT             # david subnet
+<subnet-D>  lladdr 02:00:00:00:00:01 PERMANENT             # lemuel subnet
+<subnet-C>  lladdr 02:00:00:00:00:20 PERMANENT             # solomon subnet
 
 $ ssh louise 'ip route show | grep 10.42'
-10.42.0.0/24 via 10.42.0.0 dev flannel.1 onlink
-10.42.1.0/24 via 10.42.1.0 dev flannel.1 onlink
-10.42.4.0/24 via 10.42.4.0 dev flannel.1 onlink     ← ilwon 라우트 있음
-10.42.6.0/24 via 10.42.6.0 dev flannel.1 onlink
-10.42.7.0/24 dev cni0 proto kernel scope link src 10.42.7.1
+<subnet-D>/24 via <subnet-D> dev flannel.1 onlink
+<subnet-B>/24 via <subnet-B> dev flannel.1 onlink
+<subnet-A>/24 via <subnet-A> dev flannel.1 onlink     ← ilwon 라우트 있음
+<subnet-C>/24 via <subnet-C> dev flannel.1 onlink
+<subnet-E>/24 dev cni0 proto kernel scope link src <subnet-E-gw>
 ```
 
 FDB, neighbor table, route table 다 정상. ilwon 측에서도 똑같이 louise 의 flannel.1 MAC (`02:00:00:00:00:11`) 가 잘 매핑되어 있음.
@@ -200,8 +200,8 @@ Firewall stopped and disabled on system startup
 즉시 회복:
 
 ```text
-$ kubectl exec -n academy-staging academy-staging-admin-... -- nc -zv 10.42.4.164 5432
-10.42.4.164 (10.42.4.164:5432) open
+$ kubectl exec -n academy-staging academy-staging-admin-... -- nc -zv <POD_IP> 5432
+<POD_IP> (<POD_IP>:5432) open
 ```
 
 8 개 *-app pod 가 60 초 안에 다 Running 으로 복귀.

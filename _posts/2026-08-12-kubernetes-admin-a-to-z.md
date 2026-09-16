@@ -160,7 +160,7 @@ Prometheus Operator의 ServiceMonitor는 초보자가 반드시 한 번은 데�
 
 ```
 pool   : serviceMonitor/monitoring/claude-telemetry-prod/0
-url    : http://10.42.1.205:8889/metrics
+url    : http://<POD_IP>:8889/metrics
 health : up
 ```
 
