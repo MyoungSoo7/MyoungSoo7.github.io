@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-15T00:41:14Z",
- "scanned": 800,
+ "generated": "2026-09-16T00:41:13Z",
+ "scanned": 821,
  "failed": 0,
  "posts": [
   {
@@ -226,6 +226,12 @@
    "views": 3
   },
   {
+   "url": "/2026/09/14/liquibase-vs-flyway-change-identity/",
+   "title": "Liquibase와 Flyway — 장단점은 '변경의 정체성'을 무엇으로 잡느냐에서 갈린다",
+   "date": "2026-09-14",
+   "views": 3
+  },
+  {
    "url": "/2026/05/03/auto-trading-system/",
    "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
    "date": "2026-05-03",
@@ -294,12 +300,6 @@
   {
    "url": "/2026/07/24/daily-ai-k8s-briefing/",
    "title": "AI & K8s 데일리 브리핑: 2026-07-24",
-   "date": "2026-07-24",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/24/choosing-multi-agent-architecture/",
-   "title": "멀티에이전트 아키텍처 고르기 — LangChain의 4패턴과 실측 비용 비교",
    "date": "2026-07-24",
    "views": 2
   }
