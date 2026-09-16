@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Briefing] 2026-09-16 르무엘 클러스터 상태 점검 리포트"
-date: 2026-09-16 09:05:00 +0900
+date: 2026-09-16 08:50:00 +0900
 categories: [DevOps, Monitoring]
 tags: [K3s, Homelab, Cluster-Report]
 ---
