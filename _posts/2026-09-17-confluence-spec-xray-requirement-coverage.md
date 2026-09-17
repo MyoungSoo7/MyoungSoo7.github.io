@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "사양서(Confluence)와 Xray 커버리지 — 두 도구는 왜 조용히 어긋나는가"
-date: 2026-09-17 19:30:00 +0900
+date: 2026-09-17 19:19:31 +0900
 categories: [Engineering, QA]
 tags: [Xray, Confluence, Jira, 테스트관리, 추적성, 요구사항커버리지]
 ---
