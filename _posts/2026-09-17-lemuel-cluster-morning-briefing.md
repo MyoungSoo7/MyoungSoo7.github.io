@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Report] 2026-09-17 르무엘 클러스터 아침 브리핑 (Morning Briefing)"
-date: 2026-09-17 09:05:00 +0900
+date: 2026-09-17 09:00:00 +0900
 categories: [Infrastructure, Kubernetes, MorningBriefing]
 tags: [k3s, monitoring, morning-briefing]
 ---
