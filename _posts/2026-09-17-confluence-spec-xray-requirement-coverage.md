@@ -197,6 +197,11 @@ Xray 의 `Overall Requirement Coverage` 가젯을 Confluence 페이지에 임베
 - `ABORTED` 는 `NOTRUN` 으로 매핑된다. 회색은 안전이 아니다.
 - 대시보드가 아니라 `requirements('uncovered')` 같은 **JQL 게이트**로 릴리스를 막는다.
 
+이 글은 사양서(Confluence) 쪽에서 본 이야기다. 같은 커버리지를 **Jira 배관** 쪽 —
+이슈타입·링크타입 설치물, 이슈 링크 전역 설정과 Link Work Items 권한, 이슈타입 스킴은 공유했는데
+스크린 스킴이 빠진 경우, CI 임포트의 Test 매칭 규칙 — 에서 본 글이 따로 있다: [Xray 커버리지는 Jira 배관이 결정한다]({% post_url 2026-09-17-jira-plumbing-behind-xray-coverage %}).
+링크가 안 걸리는 원인이 대부분 그쪽에 있다.
+
 도구 조합 전반의 손익은 [Jira와 Confluence의 장점과 단점]({% post_url 2026-09-14-jira-confluence-pros-and-cons %})에서, 이슈 키를 축으로 도구를 한 흐름으로 엮는 방법은 [이슈 키 하나로 세 도구 엮기]({% post_url 2026-09-14-jira-confluence-gitlab-intellij-one-flow %})에서 다뤘다. 사양 자체를 검증 가능한 단위로 쪼개는 문제는 [모호한 아이디어를 결정 가능한 설계로 바꾸는 법]({% post_url 2026-08-09-grill-me-requirements-discovery %})에 가깝다.
 
 ---
