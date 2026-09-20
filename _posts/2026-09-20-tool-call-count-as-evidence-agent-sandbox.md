@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "도구 호출 0회가 증거다 — 에이전트 실습을 검증 로그로 바꾼 표 한 장"
-date: 2026-09-20 18:48:00 +0900
+date: 2026-09-20 18:52:06 +0900
 categories: [ai, agents]
 tags: [openclaw, agent, sandbox, verification, evidence, prompt-injection, memory, governance]
 ---
