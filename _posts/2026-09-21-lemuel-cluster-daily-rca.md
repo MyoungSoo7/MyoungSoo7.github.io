@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[RCA] 2026-09-21 르무엘 클러스터 일일 리포트"
-date: 2026-09-21 09:05:00 +0900
+date: 2026-09-21 09:00:00 +0900
 categories: [devops, rca]
 tags: [k3s, rca, automation, lemuel-cluster]
 ---
