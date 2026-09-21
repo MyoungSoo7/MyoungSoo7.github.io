@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "코드가 한 줄도 없는 리포가 먼저 정한 것 — agt001 의 계약 우선 멀티에이전트 설계"
-date: 2026-09-21 21:45:00 +0900
+date: 2026-09-21 21:53:53 +0900
 categories: [architecture, ai-agents]
 tags: [multi-agent, contract-first, json-schema, nvidia-nim, rag, hackathon, render]
 ---
