@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "에이전트끼리 합의하면, 승인한 사람은 누구인가"
-date: 2026-09-22 23:48:00 +0900
+date: 2026-09-22 23:54:28 +0900
 categories: [agent, protocol]
 tags: [multi-agent, a2a, mcp, human-in-the-loop, confused-deputy, collaboration]
 ---
