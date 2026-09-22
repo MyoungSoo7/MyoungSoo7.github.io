@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-16T00:41:13Z",
- "scanned": 821,
+ "generated": "2026-09-22T00:41:24Z",
+ "scanned": 902,
  "failed": 0,
  "posts": [
   {
@@ -79,6 +79,12 @@
    "url": "/2026/09/10/ai-agent-four-dimensions/",
    "title": "AI Agent를 이해하는 네 가지 축: 자율성·반응성·사전능동성·사회성",
    "date": "2026-09-10",
+   "views": 4
+  },
+  {
+   "url": "/2026/09/20/agent-chatbot-rag-where-the-policy-lives/",
+   "title": "해커톤 에이전트 챗봇 — 검색은 서버로 옮겼는데, 정책은 브라우저에 남았다",
+   "date": "2026-09-20",
    "views": 4
   },
   {
@@ -232,6 +238,12 @@
    "views": 3
   },
   {
+   "url": "/2026/09/20/openclaw-trust-but-verify-lab-log/",
+   "title": "도구 0회가 증명하는 것 — OpenClaw 에이전트 검증 실험 로그 6줄 읽기",
+   "date": "2026-09-20",
+   "views": 3
+  },
+  {
    "url": "/2026/05/03/auto-trading-system/",
    "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
    "date": "2026-05-03",
@@ -288,18 +300,6 @@
   {
    "url": "/2026/07/24/secure-ai-development-lifecycle/",
    "title": "AI 개발 라이프사이클을 다시 본다 — '안전한 AI SDLC' 한 장에서 읽어낸 세 개의 축",
-   "date": "2026-07-24",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/24/agentic-feedback-eval-pipeline/",
-   "title": "피드백을 '검증된 학습'으로 — 에이전트 평가-피드백 파이프라인 해부",
-   "date": "2026-07-24",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/24/daily-ai-k8s-briefing/",
-   "title": "AI & K8s 데일리 브리핑: 2026-07-24",
    "date": "2026-07-24",
    "views": 2
   }
