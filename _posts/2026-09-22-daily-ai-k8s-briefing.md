@@ -1,71 +1,76 @@
 ---
 layout: post
-title: "2026-09-22 데일리 AI·Cloud·ML/신경과학 통합 브리핑"
-date: 2026-09-22 21:00:00 +0900
+title: "2026-09-22 데일리 AI·Cloud·에이전트 통합 브리핑"
+date: 2026-09-22 21:30:00 +0900
 categories: [Briefing, Tech]
-tags: [K8s, DeepLearning, Neuroscience, Rust, Cloud, NaverCloud, Jev, TypeSafe]
+tags: [K8s, DeepLearning, AI-Agent, LangGraph, CrewAI, Jev, TypeSafe, Cloud]
 ---
 
 # 2026-09-22 데일리 기술 브리핑
 
-## 1. 머신러닝, 딥러닝 및 신경과학 (ML/DL & Neuroscience)
+## 1. AI 에이전트 프레임워크 (AI Agents)
 
-### [Deep Learning] 에이전트와 자기 개선(Recursive Self-Improvement)
-- **자기 개선 루프**: 상하이 교통대와 바이트댄스 등이 참여한 "The Last AI Built by Humans" 논문이 화제입니다. 인간의 데이터를 넘어서는 AI의 자기 재작성(Self-rewriting) 아키텍처와 5단계 자율성 로드맵이 제시되었습니다.
-- **DeepSeek-V4.1-Flash**: 긴 문맥의 에이전트 워크로드를 위한 KV 캐시 압축 기술이 크게 진보하며 추론 효율성을 확보했습니다.
-- **Topological Expressivity**: 신경망의 표현력을 위상학적으로 분석하여, Skip connection과 Attention이 복잡한 매니폴드를 '폴딩'하여 성능을 높이는 원리를 수학적으로 입증했습니다.
-
-### [Neuroscience] 뇌-컴퓨터 인터페이스(BCI) 혁신
-- **멀티모달 언어+제스처 디코딩**: 뇌의 운동 피질 신호를 실시간으로 읽어 텍스트와 표정이 풍부한 아바타로 동시 변환하는 기술이 발표되었습니다. 사지 마비 환자의 의사소통을 더 자연스럽게 복구하는 이정표가 될 것으로 기대됩니다.
-- **Sabi Beanie(비침습 BCI)**: 10만 개의 미세 EEG 센서를 내장한 비니 형태의 기기가 공개되었습니다. '뇌 파운데이션 모델'을 통해 수술 없이도 생각만으로 분당 30단어 이상의 텍스트 입력이 가능해지는 단계에 진입했습니다.
+### [Frameworks] 가시화된 생산성
+- **LangGraph**: 엔터프라이즈 에이전트의 표준으로 자리 잡았습니다. 상태 기반 머신과 인간 개입(Human-in-the-loop) 제어 능력을 바탕으로 생산 배포의 약 38%를 점유하며, 복잡한 워크플로우 설계의 핵심 도구가 되었습니다.
+- **CrewAI**: 역할 기반 멀티 에이전트 협업의 속도를 극대화했습니다. 20줄 내외의 코드로 '크루(Crew)'를 구성하는 신속함 덕분에 프로토타이핑 분야에서 압도적인 선택을 받고 있습니다.
+- **Devin (Cognition)**: 'Cloud in Terminal' 업데이트를 통해 로컬에서 시작해 클라우드 VM으로 에이전트 세션을 매끄럽게 이관(SSH handoff)하는 기능을 선보였습니다. 에이전트의 정체성이 기기를 넘어 영속되는 단계에 진입했습니다.
 
 ---
 
-## 2. 개발 언어 및 인프라 동향
+## 2. 머신러닝, 딥러닝 및 신경과학 (ML/DL & Neuroscience)
+
+### [Deep Learning] 자기 개선과 효율성
+- **Recursive Self-Improvement**: AI가 스스로 개선 루프를 설계하는 5단계 자율성 로드맵 논문이 발표되며, 인간 피드백(RLHF)을 넘어선 자기 재작성 모델에 대한 논의가 활발합니다.
+- **DeepSeek-V4.1-Flash**: 에이전트용 긴 문맥 처리를 위한 KV 캐시 압축 최적화로 추론 효율을 획기적으로 높였습니다.
+
+### [Neuroscience] BCI의 진화
+- **멀티모달 BCI**: 운동 피질 신호를 읽어 언어와 아바타 제스처로 동시 변환하는 기술이 마비 환자의 소통 복구에 새로운 가능성을 열었습니다.
+- **Sabi Beanie**: 10만 개의 센서를 비니에 담은 비침습 EEG 장치가 생각만으로 분당 30단어를 입력하는 성과를 보였습니다.
+
+---
+
+## 3. 개발 언어 및 클라우드 동향
 
 ### [Languages] Python & Rust
-- **Rust Adoption**: Ubuntu 26.10의 핵심 유틸리티가 Rust 기반으로 전면 교체되었으며, Microsoft Azure의 내부 핵심 언어로 격상되어 시스템 안전성의 표준이 되고 있습니다.
-- **Python**: 3.14의 Tail Call Optimization 및 3.15의 JIT 성능 개선을 통해 시스템 언어와의 성능 격차를 줄이는 노력이 지속되고 있습니다.
+- **Rust Integration**: Ubuntu 26.10의 핵심 도구 전면 Rust 교체 및 Microsoft의 내부 Tier-1 언어 격상으로 시스템 안전성이 강화되고 있습니다.
+- **Python**: 3.14의 Tail Call Optimization 등 런타임 성능 개선 패치가 이어지고 있습니다.
 
-### [Cloud] CSP 리포트
-- **Naver Cloud**: 하이퍼클로바X 기반의 국방 전용 AI 플랫폼과 SEED 32B 중소형 모델 라인업을 통해 '소버린(Sovereign) AI' 리더십을 강화하고 있습니다.
-- **Global Cloud**: AI 컴퓨팅 파워와 전력 수급 이슈가 화두이며, NVIDIA와 GCP의 에너지 관리 얼라이언스 등 인프라 효율화 경쟁이 치열합니다.
-
----
-
-## 3. Kubernetes 클러스터 운영 현황 (Lemuel K3s)
-
-### 노드 및 작업 상태
-| 노드명 | 상태 | 주요 작업 |
-| --- | --- | --- |
-| david | Ready | etcd 모니터링 |
-| ilwon | Ready | 컨트롤 플레인 안정 |
-| isagal | Ready | 무선 링크 지연 관찰 중 |
-| louise | Ready | 워커 노드 안정 |
-| solomon | Ready | GPU 워크로드 대기 |
-
-- **정산 시스템(settlement-prod)**: `reputation` 작업이 일시적 에러 후 자력 복구되어 최종 **Completed** 상태를 유지하고 있습니다.
-- **모니터링**: 만성적인 메모리 제한에 의한 Logstash(logs-ls-0) 파드의 재시작 패턴을 분석 중입니다.
+### [Cloud] CSP 전략
+- **Naver Cloud**: 하이퍼클로바X 기반 국방 AI 사업 및 중소형 모델(SEED 32B) 라인업 확대로 주권 AI 시장을 공략 중입니다.
+- **Infra Efficiency**: NVIDIA-GCP 에너지 얼라이언스 등 AI 컴퓨팅 파워 확보와 전력 효율화가 클라우드 경쟁의 중심입니다.
 
 ---
 
 ## 4. Jev API 및 의사결정 모델 (Special Section)
 
-### TypeSafe Jev v1.13.0 업데이트
-텍스트 생성을 포기하고 오직 '보정된 확률(Calibrated Probability)'만 출력하는 TypeSafe의 **Jev** 모델이 `v1.13.0`으로 업데이트되었습니다.
-- **확장된 컨텍스트**: 질문과 상태를 포함한 컨텍스트 예산이 **64k**로 확장되어, 더 방대한 코드 diff나 문서의 규칙 준수 여부를 한 번에 검사할 수 있게 되었습니다.
-- **성능 실측**: 최근 Alex Kim의 측정 결과, Jev는 1초 미만(평균 455ms) 지연 시간 구간에서 Claude Haiku 4.5보다 정밀한 확률 분포(56단계)를 보여주며, "모를 때는 모른다"고 답하는 불확실성 추정 능력에서 우위를 보였습니다.
-- **활용 사례**: `Abide`와 같은 실시간 코드 규칙 강제 시스템에서 편집당 수만분의 1달러 수준의 극도로 낮은 비용으로 전량 검사를 수행하는 '제번스 역설(Jevons Paradox)' 기반 전략이 유효함을 입증하고 있습니다.
+### TypeSafe Jev v1.13.0
+- **Calibrated Probability**: 텍스트 생성 없이 오직 정밀한 '확률'만 답하는 Jev 모델이 64k 컨텍스트를 지원합니다.
+- **저비용 게이트**: 수만분의 1달러 수준의 비용으로 코드 diff나 규칙 위반을 실시간 검사하여 에이전트의 안전 장치로 활용되고 있습니다.
 
 ---
 
-## 5. 요약 및 제언
-- **기술 융합**: 딥러닝 모델이 뇌 신호 디코딩의 정밀도를 높이는 등 신경과학과 AI의 결합이 가속화되고 있습니다.
-- **의사결정 최적화**: 텍스트 생성이 불필요한 게이트(Gate)나 필터링 로직에서는 Jev와 같은 특화 모델 도입으로 비용과 속도를 획기적으로 개선할 수 있습니다.
+## 5. Kubernetes 클러스터 운영 현황 (Lemuel K3s)
+
+### 노드 및 작업 상태
+| 노드명 | 상태 | 특이사항 |
+| --- | --- | --- |
+| david | Ready | etcd 안정 |
+| ilwon | Ready | 컨트롤 플레인 정상 |
+| isagal | Ready | 무선 링크 지연 주의 |
+| louise | Ready | 워커 노드 가동 중 |
+| solomon | Ready | GPU 자원 대기 |
+
+- **자력 복구 확인**: `settlement-company-reputation` Job이 에러 후 재시도를 통해 성공적으로 **Completed** 되었습니다.
+
+---
+
+## 6. 요약 및 제언
+- **에이전트**: 이제는 단순한 프롬프트를 넘어 '상태 관리'와 '도구 권한 제어'가 에이전트 구축의 성패를 가릅니다.
+- **의사결정**: 복잡한 판단은 Jev와 같은 특화 모델에 맡겨 비용과 속도를 최적화하는 전략이 유효합니다.
 
 ---
 **[참고 자료]**
-- Hugging Face Daily Papers & TypeSafe Official Blog
+- LangChain & CrewAI Production Reports (Sep 2026)
 - Nature Neuroscience & ICML 2026 Discussions
-- Alex Kim, "Jev is the only sub-second model that will tell you it doesn't know"
-- Lemuel Cluster Live Trace (2026-09-22 20:50 KST)
+- TypeSafe Official Documentation (v1.13.0)
+- Lemuel Cluster Live Trace (2026-09-22 21:20 KST)
