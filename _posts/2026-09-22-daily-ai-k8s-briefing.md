@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "2026-09-22 데일리 AI·Cloud·에이전트 통합 브리핑"
-date: 2026-09-22 21:30:00 +0900
+date: 2026-09-22 21:50:00 +0900
 categories: [Briefing, Tech]
 tags: [K8s, DeepLearning, AI-Agent, LangGraph, CrewAI, Jev, TypeSafe, Cloud]
 ---
@@ -49,28 +49,26 @@ tags: [K8s, DeepLearning, AI-Agent, LangGraph, CrewAI, Jev, TypeSafe, Cloud]
 
 ---
 
-## 5. Kubernetes 클러스터 운영 현황 (Lemuel K3s)
+## 5. Kubernetes 관련 정보 매일 브리핑
 
-### 노드 및 작업 상태
-| 노드명 | 상태 | 특이사항 |
-| --- | --- | --- |
-| david | Ready | etcd 안정 |
-| ilwon | Ready | 컨트롤 플레인 정상 |
-| isagal | Ready | 무선 링크 지연 주의 |
-| louise | Ready | 워커 노드 가동 중 |
-| solomon | Ready | GPU 자원 대기 |
+### K8s v1.36 & v1.37 주요 업데이트
+- **HPA Scale-to-Zero**: Horizontal Pod Autoscaler에서 `minReplicas: 0` 설정이 기본 활성화되어, 유휴 자원 비용 절감 효과가 극대화되었습니다.
+- **보안 강화**: 이미지 Pull을 위한 단기 수명의 'Ephemeral Service Account' 토큰 방식이 도입되어 고정형 Secret 유출 위험을 원천 차단합니다.
+- **In-Place Pod Resize**: 파드 재시작 없이 CPU/메모리 할당량을 실시간으로 조정하는 기능이 안정화(GA)되어 무중단 운영의 유연성이 높아졌습니다.
 
-- **자력 복구 확인**: `settlement-company-reputation` Job이 에러 후 재시도를 통해 성공적으로 **Completed** 되었습니다.
+### AI-Native 인프라 트렌드
+- **멀티 GPU 스케줄링**: 여러 GPU를 사용하는 컨테이너를 그룹 단위로 처리하는 기능이 강화되어, 대규모 AI 추론 에이전트 구동을 위한 최적의 플랫폼으로 진화했습니다.
+- **Cloud Native 생태계**: GitOps(Argo CD)와 자동화 파이프라인에 AI 에이전트가 직접 개입하여 인프라를 관리하는 'Agentic Platform Engineering'이 주목받고 있습니다.
 
 ---
 
 ## 6. 요약 및 제언
-- **에이전트**: 이제는 단순한 프롬프트를 넘어 '상태 관리'와 '도구 권한 제어'가 에이전트 구축의 성패를 가릅니다.
-- **의사결정**: 복잡한 판단은 Jev와 같은 특화 모델에 맡겨 비용과 속도를 최적화하는 전략이 유효합니다.
+- **기술 융합**: 이제는 단순한 AI 모델 도입을 넘어, K8s 인프라와 에이전트 프레임워크가 유기적으로 결합된 '지능형 플랫폼' 구축이 성패를 가릅니다.
+- **의사결정 최적화**: 복잡한 인프라 관리 및 코드 리뷰 과정에 Jev와 같은 특화 모델과 LangGraph의 상태 제어를 도입하여 비용과 안정성을 동시에 확보해야 합니다.
 
 ---
 **[참고 자료]**
 - LangChain & CrewAI Production Reports (Sep 2026)
-- Nature Neuroscience & ICML 2026 Discussions
+- Kubernetes Official Release Notes (v1.36, v1.37)
+- CNCF Cloud Native Trends Report 2026
 - TypeSafe Official Documentation (v1.13.0)
-- Lemuel Cluster Live Trace (2026-09-22 21:20 KST)
