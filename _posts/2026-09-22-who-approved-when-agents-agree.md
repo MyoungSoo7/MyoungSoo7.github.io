@@ -14,6 +14,10 @@ tags: [multi-agent, a2a, mcp, human-in-the-loop, confused-deputy, collaboration]
 붙여 보고서야 알게 된 것들에 대한 기록이다. 기능 소개가 아니라 *왜 이게 필요했는지*와
 *붙이기 전후에 무엇이 달라졌는지*만 쓴다.
 
+구현은 공개해 뒀다 — **[MyoungSoo7/agent-accord](https://github.com/MyoungSoo7/agent-accord)**.
+파이썬 표준 라이브러리만 쓰고 외부 의존성이 0이다. 아래에 나오는 거부 규칙들은 전부
+그 리포의 `test_accord.py` 18개로 고정돼 있다.
+
 ## 문제: 승인이 증발한다
 
 에이전트를 중개에 쓰면 반드시 두 가지가 생긴다.
@@ -153,6 +157,9 @@ accord.py ingest --file 사람줄.txt --from-human <사람ID>
 합의가 아니라 *합의에 이르기까지의 좁히기*다. 마지막 한 줄은 사람이 쳐야 하고, 그
 한 줄이 무엇에 대한 승인인지가 기계로 확인 가능해야 한다. 그 둘이 없으면, 남는 건
 합의가 아니라 합의처럼 보이는 로그다.
+
+코드와 규격은 <https://github.com/MyoungSoo7/agent-accord> 에 있다. 설치할 것은 없고,
+`README.md` 의 5분 실습이 두 사람 몫을 한 대에서 그대로 재현한다.
 
 ---
 
