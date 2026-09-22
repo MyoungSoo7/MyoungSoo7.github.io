@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "쿠버네티스에는 자동 롤백이 없다 — GitOps 커밋 와치독을 만든 이야기"
-date: 2026-09-23 00:20:00 +0900
+date: 2026-09-23 00:17:17 +0900
 categories: [kubernetes, gitops]
 tags: [argocd, gitops, self-heal, rollback, git-trailer, operator, sre, progressdeadlineseconds]
 ---
