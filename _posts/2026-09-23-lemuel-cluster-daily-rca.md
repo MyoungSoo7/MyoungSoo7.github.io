@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Lemuel Cluster Daily RCA Report - 2026-09-23"
-date: 2026-09-23 13:10:00 +0900
+date: 2026-09-23 09:05:00 +0900
 categories: [k8s, rca]
 tags: [lemuel, cluster, stability, monitoring]
 ---
