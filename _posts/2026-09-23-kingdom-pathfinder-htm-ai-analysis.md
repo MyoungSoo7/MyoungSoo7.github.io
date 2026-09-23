@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "설교 1,500편에 질문하는 AI — 헤븐리터치 Kingdom Pathfinder 를 뜯어봤다"
-date: 2026-09-23 09:20:00 +0900
+date: 2026-09-23 09:24:12 +0900
 categories: [AI, 아키텍처]
 tags: [RAG, 검색, LLM, 환각, 기권, 벡터검색, Kingdom Pathfinder, Heavenly Touch Ministry]
 ---
