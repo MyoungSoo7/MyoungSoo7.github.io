@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "DeepSeek Harness 와 API 비용 — 청구서를 정하는 건 모델 단가가 아니라 캐시 적중률이다"
+title: "DeepSeek Harness 와 API 비용 (+ Nemotron) — 청구서를 정하는 건 모델 단가가 아니라 캐시 적중률이다"
 date: 2026-09-25 02:15:00 +0900
 categories: [engineering]
-tags: [deepseek, harness, api-cost, kv-cache, prompt-caching, claude-code, finops]
+tags: [deepseek, nemotron, nvidia, harness, api-cost, kv-cache, prompt-caching, claude-code, finops]
 ---
 
 DeepSeek Harness 는 이 블로그에서 세 번 다뤘다. [결정 원장](/2026/08/27/deepseek-harness-decision-ledger/), [인포그래픽 팩트체크](/2026/09/03/deepseek-harness-infographic-fact-check/), [직접 실행과 세션 로그 업로드](/2026/09/17/deepseek-harness-hands-on-postmortems-and-session-log-upload/). 세 글 모두 **돈 이야기는 하지 않았다.** 이번에는 비용을 다룬다.
 
 결론부터 쓴다. DeepSeek API 에서는 **캐시 적중 입력이 캐시 미스 입력보다 30~50 배 싸다.** 그래서 에이전트 하네스의 비용은 "어떤 모델을 쓰느냐"보다 **"요청 앞부분(prefix)을 얼마나 안 깨느냐"**로 더 크게 갈린다. DeepSeek Harness 는 이 사실을 설계 규약으로 박아 둔 리포다. 패키지 README 에 **"KV Cache effect" 절이 403 번** 나온다.
 
-> 기준: DeepSeek·Anthropic 가격은 2026-09-25 공식 페이지 기준이다. 리포는 [`deepseek-ai/deepseek-harness`](https://github.com/deepseek-ai/deepseek-harness) 커밋 `477b4f4`(2026-09-24)를 클론해 셌다. 가격은 자주 바뀐다. 8월에는 DeepSeek 가격 페이지에 "큰 폭의 인상 예정" 공지가 붙어 있었다([8/12 글](/2026/08/12/ai-coding-token-cost-fact-check/)).
+> **가격 기준일: 2026-09-25.** 이 글의 모든 API 토큰 가격(DeepSeek·Anthropic·NVIDIA Nemotron/Amazon Bedrock·OpenRouter)은 이 날짜에 각 공식 페이지에서 조회한 값이다. 리포는 [`deepseek-ai/deepseek-harness`](https://github.com/deepseek-ai/deepseek-harness) 커밋 `477b4f4`(2026-09-24)를 클론해 셌다. 가격은 자주 바뀐다. 8월에는 DeepSeek 가격 페이지에 "큰 폭의 인상 예정" 공지가 붙어 있었다([8/12 글](/2026/08/12/ai-coding-token-cost-fact-check/)).
 
 ---
 
@@ -18,7 +18,7 @@ DeepSeek Harness 는 이 블로그에서 세 번 다뤘다. [결정 원장](/202
 
 [DeepSeek 공식 가격 페이지](https://api-docs.deepseek.com/quick_start/pricing)의 현행 모델은 두 개다. 단위는 USD / 1M 토큰이다.
 
-| | `deepseek-flash` 피크 | `deepseek-flash` 오프피크 | `deepseek-v4-pro` 피크 | `deepseek-v4-pro` 오프피크 |
+| (2026-09-25 기준) | `deepseek-flash` 피크 | `deepseek-flash` 오프피크 | `deepseek-v4-pro` 피크 | `deepseek-v4-pro` 오프피크 |
 |---|---|---|---|---|
 | 입력 (캐시 적중) | $0.006 | $0.003 | $0.044 | $0.022 |
 | 입력 (캐시 미스) | $0.30 | $0.15 | $1.32 | $0.66 |
@@ -84,7 +84,7 @@ LLM 어댑터([`llm-deepseek` README](https://github.com/deepseek-ai/deepseek-ha
 | `deepseek-v4-pro` 피크 | **$0.339** | $2.633 | 7.8× |
 | `deepseek-v4-pro` 오프피크 | $0.170 | $1.317 | 7.8× |
 
-같은 가정으로 [Anthropic 공식 가격](https://platform.claude.com/docs/en/about-claude/pricing)을 대면 다음과 같다. 새로 붙는 부분은 5 분 캐시 쓰기, 나머지는 캐시 읽기로 계산했다.
+같은 가정으로 [Anthropic 공식 가격](https://platform.claude.com/docs/en/about-claude/pricing)(2026-09-25 기준)을 대면 다음과 같다. 새로 붙는 부분은 5 분 캐시 쓰기, 나머지는 캐시 읽기로 계산했다.
 
 | 모델 | 캐시 활용 | 캐시 없음 |
 |---|---|---|
@@ -93,6 +93,8 @@ LLM 어댑터([`llm-deepseek` README](https://github.com/deepseek-ai/deepseek-ha
 | Claude Opus 5.5 | $1.495 | $8.220 |
 
 이 표에서 읽을 것은 두 가지다.
+
+Nemotron 을 같은 가정으로 계산한 표는 아래 5절에 있다.
 
 1. **같은 벤더 안에서 캐시가 깨지면 비용이 약 8 배가 된다.** 이 차이는 모델을 바꿔서 생기는 차이와 맞먹는다. flash 로 캐시를 매 턴 깨면($0.608), v4-pro 로 캐시를 지킨 것($0.339)보다 비싸다.
 2. **벤더 간 단가 차이는 크다. 하지만 이 표는 품질을 비교하지 않는다.** 같은 일을 몇 턴에 끝내는지, 재시도가 얼마나 나는지는 모델마다 다르다. 턴 수가 두 배가 되면 비용도 거의 두 배가 된다.
@@ -105,7 +107,56 @@ LLM 어댑터([`llm-deepseek` README](https://github.com/deepseek-ai/deepseek-ha
 
 ---
 
-## 5. Claude Code 에 DeepSeek 를 붙이면 캐시는 어떻게 되나
+## 5. Nemotron 은 어떤가 — NVIDIA 는 토큰을 팔지 않는다
+
+DeepSeek 의 대안으로 자주 거론되는 오픈 모델이 NVIDIA **Nemotron** 이다. [free-claude-code](/2026/09/11/free-claude-code-what-it-actually-reroutes/)의 기본 모델도 `nvidia_nim/nvidia/nemotron-3-super-120b-a12b` 였다. 그런데 비용 구조가 DeepSeek 와 근본적으로 다르다.
+
+### NVIDIA 자체 API 에는 토큰 가격표가 없다 (2026-09-25 기준)
+
+- build.nvidia.com 의 호스팅 API 는 **무료 체험**이다. [NIM 페이지](https://developer.nvidia.com/nim)는 "DGX Cloud 기반 NIM API 엔드포인트를 **프로토타이핑용으로 무료**로 제공한다"고 적는다. [NIM FAQ](https://forums.developer.nvidia.com/t/nvidia-nim-faq/300317)는 이 카탈로그가 **"평가와 프로토타이핑 용도로만"** 설계됐다고 밝히고, 레이트 리밋은 모델과 동시 사용자 수에 따라 달라진다고만 한다. 수치는 공개하지 않는다.
+- [모델 페이지](https://build.nvidia.com/nvidia/nemotron-3-super-120b-a12b)의 체험 서비스는 **NVIDIA API Trial Terms of Service** 를 따른다.
+- **프로덕션**은 두 갈래다.
+  1. NIM 컨테이너를 직접 띄운다. 이 경우 **NVIDIA AI Enterprise 라이선스**가 필요하고 과금 단위는 **GPU** 다. 가격은 공개돼 있지 않고 "Contact Us" 와 90 일 체험판만 있다([AI Enterprise](https://www.nvidia.com/en-us/data-center/products/ai-enterprise/)).
+  2. 파트너의 종량제 엔드포인트를 쓴다.
+- 가중치 자체는 다르다. [Nemotron 페이지](https://www.nvidia.com/en-us/ai-data-science/foundation-models/nemotron/) FAQ 는 Hugging Face 에서 내려받은 모델을 **"프로덕션에서도 무료로"** 돌릴 수 있다고 적는다. 라이선스는 MIT 가 아니라 **NVIDIA Nemotron Open Model License** 다([모델 카드](https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8), "ready for commercial use").
+
+정리하면 **무료 엔드포인트로 에이전트를 상시 돌리는 건 약관상 프로토타이핑의 범위를 넘는다.** 토큰당 비용을 내고 쓰려면 NVIDIA 가 아니라 클라우드 사업자의 가격표를 봐야 한다.
+
+### 1 차 가격표: Amazon Bedrock (2026-09-25 기준)
+
+클라우드 사업자 공식 가격표 가운데 Nemotron 을 올려 둔 곳은 [Amazon Bedrock](https://aws.amazon.com/bedrock/pricing/)(NVIDIA 탭, 온디맨드)이다. 단위는 USD / 1M 토큰이다.
+
+| 모델 | 입력 | 출력 | 비고 |
+|---|---|---|---|
+| Nemotron 3 Super 120B A12B | $0.15 | $0.65 | US East/West |
+| Nemotron 3 Nano 30B A3B | $0.06 | $0.24 | US East/West |
+| Nemotron Nano 2 | $0.06 | $0.23 | US East/West |
+| Nemotron Nano 2 VL | $0.20 | $0.60 | US East/West |
+
+GovCloud 는 Super 기준 $0.18 / $0.78 이다. 리전마다 가격이 다르므로 서울 리전 제공 여부와 가격은 콘솔에서 직접 확인해야 한다. 그리고 가격표에 **Nemotron 용 프롬프트 캐싱 단가가 없다.** 4 절과 같은 30 턴 세션을 캐시 할인 없이 계산하면 다음과 같다.
+
+| 모델 (Bedrock US, 2026-09-25) | 30 턴 세션 |
+|---|---|
+| Nemotron 3 Nano 30B A3B | $0.121 |
+| Nemotron 3 Super 120B A12B | $0.305 |
+| (비교) `deepseek-flash` 피크, 접두사 유지 | $0.079 |
+| (비교) `deepseek-flash` 피크, 매 턴 깨짐 | $0.608 |
+
+재미있는 대비가 나온다. Nemotron Super 의 캐시 없는 입력 단가($0.15)는 DeepSeek flash **오프피크의 캐시 미스** 단가와 같다. 하지만 DeepSeek 는 캐시가 적중하면 $0.003~0.006 까지 내려간다. **캐시를 잘 지키는 하네스라면 DeepSeek 가, 접두사가 자주 깨지는 워크로드라면 캐시 할인이 없는 Nemotron 이 상대적으로 유리해지는** 구조다. 이번에도 품질·턴 수는 비교에 넣지 않았다.
+
+### 애그리게이터 가격 (참고, 2026-09-25 기준)
+
+1 차 출처는 아니지만 시장 가격을 가늠하는 참고로 적는다. [OpenRouter 의 Nemotron 3 Super 엔드포인트 목록](https://openrouter.ai/api/v1/models/nvidia/nemotron-3-super-120b-a12b/endpoints)에는 다음이 올라 있다.
+
+- DeepInfra(bf16): $0.085 / $0.40
+- DekaLLM(fp8): $0.08 / $0.45
+- 무료 변형 `:free`: 제공자 "Nvidia", $0 / $0
+
+세 곳 모두 컨텍스트 262,144 이고 캐싱은 없다. 모델 카드상 최대 컨텍스트는 1M 이지만 Hugging Face 기본 설정은 256K 이고, 호스팅 제공자는 대개 이쪽을 따른다. 무료 변형도 결국 위의 NVIDIA 체험 약관 범위 안이라고 보는 게 안전하다.
+
+---
+
+## 6. Claude Code 에 DeepSeek 를 붙이면 캐시는 어떻게 되나
 
 DeepSeek 는 Anthropic 형식 엔드포인트 `https://api.deepseek.com/anthropic` 을 제공하고, [Claude Code 연동 가이드](https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code)도 공식으로 낸다. 비용 관점에서 봐야 할 부분은 다음과 같다([Anthropic API 호환 문서](https://api-docs.deepseek.com/guides/anthropic_api)).
 
@@ -120,7 +171,7 @@ DeepSeek 는 Anthropic 형식 엔드포인트 `https://api.deepseek.com/anthropi
 
 ---
 
-## 6. 비용표에 안 나오는 비용
+## 7. 비용표에 안 나오는 비용
 
 - **동시성 한도**: DeepSeek 의 [레이트 리밋](https://api-docs.deepseek.com/quick_start/rate_limit)은 RPM 이 아니라 **동시 요청 수**로 걸린다. flash 는 2,500, v4-pro 는 500 이고, 키가 여러 개여도 **계정 단위**로 계산된다. 넘으면 429 가 난다. 서브에이전트를 많이 띄우는 하네스라면 이 한도가 병목이 된다. 확장 요청은 추가 비용이 없다고 한다.
 - **데이터 위치**: [DeepSeek 개인정보처리방침](https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html)(2026-05-06 개정)은 서버가 **중화인민공화국에 있다**고 적는다. 사내 코드를 보내는 에이전트라면 단가보다 먼저 이 조항이 도입 여부를 가른다.
@@ -135,7 +186,8 @@ DeepSeek 는 Anthropic 형식 엔드포인트 `https://api.deepseek.com/anthropi
 2. 시스템 프롬프트나 도구 목록을 세션 중간에 **앞에서 고치면** 그 뒤 전부가 미스가 된다. 바뀐 내용은 **뒤에 덧붙인다.** DeepSeek Harness 가 `in-history` 와 `addition-only` 로 하는 일이 이것이다.
 3. 한국 낮 시간(평일 10–13 시, 15–19 시 KST)은 DeepSeek **피크**다. 배치 작업은 밤이나 주말로 옮기면 절반 가격이다.
 4. 하네스가 보여 주는 토큰 수는 참고치다. 특히 한국어는 과소평가된다. **판단은 `usage` 필드와 콘솔 청구 내역으로** 한다.
-5. 단가표 비교는 품질을 빼고 한 계산이다. 실제 비용은 "턴당 단가 × 끝내는 데 걸린 턴 수"이고, 뒤쪽 항은 직접 돌려 봐야 안다.
+5. **Nemotron 은 NVIDIA 가 토큰을 팔지 않는다.** 무료 API 는 프로토타이핑용이다. 종량제는 Bedrock 같은 클라우드 가격표(Super $0.15 / $0.65, 캐시 할인 없음)를 보고, 아니면 가중치를 내려받아 GPU 비용으로 계산한다.
+6. 단가표 비교는 품질을 빼고 한 계산이다. 실제 비용은 "턴당 단가 × 끝내는 데 걸린 턴 수"이고, 뒤쪽 항은 직접 돌려 봐야 안다.
 
 ---
 
@@ -155,3 +207,11 @@ DeepSeek 는 Anthropic 형식 엔드포인트 `https://api.deepseek.com/anthropi
 12. Anthropic, *Claude Code — LLM gateway configuration*. <https://code.claude.com/docs/en/llm-gateway>
 13. Hugging Face, *deepseek-ai/DeepSeek-V4-Pro-0813*. <https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813>
 14. Hugging Face, *deepseek-ai/DeepSeek-V4.1-Flash*. <https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash>
+15. NVIDIA, *NIM for Developers*. <https://developer.nvidia.com/nim>
+16. NVIDIA Developer Forums, *NVIDIA NIM FAQ*. <https://forums.developer.nvidia.com/t/nvidia-nim-faq/300317>
+17. NVIDIA, *nemotron-3-super-120b-a12b* (API Catalog). <https://build.nvidia.com/nvidia/nemotron-3-super-120b-a12b>
+18. NVIDIA, *Nemotron foundation models*. <https://www.nvidia.com/en-us/ai-data-science/foundation-models/nemotron/>
+19. NVIDIA, *AI Enterprise*. <https://www.nvidia.com/en-us/data-center/products/ai-enterprise/>
+20. Hugging Face, *nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8*. <https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8>
+21. AWS, *Amazon Bedrock Pricing* (NVIDIA 탭, 2026-09-25 조회). <https://aws.amazon.com/bedrock/pricing/>
+22. OpenRouter, *nvidia/nemotron-3-super-120b-a12b endpoints* (애그리게이터, 참고용). <https://openrouter.ai/api/v1/models/nvidia/nemotron-3-super-120b-a12b/endpoints>
