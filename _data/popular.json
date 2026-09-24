@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-22T00:41:24Z",
- "scanned": 902,
+ "generated": "2026-09-24T00:41:23Z",
+ "scanned": 920,
  "failed": 0,
  "posts": [
   {
@@ -85,6 +85,12 @@
    "url": "/2026/09/20/agent-chatbot-rag-where-the-policy-lives/",
    "title": "해커톤 에이전트 챗봇 — 검색은 서버로 옮겼는데, 정책은 브라우저에 남았다",
    "date": "2026-09-20",
+   "views": 4
+  },
+  {
+   "url": "/2026/09/22/who-approved-when-agents-agree/",
+   "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
+   "date": "2026-09-22",
    "views": 4
   },
   {
@@ -244,6 +250,12 @@
    "views": 3
   },
   {
+   "url": "/2026/09/22/skill-listing-is-the-real-cost-jev-skill-suggestion/",
+   "title": "지연 로딩은 이미 하고 있다 — jev-skill-suggestion 이 실제로 들어내는 것은 '목록'이다",
+   "date": "2026-09-22",
+   "views": 3
+  },
+  {
    "url": "/2026/05/03/auto-trading-system/",
    "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
    "date": "2026-05-03",
@@ -289,18 +301,6 @@
    "url": "/2026/07/23/ai-work-operating-rules/",
    "title": "AI 작업에 '운영 규칙'을 세워라 — 작업 전·중·후, 하나의 규칙, 증거 기반 완료 보고",
    "date": "2026-07-23",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/24/ouroboros-vs-gajae-on-claude-code/",
-   "title": "이미 Claude Code를 쓴다면 — Gajae-Code보다 Ouroboros가 나은 이유",
-   "date": "2026-07-24",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/24/secure-ai-development-lifecycle/",
-   "title": "AI 개발 라이프사이클을 다시 본다 — '안전한 AI SDLC' 한 장에서 읽어낸 세 개의 축",
-   "date": "2026-07-24",
    "views": 2
   }
  ]
