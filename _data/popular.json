@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-24T00:41:23Z",
- "scanned": 920,
+ "generated": "2026-09-25T00:41:26Z",
+ "scanned": 952,
  "failed": 0,
  "posts": [
   {
@@ -58,6 +58,12 @@
    "views": 5
   },
   {
+   "url": "/2026/09/22/who-approved-when-agents-agree/",
+   "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
+   "date": "2026-09-22",
+   "views": 5
+  },
+  {
    "url": "/2026/08/18/what-a-harness-score-of-8-6-actually-measures/",
    "title": "평균 8.6점짜리 하네스는 무엇으로 만들어지는가 — 검증 9.5, 상태 8.0 의 편차를 읽는다",
    "date": "2026-08-18",
@@ -85,12 +91,6 @@
    "url": "/2026/09/20/agent-chatbot-rag-where-the-policy-lives/",
    "title": "해커톤 에이전트 챗봇 — 검색은 서버로 옮겼는데, 정책은 브라우저에 남았다",
    "date": "2026-09-20",
-   "views": 4
-  },
-  {
-   "url": "/2026/09/22/who-approved-when-agents-agree/",
-   "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
-   "date": "2026-09-22",
    "views": 4
   },
   {
