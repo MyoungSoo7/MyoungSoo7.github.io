@@ -74,7 +74,7 @@ Azure 문서는 이 서비스의 성격을 분명히 적는다.[^azure]
 ### 실무 함의
 
 - **AWS 에서는 IMDSv1 을 끄고 IMDSv2 만 허용**한다. AWS 문서에 따르면 기본값은 v1·v2 둘 다 허용이고, 인스턴스별로 v2 만 받도록 설정할 수 있다.[^aws-how]
-- **컨테이너 환경에서 hop limit 을 함부로 올리지 않는다.** AWS 문서는 컨테이너 서비스와의 호환을 위해 hop limit 을 늘려야 할 수 있다고 적는다.[^aws-how] 늘리는 순간 **노드의 역할 자격 증명이 파드에서도 보일 수 있다.** 파드에는 노드 역할이 아니라 워크로드 단위 자격 증명을 주는 방식이 원칙이다.
+- **컨테이너 환경에서 hop limit 을 함부로 올리지 않는다.** AWS 문서는 컨테이너 서비스와의 호환을 위해 hop limit 을 늘려야 할 수 있다고 적는다.[^aws-how] 늘리는 순간 **노드의 역할 자격 증명이 파드에서도 보일 수 있다.** AWS EKS 모범사례 문서도 *"the pod can still inherit the rights of the instance profile assigned to the worker node"* 라며 필요 없는 파드의 메타데이터 접근을 막으라고 권한다.[^eks-bp] 파드에는 노드 역할이 아니라 워크로드 단위 자격 증명을 주는 방식이 원칙이다.
 - **URL 을 가져오는 기능에는 목적지 허용 목록**을 두고, 링크 로컬·사설 대역을 명시적으로 막는다. OWASP SSRF 방어 치트시트가 구체적 방법을 정리해 두었다.[^owasp-cs]
 
 ## 4. 운영의 메타데이터 — 로그가 가장 큰 메타데이터 저장소다
@@ -113,4 +113,5 @@ Azure 문서는 이 서비스의 성격을 분명히 적는다.[^azure]
 [^aws-how]: AWS, *Use the Instance Metadata Service to access instance metadata* (Amazon EC2 User Guide). <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-metadata-v2-how-it-works.html>
 [^gcp]: Google Cloud, *Access VM metadata* (Compute Engine documentation). <https://cloud.google.com/compute/docs/metadata/querying-metadata>
 [^aws-blog]: AWS Security Blog, *Add defense in depth against open firewalls, reverse proxies, and SSRF vulnerabilities with enhancements to the EC2 Instance Metadata Service*. <https://aws.amazon.com/blogs/security/defense-in-depth-open-firewalls-reverse-proxies-ssrf-vulnerabilities-ec2-instance-metadata-service/>
+[^eks-bp]: AWS, *Amazon EKS Best Practices Guide — Identity and Access Management*. <https://docs.aws.amazon.com/eks/latest/best-practices/identity-and-access-management.html>
 [^owasp-cs]: OWASP Cheat Sheet Series, *Server-Side Request Forgery Prevention Cheat Sheet*. <https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html>
