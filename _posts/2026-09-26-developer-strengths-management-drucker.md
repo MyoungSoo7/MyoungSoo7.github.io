@@ -134,7 +134,7 @@ van Woerkom & Meyers 가 측정한 것은 개인의 강점 목록이 아니라 *
 
 ## References
 
-[^mo]: Peter F. Drucker, *Managing Oneself*, Harvard Business Review (1999; HBR Classics reprint, January 2005). <https://hbr.org/2005/01/managing-oneself>
+[^mo]: Peter F. Drucker, *Managing Oneself*, Harvard Business Review (원 게재 1999년, HBR Classics 재게재 2005년 1월). <https://hbr.org/2005/01/managing-oneself> — HBR 원문은 구독이 필요하며, 이 글의 인용문은 전문과 대조했다.
 [^ee]: Peter F. Drucker, *The Effective Executive*, Chapter 4 "Making Strength Productive". <https://www.taylorfrancis.com/chapters/mono/10.4324/9780080549354-4/making-strength-productive-peter-drucker>
 [^lee-author]: 예스24, 저자 소개 — 이준희(면접왕 이형). <https://www.yes24.com/product/goods/150820205>
 [^lee-book]: 이준희(면접왕 이형), 《대체되지 않는 사람》, 얼라이브북스, 2025 — 책 소개 및 목차. <https://www.yes24.com/product/goods/146518146>
