@@ -112,4 +112,4 @@ USENIX Security 2025 에 실린 KAIST·고려대·성균관대·티오리 공동
 [^cve49440]: NIST NVD, *CVE-2023-49440*. <https://nvd.nist.gov/vuln/detail/CVE-2023-49440>
 [^cve60357]: NIST NVD, *CVE-2025-60357*. <https://nvd.nist.gov/vuln/detail/CVE-2025-60357>
 [^astx]: AhnLab, *AhnLab Safe Transaction (ASTx)* 제품 소개. <https://www.ahnlab.com/ko/product/astx>
-[^ksa]: Taisic Yun et al., *Too Much of a Good Thing: (In-)Security of Mandatory Security Software for Financial Services in South Korea*, USENIX Security 2025. <https://www.usenix.org/conference/usenixsecurity25/presentation/yun>
+[^ksa]: Taisic Yun et al., *Too Much of a Good Thing: (In-)Security of Mandatory Security Software for Financial Services in South Korea*, USENIX Security 2025. <https://www.usenix.org/conference/usenixsecurity25/presentation/yun> · 논문 PDF: <https://www.usenix.org/system/files/usenixsecurity25-yun.pdf>
