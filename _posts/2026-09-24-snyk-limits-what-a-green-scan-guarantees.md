@@ -32,7 +32,7 @@ NC State 의 Imtiaz·Thorne·Williams 는 ESEM 2021 에서 업계 SCA 도구 9�
 
 Snyk 는 자사 DB 에 대해 *"All items in the database are analyzed and verified"* 이고 *"eliminates false positives"* 한다고 설명한다.[^snykdb] 이건 **벤더 주장**이다. 수동 큐레이션은 분명히 품질을 올리지만, 위 연구가 보여주듯 "어느 한 DB 가 전부를 안다" 는 근거는 없다.
 
-그리고 어떤 DB 든 **공개된 뒤에야** 안다. 2024년 3월 xz/liblzma 백도어는 오픈소스 메일링 리스트에 공개된 순간까지 어떤 SCA DB 에도 없었다.[^xz] 공급망 공격의 가장 위험한 구간은 정의상 스캐너의 사각지대다.
+그리고 어떤 DB 든 **공개된 뒤에야** 안다. 2024년 3월 xz/liblzma 백도어는 오픈소스 보안 메일링 리스트의 공개 글로 처음 알려졌다.[^xz] 공개되기 전의 취약점은 정의상 어떤 DB 에도 올라갈 수 없다. 공급망 공격의 가장 위험한 구간은 정의상 스캐너의 사각지대다.
 
 ## 2. 의존성 그래프 — Snyk 가 본 그래프는 내 빌드와 다를 수 있다
 
