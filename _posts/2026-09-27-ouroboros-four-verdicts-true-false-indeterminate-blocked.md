@@ -69,7 +69,7 @@ Blocked 는 에이전트의 문제가 아니다. **에이전트를 부르지 말
 
 > *"If Stage 1 always passes, this is usually why."*
 
-즉 `.ouroboros/mechanical.toml` 이 없거나 자동 탐지가 실패하면, Stage 1 은 **아무것도 막지 않는 게이트**가 된다. "증거 없음" 을 True 로 접는 순간 생기는 일이다. 4분기로 보면 이건 True 가 아니라 **Blocked**(검사할 수단이 없음)다.
+문서에 따르면 `ouroboros run` 경로에서는 파일이 없는 것만으로는 이 상태가 되지 않고, 자동 탐지가 *실패*해야 한다. 그런데 필자가 v0.54.6 으로 실험해 보니 경로가 하나 더 있었다. 직접 써 둔 `mechanical.toml` 의 `test = "pytest -q"` 가 "리포가 pytest 를 선언하지 않았다" 는 이유로 로그 경고 한 줄(`mechanical.toml_entry_point_invalid`)만 남기고 버려졌다. 어느 경우든 Stage 1 은 **아무것도 막지 않는 게이트**가 된다. "증거 없음" 을 True 로 접는 순간 생기는 일이다. 4분기로 보면 이건 True 가 아니라 **Blocked**(검사할 수단이 없음)다.
 
 ## 3. 우로보로스는 이미 어디까지 와 있나
 
