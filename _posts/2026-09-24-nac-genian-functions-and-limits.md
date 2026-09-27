@@ -41,11 +41,11 @@ NAC 의 첫 가치는 **가시성**이다. Genian 은 네트워크 센서가 수
 
 ### 1.4 차단 — 세 가지 방식
 
-Genian 문서가 밝히는 강제(enforcement) 방식은 세 가지다.[^g-enforce]
+Genian 문서는 ARP, 포트 미러링(SPAN), 802.1X(RADIUS), DHCP, 스위치 포트 차단, 인라인 패킷 필터링, 에이전트 동작까지 여러 강제(enforcement) 방식을 제공한다.[^g-enforce] 그중 네트워크 구성을 가장 크게 좌우하는 세 가지를 비교하면 이렇다.
 
 | 방식 | 원리 | 장점 | 전제 조건 |
 |---|---|---|---|
-| **ARP Enforcement** | 센서가 ARP 요청에 **자기 MAC 으로 응답**해 트래픽을 가로챈 뒤, 정책에 따라 버리거나 전달 | 스위치 교체·대규모 설정 변경 불필요 | 관리할 **모든 브로드캐스트 도메인**에 센서 연결 |
+| **ARP Enforcement** | 센서가 ARP 요청에 **자기 MAC 으로 응답**해 트래픽을 가로챈 뒤, 정책에 따라 버리거나 전달 | 스위치 교체·대규모 설정 변경 불필요 | 관리할 **모든 브로드캐스트 도메인**에 센서 연결[^g-sensor] |
 | **Port Mirroring (SPAN)** | 미러링 포트로 새 세션을 보고 TCP RST · ICMP Unreachable 로 끊음 | 네트워크 변경 최소 | 미러링 지원 스위치 또는 TAP |
 | **802.1X (RADIUS)** | 스위치·AP 포트 자체를 열고 닫음 | 문서 스스로 "가장 이상적인 방식" 이라 표현 | 802.1X 지원 장비, 포트별 설정 |
 
@@ -96,7 +96,7 @@ NAC 가 만든 경계는 "사내망 입구" 라는 경계다. 그 안에서의 �
 
 > *"Zero trust assumes there is no implicit trust granted to assets or user accounts based solely on their physical or network location (i.e., local area networks versus the internet)..."*
 
-"사내망에 있으니 믿는다" 는 NAC 의 전통적 모델과 정면으로 부딪히는 문장이다. 업계가 **ZTNA** 로 옮겨가는 이유가 여기 있고, Genian 도 제품군과 문서 체계에서 NAC 를 ZTNA 로 확장하고 있다.[^g-intro]
+"사내망에 있으니 믿는다" 는 NAC 의 전통적 모델과 정면으로 부딪히는 문장이다. 업계가 **ZTNA** 로 옮겨가는 이유가 여기 있다. Genian 문서도 NAC 6.0 을 *"Zero Trust Network Access"* 라는 이름으로 소개한다.[^g-intro]
 
 ### 2.7 운영이 실제 보안 수준을 정한다
 
