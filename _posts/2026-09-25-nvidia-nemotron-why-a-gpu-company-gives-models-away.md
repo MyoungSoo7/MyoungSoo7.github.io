@@ -115,7 +115,7 @@ Nemotron 은 오픈 모델 생태계에 분명한 기여를 한다. 데이터와
 
 ## References
 
-[^old3]: Hugging Face, *nvidia/nemotron-3-8b-base-4k* (2023-11-14 등록). <https://huggingface.co/nvidia/nemotron-3-8b-base-4k>
+[^old3]: Hugging Face, *nvidia/nemotron-3-8b-base-4k* (등록일 2023-11-14, Hugging Face API 의 createdAt 기준). <https://huggingface.co/nvidia/nemotron-3-8b-base-4k> · API: <https://huggingface.co/api/models/nvidia/nemotron-3-8b-base-4k>
 [^n4]: NVIDIA, *Nemotron-4 340B Technical Report*, arXiv:2406.11704. <https://arxiv.org/abs/2406.11704>
 [^nh]: NVIDIA, *Nemotron-H: A Family of Accurate and Efficient Hybrid Mamba-Transformer Models*, arXiv:2504.03624. <https://arxiv.org/abs/2504.03624>
 [^nano2]: NVIDIA, *NVIDIA Nemotron Nano 2: An Accurate and Efficient Hybrid Mamba-Transformer Reasoning Model*, arXiv:2508.14444. <https://arxiv.org/abs/2508.14444>
