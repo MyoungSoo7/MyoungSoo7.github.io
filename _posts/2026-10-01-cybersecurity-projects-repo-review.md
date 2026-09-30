@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "CarterPerez-dev/Cybersecurity-Projects 살펴보기 — 흐름 수집 다음에 무엇을 붙여 볼까"
-date: 2026-10-01 00:12:00 +0900
+date: 2026-10-01 00:10:00 +0900
 categories: [security, homelab]
 tags: [cybersecurity, github, honeytoken, ja4, c2, packet-capture, agpl]
 ---
