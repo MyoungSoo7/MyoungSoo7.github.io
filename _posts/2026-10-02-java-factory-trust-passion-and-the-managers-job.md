@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "자바공장 2편 — 질문은 신뢰가 있어야 나오고, 열정은 방향이 있어야 쓸모 있고, 그 둘을 이어 주는 게 관리자다"
-date: 2026-10-02 21:40:00 +0900
+date: 2026-10-02 21:20:00 +0900
 categories: [reflection, career, communication]
 tags: [communication, trust, psychological-safety, management, team, junior, career]
 ---
