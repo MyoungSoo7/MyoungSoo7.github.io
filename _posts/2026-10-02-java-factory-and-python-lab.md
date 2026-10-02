@@ -26,7 +26,7 @@ tags: [java, python, culture, reproducibility, mlops, jupyter, team, communicati
 
 연구소의 대표 산출물은 Jupyter 노트북이다. 코드, 설명, 결과를 한 문서에 담고 공유하기 좋다. 그런데 **다시 돌려도 같은 결과가 나올까?**
 
-이 질문에 숫자로 답한 연구가 있다. Pimentel 외, [「A Large-scale Study about Quality and Reproducibility of Jupyter Notebooks」](https://leomurta.github.io/papers/pimentel2019a.pdf)(MSR 2019)는
+이 질문에 숫자로 답한 연구가 있다. Pimentel 외, [「A Large-scale Study about Quality and Reproducibility of Jupyter Notebooks」](https://leomurta.github.io/papers/pimentel2019a.pdf)(2019)는
 GitHub 의 노트북 140만 개를 분석했다. 실행 순서와 Python 버전이 명확한 노트북 **863,878개를 실제로 돌려 본 결과**는 이랬다.
 
 - 오류 없이 끝까지 실행된 것: **24.11%**
@@ -103,6 +103,6 @@ Python 코드를 Rust 로 바꿔 성능을 얻으려는 도구다. 연구소의 
 
 ## References
 
-- J. F. Pimentel, L. Murta, V. Braganholo, J. Freire, *A Large-scale Study about Quality and Reproducibility of Jupyter Notebooks*, MSR 2019 — <https://leomurta.github.io/papers/pimentel2019a.pdf>
+- J. F. Pimentel, L. Murta, V. Braganholo, J. Freire, *A Large-scale Study about Quality and Reproducibility of Jupyter Notebooks*, 2019 — <https://leomurta.github.io/papers/pimentel2019a.pdf>
 - D. Sculley et al., *Hidden Technical Debt in Machine Learning Systems*, NeurIPS 2015 — <https://papers.nips.cc/paper_files/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html>
 - Melvin E. Conway, *How Do Committees Invent?*, Datamation, April 1968 — <http://www.melconway.com/Home/Committees_Paper.html>
