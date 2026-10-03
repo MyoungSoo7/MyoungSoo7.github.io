@@ -91,6 +91,8 @@ tags: [K3s, 홈랩, LiteLLM, NeMo-Guardrails, OpenViking, Ghost, linkding, 디�
 
 이 서비스는 고르기 나름이다. 북마크를 실제로 쓰거나, 아니면 내리면 된다. 요청 수만 보면 살아 있는 서비스처럼 보인다는 점이 오히려 함정이다.
 
+> **업데이트(2026-10-04 00:40 KST):** 이 글을 올린 뒤 linkding은 내렸다. ArgoCD 앱, 차트, 시크릿, 터널 규칙, DNS 레코드, n8n 헬스체크 항목을 지우고 네임스페이스도 삭제했다. 지운 데이터는 북마크 0개다.
+
 ## 6. twins — 디지털 트윈 데모 3종
 
 `twins-prod`에는 작은 디지털 트윈 앱 세 개가 있다. 자세한 배경은 [디지털 트윈 글](/2026/09/05/digital-twin-industry-value-added/)에 적었다.
