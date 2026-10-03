@@ -1,13 +1,13 @@
 {
- "generated": "2026-10-01T00:41:31Z",
- "scanned": 1000,
+ "generated": "2026-10-03T00:41:31Z",
+ "scanned": 1023,
  "failed": 0,
  "posts": [
   {
    "url": "/2026/07/14/incident-response-and-performance-analysis/",
    "title": "장애는 어디서 새는가 — 관측·추적·진단으로 보는 장애대응과 성능분석",
    "date": "2026-07-14",
-   "views": 22
+   "views": 23
   },
   {
    "url": "/2026/08/23/polysona-code-review/",
@@ -22,6 +22,12 @@
    "views": 8
   },
   {
+   "url": "/2026/08/10/agent-skills-inventory/",
+   "title": "이 Mac의 Agent Skill 생태계 지도: Hermes·Claude·Codex·Leopard",
+   "date": "2026-08-10",
+   "views": 8
+  },
+  {
    "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
    "title": "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지",
    "date": "2026-07-28",
@@ -30,12 +36,6 @@
   {
    "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
    "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
-   "date": "2026-08-10",
-   "views": 7
-  },
-  {
-   "url": "/2026/08/10/agent-skills-inventory/",
-   "title": "이 Mac의 Agent Skill 생태계 지도: Hermes·Claude·Codex·Leopard",
    "date": "2026-08-10",
    "views": 7
   },
@@ -61,6 +61,12 @@
    "url": "/2026/09/22/who-approved-when-agents-agree/",
    "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
    "date": "2026-09-22",
+   "views": 5
+  },
+  {
+   "url": "/2026/10/02/dont-build-agents-fact-check-vercel-anthropic/",
+   "title": "\"에이전트 만들지 마라\" 쇼츠 팩트체크 — Vercel·Anthropic 1차 출처로 다시 읽기",
+   "date": "2026-10-02",
    "views": 5
   },
   {
@@ -92,6 +98,12 @@
    "title": "해커톤 에이전트 챗봇 — 검색은 서버로 옮겼는데, 정책은 브라우저에 남았다",
    "date": "2026-09-20",
    "views": 4
+  },
+  {
+   "url": "/2026/07/23/multi-agent-system-design-principles/",
+   "title": "멀티에이전트 시스템 설계 원칙 13가지 — 에이전트의 '집합'이 아니라 '아키텍처'다",
+   "date": "2026-07-23",
+   "views": 3
   },
   {
    "url": "/2026/07/23/ouroboros-measurability-proven-deterministic-baseline/",
@@ -169,6 +181,12 @@
    "url": "/2026/08/04/graphify-knowledge-graph-rag/",
    "title": "Graphify 소개 — 코드베이스를 질의 가능한 지식 그래프로 바꾸는 Graph RAG",
    "date": "2026-08-04",
+   "views": 3
+  },
+  {
+   "url": "/2026/08/10/job-platforms-comparison/",
+   "title": "잡코리아·사람인·원티드·리멤버 비교: 채용 플랫폼의 전략과 인재 생태계",
+   "date": "2026-08-10",
    "views": 3
   },
   {
@@ -256,6 +274,18 @@
    "views": 3
   },
   {
+   "url": "/2026/09/28/ai-model-tier-list-meme-trends/",
+   "title": "\"구글 전용 랭크가 따로 생겼다\" — AI 모델 티어표 밈으로 읽는 2026년 9월 트렌드",
+   "date": "2026-09-28",
+   "views": 3
+  },
+  {
+   "url": "/2026/09/29/datagrip-ai-practical-guide/",
+   "title": "DataGrip AI 잘 쓰는 법 — 권한 4단계, 읽기 전용 계정, 요청 로그로 확인하기 (2026.2 기준)",
+   "date": "2026-09-29",
+   "views": 3
+  },
+  {
    "url": "/2026/05/03/auto-trading-system/",
    "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
    "date": "2026-05-03",
@@ -271,36 +301,6 @@
    "url": "/2026/06/10/spring-boot-db-connection-pool-hikaricp-deep-dive/",
    "title": "*백엔드 개발자가 알아야 할 *DB Connection Pool* — Spring Boot + HikariCP *11 가지 설정의 *진짜 의미*, *Pool sizing 계산 공식*, *Connection Leak 진단법*, 실전 *postmortem 4 건* 까지*",
    "date": "2026-06-10",
-   "views": 2
-  },
-  {
-   "url": "/2026/06/10/vertical-vs-horizontal-scaling-by-resource/",
-   "title": "수직 확장 vs 수평 확장 — CPU · Memory · HDD · SSD 각 자원에서 본 *처리량 / 응답시간* 의 개선 지점",
-   "date": "2026-06-10",
-   "views": 2
-  },
-  {
-   "url": "/2026/06/24/k3s-vs-k8s-realistic-comparison/",
-   "title": "K3s vs K8s — 현실적인 비교, 6노드 14개월 운영 경험",
-   "date": "2026-06-24",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/22/harness-flywheel-synergy/",
-   "title": "하네스 플라이휠: 스킬을 '잘 쓰는' 체계와 '잘 만드는' 공장이 만날 때",
-   "date": "2026-07-22",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/23/multi-agent-system-design-principles/",
-   "title": "멀티에이전트 시스템 설계 원칙 13가지 — 에이전트의 '집합'이 아니라 '아키텍처'다",
-   "date": "2026-07-23",
-   "views": 2
-  },
-  {
-   "url": "/2026/07/23/ai-work-operating-rules/",
-   "title": "AI 작업에 '운영 규칙'을 세워라 — 작업 전·중·후, 하나의 규칙, 증거 기반 완료 보고",
-   "date": "2026-07-23",
    "views": 2
   }
  ]
