@@ -3,7 +3,7 @@ layout: post
 title: "[Daily Tech Briefing] 2026-10-03: AI, Kubernetes 및 보안/클라우드 통합 기술 소식"
 date: 2026-10-03 08:30:00 +0900
 categories: [Briefing, AI, Kubernetes, Security]
-tags: [AI, Kubernetes, Spring, Linux, Python, Security, Cloud, React, Vue, Rust, Jev]
+tags: [AI, Kubernetes, Spring, Linux, Python, Security, Cloud, React, Vue, Rust, Jev, Java, Kotlin, JavaScript, TypeScript]
 ---
 
 2026년 10월 3일, 오늘의 주요 기술 뉴스 브리핑입니다. AI, 에이전트, Kubernetes, 보안, 클라우드 등 최신 기술 트렌드를 요약하여 전달합니다.
@@ -34,6 +34,9 @@ tags: [AI, Kubernetes, Spring, Linux, Python, Security, Cloud, React, Vue, Rust,
 *   **OpenTofu의 성장**: 테라폼의 오픈소스 대안인 OpenTofu가 누적 다운로드 1,000만 건을 돌파하며 강력한 생태계를 구축했습니다.
 
 ### 6. 개발 언어 동향
+*   **Java 27 (JDK 27) 출시**: 2026년 9월 15일, Java 27이 정식 릴리스되었습니다. 양자 컴퓨터의 위협에 대비한 '포스트 양자 암호화(Post-quantum cryptography)' 지원이 강화되었으며, AI 통합 및 실행 효율성 개선에 초점을 맞췄습니다.
+*   **Kotlin의 도약 (State of Kotlin 2026)**: 출시 15주년을 맞은 Kotlin은 전 세계 800만 명 이상의 개발자가 사용하는 언어로 성장했습니다. 특히 백엔드(50% 이상)와 멀티플랫폼(30% 이상) 분야의 채택률이 급증했으며, AI 생성 코드의 정확도(81%)에서도 높은 평가를 받고 있습니다.
+*   **TypeScript 6.0 & JavaScript**: TypeScript 6.0이 'Temporal' API(현대적 날짜/시간 처리)와 향상된 컴파일러 속도를 바탕으로 사실상 웹 및 서버(Node/Next) 개발의 표준 언어로 자리매김했습니다.
 *   **Rust 'Oxidization'**: Ubuntu 26.10의 핵심 유틸리티가 Rust 기반 uutils로 전면 교체되었습니다. Microsoft는 Rust를 내부 Tier-1 언어로 격상했습니다.
 *   **React 19.3 & Vue 3.6**: React의 `<ViewTransition>` 안정화와 Vue의 'Vapor Mode' GA 임박 소식이 전해지며 프론트엔드 성능 경쟁이 가속화되고 있습니다.
 
