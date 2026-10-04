@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI 오케스트레이션 워크플로우에서 개발자의 역할"
-date: 2026-10-05 09:00:00 +0900
+date: 2026-10-04 09:00:00 +0900
 categories: [AI Engineering, Workflow, Developer Role]
 ---
 
