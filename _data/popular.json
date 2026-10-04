@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-03T00:41:31Z",
- "scanned": 1023,
+ "generated": "2026-10-04T00:41:34Z",
+ "scanned": 1037,
  "failed": 0,
  "posts": [
   {
@@ -286,6 +286,12 @@
    "views": 3
   },
   {
+   "url": "/2026/10/03/kyunghyun-cho-ortet-professor-founder/",
+   "title": "조경현 교수의 Ortet 창업 — '사람'과 '교수라는 직업'으로 읽는 기술과 투자",
+   "date": "2026-10-03",
+   "views": 3
+  },
+  {
    "url": "/2026/05/03/auto-trading-system/",
    "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
    "date": "2026-05-03",
@@ -295,12 +301,6 @@
    "url": "/2026/05/13/kubernetes-day5-observability/",
    "title": "쿠버네티스 5일차 — 모니터링 + 로깅 (Prometheus / Grafana / Loki)",
    "date": "2026-05-13",
-   "views": 2
-  },
-  {
-   "url": "/2026/06/10/spring-boot-db-connection-pool-hikaricp-deep-dive/",
-   "title": "*백엔드 개발자가 알아야 할 *DB Connection Pool* — Spring Boot + HikariCP *11 가지 설정의 *진짜 의미*, *Pool sizing 계산 공식*, *Connection Leak 진단법*, 실전 *postmortem 4 건* 까지*",
-   "date": "2026-06-10",
    "views": 2
   }
  ]
