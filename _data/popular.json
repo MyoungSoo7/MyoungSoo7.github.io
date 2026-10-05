@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-04T00:41:34Z",
- "scanned": 1037,
+ "generated": "2026-10-05T00:41:32Z",
+ "scanned": 1048,
  "failed": 0,
  "posts": [
   {
@@ -52,15 +52,15 @@
    "views": 6
   },
   {
-   "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
-   "title": "레오파드 토론 한 번 — 인용 게이트가 지운 8건이 전부 진짜 출처였다",
-   "date": "2026-09-03",
-   "views": 5
-  },
-  {
    "url": "/2026/09/22/who-approved-when-agents-agree/",
    "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
    "date": "2026-09-22",
+   "views": 6
+  },
+  {
+   "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
+   "title": "레오파드 토론 한 번 — 인용 게이트가 지운 8건이 전부 진짜 출처였다",
+   "date": "2026-09-03",
    "views": 5
   },
   {
@@ -68,6 +68,12 @@
    "title": "\"에이전트 만들지 마라\" 쇼츠 팩트체크 — Vercel·Anthropic 1차 출처로 다시 읽기",
    "date": "2026-10-02",
    "views": 5
+  },
+  {
+   "url": "/2026/08/11/tossbank-ml-data-pipeline-jd-analysis/",
+   "title": "토스뱅크는 왜 ML Engineer(Data Pipeline)를 뽑는가 — 손익계산서로 역산한 JD",
+   "date": "2026-08-11",
+   "views": 4
   },
   {
    "url": "/2026/08/18/what-a-harness-score-of-8-6-actually-measures/",
@@ -193,12 +199,6 @@
    "url": "/2026/08/10/freelance-platforms-comparison/",
    "title": "이랜서·프리누리·위시켓·프리모아 비교: 프로젝트와 기술자 생태계의 차이",
    "date": "2026-08-10",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/11/tossbank-ml-data-pipeline-jd-analysis/",
-   "title": "토스뱅크는 왜 ML Engineer(Data Pipeline)를 뽑는가 — 손익계산서로 역산한 JD",
-   "date": "2026-08-11",
    "views": 3
   },
   {
