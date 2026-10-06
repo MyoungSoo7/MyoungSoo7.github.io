@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-05T00:41:32Z",
- "scanned": 1048,
+ "generated": "2026-10-06T00:41:34Z",
+ "scanned": 1051,
  "failed": 0,
  "posts": [
   {
@@ -250,6 +250,12 @@
    "views": 3
   },
   {
+   "url": "/2026/09/02/java-21-vs-java-25-virtual-threads/",
+   "title": "자바 21과 자바 25의 가상 스레드 — 21에서 막혀 있던 것이 25에서 풀렸다",
+   "date": "2026-09-02",
+   "views": 3
+  },
+  {
    "url": "/2026/09/03/reinforcement-learning-marine-control/",
    "title": "전술을 가르치지 않아도 전투를 배운다: 마린 컨트롤 실험에서 본 강화학습의 구조",
    "date": "2026-09-03",
@@ -295,12 +301,6 @@
    "url": "/2026/05/03/auto-trading-system/",
    "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
    "date": "2026-05-03",
-   "views": 2
-  },
-  {
-   "url": "/2026/05/13/kubernetes-day5-observability/",
-   "title": "쿠버네티스 5일차 — 모니터링 + 로깅 (Prometheus / Grafana / Loki)",
-   "date": "2026-05-13",
    "views": 2
   }
  ]
