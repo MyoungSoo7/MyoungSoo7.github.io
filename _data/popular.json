@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-06T00:41:34Z",
- "scanned": 1051,
+ "generated": "2026-10-07T00:41:34Z",
+ "scanned": 1058,
  "failed": 0,
  "posts": [
   {
@@ -274,9 +274,21 @@
    "views": 3
   },
   {
+   "url": "/2026/09/20/inside-the-nemoclaw-dashboard/",
+   "title": "NemoClaw 대시보드 한 장 — 4 vCPU 짜리 상자가 120B 모델을 '돌리는' 방법",
+   "date": "2026-09-20",
+   "views": 3
+  },
+  {
    "url": "/2026/09/22/skill-listing-is-the-real-cost-jev-skill-suggestion/",
    "title": "지연 로딩은 이미 하고 있다 — jev-skill-suggestion 이 실제로 들어내는 것은 '목록'이다",
    "date": "2026-09-22",
+   "views": 3
+  },
+  {
+   "url": "/2026/09/23/jev-parallel-sampling-vs-autoregressive/",
+   "title": "한 토큰씩 vs 한 번에 — 이 그림에서 맞는 칸과 틀리기 쉬운 칸",
+   "date": "2026-09-23",
    "views": 3
   },
   {
@@ -290,18 +302,6 @@
    "title": "DataGrip AI 잘 쓰는 법 — 권한 4단계, 읽기 전용 계정, 요청 로그로 확인하기 (2026.2 기준)",
    "date": "2026-09-29",
    "views": 3
-  },
-  {
-   "url": "/2026/10/03/kyunghyun-cho-ortet-professor-founder/",
-   "title": "조경현 교수의 Ortet 창업 — '사람'과 '교수라는 직업'으로 읽는 기술과 투자",
-   "date": "2026-10-03",
-   "views": 3
-  },
-  {
-   "url": "/2026/05/03/auto-trading-system/",
-   "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
-   "date": "2026-05-03",
-   "views": 2
   }
  ]
 }
