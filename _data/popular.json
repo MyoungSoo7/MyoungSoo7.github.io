@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-07T00:41:34Z",
- "scanned": 1058,
+ "generated": "2026-10-08T00:41:33Z",
+ "scanned": 1059,
  "failed": 0,
  "posts": [
   {
@@ -70,6 +70,18 @@
    "views": 5
   },
   {
+   "url": "/2026/07/23/multi-agent-system-design-principles/",
+   "title": "멀티에이전트 시스템 설계 원칙 13가지 — 에이전트의 '집합'이 아니라 '아키텍처'다",
+   "date": "2026-07-23",
+   "views": 4
+  },
+  {
+   "url": "/2026/08/10/freelance-platforms-comparison/",
+   "title": "이랜서·프리누리·위시켓·프리모아 비교: 프로젝트와 기술자 생태계의 차이",
+   "date": "2026-08-10",
+   "views": 4
+  },
+  {
    "url": "/2026/08/11/tossbank-ml-data-pipeline-jd-analysis/",
    "title": "토스뱅크는 왜 ML Engineer(Data Pipeline)를 뽑는가 — 손익계산서로 역산한 JD",
    "date": "2026-08-11",
@@ -104,12 +116,6 @@
    "title": "해커톤 에이전트 챗봇 — 검색은 서버로 옮겼는데, 정책은 브라우저에 남았다",
    "date": "2026-09-20",
    "views": 4
-  },
-  {
-   "url": "/2026/07/23/multi-agent-system-design-principles/",
-   "title": "멀티에이전트 시스템 설계 원칙 13가지 — 에이전트의 '집합'이 아니라 '아키텍처'다",
-   "date": "2026-07-23",
-   "views": 3
   },
   {
    "url": "/2026/07/23/ouroboros-measurability-proven-deterministic-baseline/",
@@ -192,12 +198,6 @@
   {
    "url": "/2026/08/10/job-platforms-comparison/",
    "title": "잡코리아·사람인·원티드·리멤버 비교: 채용 플랫폼의 전략과 인재 생태계",
-   "date": "2026-08-10",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/10/freelance-platforms-comparison/",
-   "title": "이랜서·프리누리·위시켓·프리모아 비교: 프로젝트와 기술자 생태계의 차이",
    "date": "2026-08-10",
    "views": 3
   },
