@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>클러스터 디펜스</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans+KR:wght@400;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+  /* 단일 테마: 관제실 모니터. 호스트 테마와 무관하게 전부 직접 칠한다 */
+  :root {
+    color-scheme: dark;
+    --ground: #0b1114;
+    --panel: #111a1e;
+    --line: #22323a;
+    --ink: #d9e4e6;
+    --muted: #7f949a;
+    --alert: #f2b544;   /* 경보 앰버 = 강조색 */
+    --falco: #5cc8d7;
+    --breaker: #f2b544;
+    --velero: #7bd88f;
+    --threat: #e8687a;
+    --display: "Chakra Petch", "IBM Plex Sans KR", system-ui, sans-serif;
+    --body: "IBM Plex Sans KR", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--ground); color: var(--ink); font-family: var(--body);
+    padding: 0 16px; padding-block: 12px 20px; box-sizing: border-box;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; display: grid; gap: 10px; }
+  header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: 22px; letter-spacing: .04em; margin: 0; text-wrap: balance; }
+  h1 span { color: var(--alert); }
+  .sub { color: var(--muted); font-size: 12.5px; }
+  .hud { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .hud b { font-weight: 700; }
+  .hud .k { color: var(--muted); font-family: var(--body); font-size: 12px; margin-right: 6px; letter-spacing: .04em; }
+  #lives b { color: var(--velero); }
+  #lives.low b { color: var(--threat); }
+  #gold b { color: var(--alert); }
+  .stage { position: relative; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #0e171a; }
+  canvas { display: block; width: 100%; touch-action: manipulation; cursor: crosshair; }
+  .overlay {
+    position: absolute; inset: 0; display: grid; place-items: center; text-align: center;
+    background: rgba(8, 12, 14, .78); padding: 16px;
+  }
+  .overlay h2 { font-family: var(--display); font-size: clamp(22px, 5vw, 34px); margin: 0 0 6px; letter-spacing: .05em; }
+  .overlay p { margin: 0 0 14px; color: var(--muted); max-width: 40ch; line-height: 1.55; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+  .towers { display: flex; flex-wrap: wrap; gap: 8px; flex: 1 1 360px; }
+  .tbtn {
+    flex: 1 1 100px; min-width: 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: center;
+    background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 6px;
+    padding: 8px 10px; font: inherit; text-align: left; cursor: pointer;
+  }
+  .tbtn .sw { grid-row: span 2; width: 14px; height: 14px; border-radius: 3px; }
+  .tbtn .nm { font-weight: 600; font-size: 13.5px; }
+  .tbtn .ct { font-family: var(--mono); font-size: 12px; color: var(--alert); }
+  .tbtn[aria-pressed="true"] { border-color: var(--alert); box-shadow: inset 0 0 0 1px var(--alert); }
+  .tbtn:disabled { opacity: .45; cursor: not-allowed; }
+  .ctl { display: flex; gap: 8px; flex: 0 1 auto; flex-wrap: wrap; }
+  button.act {
+    font: 600 14px var(--body); border-radius: 6px; padding: 10px 14px; cursor: pointer;
+    background: var(--panel); color: var(--ink); border: 1px solid var(--line);
+  }
+  button.go { background: var(--alert); color: #1a1406; border-color: var(--alert); }
+  button.act:disabled { opacity: .45; cursor: not-allowed; }
+  button:focus-visible { outline: 2px solid var(--falco); outline-offset: 2px; }
+  .info {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px;
+    display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; min-height: 44px; font-size: 13.5px;
+  }
+  .info .desc { flex: 1 1 260px; color: var(--muted); line-height: 1.5; }
+  .info .desc strong { color: var(--ink); }
+  .info .btns { display: flex; gap: 8px; }
+  .log { font-family: var(--mono); font-size: 12px; color: var(--muted); min-height: 1.4em; }
+  .log em { color: var(--threat); font-style: normal; }
+  @media (max-width: 520px) { .hud { font-size: 13px; gap: 4px 12px; } h1 { font-size: 19px; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>클러스터 <span>디펜스</span></h1>
+      <div class="sub">인터넷에서 몰려오는 위협을 컨트롤 플레인 앞에서 막으세요</div>
+    </div>
+    <div class="hud" aria-live="polite">
+      <div id="lives"><span class="k">노드 HP</span><b id="vLives">20</b></div>
+      <div id="gold"><span class="k">크레딧</span><b id="vGold">150</b></div>
+      <div><span class="k">웨이브</span><b id="vWave">0</b>/20</div>
+      <div><span class="k">최고</span><b id="vBest">–</b></div>
+    </div>
+  </header>
+
+  <div class="stage">
+    <canvas id="cv" aria-label="게임 맵. 빈 칸을 눌러 방어 타워를 설치합니다."></canvas>
+    <div class="overlay" id="ov">
+      <div>
+        <h2 id="ovTitle">경보 대기 중</h2>
+        <p id="ovText">아래에서 타워를 고른 뒤 회색 칸을 눌러 설치하세요. 경로(어두운 길) 위에는 못 짓습니다. 준비되면 웨이브를 시작합니다.</p>
+        <button class="act go" id="ovBtn" type="button">웨이브 1 시작</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="towers" id="towers"></div>
+    <div class="ctl">
+      <button class="act go" id="btnWave" type="button">웨이브 시작</button>
+      <button class="act" id="btnSpeed" type="button" aria-pressed="false">속도 ×1</button>
+      <button class="act" id="btnPause" type="button">일시정지</button>
+    </div>
+  </div>
+
+  <div class="info" id="info">
+    <div class="desc" id="infoDesc">설치한 타워를 누르면 업그레이드·판매할 수 있습니다.</div>
+    <div class="btns">
+      <button class="act" id="btnUp" type="button" hidden>업그레이드</button>
+      <button class="act" id="btnSell" type="button" hidden>판매</button>
+    </div>
+  </div>
+  <div class="log" id="log" aria-live="polite"></div>
+</div>
+
+<script>
+(() => {
+  const COLS = 16, ROWS = 10, MAX_WAVE = 20;
+  // 경로: 왼쪽 밖(인터넷) → 오른쪽 밖(컨트롤 플레인)
+  const WP = [[-1, 2], [5, 2], [5, 7], [10, 7], [10, 1], [13, 1], [13, 5], [16, 5]];
+  const TYPES = {
+    falco:   { name: "Falco 감시탑", short: "Falco", color: "#5cc8d7", cost: 50,  range: 2.6, dmg: 9,  rate: 0.38,
+               desc: "빠른 단일 사격. 가장 앞선 위협을 노립니다." },
+    breaker: { name: "서킷 브레이커", short: "브레이커", color: "#f2b544", cost: 70,  range: 1.9, dmg: 4,  rate: 1.0, slow: 0.5,
+               desc: "주변 전체에 펄스. 맞은 적은 1.5초간 절반 속도." },
+    velero:  { name: "Velero 백업포", short: "Velero", color: "#7bd88f", cost: 120, range: 3.2, dmg: 30, rate: 1.6, splash: 1.25,
+               desc: "느리지만 광역 폭발. 무리 지어 오는 적에 강합니다." },
+  };
+  const ENEMIES = {
+    bug:    { name: "버그",       hp: 1.0,  speed: 1.05, bounty: 5,  leak: 1, r: 0.22, color: "#e8687a" },
+    scan:   { name: "포트 스캐너", hp: 0.6,  speed: 1.9,  bounty: 4,  leak: 1, r: 0.18, color: "#c99cf2" },
+    swarm:  { name: "DDoS 패킷",  hp: 0.35, speed: 1.35, bounty: 2,  leak: 1, r: 0.14, color: "#f29b6b" },
+    ransom: { name: "랜섬웨어",    hp: 9.0,  speed: 0.6,  bounty: 45, leak: 5, r: 0.34, color: "#ff4d6d" },
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const cv = $("cv"), ctx = cv.getContext("2d");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---- 경로 계산 ----
+  const pathCells = new Set();
+  const segs = []; let pathLen = 0;
+  for (let i = 0; i < WP.length - 1; i++) {
+    const [x1, y1] = WP[i], [x2, y2] = WP[i + 1];
+    const len = Math.abs(x2 - x1) + Math.abs(y2 - y1);
+    segs.push({ x1, y1, x2, y2, len, start: pathLen }); pathLen += len;
+    const sx = Math.sign(x2 - x1), sy = Math.sign(y2 - y1);
+    for (let k = 0; k <= len; k++) {
+      const cx = x1 + sx * k, cy = y1 + sy * k;
+      if (cx >= 0 && cx < COLS && cy >= 0 && cy < ROWS) pathCells.add(cx + "," + cy);
+    }
+  }
+  function posAt(d) {
+    for (const s of segs) {
+      if (d <= s.start + s.len) {
+        const t = (d - s.start) / s.len;
+        return { x: s.x1 + (s.x2 - s.x1) * t + 0.5, y: s.y1 + (s.y2 - s.y1) * t + 0.5 };
+      }
+    }
+    const s = segs[segs.length - 1]; return { x: s.x2 + 0.5, y: s.y2 + 0.5 };
+  }
+
+  // ---- 상태 ----
+  let S;
+  function fresh() {
+    return { lives: 20, gold: 150, wave: 0, towers: [], enemies: [], shots: [], fx: [], queue: [], spawnT: 0,
+             running: false, paused: false, speed: 1, over: false, won: false, sel: null, build: "falco", hover: null };
+  }
+  let best = 0;
+  try { best = +localStorage.getItem("cd-best") || 0; } catch (e) {}
+
+  // ---- 웨이브 ----
+  function makeWave(w) {
+    const list = [];
+    const n = 7 + Math.floor(w * 1.6);
+    for (let i = 0; i < n; i++) list.push("bug");
+    if (w >= 3) for (let i = 0; i < Math.floor(w * 0.8); i++) list.splice(Math.floor(Math.random() * list.length), 0, "scan");
+    if (w % 4 === 0) for (let i = 0; i < 10 + w; i++) list.push("swarm");
+    if (w % 5 === 0) for (let i = 0; i < Math.floor(w / 5); i++) list.push("ransom");
+    return list;
+  }
+  function startWave() {
+    if (S.running || S.over) return;
+    S.wave++; S.running = true; S.queue = makeWave(S.wave); S.spawnT = 0.4;
+    hideOverlay();
+    const boss = S.wave % 5 === 0, swarm = S.wave % 4 === 0;
+    log(`웨이브 ${S.wave} 시작 — 위협 ${S.queue.length}건` + (boss ? " · <em>랜섬웨어 접근</em>" : "") + (swarm ? " · <em>DDoS 무리</em>" : ""));
+    ui();
+  }
+  function spawn(type) {
+    const e = ENEMIES[type];
+    const hp = Math.round(26 * Math.pow(1.19, S.wave - 1) * e.hp);
+    S.enemies.push({ type, d: 0, hp, max: hp, speed: e.speed, slowT: 0, r: e.r, bounty: e.bounty, leak: e.leak, color: e.color, flash: 0 });
+  }
+
+  // ---- 타워 ----
+  const towerAt = (c, r) => S.towers.find((t) => t.c === c && t.r === r);
+  const stat = (t) => {
+    const b = TYPES[t.type], m = Math.pow(1.55, t.lvl - 1);
+    return { range: b.range + 0.3 * (t.lvl - 1), dmg: b.dmg * m, rate: b.rate * Math.pow(0.9, t.lvl - 1), slow: b.slow, splash: b.splash };
+  };
+  const upCost = (t) => Math.round(TYPES[t.type].cost * 0.85 * t.lvl);
+  const sellVal = (t) => Math.round(t.spent * 0.7);
+
+  function build(c, r) {
+    const b = TYPES[S.build];
+    if (S.gold < b.cost) { log(`크레딧 부족 — ${b.short} 은(는) ${b.cost} 필요`); return; }
+    S.gold -= b.cost;
+    const t = { c, r, type: S.build, lvl: 1, cd: 0, spent: b.cost, aim: 0 };
+    S.towers.push(t); S.sel = t; ui();
+  }
+
+  function inRange(t, range) {
+    const cx = t.c + 0.5, cy = t.r + 0.5;
+    return S.enemies.filter((e) => { const p = posAt(e.d); return Math.hypot(p.x - cx, p.y - cy) <= range; });
+  }
+  function hurt(e, dmg) { e.hp -= dmg; e.flash = 0.08; }
+
+  // ---- 루프 ----
+  function step(dt) {
+    if (S.running && S.queue.length) {
+      S.spawnT -= dt;
+      if (S.spawnT <= 0) {
+        const type = S.queue.shift(); spawn(type);
+        S.spawnT = type === "swarm" ? 0.28 : type === "ransom" ? 1.4 : 0.62;
+      }
+    }
+    for (const e of S.enemies) {
+      const k = e.slowT > 0 ? 0.5 : 1;
+      e.slowT -= dt; e.flash -= dt;
+      e.d += e.speed * k * dt;
+    }
+    for (const t of S.towers) {
+      t.cd -= dt;
+      if (t.cd > 0) continue;
+      const st = stat(t), targets = inRange(t, st.range);
+      if (!targets.length) continue;
+      if (t.type === "breaker") {
+        for (const e of targets) { hurt(e, st.dmg); e.slowT = 1.5; }
+        S.fx.push({ kind: "ring", x: t.c + 0.5, y: t.r + 0.5, r: st.range, t: 0.35, max: 0.35, color: TYPES.breaker.color });
+      } else {
+        const e = targets.reduce((a, b) => (b.d > a.d ? b : a));
+        const p = posAt(e.d);
+        t.aim = Math.atan2(p.y - (t.r + 0.5), p.x - (t.c + 0.5));
+        if (t.type === "falco") {
+          hurt(e, st.dmg);
+          S.fx.push({ kind: "beam", x1: t.c + 0.5, y1: t.r + 0.5, x2: p.x, y2: p.y, t: 0.09, max: 0.09, color: TYPES.falco.color });
+        } else {
+          S.shots.push({ x: t.c + 0.5, y: t.r + 0.5, tx: p.x, ty: p.y, v: 7, dmg: st.dmg, splash: st.splash });
+        }
+      }
+      t.cd = st.rate;
+    }
+    for (const s of S.shots) {
+      const dx = s.tx - s.x, dy = s.ty - s.y, dist = Math.hypot(dx, dy), mv = s.v * dt;
+      if (dist <= mv) {
+        s.done = true;
+        for (const e of S.enemies) { const p = posAt(e.d); if (Math.hypot(p.x - s.tx, p.y - s.ty) <= s.splash) hurt(e, s.dmg); }
+        S.fx.push({ kind: "boom", x: s.tx, y: s.ty, r: s.splash, t: 0.3, max: 0.3, color: TYPES.velero.color });
+      } else { s.x += (dx / dist) * mv; s.y += (dy / dist) * mv; }
+    }
+    S.shots = S.shots.filter((s) => !s.done);
+    const alive = [];
+    for (const e of S.enemies) {
+      if (e.hp <= 0) { S.gold += e.bounty; S.fx.push({ kind: "pop", x: posAt(e.d).x, y: posAt(e.d).y, t: 0.25, max: 0.25, color: e.color, txt: "+" + e.bounty }); continue; }
+      if (e.d >= pathLen) { S.lives -= e.leak; log(`<em>${ENEMIES[e.type].name} 침투</em> — 노드 HP −${e.leak}`); continue; }
+      alive.push(e);
+    }
+    S.enemies = alive;
+    for (const f of S.fx) f.t -= dt;
+    S.fx = S.fx.filter((f) => f.t > 0);
+
+    if (S.lives <= 0 && !S.over) { S.lives = 0; saveBest(); S.over = true; S.running = false; showOverlay("클러스터 함락", `웨이브 ${S.wave}에서 컨트롤 플레인이 뚫렸습니다. 타워 배치를 바꿔 다시 도전해 보세요.`, "다시 시작"); }
+    if (S.running && !S.queue.length && !S.enemies.length) {
+      S.running = false;
+      const bonus = 20 + S.wave * 4; S.gold += bonus;
+      saveBest();
+      if (S.wave === MAX_WAVE && !S.won) {
+        S.won = true;
+        showOverlay("클러스터 방어 성공", `20개 웨이브를 모두 막았습니다. 남은 노드 HP ${S.lives}. 계속하면 끝없는 웨이브가 이어집니다.`, `웨이브 ${S.wave + 1} 계속`);
+      } else log(`웨이브 ${S.wave} 방어 완료 — 보너스 +${bonus}`);
+    }
+    ui();
+  }
+  function saveBest() {
+    const cleared = S.running ? S.wave - 1 : S.wave;
+    if (cleared > best) { best = cleared; try { localStorage.setItem("cd-best", String(best)); } catch (e) {} }
+  }
+
+  // ---- 그리기 ----
+  let cell = 40, dpr = 1;
+  function resize() {
+    const w = cv.parentElement.clientWidth;
+    cell = w / COLS; dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(cell * ROWS * dpr);
+    cv.style.height = cell * ROWS + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function draw(now) {
+    const W = cell * COLS, H = cell * ROWS;
+    ctx.fillStyle = "#0e171a"; ctx.fillRect(0, 0, W, H);
+    for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+      const onPath = pathCells.has(c + "," + r);
+      ctx.fillStyle = onPath ? "#1c2b31" : "#131e22";
+      ctx.fillRect(c * cell + 1, r * cell + 1, cell - 2, cell - 2);
+    }
+    // 경로 중앙선
+    ctx.save(); ctx.strokeStyle = "rgba(242,181,68,.18)"; ctx.lineWidth = Math.max(1, cell * 0.04);
+    ctx.setLineDash([cell * 0.18, cell * 0.22]); ctx.lineDashOffset = reduce ? 0 : -(now / 40) % (cell * 0.4);
+    ctx.beginPath(); WP.forEach(([x, y], i) => { const px = (x + 0.5) * cell, py = (y + 0.5) * cell; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); });
+    ctx.stroke(); ctx.restore();
+    // 입구/출구 표지
+    label("INTERNET", 0.08 * cell, (WP[0][1] + 0.5) * cell - cell * 0.62, "#7f949a", "left");
+    const ex = (COLS - 1) * cell, ey = 5 * cell;
+    ctx.fillStyle = "rgba(123,216,143,.12)"; ctx.fillRect(ex + 2, ey + 2, cell - 4, cell - 4);
+    ctx.strokeStyle = S.lives <= 5 ? "#e8687a" : "#7bd88f"; ctx.lineWidth = 2; ctx.strokeRect(ex + 3, ey + 3, cell - 6, cell - 6);
+    label("API", ex + cell / 2, ey + cell / 2 + cell * 0.1, S.lives <= 5 ? "#e8687a" : "#7bd88f", "center");
+    label("CONTROL PLANE", W - 0.08 * cell, ey - cell * 0.12, "#7f949a", "right");
+
+    // 미리보기
+    if (S.hover && !S.over) {
+      const { c, r } = S.hover, t = towerAt(c, r);
+      const ok = !t && !pathCells.has(c + "," + r);
+      if (t) ring(t.c + 0.5, t.r + 0.5, stat(t).range, TYPES[t.type].color, 0.1);
+      else if (ok) {
+        const b = TYPES[S.build];
+        ring(c + 0.5, r + 0.5, b.range, b.color, 0.08);
+        ctx.globalAlpha = S.gold >= b.cost ? 0.45 : 0.18; drawTower({ c, r, type: S.build, lvl: 1, aim: 0 }); ctx.globalAlpha = 1;
+      }
+    }
+    if (S.sel) ring(S.sel.c + 0.5, S.sel.r + 0.5, stat(S.sel).range, TYPES[S.sel.type].color, 0.12);
+
+    for (const t of S.towers) drawTower(t);
+    for (const e of S.enemies) drawEnemy(e);
+    for (const s of S.shots) { ctx.fillStyle = "#c9f5d4"; dot(s.x, s.y, 0.09); }
+    for (const f of S.fx) {
+      const a = Math.max(0, f.t / f.max);
+      if (f.kind === "beam") { ctx.strokeStyle = f.color; ctx.globalAlpha = a; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(f.x1 * cell, f.y1 * cell); ctx.lineTo(f.x2 * cell, f.y2 * cell); ctx.stroke(); }
+      if (f.kind === "ring") { ctx.strokeStyle = f.color; ctx.globalAlpha = a * 0.8; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(f.x * cell, f.y * cell, f.r * cell * (reduce ? 1 : 1 - a * 0.6), 0, 7); ctx.stroke(); }
+      if (f.kind === "boom") { ctx.fillStyle = f.color; ctx.globalAlpha = a * 0.35; ctx.beginPath(); ctx.arc(f.x * cell, f.y * cell, f.r * cell * (reduce ? 1 : 1.1 - a * 0.5), 0, 7); ctx.fill(); }
+      if (f.kind === "pop") { ctx.globalAlpha = a; label(f.txt, f.x * cell, (f.y - (reduce ? 0.3 : 0.6 - a * 0.4)) * cell, "#f2b544", "center"); }
+      ctx.globalAlpha = 1;
+    }
+  }
+  function label(txt, x, y, color, align) {
+    ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = "middle";
+    ctx.font = `700 ${Math.max(9, cell * 0.24)}px "JetBrains Mono", ui-monospace, monospace`;
+    ctx.fillText(txt, x, y);
+  }
+  function dot(x, y, r) { ctx.beginPath(); ctx.arc(x * cell, y * cell, r * cell, 0, 7); ctx.fill(); }
+  function ring(x, y, r, color, a) {
+    ctx.fillStyle = color; ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(x * cell, y * cell, r * cell, 0, 7); ctx.fill();
+    ctx.globalAlpha = a * 3; ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.stroke(); ctx.globalAlpha = 1;
+  }
+  function drawTower(t) {
+    const x = (t.c + 0.5) * cell, y = (t.r + 0.5) * cell, s = cell * 0.36, col = TYPES[t.type].color;
+    ctx.save(); ctx.translate(x, y);
+    ctx.fillStyle = "#0b1114"; ctx.strokeStyle = col; ctx.lineWidth = 2;
+    if (t.type === "falco") {
+      ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = Math.PI / 3 * i + Math.PI / 6; ctx.lineTo(Math.cos(a) * s, Math.sin(a) * s); } ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.rotate(t.aim); ctx.fillStyle = col; ctx.fillRect(0, -cell * 0.04, s * 1.05, cell * 0.08);
+      ctx.beginPath(); ctx.arc(0, 0, s * 0.32, 0, 7); ctx.fill();
+    } else if (t.type === "breaker") {
+      ctx.fillRect(-s, -s, s * 2, s * 2); ctx.strokeRect(-s, -s, s * 2, s * 2);
+      ctx.fillStyle = col; ctx.beginPath();
+      ctx.moveTo(s * 0.15, -s * 0.75); ctx.lineTo(-s * 0.4, s * 0.1); ctx.lineTo(0, s * 0.1); ctx.lineTo(-s * 0.15, s * 0.75); ctx.lineTo(s * 0.4, -s * 0.1); ctx.lineTo(0, -s * 0.1); ctx.closePath(); ctx.fill();
+    } else {
+      ctx.beginPath(); ctx.arc(0, 0, s, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.rotate(t.aim); ctx.fillStyle = col; ctx.fillRect(0, -cell * 0.07, s * 1.15, cell * 0.14);
+      ctx.beginPath(); ctx.arc(0, 0, s * 0.45, 0, 7); ctx.fill();
+    }
+    ctx.restore();
+    ctx.fillStyle = col;
+    for (let i = 0; i < t.lvl; i++) ctx.fillRect(x - cell * 0.3 + i * cell * 0.22, y + cell * 0.38, cell * 0.16, cell * 0.06);
+  }
+  function drawEnemy(e) {
+    const p = posAt(e.d), x = p.x * cell, y = p.y * cell, r = e.r * cell;
+    ctx.fillStyle = e.flash > 0 ? "#ffffff" : e.color;
+    if (e.type === "scan") { ctx.beginPath(); ctx.moveTo(x + r * 1.3, y); ctx.lineTo(x - r, y - r); ctx.lineTo(x - r, y + r); ctx.closePath(); ctx.fill(); }
+    else { ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }
+    if (e.type === "ransom") { ctx.strokeStyle = "#ffd0d8"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x, y, r + 3, 0, 7); ctx.stroke(); }
+    if (e.slowT > 0) { ctx.strokeStyle = "#f2b544"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, r + 1.5, 0, 7); ctx.stroke(); }
+    const w = cell * 0.5, h = Math.max(2, cell * 0.06), f = Math.max(0, e.hp / e.max);
+    ctx.fillStyle = "#2a1a1e"; ctx.fillRect(x - w / 2, y - r - h - 4, w, h);
+    ctx.fillStyle = f > 0.5 ? "#7bd88f" : f > 0.25 ? "#f2b544" : "#e8687a"; ctx.fillRect(x - w / 2, y - r - h - 4, w * f, h);
+  }
+
+  // ---- UI ----
+  const towersEl = $("towers");
+  for (const [k, b] of Object.entries(TYPES)) {
+    const btn = document.createElement("button");
+    btn.className = "tbtn"; btn.type = "button"; btn.id = "t-" + k; btn.dataset.k = k;
+    btn.innerHTML = `<span class="sw" style="background:${b.color}"></span><span class="nm">${b.short}</span><span class="ct">${b.cost} 크레딧</span>`;
+    btn.title = b.desc;
+    btn.addEventListener("click", () => { S.build = k; S.sel = null; ui(); describeBuild(); });
+    towersEl.appendChild(btn);
+  }
+  function describeBuild() {
+    const b = TYPES[S.build];
+    $("infoDesc").innerHTML = `<strong>${b.name}</strong> · ${b.cost} 크레딧 · 사거리 ${b.range}칸 — ${b.desc}`;
+  }
+  function ui() {
+    $("vLives").textContent = S.lives; $("lives").classList.toggle("low", S.lives <= 5);
+    $("vGold").textContent = S.gold; $("vWave").textContent = S.wave; $("vBest").textContent = best || "–";
+    for (const btn of towersEl.children) {
+      btn.setAttribute("aria-pressed", String(btn.dataset.k === S.build && !S.sel));
+      btn.disabled = S.gold < TYPES[btn.dataset.k].cost;
+    }
+    const wb = $("btnWave");
+    wb.disabled = S.running || S.over; wb.textContent = S.running ? `웨이브 ${S.wave} 진행 중` : `웨이브 ${S.wave + 1} 시작`;
+    $("btnPause").textContent = S.paused ? "계속" : "일시정지";
+    const up = $("btnUp"), sell = $("btnSell");
+    if (S.sel) {
+      const t = S.sel, st = stat(t), b = TYPES[t.type];
+      const dps = t.type === "breaker" ? `펄스 ${st.dmg.toFixed(0)} + 감속` : `피해 ${st.dmg.toFixed(0)}`;
+      $("infoDesc").innerHTML = `<strong>${b.name} Lv.${t.lvl}</strong> · ${dps} · 사거리 ${st.range.toFixed(1)}칸 · ${st.rate.toFixed(2)}초마다`;
+      up.hidden = false; sell.hidden = false;
+      if (t.lvl >= 3) { up.textContent = "최대 레벨"; up.disabled = true; }
+      else { up.textContent = `업그레이드 ${upCost(t)}`; up.disabled = S.gold < upCost(t); }
+      sell.textContent = `판매 +${sellVal(t)}`;
+    } else { up.hidden = true; sell.hidden = true; }
+  }
+  let lastInfo = "";
+  function log(html) { $("log").innerHTML = html; }
+
+  function showOverlay(title, text, btn) { $("ovTitle").textContent = title; $("ovText").textContent = text; $("ovBtn").textContent = btn; $("ov").hidden = false; }
+  function hideOverlay() { $("ov").hidden = true; }
+
+  function cellFromEvent(ev) {
+    const rect = cv.getBoundingClientRect();
+    const c = Math.floor((ev.clientX - rect.left) / (rect.width / COLS));
+    const r = Math.floor((ev.clientY - rect.top) / (rect.height / ROWS));
+    return c >= 0 && c < COLS && r >= 0 && r < ROWS ? { c, r } : null;
+  }
+  cv.addEventListener("pointermove", (ev) => { if (ev.pointerType === "mouse") S.hover = cellFromEvent(ev); });
+  cv.addEventListener("pointerleave", () => { S.hover = null; });
+  cv.addEventListener("pointerdown", (ev) => {
+    if (S.over) return;
+    const p = cellFromEvent(ev); if (!p) return;
+    const t = towerAt(p.c, p.r);
+    if (t) { S.sel = S.sel === t ? null : t; if (!S.sel) describeBuild(); ui(); return; }
+    if (pathCells.has(p.c + "," + p.r)) { S.sel = null; log("경로 위에는 지을 수 없습니다"); ui(); return; }
+    if (S.sel) { S.sel = null; describeBuild(); ui(); return; }
+    build(p.c, p.r);
+  });
+  $("btnUp").addEventListener("click", () => {
+    const t = S.sel; if (!t || t.lvl >= 3 || S.gold < upCost(t)) return;
+    S.gold -= upCost(t); t.spent += upCost(t); t.lvl++; ui();
+  });
+  $("btnSell").addEventListener("click", () => {
+    const t = S.sel; if (!t) return;
+    S.gold += sellVal(t); S.towers = S.towers.filter((x) => x !== t); S.sel = null; describeBuild(); ui();
+  });
+  $("btnWave").addEventListener("click", startWave);
+  $("btnSpeed").addEventListener("click", () => {
+    S.speed = S.speed === 1 ? 2 : S.speed === 2 ? 3 : 1;
+    $("btnSpeed").textContent = `속도 ×${S.speed}`; $("btnSpeed").setAttribute("aria-pressed", String(S.speed > 1));
+  });
+  $("btnPause").addEventListener("click", () => { S.paused = !S.paused; ui(); });
+  $("ovBtn").addEventListener("click", () => {
+    if (S.over) { const keepBuild = S.build; S = fresh(); S.build = keepBuild; describeBuild(); log(""); }
+    if (S.won && !S.running && !S.over) { /* 끝없는 웨이브 계속 */ }
+    startWave();
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (ev.target.tagName === "INPUT") return;
+    if (ev.key === "1") $("t-falco").click();
+    if (ev.key === "2") $("t-breaker").click();
+    if (ev.key === "3") $("t-velero").click();
+    if (ev.key === " ") { ev.preventDefault(); S.running ? $("btnPause").click() : startWave(); }
+  });
+
+  // 고정 시간 간격: 화면 주사율(60/120Hz)과 무관하게 같은 판이 같은 결과를 낸다
+  const STEP = 1 / 60;
+  let last = performance.now(), acc = 0;
+  function frame(now) {
+    acc += Math.min(0.1, (now - last) / 1000) * S.speed; last = now;
+    if (S.paused || S.over) acc = 0;
+    while (acc >= STEP) { step(STEP); acc -= STEP; }
+    draw(now);
+    requestAnimationFrame(frame);
+  }
+
+  function start(saved) {
+    S = fresh();
+    if (saved && Array.isArray(saved.towers)) {
+      Object.assign(S, { lives: saved.lives, gold: saved.gold, wave: saved.wave, towers: saved.towers });
+      if (S.wave > 0) hideOverlay();
+    } else {
+      // 첫 화면 예시 배치 — 무엇을 하는 게임인지 바로 보이게
+      S.towers.push({ c: 4, r: 4, type: "falco", lvl: 1, cd: 0, spent: 50, aim: 0 });
+      S.gold -= 50;
+    }
+    window.claude?.hot?.snapshot?.(() => ({ lives: S.lives, gold: S.gold, wave: S.running ? S.wave - 1 : S.wave,
+      towers: S.towers.map(({ c, r, type, lvl, spent }) => ({ c, r, type, lvl, spent, cd: 0, aim: 0 })) }));
+    resize(); describeBuild(); ui();
+    requestAnimationFrame(frame);
+  }
+  addEventListener("resize", resize);
+  start({});
+})();
+</script>
+</body>
+</html>
