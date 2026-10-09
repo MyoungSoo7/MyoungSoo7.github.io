@@ -1,13 +1,13 @@
 {
- "generated": "2026-10-08T00:41:33Z",
- "scanned": 1059,
+ "generated": "2026-10-09T00:41:34Z",
+ "scanned": 1065,
  "failed": 0,
  "posts": [
   {
    "url": "/2026/07/14/incident-response-and-performance-analysis/",
    "title": "장애는 어디서 새는가 — 관측·추적·진단으로 보는 장애대응과 성능분석",
    "date": "2026-07-14",
-   "views": 23
+   "views": 24
   },
   {
    "url": "/2026/08/23/polysona-code-review/",
