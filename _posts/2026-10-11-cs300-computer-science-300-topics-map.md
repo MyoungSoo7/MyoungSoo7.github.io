@@ -358,26 +358,26 @@ tags: [computer-science, curriculum, roadmap, series, cs300]
 
 | 번호 | 주제 |
 |---|---|
-| 221 | 클라우드 서비스 모델 — IaaS·PaaS·SaaS |
-| 222 | 리눅스 서버 운영 기초 |
-| 223 | systemd |
-| 224 | 도커 이미지와 컨테이너 |
-| 225 | Dockerfile 작성법 |
-| 226 | 쿠버네티스 아키텍처 |
-| 227 | 파드·디플로이먼트·서비스 |
-| 228 | 쿠버네티스 스토리지 |
-| 229 | 헬름 |
-| 230 | GitOps 와 ArgoCD |
-| 231 | Infrastructure as Code — Terraform |
-| 232 | 모니터링 — Prometheus 와 Grafana |
-| 233 | 로그 수집과 분석 |
-| 234 | 분산 추적 |
-| 235 | SLI·SLO·에러 버짓 |
-| 236 | 장애 대응과 포스트모템 |
-| 237 | 백업과 재해 복구 |
-| 238 | 오토스케일링 |
-| 239 | 서비스 메시 |
-| 240 | 비용 관리 (FinOps) |
+| 221 | [클라우드 서비스 모델 — IaaS·PaaS·SaaS]({% post_url 2026-10-10-cs300-221-cloud-service-models-iaas-paas-saas %}) |
+| 222 | [리눅스 서버 운영 기초]({% post_url 2026-10-10-cs300-222-linux-server-operations-basics %}) |
+| 223 | [systemd]({% post_url 2026-10-10-cs300-223-systemd %}) |
+| 224 | [도커 이미지와 컨테이너]({% post_url 2026-10-10-cs300-224-docker-images-and-containers %}) |
+| 225 | [Dockerfile 작성법]({% post_url 2026-10-10-cs300-225-dockerfile-best-practices %}) |
+| 226 | [쿠버네티스 아키텍처]({% post_url 2026-10-10-cs300-226-kubernetes-architecture %}) |
+| 227 | [파드·디플로이먼트·서비스]({% post_url 2026-10-10-cs300-227-pods-deployments-services %}) |
+| 228 | [쿠버네티스 스토리지]({% post_url 2026-10-10-cs300-228-kubernetes-storage %}) |
+| 229 | [헬름]({% post_url 2026-10-10-cs300-229-helm %}) |
+| 230 | [GitOps 와 ArgoCD]({% post_url 2026-10-10-cs300-230-gitops-and-argocd %}) |
+| 231 | [Infrastructure as Code — Terraform]({% post_url 2026-10-10-cs300-231-infrastructure-as-code-terraform %}) |
+| 232 | [모니터링 — Prometheus 와 Grafana]({% post_url 2026-10-10-cs300-232-monitoring-prometheus-grafana %}) |
+| 233 | [로그 수집과 분석]({% post_url 2026-10-10-cs300-233-log-collection-and-analysis %}) |
+| 234 | [분산 추적]({% post_url 2026-10-10-cs300-234-distributed-tracing %}) |
+| 235 | [SLI·SLO·에러 버짓]({% post_url 2026-10-10-cs300-235-sli-slo-error-budget %}) |
+| 236 | [장애 대응과 포스트모템]({% post_url 2026-10-10-cs300-236-incident-response-and-postmortem %}) |
+| 237 | [백업과 재해 복구]({% post_url 2026-10-10-cs300-237-backup-and-disaster-recovery %}) |
+| 238 | [오토스케일링]({% post_url 2026-10-10-cs300-238-autoscaling %}) |
+| 239 | [서비스 메시]({% post_url 2026-10-10-cs300-239-service-mesh %}) |
+| 240 | [비용 관리 (FinOps)]({% post_url 2026-10-10-cs300-240-cost-management-finops %}) |
 
 ## Part 13. 보안
 
