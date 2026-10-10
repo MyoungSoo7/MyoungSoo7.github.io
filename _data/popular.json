@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-09T00:41:34Z",
- "scanned": 1065,
+ "generated": "2026-10-10T00:41:35Z",
+ "scanned": 1069,
  "failed": 0,
  "posts": [
   {
@@ -262,6 +262,12 @@
    "views": 3
   },
   {
+   "url": "/2026/09/11/bundled-skills-claude-code-vs-codex/",
+   "title": "상자 안에 무엇을 넣었나 — Claude Code와 Codex의 기본 스킬 비교",
+   "date": "2026-09-11",
+   "views": 3
+  },
+  {
    "url": "/2026/09/14/liquibase-vs-flyway-change-identity/",
    "title": "Liquibase와 Flyway — 장단점은 '변경의 정체성'을 무엇으로 잡느냐에서 갈린다",
    "date": "2026-09-14",
@@ -295,12 +301,6 @@
    "url": "/2026/09/28/ai-model-tier-list-meme-trends/",
    "title": "\"구글 전용 랭크가 따로 생겼다\" — AI 모델 티어표 밈으로 읽는 2026년 9월 트렌드",
    "date": "2026-09-28",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/29/datagrip-ai-practical-guide/",
-   "title": "DataGrip AI 잘 쓰는 법 — 권한 4단계, 읽기 전용 계정, 요청 로그로 확인하기 (2026.2 기준)",
-   "date": "2026-09-29",
    "views": 3
   }
  ]
