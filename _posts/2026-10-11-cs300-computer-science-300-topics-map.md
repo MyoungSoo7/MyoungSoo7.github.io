@@ -223,26 +223,26 @@ tags: [computer-science, curriculum, roadmap, series, cs300]
 
 | 번호 | 주제 |
 |---|---|
-| 121 | 리눅스 셸과 파이프 |
-| 122 | 프로세스 간 통신 — 파이프·공유 메모리·소켓 |
-| 123 | 시그널 |
-| 124 | 동시성과 병렬성의 차이 |
-| 125 | 스레드 풀과 작업 큐 |
-| 126 | 락 없는 자료구조와 CAS |
-| 127 | 메모리 가시성과 메모리 모델 |
-| 128 | 이벤트 루프와 논블로킹 I/O |
-| 129 | 분산 시스템의 8가지 오해 |
-| 130 | CAP 정리와 PACELC |
-| 131 | 일관성 모델 — 강한 일관성과 최종 일관성 |
-| 132 | 논리 시계와 벡터 시계 |
-| 133 | 리더 선출 |
-| 134 | 합의 알고리즘 — Raft |
-| 135 | 복제 전략 |
-| 136 | 샤딩과 파티셔닝 |
-| 137 | 분산 트랜잭션과 2PC·사가 |
-| 138 | 멱등성과 재시도 |
-| 139 | 장애 감지와 하트비트 |
-| 140 | MapReduce 와 분산 데이터 처리 |
+| 121 | [리눅스 셸과 파이프]({% post_url 2026-10-10-cs300-121-linux-shell-and-pipes %}) |
+| 122 | [프로세스 간 통신 — 파이프·공유 메모리·소켓]({% post_url 2026-10-10-cs300-122-inter-process-communication %}) |
+| 123 | [시그널]({% post_url 2026-10-10-cs300-123-unix-signals %}) |
+| 124 | [동시성과 병렬성의 차이]({% post_url 2026-10-10-cs300-124-concurrency-vs-parallelism %}) |
+| 125 | [스레드 풀과 작업 큐]({% post_url 2026-10-10-cs300-125-thread-pool-and-work-queue %}) |
+| 126 | [락 없는 자료구조와 CAS]({% post_url 2026-10-10-cs300-126-lock-free-data-structures-and-cas %}) |
+| 127 | [메모리 가시성과 메모리 모델]({% post_url 2026-10-10-cs300-127-memory-visibility-and-memory-model %}) |
+| 128 | [이벤트 루프와 논블로킹 I/O]({% post_url 2026-10-10-cs300-128-event-loop-and-non-blocking-io %}) |
+| 129 | [분산 시스템의 8가지 오해]({% post_url 2026-10-10-cs300-129-fallacies-of-distributed-computing %}) |
+| 130 | [CAP 정리와 PACELC]({% post_url 2026-10-10-cs300-130-cap-theorem-and-pacelc %}) |
+| 131 | [일관성 모델 — 강한 일관성과 최종 일관성]({% post_url 2026-10-10-cs300-131-consistency-models %}) |
+| 132 | [논리 시계와 벡터 시계]({% post_url 2026-10-10-cs300-132-logical-clocks-and-vector-clocks %}) |
+| 133 | [리더 선출]({% post_url 2026-10-10-cs300-133-leader-election %}) |
+| 134 | [합의 알고리즘 — Raft]({% post_url 2026-10-10-cs300-134-raft-consensus %}) |
+| 135 | [복제 전략]({% post_url 2026-10-10-cs300-135-replication-strategies %}) |
+| 136 | [샤딩과 파티셔닝]({% post_url 2026-10-10-cs300-136-sharding-and-partitioning %}) |
+| 137 | [분산 트랜잭션과 2PC·사가]({% post_url 2026-10-10-cs300-137-distributed-transactions-2pc-and-saga %}) |
+| 138 | [멱등성과 재시도]({% post_url 2026-10-10-cs300-138-idempotency-and-retries %}) |
+| 139 | [장애 감지와 하트비트]({% post_url 2026-10-10-cs300-139-failure-detection-and-heartbeat %}) |
+| 140 | [MapReduce 와 분산 데이터 처리]({% post_url 2026-10-10-cs300-140-mapreduce-and-distributed-data-processing %}) |
 
 ## Part 8. 네트워크
 
