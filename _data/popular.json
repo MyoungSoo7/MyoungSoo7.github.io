@@ -1,13 +1,13 @@
 {
- "generated": "2026-10-10T00:41:35Z",
- "scanned": 1069,
+ "generated": "2026-10-11T00:42:26Z",
+ "scanned": 1371,
  "failed": 0,
  "posts": [
   {
    "url": "/2026/07/14/incident-response-and-performance-analysis/",
    "title": "장애는 어디서 새는가 — 관측·추적·진단으로 보는 장애대응과 성능분석",
    "date": "2026-07-14",
-   "views": 24
+   "views": 25
   },
   {
    "url": "/2026/08/23/polysona-code-review/",
@@ -19,13 +19,13 @@
    "url": "/2026/08/02/vibe-coding-harness-rules/",
    "title": "바이브 코딩의 심장, 구조적 하네스(Harness): 7대 강제 원칙으로 빚어낸 정산 시스템",
    "date": "2026-08-02",
-   "views": 8
+   "views": 9
   },
   {
    "url": "/2026/08/10/agent-skills-inventory/",
    "title": "이 Mac의 Agent Skill 생태계 지도: Hermes·Claude·Codex·Leopard",
    "date": "2026-08-10",
-   "views": 8
+   "views": 9
   },
   {
    "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
@@ -115,6 +115,12 @@
    "url": "/2026/09/20/agent-chatbot-rag-where-the-policy-lives/",
    "title": "해커톤 에이전트 챗봇 — 검색은 서버로 옮겼는데, 정책은 브라우저에 남았다",
    "date": "2026-09-20",
+   "views": 4
+  },
+  {
+   "url": "/2026/09/28/ai-model-tier-list-meme-trends/",
+   "title": "\"구글 전용 랭크가 따로 생겼다\" — AI 모델 티어표 밈으로 읽는 2026년 9월 트렌드",
+   "date": "2026-09-28",
    "views": 4
   },
   {
@@ -295,12 +301,6 @@
    "url": "/2026/09/23/jev-parallel-sampling-vs-autoregressive/",
    "title": "한 토큰씩 vs 한 번에 — 이 그림에서 맞는 칸과 틀리기 쉬운 칸",
    "date": "2026-09-23",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/28/ai-model-tier-list-meme-trends/",
-   "title": "\"구글 전용 랭크가 따로 생겼다\" — AI 모델 티어표 밈으로 읽는 2026년 9월 트렌드",
-   "date": "2026-09-28",
    "views": 3
   }
  ]
