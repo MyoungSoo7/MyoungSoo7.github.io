@@ -127,4 +127,4 @@ WARN … EvaluateGroundingUseCase - 임베딩 실패 → INCONCLUSIVE (purpose=m
 2. Prometheus Docs, *Query functions — absent()*. <https://prometheus.io/docs/prometheus/latest/querying/functions/#absent>
 3. Kubernetes Docs, *Network Policies*. <https://kubernetes.io/docs/concepts/services-networking/network-policies/>
 4. MDN, *402 Payment Required*. <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/402>
-5. MyoungSoo7, *watchman-secops-agent* (해커톤 제출 스냅샷). <https://github.com/MyoungSoo7/watchman-secops-agent>
+5. MyoungSoo7, *watchman-secops-agent* (해커톤 제출 스냅샷). 2026-10-12 비공개 전환으로 현재는 외부에서 볼 수 없다.
