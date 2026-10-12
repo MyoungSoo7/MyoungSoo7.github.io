@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-11T00:42:26Z",
- "scanned": 1371,
+ "generated": "2026-10-12T00:42:42Z",
+ "scanned": 1499,
  "failed": 0,
  "posts": [
   {
@@ -122,6 +122,12 @@
    "title": "\"구글 전용 랭크가 따로 생겼다\" — AI 모델 티어표 밈으로 읽는 2026년 9월 트렌드",
    "date": "2026-09-28",
    "views": 4
+  },
+  {
+   "url": "/2026/06/24/k3s-vs-k8s-realistic-comparison/",
+   "title": "K3s vs K8s — 현실적인 비교, 6노드 14개월 운영 경험",
+   "date": "2026-06-24",
+   "views": 3
   },
   {
    "url": "/2026/07/23/ouroboros-measurability-proven-deterministic-baseline/",
@@ -295,12 +301,6 @@
    "url": "/2026/09/22/skill-listing-is-the-real-cost-jev-skill-suggestion/",
    "title": "지연 로딩은 이미 하고 있다 — jev-skill-suggestion 이 실제로 들어내는 것은 '목록'이다",
    "date": "2026-09-22",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/23/jev-parallel-sampling-vs-autoregressive/",
-   "title": "한 토큰씩 vs 한 번에 — 이 그림에서 맞는 칸과 틀리기 쉬운 칸",
-   "date": "2026-09-23",
    "views": 3
   }
  ]
