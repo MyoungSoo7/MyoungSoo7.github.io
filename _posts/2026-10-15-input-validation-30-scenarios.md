@@ -58,7 +58,7 @@ tags: [validation, input-validation, spring, bean-validation, owasp, security, a
 - **기준**: OWASP는 정규화가 필요한 필드라면 **검사·저장·비교 전에 같은 정책을** 적용하라고 한다. 또한 호환 정규화(NFKC/NFKD)는 의미 있는 구분을 지울 수 있다고 경고한다 ([OWASP][owasp-iv], [UAX #15][uax15]). 비밀번호에 대해 NIST는 해싱 전 NFC를 권고한다 ([NIST][nist]).
 
 ### 8. 앞뒤 공백과 보이지 않는 문자
-- **입력**: `"admin "`, `"ad​min"`(zero-width space), 줄바꿈이 섞인 이름
+- **입력**: `"admin "`, `"ad\u200Bmin"`(zero-width space), 줄바꿈이 섞인 이름
 - **함정**: `trim()`은 일부 유니코드 공백을 못 지운다(`strip()`과 다르다). 보이지 않는 문자로 "admin"과 똑같아 보이는 다른 아이디를 만들 수 있다.
 - **기준**: 식별자 필드는 허용 문자 집합(allowlist)을 정규식 **전체 일치**로 강제한다. 표시용 자유 텍스트는 막지 말고 길이만 제한한다. OWASP도 자유 텍스트는 넓은 유니코드를 허용하되 길이를 제한하라고 한다 ([OWASP][owasp-iv]).
 
