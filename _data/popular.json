@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-13T00:42:48Z",
- "scanned": 1500,
+ "generated": "2026-10-16T00:42:19Z",
+ "scanned": 1519,
  "failed": 0,
  "posts": [
   {
@@ -58,6 +58,12 @@
    "views": 6
   },
   {
+   "url": "/2026/08/10/job-platforms-comparison/",
+   "title": "잡코리아·사람인·원티드·리멤버 비교: 채용 플랫폼의 전략과 인재 생태계",
+   "date": "2026-08-10",
+   "views": 5
+  },
+  {
    "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
    "title": "레오파드 토론 한 번 — 인용 게이트가 지운 8건이 전부 진짜 출처였다",
    "date": "2026-09-03",
@@ -73,6 +79,12 @@
    "url": "/2026/07/23/multi-agent-system-design-principles/",
    "title": "멀티에이전트 시스템 설계 원칙 13가지 — 에이전트의 '집합'이 아니라 '아키텍처'다",
    "date": "2026-07-23",
+   "views": 4
+  },
+  {
+   "url": "/2026/07/24/oh-my-agent-harness-design-analysis/",
+   "title": "에이전트 하네스 설계 뜯어보기 — oh-my-agent의 로스터로 배우는 역할 분업",
+   "date": "2026-07-24",
    "views": 4
   },
   {
@@ -154,12 +166,6 @@
    "views": 3
   },
   {
-   "url": "/2026/07/24/oh-my-agent-harness-design-analysis/",
-   "title": "에이전트 하네스 설계 뜯어보기 — oh-my-agent의 로스터로 배우는 역할 분업",
-   "date": "2026-07-24",
-   "views": 3
-  },
-  {
    "url": "/2026/07/24/claude-goal-skill-prd-spec-mvp/",
    "title": "Claude Code /goal로 PRD→MVP→SPEC 개발하기 — 조건이 완료를 정의한다",
    "date": "2026-07-24",
@@ -205,12 +211,6 @@
    "url": "/2026/08/04/graphify-knowledge-graph-rag/",
    "title": "Graphify 소개 — 코드베이스를 질의 가능한 지식 그래프로 바꾸는 Graph RAG",
    "date": "2026-08-04",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/10/job-platforms-comparison/",
-   "title": "잡코리아·사람인·원티드·리멤버 비교: 채용 플랫폼의 전략과 인재 생태계",
-   "date": "2026-08-10",
    "views": 3
   },
   {
