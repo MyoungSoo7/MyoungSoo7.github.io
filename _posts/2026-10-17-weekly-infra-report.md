@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "[Weekly Report] 2026년 42주차 클러스터 운영 리포트"
+date: 2026-10-17 03:00:00 +0900
 categories: [SRE, K8s]
 ---
 
