@@ -159,6 +159,7 @@ tags: [AI, ML, Kubernetes, MCP, Observability, Java, Spring, ATM]
 [8] https://www.wishket.com/project/158812
 [9] https://www.wishket.com/project/158952
 [10] https://www.wishket.com/project
+[11] https://www.pljek.com
 [12] https://learn.microsoft.com/en-us/agent-framework/agents/observability
 [13] https://developers.openai.com/api/docs/guides/agents/integrations-observability
 [14] https://openai.com/news/safety-alignment
