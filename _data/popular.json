@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-16T00:42:19Z",
- "scanned": 1519,
+ "generated": "2026-10-17T00:42:21Z",
+ "scanned": 1521,
  "failed": 0,
  "posts": [
   {
@@ -34,15 +34,15 @@
    "views": 8
   },
   {
-   "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
-   "title": "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지",
-   "date": "2026-07-28",
-   "views": 7
-  },
-  {
    "url": "/2026/08/11/clush-fullstack-jd-analysis/",
    "title": "필수 요건에 LLM이 한 줄도 없다 — 클러쉬 10년차 풀스택 공고, 요건 39개 해부",
    "date": "2026-08-11",
+   "views": 8
+  },
+  {
+   "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
+   "title": "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지",
+   "date": "2026-07-28",
    "views": 7
   },
   {
@@ -52,16 +52,22 @@
    "views": 7
   },
   {
-   "url": "/2026/09/22/who-approved-when-agents-agree/",
-   "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
-   "date": "2026-09-22",
-   "views": 6
+   "url": "/2026/10/06/freevideo-minimax-h3-8gb-vram-local-video/",
+   "title": "FreeVideo — 8GB VRAM 그래픽카드로 MiniMax H3 영상 생성하기 (그리고 한국 사용자가 먼저 봐야 할 라이선스 한 줄)",
+   "date": "2026-10-06",
+   "views": 7
   },
   {
    "url": "/2026/08/10/job-platforms-comparison/",
    "title": "잡코리아·사람인·원티드·리멤버 비교: 채용 플랫폼의 전략과 인재 생태계",
    "date": "2026-08-10",
-   "views": 5
+   "views": 6
+  },
+  {
+   "url": "/2026/09/22/who-approved-when-agents-agree/",
+   "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
+   "date": "2026-09-22",
+   "views": 6
   },
   {
    "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
@@ -280,6 +286,12 @@
    "views": 3
   },
   {
+   "url": "/2026/09/12/terraform-ansible-helm-use-cases/",
+   "title": "Terraform·Ansible·Helm 사용사례와 장단점: 인프라부터 Kubernetes 애플리케이션까지",
+   "date": "2026-09-12",
+   "views": 3
+  },
+  {
    "url": "/2026/09/14/liquibase-vs-flyway-change-identity/",
    "title": "Liquibase와 Flyway — 장단점은 '변경의 정체성'을 무엇으로 잡느냐에서 갈린다",
    "date": "2026-09-14",
@@ -289,18 +301,6 @@
    "url": "/2026/09/20/openclaw-trust-but-verify-lab-log/",
    "title": "도구 0회가 증명하는 것 — OpenClaw 에이전트 검증 실험 로그 6줄 읽기",
    "date": "2026-09-20",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/20/inside-the-nemoclaw-dashboard/",
-   "title": "NemoClaw 대시보드 한 장 — 4 vCPU 짜리 상자가 120B 모델을 '돌리는' 방법",
-   "date": "2026-09-20",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/22/skill-listing-is-the-real-cost-jev-skill-suggestion/",
-   "title": "지연 로딩은 이미 하고 있다 — jev-skill-suggestion 이 실제로 들어내는 것은 '목록'이다",
-   "date": "2026-09-22",
    "views": 3
   }
  ]
