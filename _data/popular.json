@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-17T00:42:21Z",
- "scanned": 1521,
+ "generated": "2026-10-18T00:42:19Z",
+ "scanned": 1528,
  "failed": 0,
  "posts": [
   {
@@ -280,6 +280,12 @@
    "views": 3
   },
   {
+   "url": "/2026/09/03/public-data-dart-ontology-design/",
+   "title": "공공데이터와 DART로 온톨로지를 설계하면 — 표준화된 것은 이름과 분류이지, 개체가 아니다",
+   "date": "2026-09-03",
+   "views": 3
+  },
+  {
    "url": "/2026/09/11/bundled-skills-claude-code-vs-codex/",
    "title": "상자 안에 무엇을 넣었나 — Claude Code와 Codex의 기본 스킬 비교",
    "date": "2026-09-11",
@@ -295,12 +301,6 @@
    "url": "/2026/09/14/liquibase-vs-flyway-change-identity/",
    "title": "Liquibase와 Flyway — 장단점은 '변경의 정체성'을 무엇으로 잡느냐에서 갈린다",
    "date": "2026-09-14",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/20/openclaw-trust-but-verify-lab-log/",
-   "title": "도구 0회가 증명하는 것 — OpenClaw 에이전트 검증 실험 로그 6줄 읽기",
-   "date": "2026-09-20",
    "views": 3
   }
  ]
