@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-18T00:42:19Z",
- "scanned": 1528,
+ "generated": "2026-10-19T00:42:19Z",
+ "scanned": 1529,
  "failed": 0,
  "posts": [
   {
@@ -40,6 +40,12 @@
    "views": 8
   },
   {
+   "url": "/2026/10/06/freevideo-minimax-h3-8gb-vram-local-video/",
+   "title": "FreeVideo — 8GB VRAM 그래픽카드로 MiniMax H3 영상 생성하기 (그리고 한국 사용자가 먼저 봐야 할 라이선스 한 줄)",
+   "date": "2026-10-06",
+   "views": 8
+  },
+  {
    "url": "/2026/07/28/proxy-decorator-pattern-interface-vs-class-based-proxy/",
    "title": "*프록시* 와 *데코레이터* — *구조는 쌍둥이, 의도는 남남*: GoF 원전 정의부터 *인터페이스 기반(JDK)* vs *구체 클래스 기반(CGLIB)* 프록시의 갈림길까지",
    "date": "2026-07-28",
@@ -49,12 +55,6 @@
    "url": "/2026/08/13/incidents-between-layers-which-doc/",
    "title": "사고는 층과 층 사이에서 난다 — 홈랩 K3s 장애를 '어느 문서를 안 읽었나'로 분류했다",
    "date": "2026-08-13",
-   "views": 7
-  },
-  {
-   "url": "/2026/10/06/freevideo-minimax-h3-8gb-vram-local-video/",
-   "title": "FreeVideo — 8GB VRAM 그래픽카드로 MiniMax H3 영상 생성하기 (그리고 한국 사용자가 먼저 봐야 할 라이선스 한 줄)",
-   "date": "2026-10-06",
    "views": 7
   },
   {
@@ -142,9 +142,21 @@
    "views": 4
   },
   {
+   "url": "/2026/10/04/n8n-auto-guide-intro/",
+   "title": "무료 n8n 자동화 가이드 소개 — 10장 78쪽, 깃허브와 위키독스로 공개",
+   "date": "2026-10-04",
+   "views": 4
+  },
+  {
    "url": "/2026/06/24/k3s-vs-k8s-realistic-comparison/",
    "title": "K3s vs K8s — 현실적인 비교, 6노드 14개월 운영 경험",
    "date": "2026-06-24",
+   "views": 3
+  },
+  {
+   "url": "/2026/07/23/ai-work-operating-rules/",
+   "title": "AI 작업에 '운영 규칙'을 세워라 — 작업 전·중·후, 하나의 규칙, 증거 기반 완료 보고",
+   "date": "2026-07-23",
    "views": 3
   },
   {
@@ -289,18 +301,6 @@
    "url": "/2026/09/11/bundled-skills-claude-code-vs-codex/",
    "title": "상자 안에 무엇을 넣었나 — Claude Code와 Codex의 기본 스킬 비교",
    "date": "2026-09-11",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/12/terraform-ansible-helm-use-cases/",
-   "title": "Terraform·Ansible·Helm 사용사례와 장단점: 인프라부터 Kubernetes 애플리케이션까지",
-   "date": "2026-09-12",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/14/liquibase-vs-flyway-change-identity/",
-   "title": "Liquibase와 Flyway — 장단점은 '변경의 정체성'을 무엇으로 잡느냐에서 갈린다",
-   "date": "2026-09-14",
    "views": 3
   }
  ]
