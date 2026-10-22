@@ -1,7 +1,7 @@
 {
- "generated": "2026-10-20T11:12:59Z",
- "scanned": 1529,
- "failed": 79,
+ "generated": "2026-10-22T00:42:24Z",
+ "scanned": 1535,
+ "failed": 0,
  "posts": [
   {
    "url": "/2026/07/14/incident-response-and-performance-analysis/",
@@ -28,6 +28,12 @@
    "views": 9
   },
   {
+   "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
+   "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
+   "date": "2026-08-10",
+   "views": 8
+  },
+  {
    "url": "/2026/08/11/clush-fullstack-jd-analysis/",
    "title": "필수 요건에 LLM이 한 줄도 없다 — 클러쉬 10년차 풀스택 공고, 요건 39개 해부",
    "date": "2026-08-11",
@@ -52,6 +58,12 @@
    "views": 7
   },
   {
+   "url": "/2026/08/10/job-platforms-comparison/",
+   "title": "잡코리아·사람인·원티드·리멤버 비교: 채용 플랫폼의 전략과 인재 생태계",
+   "date": "2026-08-10",
+   "views": 6
+  },
+  {
    "url": "/2026/09/22/who-approved-when-agents-agree/",
    "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
    "date": "2026-09-22",
@@ -70,9 +82,27 @@
    "views": 5
   },
   {
+   "url": "/2026/07/11/agent-self-improvement-registry-acp-harness/",
+   "title": "스스로 나아지는 에이전트 — *Registry · ACP · Harness* 세 기둥 과 되먹임 루프",
+   "date": "2026-07-11",
+   "views": 4
+  },
+  {
    "url": "/2026/07/23/multi-agent-system-design-principles/",
    "title": "멀티에이전트 시스템 설계 원칙 13가지 — 에이전트의 '집합'이 아니라 '아키텍처'다",
    "date": "2026-07-23",
+   "views": 4
+  },
+  {
+   "url": "/2026/07/24/oh-my-agent-harness-design-analysis/",
+   "title": "에이전트 하네스 설계 뜯어보기 — oh-my-agent의 로스터로 배우는 역할 분업",
+   "date": "2026-07-24",
+   "views": 4
+  },
+  {
+   "url": "/2026/08/10/freelance-platforms-comparison/",
+   "title": "이랜서·프리누리·위시켓·프리모아 비교: 프로젝트와 기술자 생태계의 차이",
+   "date": "2026-08-10",
    "views": 4
   },
   {
@@ -144,6 +174,42 @@
   {
    "url": "/2026/07/24/agent-five-layers/",
    "title": "AI 에이전트를 잘 다루기 위한 다섯 개의 레이어 — 스택으로 읽는 하네스",
+   "date": "2026-07-24",
+   "views": 3
+  },
+  {
+   "url": "/2026/07/24/knowledge-repo-agent-harness/",
+   "title": "지식저장소는 에이전트 하네스의 무엇을 바꾸는가 — 다섯 개의 지렛대",
+   "date": "2026-07-24",
+   "views": 3
+  },
+  {
+   "url": "/2026/07/24/llm-wiki-harness-memory-architecture/",
+   "title": "하네스에 빠진 조각은 '기억'이다 — LLM 위키 디렉터리 한 장으로 읽는 에이전트 메모리 설계",
+   "date": "2026-07-24",
+   "views": 3
+  },
+  {
+   "url": "/2026/07/24/claude-goal-skill-prd-spec-mvp/",
+   "title": "Claude Code /goal로 PRD→MVP→SPEC 개발하기 — 조건이 완료를 정의한다",
+   "date": "2026-07-24",
+   "views": 3
+  },
+  {
+   "url": "/2026/07/24/gajae-code-vs-ouroboros-harness/",
+   "title": "두 하네스, 두 무게중심 — Gajae-Code의 하네스 요소 vs Claude Code Ouroboros 비교분석",
+   "date": "2026-07-24",
+   "views": 3
+  },
+  {
+   "url": "/2026/07/24/eval-harness-grader-types/",
+   "title": "Eval Harness와 Grader 6종 — 무엇으로 채점할 것인가",
+   "date": "2026-07-24",
+   "views": 3
+  },
+  {
+   "url": "/2026/07/24/harness-spec-plan-done-criteria/",
+   "title": "하네스의 세 문서 — SPEC.md · PLAN.md · DONE_CRITERIA.md",
    "date": "2026-07-24",
    "views": 3
   },
@@ -236,72 +302,6 @@
    "title": "공공데이터와 DART로 온톨로지를 설계하면 — 표준화된 것은 이름과 분류이지, 개체가 아니다",
    "date": "2026-09-03",
    "views": 3
-  },
-  {
-   "url": "/2026/09/04/claude-code-traces-into-opik-exporter-is-local-only/",
-   "title": "Claude Code 를 Opik 으로 실측하다 — 익스포터는 로컬 머신 밖으로 나가지 않았다",
-   "date": "2026-09-04",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/11/bundled-skills-claude-code-vs-codex/",
-   "title": "상자 안에 무엇을 넣었나 — Claude Code와 Codex의 기본 스킬 비교",
-   "date": "2026-09-11",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/12/terraform-ansible-helm-use-cases/",
-   "title": "Terraform·Ansible·Helm 사용사례와 장단점: 인프라부터 Kubernetes 애플리케이션까지",
-   "date": "2026-09-12",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/14/liquibase-vs-flyway-change-identity/",
-   "title": "Liquibase와 Flyway — 장단점은 '변경의 정체성'을 무엇으로 잡느냐에서 갈린다",
-   "date": "2026-09-14",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/16/npm-run-dev-vs-npm-start/",
-   "title": "npm run dev 와 npm start 는 뭐가 다른가 — 예약어와 관례의 두 층위",
-   "date": "2026-09-16",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/22/skill-listing-is-the-real-cost-jev-skill-suggestion/",
-   "title": "지연 로딩은 이미 하고 있다 — jev-skill-suggestion 이 실제로 들어내는 것은 '목록'이다",
-   "date": "2026-09-22",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/23/jev-parallel-sampling-vs-autoregressive/",
-   "title": "한 토큰씩 vs 한 번에 — 이 그림에서 맞는 칸과 틀리기 쉬운 칸",
-   "date": "2026-09-23",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/28/krafton-cofa-probe-ai-native-assessment/",
-   "title": "크래프톤 Cofa-Probe 뜯어보기 — 결과물이 아니라 'AI와 일한 과정'을 채점하는 평가 도구",
-   "date": "2026-09-28",
-   "views": 3
-  },
-  {
-   "url": "/2026/10/01/dryforge-harness-format-repo-as-agent-memory/",
-   "title": "에이전트 기억이 아니라 저장소에 적어라 — dryforge 의 harness-format.md 를 한 줄씩 읽기",
-   "date": "2026-10-01",
-   "views": 3
-  },
-  {
-   "url": "/2026/10/03/kyunghyun-cho-ortet-professor-founder/",
-   "title": "조경현 교수의 Ortet 창업 — '사람'과 '교수라는 직업'으로 읽는 기술과 투자",
-   "date": "2026-10-03",
-   "views": 3
-  },
-  {
-   "url": "/2026/05/03/auto-trading-system/",
-   "title": "자동 주식매매 시스템 — KIS API + 이동평균선/RSI 전략",
-   "date": "2026-05-03",
-   "views": 2
   }
  ]
 }
