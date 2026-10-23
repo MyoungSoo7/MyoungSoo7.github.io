@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-22T00:42:24Z",
- "scanned": 1535,
+ "generated": "2026-10-23T00:42:21Z",
+ "scanned": 1537,
  "failed": 0,
  "posts": [
   {
@@ -94,6 +94,12 @@
    "views": 4
   },
   {
+   "url": "/2026/07/23/ouroboros-measurability-proven-deterministic-baseline/",
+   "title": "측정가능성은 이미 증명됐다 — 라이브 수치를 쫓다 멈추고 결정론적 baseline을 채택한 이유",
+   "date": "2026-07-23",
+   "views": 4
+  },
+  {
    "url": "/2026/07/24/oh-my-agent-harness-design-analysis/",
    "title": "에이전트 하네스 설계 뜯어보기 — oh-my-agent의 로스터로 배우는 역할 분업",
    "date": "2026-07-24",
@@ -162,12 +168,6 @@
   {
    "url": "/2026/07/23/ai-work-operating-rules/",
    "title": "AI 작업에 '운영 규칙'을 세워라 — 작업 전·중·후, 하나의 규칙, 증거 기반 완료 보고",
-   "date": "2026-07-23",
-   "views": 3
-  },
-  {
-   "url": "/2026/07/23/ouroboros-measurability-proven-deterministic-baseline/",
-   "title": "측정가능성은 이미 증명됐다 — 라이브 수치를 쫓다 멈추고 결정론적 baseline을 채택한 이유",
    "date": "2026-07-23",
    "views": 3
   },
