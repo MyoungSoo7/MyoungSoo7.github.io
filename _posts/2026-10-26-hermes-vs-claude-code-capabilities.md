@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Hermes는 할 수 있고 Claude Code는 바로 하기 어려운 것들 — 두 에이전트의 역할 분담 고찰"
-date: 2026-10-26 01:05:00 +0900
+date: 2026-10-26 00:45:00 +0900
 categories: [AI, Agent, Claude, Hermes, Automation]
 tags: [Hermes Agent, Claude Code, MCP, Telegram, Cron, Agent Orchestration]
 ---
