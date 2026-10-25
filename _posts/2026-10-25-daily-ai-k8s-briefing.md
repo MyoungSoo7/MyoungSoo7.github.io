@@ -105,22 +105,6 @@ CrewAI는 flow에서 대화 경로와 public reply 추적, JSON 로그 보존, �
 | 토스 | 최신 홈 확인 | 서비스 개발에 집중할 수 있는 AI 플랫폼 만들기 | 서비스 팀의 반복 고민을 줄이는 AI 플랫폼 소개 | 공식 기술 블로그, [원문](https://toss.tech/article/ai-platform-foundation)[10][19] |
 | 네이버·LINE·쿠팡·우아한형제들·당근·두나무 | — | 오늘 확인된 신규 동향 없음 | 이번 조사에서 발행일·원문을 동시에 검증한 당일 항목 없음 | 공식 채널 추가 확인 필요 |
 
-## 15. 효성티앤에스 및 경쟁사·비교군 동향
-
-### 효성티앤에스
-
-- **분류:** ATM·현금관리·리테일 뱅킹의 직접 경쟁군에 속하는 사업자라는 판단은 제품군 중첩에 근거한다. [unverified]
-- **확인된 공식 제품 범위:** Series 5·7·8·9 ATM, MS500 TCR, BlueVerse 소프트웨어 및 BlueVerse Teller의 지점·현금관리·영상 기반 teller 연결 기능이 공식 페이지에 설명되어 있다.[11]
-- **최신 확인:** 공식 페이지에는 2026-10-06 ‘Beyond Branch Transformation: Designing the Intelligent Banking Ecosystem’가 표시된다. 다만 본문 전체를 오늘의 신규 제품 출시로 단정하지 않고, 회사 관점의 시장·솔루션 인사이트로 분류한다.[11]
-
-### 경쟁사·비교군
-
-- **NCR Atleos:** ATM·ITM 및 ATM-as-a-service를 비교할 직접 경쟁군. 오늘 확인한 독립 자료는 비교군 구분의 참고일 뿐, 회사 발표가 아니므로 제품 우열 근거로 사용하지 않는다. [unverified]
-- **Diebold Nixdorf:** ATM·cash recycling·지점 소프트웨어가 겹치는 직접 경쟁군. [unverified]
-- **GRG Banking:** ATM·현금 자동화·금융 단말이 겹치는 직접 경쟁군. [unverified]
-- **Hitachi Channel Solutions·OKI:** 금융자동화 단말·현금처리 분야의 비교 대상 또는 인접 솔루션 사업자. 세부 경쟁 구도와 2026-10-25 신규 발표는 오늘 공식 원문으로 충분히 검증하지 못했다. [unverified]
-- **결론:** 오늘 확인된 범위에서 각 기업의 당일 신규 동향을 원문으로 확정할 자료는 부족하다. 과거 제품 페이지와 시장 검색 결과를 최신 뉴스처럼 재사용하지 않는다. [unverified]
-
 ## 16. Java/Spring 프리랜서 구인공고
 
 수집일: 2026-10-25. 공개 원문에서 현재 상태를 확인할 수 있는 항목만 선별했다. [unverified]
@@ -150,7 +134,6 @@ CrewAI는 flow에서 대화 경로와 public reply 추적, JSON 로그 보존, �
 [8] https://docs.snowflake.com/en/release-notes/2026/other/2026-10-20-online-feature-store-ga  
 [9] https://tech.kakao.com/  
 [10] https://toss.tech/  
-[11] https://hyosung-tns.com/solutions-services/designed-for-branches/  
 [12] https://www.wishket.com/project/  
 [13] https://www.wishket.com/project/158957/  
 [14] https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/  

@@ -103,17 +103,6 @@ Snowflake Online Feature Store는 10월 20일 GA로 전환됐고, batch·stream�
 
 검색 집계 페이지는 원문과 구분했다. 운영 회고·대규모 설계·SRE·AI·보안 글을 우선했으나, 오늘 날짜로 원문 확인된 추가 항목은 확보하지 못했다.
 
-## 15. 효성티앤에스 및 경쟁사
-
-| 기업 | 분류 | 발행일 | 제목·핵심 요약 | 출처 유형·원문 |
-| --- | --- | --- | --- | --- |
-| Hyosung Innovue (효성티앤에스) | 비교 대상/금융자동화 사업자 | 2026-10-06, `Beyond Branch Transformation: Designing the Intelligent Banking Ecosystem`. 지점·디지털 채널·현금관리 인프라·원격 전문성을 연결하는 금융 생태계 관점을 제시 | 공식 Industry Insights / [원문](https://hyosung-tns.com/market-insights/) |
-| Diebold Nixdorf | 직접 경쟁사 | 2026-10-19, `Why Expert Partnerships Help Retail Banks Keep Pace With Change`가 공식 Insights에 표시됨 | 공식 Insights / [원문](https://www.dieboldnixdorf.com/en-us/banking/insights/) |
-| NCR Voyix | 직접 경쟁사·인접 솔루션 사업자 | 2026-10-14 보도자료는 Sbarro의 POS 현대화 협력이다. ATM 경쟁 동향으로 확대 해석하지 않음 | 공식 Newsroom / [원문](https://www.ncrvoyix.com/newsroom) |
-| GRG Banking·Hitachi Channel Solutions·OKI 금융자동화 | 직접 경쟁사/비교 대상 후보 | 오늘 공식 원문으로 확인된 신규 동향 없음 | 공식 원문 미확인 |
-
-경쟁사 분류 근거는 ATM·리테일 뱅킹·현금관리·금융자동화 제품군의 공개 범위에 한정한다. 회사 발표·홍보 문구와 독립 시장 분석을 분리했으며, 기능·성능 우열은 판단하지 않았다.
-
 ## 16. Java/Spring 프리랜서 공고
 
 | 플랫폼 | 공고 | 기술 스택 | 계약·근무 형태 | 금액·수집일·상태 | 원문 |
@@ -130,7 +119,7 @@ Snowflake Online Feature Store는 10월 20일 GA로 전환됐고, batch·stream�
 
 - **사실**: 위 표와 본문에서 공식 원문 또는 공개 공고 페이지에 명시된 날짜·제목·상태만 기록.
 - **추론/권고**: 운영 체크리스트와 Jev API 설계 원칙은 편집자의 제안이며 외부 사실이 아님.
-- **미확인**: 당일 신규 Claude/BCI/CrewAI/CSP/zero-day/다수 언어 릴리스, 일부 국내 기업 블로그, GRG·Hitachi·OKI·프리모아·이랜서 공고.
+- **미확인**: 당일 신규 Claude/BCI/CrewAI/CSP/zero-day/다수 언어 릴리스, 일부 국내 기업 블로그, 프리모아·이랜서 공고.
 
 ## Sources
 

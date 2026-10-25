@@ -3,7 +3,7 @@ layout: post
 title: "데일리 AI·Kubernetes·클라우드 브리핑 — 2026-10-22"
 date: 2026-10-22 08:30:44 +0900
 categories: [기술동향, AI, Kubernetes]
-tags: [AI, Claude, Agents, Kubernetes, Cloud, Security, MCP, MLOps, Java, Spring, ATM]
+tags: [AI, Claude, Agents, Kubernetes, Cloud, Security, MCP, MLOps, Java, Spring]
 ---
 
 > **수집 시각:** 2026-10-22 08:30 KST · **범위:** 공식 원문과 공개 공고 우선 · **표기:** 확인된 사실 / 해석 / 미확인을 분리했습니다.
@@ -125,25 +125,6 @@ CrewAI ACP는 회사 설명상 배포별 실행 흐름·비용·정책 준수 �
 
 LINE, 쿠팡, 우아한형제들, 당근, 두나무는 오늘 검색 범위에서 당일 신규 운영 회고·설계 글을 확인하지 못했습니다. 오래된 글을 당일 뉴스로 재활용하지 않았습니다.
 
-## 15. 효성티앤에스 및 경쟁·비교군
-
-### 효성티앤에스 — 오늘 확인된 공식 동향
-- **분류:** ATM·현금관리·리테일 뱅킹 소프트웨어 사업자
-- **발행일:** 2026-10-06
-- **제목:** Beyond Branch Transformation: Designing the Intelligent Banking Ecosystem
-- **핵심:** 지점·디지털 채널·현금관리·원격 전문서비스를 하나의 금융 생태계로 연결하는 방향을 제시합니다.
-- **출처 유형:** 공식 인사이트 / 제품 페이지
-- **원문:** [BlueVerse Software](https://hyosung-tns.com/product/blueverse-software/), [관련 인사이트](https://hyosung-tns.com/blogs/beyond-branch-transformation/)
-
-BlueVerse 제품군은 공식 페이지상 멀티벤더 단말 애플리케이션, 클라우드 ATM 소프트웨어, 코어뱅킹 연동(BlueVerseCore), 원격/대면 teller(BlueVerseTeller), fleet 모니터링(BlueVerseFleet), 보안(BlueVerseSecurity), CRM으로 구성됩니다. **제품 설명은 회사 발표이며 독립 성능 검증이 아닙니다.**
-
-### 경쟁·비교군 확인
-- **Diebold Nixdorf — 직접 경쟁사:** ATM·현금재활용기·지점 자동화 및 Vynamic 소프트웨어 제품군을 보유한 것으로 공식·공개 자료에서 확인됩니다. 2026-10-08 stc pay Bahrain 관련 발표는 디지털 금융서비스와 DN Series cash recyclers/Vynamic을 연결하는 사례입니다. [공식 Featured News](https://www.dieboldnixdorf.com/en-us/about-us/news-and-events/featured-news/)
-- **NCR Voyix — 인접 솔루션 사업자/비교 대상:** 오늘 확인된 공식 뉴스룸은 주로 통합 상거래·결제·리테일에 집중되어, ATM 직접 경쟁의 최신 근거는 이 수집 범위에서 확인하지 못했습니다. [뉴스룸](https://www.ncrvoyix.com/newsroom)
-- **GRG Banking, Hitachi Channel Solutions, OKI 금융자동화 사업:** 오늘 공식 원문에서 신규 동향을 확인하지 못했습니다. 직접 경쟁 여부를 단정하지 않고 **비교 대상 후보**로만 유지합니다.
-
-제품 기능·성능의 우열이나 시장점유율은 독립 자료 없이 단정하지 않습니다.
-
 ## 16. Java/Spring 프리랜서 공고·프로젝트
 
 수집일: **2026-10-22**. 공개 원문에서 모집 중으로 확인되는 항목을 우선했으며, 로그인 필요한 상세 요건은 우회하지 않았습니다.
@@ -202,6 +183,4 @@ BlueVerse 제품군은 공식 페이지상 멀티벤더 단말 애플리케이�
 - [MCP Blog](https://blog.modelcontextprotocol.io/)
 - [NAVER D2](https://d2.naver.com/helloworld)
 - [Kakao Tech](https://tech.kakao.com/)
-- [Hyosung TNS BlueVerse](https://hyosung-tns.com/product/blueverse-software/)
-- [Diebold Nixdorf Featured News](https://www.dieboldnixdorf.com/en-us/about-us/news-and-events/featured-news/)
 - [Wishket Projects](https://www.wishket.com/project/)

@@ -3,7 +3,7 @@ layout: post
 title: "2026-10-18 데일리 AI·Kubernetes·프리랜서 브리핑"
 date: 2026-10-18 08:30:21 +0900
 categories: [AI, Kubernetes, 기술동향, 프리랜서]
-tags: [AI, ML, Kubernetes, MCP, Observability, Java, Spring, ATM, Cloud]
+tags: [AI, ML, Kubernetes, MCP, Observability, Java, Spring, Cloud]
 ---
 
 > **수집 기준:** 2026-10-18 08:30 KST. 공식 홈페이지·릴리스·뉴스룸·공개 원문을 우선 확인했다. 검색 스니펫·집계 페이지·로그인 뒤 비공개 내용은 사실의 근거로 사용하지 않았으며, 기업 발표와 독립적 사실·해석을 구분한다.
@@ -13,7 +13,6 @@ tags: [AI, ML, Kubernetes, MCP, Observability, Java, Spring, ATM, Cloud]
 - Kubernetes 공식 릴리스 페이지에서 현재 지원 브랜치는 1.37·1.36·1.35로 확인된다. 최신 패치는 각각 1.37.1, 1.36.5, 1.35.9이며 1.37.2와 1.36.6은 다음 패치로 안내되어 있다.[1][2]
 - Google Cloud 공식 주간 업데이트는 Apigee의 계층형 토큰 예산, Claude Sonnet 5.5의 Model Garden 제공, 결정론적 가드레일을 둔 EKS→GKE 에이전틱 마이그레이션 프리뷰를 소개한다.[3]
 - MCP 공식 블로그는 2026-07-28 명세와 SDK, 공식 Ruby SDK 1.0을 안내한다. 오늘 새 명세가 발표됐다고 재분류하지 않는다.[4]
-- Hyosung TNS 공식 뉴스 페이지에서 오늘 날짜의 신규 글은 확인하지 못했다. NCR Voyix는 ATM 직접 경쟁사로 단정하지 않고 리테일·결제·셀프서비스 인접 사업자로 분류한다.[5][6]
 - 공개 원문에서 현재 모집 중인 Java/Spring 공고는 위시켓 1건을 확인했다. 금액은 협의 후 결정이며, 프리모아·이랜서에서는 오늘 검증 가능한 원문 공고를 확보하지 못했다.[7]
 
 ## 1. AI & Machine Learning
@@ -95,24 +94,6 @@ Google Cloud 공식 업데이트는 LangGraph 기반 에이전트에 OpenTelemet
 - 네이버 D2, 카카오 Tech, LINE Engineering, Coupang Engineering, 우아한형제들, 당근, 토스, 두나무에서 오늘 신규 원문을 충분히 확인하지 못했다.
 - 검색 결과에서 카카오의 2026-10-02 ‘데이터 분석 에이전트를 만들며 배운 컨텍스트 설계’, 네이버 D2의 2026-10-08 Python GC 글은 확인되지만 오늘 발행물이 아니므로 당일 뉴스로 재사용하지 않는다.
 
-## 15. 효성티앤에스 및 경쟁사 동향
-
-### Hyosung TNS
-- **분류:** ATM·현금관리 직접 비교군
-- **발행일/제목:** 오늘 확인된 신규 동향 없음
-- **근거:** 공식 Company News 페이지의 공개 목록에서 최신 확인 가능한 항목은 과거 CEO·리브랜딩·제품 관련 글이며 2026-10-18 신규 글은 확인되지 않았다.[5]
-
-### NCR Voyix
-- **분류:** ATM 직접 경쟁사로 단정하지 않는 인접 솔루션 사업자·비교 대상
-- **발행일:** 2026-10-14
-- **제목:** Sbarro Expands Partnership with NCR Voyix to Modernize Restaurant Operations and Streamline Payments
-- **요약:** Aloha Next POS와 Voyix Pay를 약 300개 매장에 배치한다는 기업 발표다. 리테일·결제 사업 동향으로 기록하며 ATM 우열 비교로 확대하지 않는다.[6]
-
-### Diebold Nixdorf, GRG Banking, Hitachi Channel Solutions, OKI 계열
-- **분류:** ATM·현금관리 직접 비교군 또는 인접 사업자 여부를 제품군별로 구분해야 함
-- **확인 결과:** 오늘 확인된 신규 공식 원문을 충분히 확보하지 못했다. 각 기업은 **오늘 확인된 신규 동향 없음(이번 수집 범위)**으로 기록한다.
-- 제품 기능·성능 수치와 기업 간 우열은 원문 확인 전 단정하지 않는다.
-
 ## 16. Java/Spring 프리랜서 공고
 
 > **수집일:** 2026-10-18. 로그인 뒤 상세 내용은 사용하지 않았고, 공개 원문 표시 상태를 그대로 기록했다.
@@ -138,8 +119,6 @@ Google Cloud 공식 업데이트는 LangGraph 기반 에이전트에 OpenTelemet
 [2] https://kubernetes.io/releases/patch-releases/
 [3] https://cloud.google.com/blog/topics/inside-google-cloud/whats-new-google-cloud
 [4] https://blog.modelcontextprotocol.io/
-[5] https://hyosung-tns.com/our-resources/pr-center/
-[6] https://investor.ncrvoyix.com/news-releases
 [7] https://www.wishket.com/project/158812/
 [8] https://docs.aws.amazon.com/us_en/eks/latest/userguide/kubernetes-versions-standard.md
 [9] https://www.cisa.gov/news-events/bulletins

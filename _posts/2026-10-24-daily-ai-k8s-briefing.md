@@ -85,15 +85,6 @@ Snowflake는 Online Feature Store를 2026-10-20 GA로 전환했다. 공식 문�
 
 네이버 D2, 카카오 Tech, LINE Engineering, Coupang Engineering, 우아한형제들, 당근, 토스, 두나무의 공개 채널을 확인 대상으로 삼았으나, 오늘 수집 시점에 당일 신규 글의 원문·발행일을 모두 교차 검증할 수 있는 항목은 확보하지 못했다. 따라서 검색 아카이브나 제3자 모음 글을 최신 사내 기술 발표로 재사용하지 않는다.
 
-## 15. 효성티앤에스 및 경쟁·비교군
-
-- **효성티앤에스:** 오늘 공식 사이트·뉴스룸에서 신규 ATM·현금관리·AI Banker·BlueVerse·엣지/비전 AI·예지정비 발표를 원문으로 검증하지 못했다. **오늘 확인된 신규 동향 없음(검증 기준).**
-- **NCR Voyix — 인접 솔루션 사업자/비교 대상:** 10월 21일 3분기 실적 발표 예고, 10월 14일 Sbarro POS·결제 파트너십이 공식 투자자 페이지에 표시된다. 확인된 발표의 중심은 리테일·레스토랑 unified commerce이며, ATM 직접 경쟁으로 단정하지 않는다. [원문](https://investor.ncrvoyix.com/news-releases)
-- **Diebold Nixdorf — 직접 경쟁사:** 10월 8일 stc pay Bahrain의 디지털·물리 금융 서비스 연결 발표가 공식 페이지에 표시된다. 금융 셀프서비스·ATM 사업군 때문에 직접 비교군으로 분류하되, 해당 발표가 특정 제품 우열을 입증하지는 않는다. [원문](https://investors.dieboldnixdorf.com/news-and-events/press-releases/default.aspx)
-- **GRG Banking:** 오늘 공식 원문으로 신규 동향을 확인하지 못했다.
-- **OH Channel Innovations(OKI·Hitachi) — 직접 경쟁사/비교 대상:** OKI와 Hitachi는 2026-10-01 ATM 및 자동화 장비 합작회사 운영 개시를 발표했고, 지분은 OKI 60%, Hitachi 40%로 명시했다. 이는 금융자동화 시장의 구조 변화에 해당하지만 제품 성능 우열의 근거는 아니다. [OKI 원문](https://www.oki.com/eu/printing/about-us/news-room/press-releases/2026/oki-and-hitachi-launch-oh-channel-innovations/index.html)
-- 회사별 홍보 발표와 독립 시장 분석은 분리했다. 독립 시장 규모·점유율 수치는 이번 원문 검증 범위에 포함하지 않았다.
-
 ## 16. Java/Spring 프리랜서 공고
 
 아래는 2026-10-24 08:30 KST에 공개 원문에서 확인한 최대 5건이다. 로그인 요구 내용은 추정하지 않았고, 공고의 현재 상태를 원문 표시 그대로 적었다.

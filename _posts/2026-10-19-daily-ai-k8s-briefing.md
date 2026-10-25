@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "2026-10-19 데일리 AI·Kubernetes·금융자동화 브리핑"
+title: "2026-10-19 데일리 AI·Kubernetes 브리핑"
 date: 2026-10-19 08:30:00 +0900
 categories: [ai, kubernetes, cloud, freelance]
-tags: [AI, Kubernetes, MCP, 보안, 프리랜서, 효성티앤에스]
+tags: [AI, Kubernetes, MCP, 보안, 프리랜서]
 ---
 
 > **수집 기준:** 2026-10-19 KST 오전 공개 원문 확인분. 공식 원문을 확인하지 못한 항목은 신규 뉴스로 단정하지 않았습니다. 검색 결과만으로 확인된 내용은 별도 표시했습니다.
@@ -88,7 +88,7 @@ Anthropic의 distillation 방어 발표는 모델 안전장치를 유지한 채 
 
 ## 13. 그린 컴퓨팅
 
-오늘 날짜의 신규 공식 자료를 확인하지 못했습니다. ATM·AI·Kubernetes 비교 시에도 성능 수치만으로 우열을 단정하지 말고 장비 수명, 유휴전력, 냉각, 작업당 에너지와 운영 교체주기를 함께 측정해야 합니다.
+오늘 날짜의 신규 공식 자료를 확인하지 못했습니다. AI·Kubernetes 비교 시에도 성능 수치만으로 우열을 단정하지 말고 장비 수명, 유휴전력, 냉각, 작업당 에너지와 운영 교체주기를 함께 측정해야 합니다.
 
 ## 14. 한국 기업 기술 블로그
 
@@ -99,19 +99,6 @@ Anthropic의 distillation 방어 발표는 모델 안전장치를 유지한 채 
 - **원문:** [Toss Tech](https://toss.tech/article/ai-platform-foundation)
 
 네이버 D2, 카카오, LINE Engineering, Coupang, 우아한형제들, 당근, 두나무에서 오늘 날짜의 신규 운영·AI·보안 글은 이 수집분에서 원문 확인하지 못했습니다. 과거 글을 오늘 뉴스로 재활용하지 않았습니다.
-
-## 15. 효성티앤에스 및 경쟁사
-
-| 기업 | 분류 | 발행일/상태 | 확인된 내용 |
-| --- | --- | --- | --- |
-| Hyosung TNS | 직접 경쟁군 | 오늘 신규 원문 확인 없음 | 공식 리소스 페이지는 뉴스·블로그·분기 시장 bulletin·파트너 포털을 제공하며, 제품군에는 ATM·금융자동화·BlueVerseFleet가 포함됩니다. 오늘 신규 동향으로 단정할 원문은 확인하지 못했습니다.[7] |
-| Diebold Nixdorf | 직접 경쟁사 | 2026-10-13 | 공식 Banking Insights에 남아공 대형 소매은행의 self-service cash network availability·capacity modernization 사례가 게시됐습니다. 기업 발표 사례이며 독립 검증 수치는 별도입니다.[8] |
-| NCR Voyix | 비교 대상(금융 ATM은 NCR Atleos와 구분 필요) | 오늘 신규 원문 확인 없음 | 공개 검색 결과만으로 오늘 금융 ATM 신규 발표를 확인하지 못했습니다. 금융 ATM 사업자 분류는 회사의 현재 사업구조를 별도 확인해야 합니다. |
-| GRG Banking | 직접 경쟁군 | 오늘 신규 공식 원문 확인 없음 | 오늘 신규 제품·파트너십 원문을 확인하지 못했습니다. |
-| Hitachi Channel Solutions | 직접 경쟁군 | 오늘 신규 공식 원문 확인 없음 | 오늘 신규 제품·파트너십 원문을 확인하지 못했습니다. |
-| OKI 계열 금융자동화 | 비교 대상 | 오늘 신규 공식 원문 확인 없음 | 오늘 신규 금융자동화 원문을 확인하지 못했습니다. |
-
-**구분 근거:** 위 표의 직접 경쟁군·비교 대상 구분은 ATM·self-service·branch automation 제품군이 겹치는 공개 회사 자료를 바탕으로 한 실무적 분류입니다. 시장 점유율·성능 우열은 주장하지 않습니다. [Hyosung TNS Resources](https://hyosung-tns.com/our-resources/), [Diebold Nixdorf Banking Insights](https://www.dieboldnixdorf.com/en-us/banking/insights/)
 
 ## 16. Java/Spring 프리랜서 구인공고
 
@@ -142,5 +129,3 @@ Anthropic의 distillation 방어 발표는 모델 안전장치를 유지한 채 
 [4] Model Context Protocol, “The 2026-07-28 Specification”, 2026-07-28 — https://blog.modelcontextprotocol.io/posts/2026-07-28/
 [5] Toss Tech, “서비스 개발에 집중할 수 있는 AI 플랫폼 만들기”, 2026-10-13 — https://toss.tech/article/ai-platform-foundation
 [6] AWS Security Blog, “AWS Security Agent (now part of AWS Continuum) exploited 33 of 37 new real-world CVEs”, 2026-10-15 — https://aws.amazon.com/blogs/security/aws-security-agent-now-part-of-aws-continuum-exploited-33-of-37-new-real-world-cves/
-[7] Hyosung TNS, “Resources” — https://hyosung-tns.com/our-resources/
-[8] Diebold Nixdorf, “Banking Insights” — https://www.dieboldnixdorf.com/en-us/banking/insights/
