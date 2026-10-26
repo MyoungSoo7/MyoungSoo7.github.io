@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-23T00:42:21Z",
- "scanned": 1537,
+ "generated": "2026-10-26T00:42:22Z",
+ "scanned": 1567,
  "failed": 0,
  "posts": [
   {
@@ -28,15 +28,15 @@
    "views": 9
   },
   {
-   "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
-   "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
-   "date": "2026-08-10",
-   "views": 8
-  },
-  {
    "url": "/2026/08/11/clush-fullstack-jd-analysis/",
    "title": "필수 요건에 LLM이 한 줄도 없다 — 클러쉬 10년차 풀스택 공고, 요건 39개 해부",
    "date": "2026-08-11",
+   "views": 9
+  },
+  {
+   "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
+   "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
+   "date": "2026-08-10",
    "views": 8
   },
   {
