@@ -150,7 +150,7 @@ h.Shutdown()           // 2) 그 다음 Hub 를 닫아 구독 채널을 close �
               → 종료까지 10.07s, 그동안 클라이언트는 틱을 계속 받았다
 ```
 
-쿠버네티스 기본 `terminationGracePeriodSeconds` 는 30초라서 운영에서 강제 종료까지 가지는 않는다. 다만 롤아웃 때마다 파드가 10초씩 쓸데없이 버티고, 매번 ERROR 로그를 하나씩 남긴다. 고치는 방법은 한 줄이다. `srv.RegisterOnShutdown(h.Shutdown)` 로 Hub 닫기를 HTTP 종료 *시작* 시점에 걸면, 핸들러가 채널 close 를 보고 바로 빠져나간다.
+쿠버네티스 기본 `terminationGracePeriodSeconds` 는 30초라서 운영에서 강제 종료까지 가지는 않는다. 다만 롤아웃 때마다 파드가 10초씩 쓸데없이 버티고, 매번 ERROR 로그를 하나씩 남긴다. 고치는 방법은 한 줄이다. `srv.RegisterOnShutdown(h.Shutdown)` 로 Hub 닫기를 HTTP 종료 *시작* 시점에 걸면, 핸들러가 채널 close 를 보고 바로 빠져나간다. 로컬 사본의 `main.go` 에 이 한 줄만 넣고 같은 재현(SSE 클라이언트 1개 연결 후 SIGTERM)을 돌리면 종료가 **0.25s** 로 줄고 ERROR 로그는 0줄이다.
 
 같은 맥락에서 `/ws` 핸들러는 `InsecureSkipVerify: true` 로 Origin 검사를 끄고 TODO 를 달아 두었다. 게이트웨이가 `/ws/**` 를 노출하지 않으므로 지금은 클러스터 안에서만 닿는다. 또 의존성 `nhooyr.io/websocket` 은 pkg.go.dev 에서 deprecated 로 표시돼 있고 후속은 `github.com/coder/websocket` 이다([pkg.go.dev](https://pkg.go.dev/nhooyr.io/websocket)).
 
@@ -210,4 +210,4 @@ h.Shutdown()           // 2) 그 다음 Hub 를 닫아 구독 채널을 close �
 - Kubernetes Docs, *Pod Lifecycle — Termination of Pods* (`terminationGracePeriodSeconds` 기본 30s). <https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination>
 - 비공개 레포 `settlement` — `market-stream-service/` (origin/main 448d9860), 커밋 `32ffbb05`(broadcast 경합 수정, 8/19)·`2e292026`(Tick source, 8/20), `docs/sse.md`, `gateway-service/src/main/resources/application.yml`, `frontend/src/components/LiveQuoteTicker.tsx`
 - helm-deploy — `charts/polyglot-services/values.yaml`, 커밋 `6e04a6e`(9/24 05:30, 시세 경로 추가)·`75a2459`(08:30, PR 통째 리버트)·`b7e39c0`(16:37, finance 만 재도입)
-- 실측: settlement-prod 파드·로그·클러스터 내부 curl, 공개 경로 curl (2026-10-27 23:11 KST), 로컬 graceful stop 재현 (go1.26.2, 10.07s)
+- 실측: settlement-prod 파드·로그·클러스터 내부 curl, 공개 경로 curl (2026-10-27 23:11 KST), 로컬 graceful stop 재현 (go1.26.2, 10.07s → 한 줄 수정 후 0.25s)
