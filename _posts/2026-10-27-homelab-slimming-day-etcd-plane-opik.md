@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "홈랩 다이어트 하루 — etcd 3→1, plane·media-search·opik 정지, 디스크 51GB 회수"
+title: "홈랩 다이어트 하루 — etcd 3→1, 서비스 정지, Actions 분 소진까지"
 date: 2026-10-27 22:40:00 +0900
 categories: [devops, kubernetes]
-tags: [k3s, etcd, argocd, server-side-diff, testcontainers, docker, opik, homelab]
+tags: [k3s, etcd, argocd, server-side-diff, testcontainers, docker, opik, github-actions, playwright, homelab]
 ---
 
-2026-10-27 하루 동안 K3s 홈랩에서 덜어낸 것들을 적는다. 어제 [3멤버 vs 1멤버 etcd 비교 글](/2026/10/26/k3s-etcd-3-vs-1-member-ops-physical/)에서 내린 결론을 오늘 실제로 실행했다. 그 김에 "지금 안 쓰는데 돌고 있는 것"을 하나씩 찾아 내렸다. 숫자는 전부 이날 `kubectl`·`docker`로 직접 잰 값이다.
+2026-10-27 하루 동안 K3s 홈랩에서 덜어낸 것들을 적는다. 어제 [3멤버 vs 1멤버 etcd 비교 글](/2026/10/26/k3s-etcd-3-vs-1-member-ops-physical/)에서 내린 결론을 오늘 실제로 실행했다. 그 김에 "지금 안 쓰는데 돌고 있는 것"을 하나씩 찾아 내렸다. 숫자는 전부 이날 `kubectl`·`docker`·`gh` 로 직접 잰 값이다. 봇 두 개가 나눠서 했다. 1~3절은 봇2, 4절은 봇3 의 작업이다.
 
 ## 요약
 
@@ -101,12 +101,60 @@ lemuel 의 CPU 62% 중 파드 몫은 0.6코어 정도였다. 나머지는 호스
 
 같은 노드의 안 쓰는 이미지(10.2GB)와 빌드 캐시(37.5GB)는 `docker image prune -a`, `docker builder prune -a` 로 지웠다 ([Docker docs — builder prune](https://docs.docker.com/reference/cli/docker/builder/prune/)). 디스크는 210G 에서 159G 로 줄었다. 멈춰 있는 컨테이너 22개와 볼륨 38개(42GB)는 데이터가 있을 수 있어 남겨 두었다.
 
-## 4. 오늘 배운 것
+## 4. 같은 날 다른 봇이 한 일 — CI 가 시작조차 안 됐다
+
+### 4-1. main CI 실패의 진짜 원인은 Actions 분 소진
+
+settlement main CI 가 빨간불이었는데, 코드 문제가 아니었다. 모든 `ubuntu-latest` 잡이 `Actions budget is preventing further use` 메시지와 함께 **시작조차 하지 못했다.** 10월 사용량은 4094분이었다. Free 플랜에 포함된 2000분/월의 두 배다. GitHub 공식 문서에 따르면 private 리포의 GitHub 호스티드 러너 사용분만 이 무료 할당량에서 빠지고, **self-hosted 러너는 과금 대상이 아니다** ([GitHub Docs — GitHub Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions)).
+
+그래서 PR #395 에서 가벼운 잡 8개를 louise 의 자체 러너로 옮겼다. 걸림돌이 하나 있었다. 러너 계정(ghrunner)에 sudo 가 없어서 `playwright install --with-deps` 가 OS 패키지를 설치하지 못한다. 이 옵션은 브라우저와 함께 시스템 의존성까지 설치하는 명령이다 ([Playwright — Browsers](https://playwright.dev/docs/browsers)). 그래서 노드에 시스템 의존성을 미리 깔아 두는 방식으로 우회했다. 발행 시점 #395 의 CI 는 아직 돌고 있었다.
+
+3-1 절에서 본 louise 의 CPU 110% 도 이 흐름과 이어진다. 분을 아끼려고 러너를 자체 노드로 옮길수록 그 노드의 부하가 올라간다. 공짜인 건 GitHub 요금뿐이다.
+
+### 4-2. GHCR — 지워도 안 줄어드는 저장소
+
+비공개 컨테이너 이미지도 읽기 전용으로 점검했다(삭제는 하지 않았다). 패키지 19개에 7.28GB 였다. 공식 문서상 Actions 아티팩트와 GitHub Packages 는 **같은 저장 할당량을 나눠 쓴다** (위 billing 문서). Free 플랜의 그 할당량은 500MB 다.
+
+정리로는 해결이 안 됐다.
+
+- 태그 없는 버전은 모두 태그 있는 멀티아키 인덱스의 자식이다. 지워도 줄어드는 용량이 0 바이트다.
+- 최신 3개와 배포 중인 태그만 남겨도 3.2GB 다.
+
+그래서 결론은 정리가 아니라 **예산(budget) 설정**이었다.
+
+### 4-3. 빨간불을 진짜 실패만 가리키게
+
+- Playwright 리포트 업로드 스텝에 `continue-on-error: true` 를 붙였다(#392 develop, #393 main 핫픽스). 이 키는 그 스텝이 실패해도 잡을 실패로 만들지 않는다 ([GitHub Docs — Workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepscontinue-on-error)). 테스트의 합격 여부는 이미 E2E 스텝의 exit code 가 결정한다. 저장 한도 초과로 업로드만 실패해도 run 전체가 빨개지는 가짜 실패를 막으려는 것이다.
+- 외부 데이터 모듈이 기동할 때 생성된 비밀번호를 로그에 찍던 코드를 지웠다(#389 develop, #390 main → `main-ea5886b` 배포).
+- 클라이언트가 연결을 끊을 때 나던 `ClientAbort` 로그 노이즈를 정리했다(#391).
+- 프런트엔드 취약점을 고쳤고, MSA 서비스 태그를 `main-95c29ab` 로 올렸다. Dependabot 이 main 에만 넣은 `follow-redirects` 1.16.1 도 develop 에 반영했다.
+
+### 4-4. 에이전트 스택도 같이 내렸다
+
+helm-deploy 에서 아래 서비스들을 전부 replicas 0 으로 내렸다. PVC 는 보존해서 언제든 되살릴 수 있다.
+
+| 대상 | 내린 근거 | 커밋 |
+|---|---|---|
+| blogsearch·searxng | — | `e460800` |
+| nemotron-nano (watchman 로컬 LLM 폴백) | 사고가 아닌 9건 중 7건을 사고로 판정하는 과잉경보 탓에 이미 판정 자동 보류 중이었음. 약 2GB | `beed41c` |
+| memory-qa + dragonfly | 질의 0건 | `beed41c` |
+| openviking + ollama | 실제 API 호출 0건. 9월 Gemini 요금 폭증의 원인이었던 공유 메모리 | `beed41c` |
+
+이렇게 약 2.9GB 를 확보했다. watchman 은 NVIDIA 클라우드 판정으로 정상 동작하는 것을 확인했다. 봇2 가 memory-qa 의 opik 트레이싱을 끈 직후에 봇3 가 memory-qa 자체를 내린 셈이다. 같은 결론("쓰는 사람이 없다")에 두 봇이 각자 도달했다.
+
+봇3 가 정리한 판단 기준은 이렇다. 서비스를 내릴지는 감이 아니라 세 가지 근거로 본다.
+
+1. 헬스체크를 뺀 최근 호출 로그
+2. 그 서비스를 보는 알림 룰
+3. 크론·훅의 호출자
+
+## 5. 오늘 배운 것
 
 1. **"바꿀 수 없는 필드"는 Server-Side Diff 를 앱 단위로 마비시킨다.** 완료된 Job 의 template 이나 바인딩된 PVC 의 volumeName 처럼 실제로 바꿀 게 없는 리소스여도, dry-run 이 거부되면 앱 상태 자체가 Unknown 이 된다. 해법은 차트가 실제 값을 렌더하게 고치거나(PVC), 그 앱만 레거시 diff 로 돌리는 것이다(Job).
 2. **Helm `default` 는 0 을 삼킨다.** replicas 를 0 으로 내리려면 차트가 그걸 허용하는지부터 봐야 한다.
 3. **노드 부하표는 `kubectl top` 만으로 못 그린다.** louise 의 CI 러너와 lemuel 의 compose 스택은 쿠버네티스 지표에 나오지 않았다. 노드를 뺄지 판단할 때는 `docker ps` 와 `ps --sort=-pcpu` 를 함께 봐야 한다.
-4. **"설치해 둔 관측 도구"도 사용량으로 다시 평가한다.** opik 은 고장이 아니라 쓰임이 적어서 접었다. 다시 쓸 시점은 LLM 을 붙인 서비스가 여럿이 되어 비용·지연을 비교해야 할 때다.
+4. **CI 의 빨간 X 가 코드 실패라는 보장은 없다.** 잡이 시작도 못 했다면 결제·할당량부터 본다. 반대로 부가 스텝(리포트 업로드)의 실패가 판정을 오염시키지 않게 분리한다.
+5. **"설치해 둔 관측 도구"도 사용량으로 다시 평가한다.** opik 은 고장이 아니라 쓰임이 적어서 접었다. 다시 쓸 시점은 LLM 을 붙인 서비스가 여럿이 되어 비용·지연을 비교해야 할 때다.
 
 ## References
 
@@ -114,6 +162,9 @@ lemuel 의 CPU 62% 중 파드 몫은 0.6코어 정도였다. 나머지는 호스
 - K3s Documentation — [etcd-snapshot](https://docs.k3s.io/cli/etcd-snapshot) (기본 00:00·12:00, 로컬 5개 보관)
 - Argo CD Documentation — [Diff Strategies](https://argo-cd.readthedocs.io/en/stable/user-guide/diff-strategies/) (Server-Side Diff = SSA dry-run)
 - Argo CD Documentation — [Sync Options](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/) (`RespectIgnoreDifferences`)
+- GitHub Docs — [GitHub Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions) (self-hosted 무과금, 아티팩트·Packages 저장 할당량 공유)
+- GitHub Docs — [Workflow syntax: continue-on-error](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepscontinue-on-error)
+- Playwright — [Browsers: Install system dependencies](https://playwright.dev/docs/browsers)
 - Kubernetes Documentation — [Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
 - Testcontainers for Java — [General Container runtime requirements](https://java.testcontainers.org/supported_docker_environment/) (Ryuk, `TESTCONTAINERS_RYUK_DISABLED`)
 - Docker Documentation — [docker builder prune](https://docs.docker.com/reference/cli/docker/builder/prune/)
