@@ -6,7 +6,7 @@ categories: [architecture, settlement]
 tags: [msa, spring-boot, hexagonal, batch, open-api, settlement]
 ---
 
-정산 프로젝트에는 자바 MSA 가 다섯 개 있습니다. 그중 `external-data-service` 는 이름만 봐서는 하는 일을 짐작하기 어렵습니다. "외부 데이터"는 범위가 너무 넓기 때문입니다. 이 글은 코드와 ADR, 그리고 오늘 새벽 운영 클러스터에서 잰 수치로 이 서비스가 **실제로** 무엇을 하는지 정리합니다. 서비스가 어떻게 여기까지 모였는지는 {% post_url 2026-10-27-settlement-18-to-6-the-consumers-nobody-listed %}에서 다뤘습니다.
+정산 프로젝트에는 자바 MSA 가 다섯 개 있습니다. 그중 `external-data-service` 는 이름만 봐서는 하는 일을 짐작하기 어렵습니다. "외부 데이터"는 범위가 너무 넓기 때문입니다. 이 글은 코드와 ADR, 그리고 오늘 새벽 운영 클러스터에서 잰 수치로 이 서비스가 **실제로** 무엇을 하는지 정리합니다. 서비스가 어떻게 여기까지 모였는지는 [정산 18→6 통합 글]({% post_url 2026-10-27-settlement-18-to-6-the-consumers-nobody-listed %})에서 다뤘습니다.
 
 한 줄로 줄이면 이렇습니다. **정부·공공기관 API 를 정해진 시각에 긁어 `lemuel_external` DB 에 쌓고, 그걸 인증 없는 GET API 로 다시 내보내는 읽기 전용 창구**입니다. 주문·결제·정산 같은 돈의 흐름에는 직접 손대지 않습니다. 다만 대출 심사와 투자 점수가 쓰는 금리·재무 숫자가 여기서 나옵니다.
 
@@ -134,7 +134,7 @@ data.go.kr 이 이 서비스키를 특일정보 API 에 **등록되지 않은 �
 | 운영 상태 | 파드 1개, 메모리 요청 512Mi / 한도 1Gi. 시세·지표·환율 수집 실패 0 |
 | 당장 볼 것 | ① 공휴일 서비스키 403 (2027-01-01 오탐 예고) ② 평판 재산정 500/2,661 상한 |
 
-같은 정산 레포의 Go 서비스는 {% post_url 2026-10-27-settlement-market-stream-anatomy-healthy-but-unreachable %}에서 다뤘습니다. 두 서비스는 대조적입니다. market-stream 은 코드는 멀쩡한데 운영 경로가 없었습니다. external-data 는 경로도 수집도 멀쩡하고, **실패는 바깥쪽 계약(서비스키, 받는 쪽 상한)에서** 나고 있습니다.
+같은 정산 레포의 Go 서비스는 [market-stream 해부 글]({% post_url 2026-10-27-settlement-market-stream-anatomy-healthy-but-unreachable %})에서 다뤘습니다. 두 서비스는 대조적입니다. market-stream 은 코드는 멀쩡한데 운영 경로가 없었습니다. external-data 는 경로도 수집도 멀쩡하고, **실패는 바깥쪽 계약(서비스키, 받는 쪽 상한)에서** 나고 있습니다.
 
 ## References
 
