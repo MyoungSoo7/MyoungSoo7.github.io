@@ -8,7 +8,7 @@ tags: [kafka, settlement, outbox, idempotency, dlt, spring-kafka, strimzi, event
 
 정산 시스템에서 카프카가 무슨 일을 하는지 한 문장으로 줄이면 이렇다. **카프카는 정산의 장부가 아니라 배달부다.** 금액이 맞는지, 한 번만 반영됐는지, 사라진 사건은 없는지 — 이 질문들의 답은 카프카 안에 있지 않다. 카프카 앞뒤의 데이터베이스와 코드에 있다.
 
-이 글은 settlement 리포의 `main` 코드와 오늘(2026-10-27 23시) 운영 브로커 실측을 같이 놓고, **누가 무엇을 보장하는지** 를 한 칸씩 나눠 본다. 토픽 구조를 처음 실측한 기록은 [8월의 토픽 38개 실측 글](/2026/08/13/settlement-kafka-runtime-structure-measured/), 실패가 조용히 사라지는 지점은 [여섯 가드포인트 글](/2026/08/28/kafka-loses-silently-six-guardpoints/)에 있다. 여기서는 그 뒤로 달라진 것과 "역할 분담" 자체에 집중한다.
+이 글은 settlement 리포의 `main` 코드와 오늘(2026-10-27 23시) 운영 브로커 실측을 같이 놓고, **누가 무엇을 보장하는지** 를 한 칸씩 나눠 본다. 토픽 구조를 처음 실측한 기록은 [8월의 토픽 38개 실측 글](/2026/08/13/settlement-kafka-runtime-structure-measured/), 실패가 조용히 사라지는 지점은 [여섯 가드포인트 글](/2026/08/28/kafka-loses-silently-six-guardpoints/)에 있다. 여기서는 그 뒤로 달라진 것과 "역할 분담" 자체에 집중한다. 같은 정산 시스템에서 카프카를 쓰지 않고 SSE/WebSocket 으로 시세를 뿌리는 쪽은 [market-stream 해부 글](/2026/10/27/settlement-market-stream-anatomy-healthy-but-unreachable/)에서 다룬다.
 
 ## 0. 오늘 운영 브로커의 모습
 
