@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-27T00:42:26Z",
- "scanned": 1570,
+ "generated": "2026-10-28T00:42:29Z",
+ "scanned": 1590,
  "failed": 0,
  "posts": [
   {
@@ -70,6 +70,12 @@
    "views": 6
   },
   {
+   "url": "/2026/08/10/freelance-platforms-comparison/",
+   "title": "이랜서·프리누리·위시켓·프리모아 비교: 프로젝트와 기술자 생태계의 차이",
+   "date": "2026-08-10",
+   "views": 5
+  },
+  {
    "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
    "title": "레오파드 토론 한 번 — 인용 게이트가 지운 8건이 전부 진짜 출처였다",
    "date": "2026-09-03",
@@ -106,12 +112,6 @@
    "views": 4
   },
   {
-   "url": "/2026/08/10/freelance-platforms-comparison/",
-   "title": "이랜서·프리누리·위시켓·프리모아 비교: 프로젝트와 기술자 생태계의 차이",
-   "date": "2026-08-10",
-   "views": 4
-  },
-  {
    "url": "/2026/08/11/tossbank-ml-data-pipeline-jd-analysis/",
    "title": "토스뱅크는 왜 ML Engineer(Data Pipeline)를 뽑는가 — 손익계산서로 역산한 JD",
    "date": "2026-08-11",
@@ -145,6 +145,12 @@
    "url": "/2026/09/20/agent-chatbot-rag-where-the-policy-lives/",
    "title": "해커톤 에이전트 챗봇 — 검색은 서버로 옮겼는데, 정책은 브라우저에 남았다",
    "date": "2026-09-20",
+   "views": 4
+  },
+  {
+   "url": "/2026/09/28/krafton-cofa-probe-ai-native-assessment/",
+   "title": "크래프톤 Cofa-Probe 뜯어보기 — 결과물이 아니라 'AI와 일한 과정'을 채점하는 평가 도구",
+   "date": "2026-09-28",
    "views": 4
   },
   {
@@ -294,12 +300,6 @@
   {
    "url": "/2026/09/03/reinforcement-learning-marine-control/",
    "title": "전술을 가르치지 않아도 전투를 배운다: 마린 컨트롤 실험에서 본 강화학습의 구조",
-   "date": "2026-09-03",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/03/public-data-dart-ontology-design/",
-   "title": "공공데이터와 DART로 온톨로지를 설계하면 — 표준화된 것은 이름과 분류이지, 개체가 아니다",
    "date": "2026-09-03",
    "views": 3
   }
