@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-29T00:42:27Z",
- "scanned": 1594,
+ "generated": "2026-10-30T00:42:25Z",
+ "scanned": 1597,
  "failed": 0,
  "posts": [
   {
@@ -34,15 +34,15 @@
    "views": 9
   },
   {
-   "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
-   "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
-   "date": "2026-08-10",
-   "views": 8
-  },
-  {
    "url": "/2026/10/06/freevideo-minimax-h3-8gb-vram-local-video/",
    "title": "FreeVideo — 8GB VRAM 그래픽카드로 MiniMax H3 영상 생성하기 (그리고 한국 사용자가 먼저 봐야 할 라이선스 한 줄)",
    "date": "2026-10-06",
+   "views": 9
+  },
+  {
+   "url": "/2026/08/10/apache-kafka-core-concepts-and-production-checklist/",
+   "title": "Apache Kafka 정리: 핵심 개념부터 운영 전 체크리스트까지",
+   "date": "2026-08-10",
    "views": 8
   },
   {
