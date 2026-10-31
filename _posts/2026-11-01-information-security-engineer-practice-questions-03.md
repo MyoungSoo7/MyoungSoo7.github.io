@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "정보보안기사 학습 문제 03 — 웹 애플리케이션·TLS·암호모듈"
-date: 2026-11-01 00:05:00 +0900
+date: 2026-11-01 00:01:00 +0900
 categories: [security, certification]
 tags: [정보보안기사, OWASP, TLS, 암호모듈, 애플리케이션보안]
 ---
