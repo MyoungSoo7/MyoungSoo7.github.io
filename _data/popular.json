@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-31T00:42:26Z",
- "scanned": 1598,
+ "generated": "2026-11-04T00:42:31Z",
+ "scanned": 1673,
  "failed": 0,
  "posts": [
   {
@@ -166,6 +166,12 @@
    "views": 4
   },
   {
+   "url": "/2026/06/10/spring-boot-db-connection-pool-hikaricp-deep-dive/",
+   "title": "*백엔드 개발자가 알아야 할 *DB Connection Pool* — Spring Boot + HikariCP *11 가지 설정의 *진짜 의미*, *Pool sizing 계산 공식*, *Connection Leak 진단법*, 실전 *postmortem 4 건* 까지*",
+   "date": "2026-06-10",
+   "views": 3
+  },
+  {
    "url": "/2026/06/24/k3s-vs-k8s-realistic-comparison/",
    "title": "K3s vs K8s — 현실적인 비교, 6노드 14개월 운영 경험",
    "date": "2026-06-24",
@@ -295,12 +301,6 @@
    "url": "/2026/09/02/java-21-vs-java-25-virtual-threads/",
    "title": "자바 21과 자바 25의 가상 스레드 — 21에서 막혀 있던 것이 25에서 풀렸다",
    "date": "2026-09-02",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/03/reinforcement-learning-marine-control/",
-   "title": "전술을 가르치지 않아도 전투를 배운다: 마린 컨트롤 실험에서 본 강화학습의 구조",
-   "date": "2026-09-03",
    "views": 3
   }
  ]
