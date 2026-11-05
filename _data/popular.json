@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-04T00:42:31Z",
- "scanned": 1673,
+ "generated": "2026-11-05T00:42:31Z",
+ "scanned": 1674,
  "failed": 0,
  "posts": [
   {
@@ -250,6 +250,12 @@
    "views": 3
   },
   {
+   "url": "/2026/08/09/bank-eai-mci-fep-jex-spring-architecture/",
+   "title": "은행 EAI·MCI·FEP의 역할과 현대화: 4대 은행 공개자료의 한계, JEX와 Spring의 설계 비교",
+   "date": "2026-08-09",
+   "views": 3
+  },
+  {
    "url": "/2026/08/12/kubernetes-admin-a-to-z/",
    "title": "쿠버네티스 관리자가 알아야 할 A to Z — 조용히 실패하는 것들",
    "date": "2026-08-12",
@@ -294,12 +300,6 @@
   {
    "url": "/2026/09/02/synchronized-jpa-mybatis-three-layers-of-staleness/",
    "title": "락을 걸었는데 왜 옛날 값이 나오나 — synchronized · JPA 영속성 컨텍스트 · MyBatis 로컬 캐시, 낡음이 사는 세 개의 층",
-   "date": "2026-09-02",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/02/java-21-vs-java-25-virtual-threads/",
-   "title": "자바 21과 자바 25의 가상 스레드 — 21에서 막혀 있던 것이 25에서 풀렸다",
    "date": "2026-09-02",
    "views": 3
   }
