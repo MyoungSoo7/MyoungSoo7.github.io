@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-06T00:42:31Z",
- "scanned": 1675,
+ "generated": "2026-11-08T00:42:31Z",
+ "scanned": 1679,
  "failed": 0,
  "posts": [
   {
@@ -64,16 +64,16 @@
    "views": 6
   },
   {
+   "url": "/2026/08/10/freelance-platforms-comparison/",
+   "title": "이랜서·프리누리·위시켓·프리모아 비교: 프로젝트와 기술자 생태계의 차이",
+   "date": "2026-08-10",
+   "views": 6
+  },
+  {
    "url": "/2026/09/22/who-approved-when-agents-agree/",
    "title": "에이전트끼리 합의하면, 승인한 사람은 누구인가",
    "date": "2026-09-22",
    "views": 6
-  },
-  {
-   "url": "/2026/08/10/freelance-platforms-comparison/",
-   "title": "이랜서·프리누리·위시켓·프리모아 비교: 프로젝트와 기술자 생태계의 차이",
-   "date": "2026-08-10",
-   "views": 5
   },
   {
    "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
@@ -176,6 +176,12 @@
    "title": "정산 플랫폼 order-service 해부 — 주문·결제 프로세스와 구조",
    "date": "2026-10-28",
    "views": 4
+  },
+  {
+   "url": "/2026/05/04/coding-test-patterns/",
+   "title": "코딩 테스트 핵심 패턴 10선 (Java) — 템플릿 + 예제 + 복잡도",
+   "date": "2026-05-04",
+   "views": 3
   },
   {
    "url": "/2026/06/24/k3s-vs-k8s-realistic-comparison/",
@@ -294,12 +300,6 @@
   {
    "url": "/2026/09/02/java-history/",
    "title": "Java의 역사 — Oak에서 현대까지",
-   "date": "2026-09-02",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/02/java-kotlin-cancellation-is-the-real-difference/",
-   "title": "자바와 코틀린의 동시성 차이 — 스레드는 둘 다 싸졌는데, 취소는 왜 아직 다른가",
    "date": "2026-09-02",
    "views": 3
   }
