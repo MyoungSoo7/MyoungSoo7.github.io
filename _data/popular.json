@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-09T00:42:33Z",
- "scanned": 1682,
+ "generated": "2026-11-10T00:42:32Z",
+ "scanned": 1684,
  "failed": 0,
  "posts": [
   {
@@ -268,6 +268,12 @@
    "views": 3
   },
   {
+   "url": "/2026/08/11/jotso-net-architecture-public-data-product/",
+   "title": "공공데이터 한 줄로 연봉을 역산한다 — 좋소판별기(jotso.net) 구조 분해",
+   "date": "2026-08-11",
+   "views": 3
+  },
+  {
    "url": "/2026/08/12/kubernetes-admin-a-to-z/",
    "title": "쿠버네티스 관리자가 알아야 할 A to Z — 조용히 실패하는 것들",
    "date": "2026-08-12",
@@ -295,12 +301,6 @@
    "url": "/2026/09/01/settlement-reentrantlock-two-places/",
    "title": "핀이 사라진 뒤에도 ReentrantLock 이 남은 두 자리 — settlement 실측",
    "date": "2026-09-01",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/02/java-history/",
-   "title": "Java의 역사 — Oak에서 현대까지",
-   "date": "2026-09-02",
    "views": 3
   }
  ]
