@@ -12,7 +12,7 @@ JPA 성능 글은 대개 "N+1 은 fetch join 으로 푼다" 같은 처방 목록
 
 **시간(ms)은 재지 않았다.** 인메모리 H2 에서 잰 지연 시간은 실제 네트워크 너머 DB 와 전혀 다르기 때문이다. 대신 **DB 왕복(round trip) 횟수**를 센다. 이 값은 DB 종류와 상관없이 결정적이고, 실제 운영에서 지연을 키우는 건 대부분 이 횟수다.
 
-> 범위 메모: No-Offset 페이징·커버링 인덱스·count 쿼리 분리·QueryDSL 동적 쿼리는 이 글에서 다루지 않는다. 같은 날 별도 글(QueryDSL 사용사례와 성능)이 다룬다.
+> 범위 메모: No-Offset 페이징·커버링 인덱스·count 쿼리 분리·QueryDSL 동적 쿼리는 이 글에서 다루지 않는다. 같은 날 별도 글 [QueryDSL 사용사례와 성능](/2026/11/10/querydsl-use-cases-performance/)이 다룬다.
 
 ## 한눈에 보는 결과
 
@@ -275,6 +275,7 @@ IDENTITY 는 id 를 **insert 를 실행해야** 받을 수 있다. Hibernate 는
 
 ## 관련 글
 
+- [QueryDSL 사용사례와 성능](/2026/11/10/querydsl-use-cases-performance/)
 - [JPA 의 장점 — 스펙이 '반드시 해야 한다'고 적은 것만 추려봤다](/2026/10/26/jpa-advantages-what-the-spec-guarantees/)
 
 ## References
