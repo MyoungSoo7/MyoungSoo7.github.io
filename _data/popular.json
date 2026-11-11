@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-10T00:42:32Z",
- "scanned": 1684,
+ "generated": "2026-11-11T00:42:37Z",
+ "scanned": 1706,
  "failed": 0,
  "posts": [
   {
@@ -115,6 +115,12 @@
    "url": "/2026/07/24/oh-my-agent-harness-design-analysis/",
    "title": "에이전트 하네스 설계 뜯어보기 — oh-my-agent의 로스터로 배우는 역할 분업",
    "date": "2026-07-24",
+   "views": 4
+  },
+  {
+   "url": "/2026/08/11/jotso-net-architecture-public-data-product/",
+   "title": "공공데이터 한 줄로 연봉을 역산한다 — 좋소판별기(jotso.net) 구조 분해",
+   "date": "2026-08-11",
    "views": 4
   },
   {
@@ -265,12 +271,6 @@
    "url": "/2026/08/09/bank-eai-mci-fep-jex-spring-architecture/",
    "title": "은행 EAI·MCI·FEP의 역할과 현대화: 4대 은행 공개자료의 한계, JEX와 Spring의 설계 비교",
    "date": "2026-08-09",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/11/jotso-net-architecture-public-data-product/",
-   "title": "공공데이터 한 줄로 연봉을 역산한다 — 좋소판별기(jotso.net) 구조 분해",
-   "date": "2026-08-11",
    "views": 3
   },
   {
