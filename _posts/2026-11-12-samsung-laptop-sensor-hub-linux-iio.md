@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "서버가 된 삼성 노트북의 센서 허브 — 가속도계 6종을 리눅스 IIO 로 읽어 쓰기"
+title: "서버가 된 삼성 노트북의 센서 허브 — 모션 센서 6종을 리눅스 IIO 로 읽어 쓰기"
 date: 2026-11-12 13:45:00 +0900
 categories: [Linux, IoT, Homelab]
 tags: [Intel ISH, HID Sensor, IIO, 가속도계, 센서 허브, k3s, 반도체, SPC]
