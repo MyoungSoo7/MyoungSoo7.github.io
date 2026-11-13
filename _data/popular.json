@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-11T00:42:37Z",
- "scanned": 1706,
+ "generated": "2026-11-13T00:42:34Z",
+ "scanned": 1711,
  "failed": 0,
  "posts": [
   {
@@ -196,6 +196,12 @@
    "views": 3
   },
   {
+   "url": "/2026/07/09/hermes-agent-vs-openclaw-comparison/",
+   "title": "Hermes Agent vs OpenClaw — 두 오픈소스 개인 AI 에이전트 비교 분석",
+   "date": "2026-07-09",
+   "views": 3
+  },
+  {
    "url": "/2026/07/23/ai-work-operating-rules/",
    "title": "AI 작업에 '운영 규칙'을 세워라 — 작업 전·중·후, 하나의 규칙, 증거 기반 완료 보고",
    "date": "2026-07-23",
@@ -295,12 +301,6 @@
    "url": "/2026/08/20/what-llms-actually-erased/",
    "title": "LLM 은 태스크별 NLP 모델의 무엇을 지웠고, 무엇을 남겼나",
    "date": "2026-08-20",
-   "views": 3
-  },
-  {
-   "url": "/2026/09/01/settlement-reentrantlock-two-places/",
-   "title": "핀이 사라진 뒤에도 ReentrantLock 이 남은 두 자리 — settlement 실측",
-   "date": "2026-09-01",
    "views": 3
   }
  ]
