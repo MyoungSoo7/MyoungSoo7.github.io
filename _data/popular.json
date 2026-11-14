@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-13T00:42:34Z",
- "scanned": 1711,
+ "generated": "2026-11-14T00:42:36Z",
+ "scanned": 1712,
  "failed": 0,
  "posts": [
   {
@@ -184,6 +184,12 @@
    "views": 4
   },
   {
+   "url": "/2026/11/10/exaone-api-free-openai-compatible-guide/",
+   "title": "EXAONE API 무료로 쓰기 — OpenAI 호환 엔드포인트에 붙일 때 실제로 걸리는 것들",
+   "date": "2026-11-10",
+   "views": 4
+  },
+  {
    "url": "/2026/05/04/coding-test-patterns/",
    "title": "코딩 테스트 핵심 패턴 10선 (Java) — 템플릿 + 예제 + 복잡도",
    "date": "2026-05-04",
@@ -295,12 +301,6 @@
    "url": "/2026/08/12/daily-ai-k8s-briefing/",
    "title": "Daily Ai K8s Briefing",
    "date": "2026-08-12",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/20/what-llms-actually-erased/",
-   "title": "LLM 은 태스크별 NLP 모델의 무엇을 지웠고, 무엇을 남겼나",
-   "date": "2026-08-20",
    "views": 3
   }
  ]
