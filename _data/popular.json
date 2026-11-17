@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-14T00:42:36Z",
- "scanned": 1712,
+ "generated": "2026-11-17T00:42:35Z",
+ "scanned": 1714,
  "failed": 0,
  "posts": [
   {
@@ -88,6 +88,18 @@
    "views": 5
   },
   {
+   "url": "/2026/09/28/krafton-cofa-probe-ai-native-assessment/",
+   "title": "크래프톤 Cofa-Probe 뜯어보기 — 결과물이 아니라 'AI와 일한 과정'을 채점하는 평가 도구",
+   "date": "2026-09-28",
+   "views": 5
+  },
+  {
+   "url": "/2026/10/04/n8n-auto-guide-intro/",
+   "title": "무료 n8n 자동화 가이드 소개 — 10장 78쪽, 깃허브와 위키독스로 공개",
+   "date": "2026-10-04",
+   "views": 5
+  },
+  {
    "url": "/2026/06/10/spring-boot-db-connection-pool-hikaricp-deep-dive/",
    "title": "*백엔드 개발자가 알아야 할 *DB Connection Pool* — Spring Boot + HikariCP *11 가지 설정의 *진짜 의미*, *Pool sizing 계산 공식*, *Connection Leak 진단법*, 실전 *postmortem 4 건* 까지*",
    "date": "2026-06-10",
@@ -160,21 +172,9 @@
    "views": 4
   },
   {
-   "url": "/2026/09/28/krafton-cofa-probe-ai-native-assessment/",
-   "title": "크래프톤 Cofa-Probe 뜯어보기 — 결과물이 아니라 'AI와 일한 과정'을 채점하는 평가 도구",
-   "date": "2026-09-28",
-   "views": 4
-  },
-  {
    "url": "/2026/09/28/ai-model-tier-list-meme-trends/",
    "title": "\"구글 전용 랭크가 따로 생겼다\" — AI 모델 티어표 밈으로 읽는 2026년 9월 트렌드",
    "date": "2026-09-28",
-   "views": 4
-  },
-  {
-   "url": "/2026/10/04/n8n-auto-guide-intro/",
-   "title": "무료 n8n 자동화 가이드 소개 — 10장 78쪽, 깃허브와 위키독스로 공개",
-   "date": "2026-10-04",
    "views": 4
   },
   {
