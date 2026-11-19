@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-17T00:42:35Z",
- "scanned": 1714,
+ "generated": "2026-11-19T00:42:37Z",
+ "scanned": 1719,
  "failed": 0,
  "posts": [
   {
@@ -82,6 +82,12 @@
    "views": 6
   },
   {
+   "url": "/2026/10/28/settlement-order-service-order-payment-flow/",
+   "title": "정산 플랫폼 order-service 해부 — 주문·결제 프로세스와 구조",
+   "date": "2026-10-28",
+   "views": 6
+  },
+  {
    "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
    "title": "레오파드 토론 한 번 — 인용 게이트가 지운 8건이 전부 진짜 출처였다",
    "date": "2026-09-03",
@@ -130,6 +136,12 @@
    "views": 4
   },
   {
+   "url": "/2026/08/04/graphify-knowledge-graph-rag/",
+   "title": "Graphify 소개 — 코드베이스를 질의 가능한 지식 그래프로 바꾸는 Graph RAG",
+   "date": "2026-08-04",
+   "views": 4
+  },
+  {
    "url": "/2026/08/11/jotso-net-architecture-public-data-product/",
    "title": "공공데이터 한 줄로 연봉을 역산한다 — 좋소판별기(jotso.net) 구조 분해",
    "date": "2026-08-11",
@@ -175,12 +187,6 @@
    "url": "/2026/09/28/ai-model-tier-list-meme-trends/",
    "title": "\"구글 전용 랭크가 따로 생겼다\" — AI 모델 티어표 밈으로 읽는 2026년 9월 트렌드",
    "date": "2026-09-28",
-   "views": 4
-  },
-  {
-   "url": "/2026/10/28/settlement-order-service-order-payment-flow/",
-   "title": "정산 플랫폼 order-service 해부 — 주문·결제 프로세스와 구조",
-   "date": "2026-10-28",
    "views": 4
   },
   {
@@ -274,15 +280,15 @@
    "views": 3
   },
   {
-   "url": "/2026/08/04/graphify-knowledge-graph-rag/",
-   "title": "Graphify 소개 — 코드베이스를 질의 가능한 지식 그래프로 바꾸는 Graph RAG",
-   "date": "2026-08-04",
-   "views": 3
-  },
-  {
    "url": "/2026/08/09/bank-eai-mci-fep-jex-spring-architecture/",
    "title": "은행 EAI·MCI·FEP의 역할과 현대화: 4대 은행 공개자료의 한계, JEX와 Spring의 설계 비교",
    "date": "2026-08-09",
+   "views": 3
+  },
+  {
+   "url": "/2026/08/11/ouroboros-skills-22/",
+   "title": "우로보로스 스킬 22개는 기능 22개가 아니다: 루프 5개와 비계 17개",
+   "date": "2026-08-11",
    "views": 3
   },
   {
@@ -294,12 +300,6 @@
   {
    "url": "/2026/08/12/dba-a-to-z/",
    "title": "DB 관리자가 알아야 할 A to Z — 공식 문서로 검증한 12가지",
-   "date": "2026-08-12",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/12/daily-ai-k8s-briefing/",
-   "title": "Daily Ai K8s Briefing",
    "date": "2026-08-12",
    "views": 3
   }
