@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-21T00:42:27Z",
- "scanned": 1726,
+ "generated": "2026-11-24T00:42:25Z",
+ "scanned": 1734,
  "failed": 0,
  "posts": [
   {
@@ -202,6 +202,12 @@
    "views": 3
   },
   {
+   "url": "/2026/06/05/monitoring-tools-datadog-grafana-prometheus-jennifer-netdata-comparison/",
+   "title": "모니터링 5대 도구 비교 — Datadog · Grafana · Prometheus · 제니퍼 · Netdata *언제 어느 것*",
+   "date": "2026-06-05",
+   "views": 3
+  },
+  {
    "url": "/2026/06/24/k3s-vs-k8s-realistic-comparison/",
    "title": "K3s vs K8s — 현실적인 비교, 6노드 14개월 운영 경험",
    "date": "2026-06-24",
@@ -294,12 +300,6 @@
   {
    "url": "/2026/08/12/kubernetes-admin-a-to-z/",
    "title": "쿠버네티스 관리자가 알아야 할 A to Z — 조용히 실패하는 것들",
-   "date": "2026-08-12",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/12/dba-a-to-z/",
-   "title": "DB 관리자가 알아야 할 A to Z — 공식 문서로 검증한 12가지",
    "date": "2026-08-12",
    "views": 3
   }
