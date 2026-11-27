@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24T00:42:25Z",
+ "generated": "2026-11-27T00:42:35Z",
  "scanned": 1734,
  "failed": 0,
  "posts": [
@@ -88,6 +88,12 @@
    "views": 6
   },
   {
+   "url": "/2026/06/10/spring-boot-db-connection-pool-hikaricp-deep-dive/",
+   "title": "*백엔드 개발자가 알아야 할 *DB Connection Pool* — Spring Boot + HikariCP *11 가지 설정의 *진짜 의미*, *Pool sizing 계산 공식*, *Connection Leak 진단법*, 실전 *postmortem 4 건* 까지*",
+   "date": "2026-06-10",
+   "views": 5
+  },
+  {
    "url": "/2026/09/03/leopard-citation-gate-erased-real-sources/",
    "title": "레오파드 토론 한 번 — 인용 게이트가 지운 8건이 전부 진짜 출처였다",
    "date": "2026-09-03",
@@ -104,12 +110,6 @@
    "title": "무료 n8n 자동화 가이드 소개 — 10장 78쪽, 깃허브와 위키독스로 공개",
    "date": "2026-10-04",
    "views": 5
-  },
-  {
-   "url": "/2026/06/10/spring-boot-db-connection-pool-hikaricp-deep-dive/",
-   "title": "*백엔드 개발자가 알아야 할 *DB Connection Pool* — Spring Boot + HikariCP *11 가지 설정의 *진짜 의미*, *Pool sizing 계산 공식*, *Connection Leak 진단법*, 실전 *postmortem 4 건* 까지*",
-   "date": "2026-06-10",
-   "views": 4
   },
   {
    "url": "/2026/07/11/agent-self-improvement-registry-acp-harness/",
