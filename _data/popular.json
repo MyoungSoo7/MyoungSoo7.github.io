@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-27T00:42:35Z",
+ "generated": "2026-11-28T00:42:34Z",
  "scanned": 1734,
  "failed": 0,
  "posts": [
@@ -190,6 +190,12 @@
    "views": 4
   },
   {
+   "url": "/2026/10/16/homelab-platform-layer-usage-and-performance/",
+   "title": "앱 밑에 깔린 19개 — 홈랩 K3s 운영 기반의 사용법과 실측 성능",
+   "date": "2026-10-16",
+   "views": 4
+  },
+  {
    "url": "/2026/11/10/exaone-api-free-openai-compatible-guide/",
    "title": "EXAONE API 무료로 쓰기 — OpenAI 호환 엔드포인트에 붙일 때 실제로 걸리는 것들",
    "date": "2026-11-10",
@@ -295,12 +301,6 @@
    "url": "/2026/08/11/ouroboros-skills-22/",
    "title": "우로보로스 스킬 22개는 기능 22개가 아니다: 루프 5개와 비계 17개",
    "date": "2026-08-11",
-   "views": 3
-  },
-  {
-   "url": "/2026/08/12/kubernetes-admin-a-to-z/",
-   "title": "쿠버네티스 관리자가 알아야 할 A to Z — 조용히 실패하는 것들",
-   "date": "2026-08-12",
    "views": 3
   }
  ]
